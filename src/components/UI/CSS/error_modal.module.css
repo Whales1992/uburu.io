@@ -1,0 +1,39 @@
+.div {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	padding: 10px 0;
+	background-color: #db3236;
+	font-family: "Montserrat", Arial, Helvetica, sans-serif;
+	text-align: center;
+	z-index: 1010;
+	transition: transform 2s ease-in;
+	box-sizing: border-box;
+	box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+.div p {
+	font-weight: 500;
+	font-size: 14px;
+	width: 80%;
+	margin: 5px auto;
+	color: #fff !important;
+}
+
+.divShow {
+	transform: translateY(0);
+}
+
+.divHide {
+	transform: translateY(-100%);
+}
+
+@media (min-width: 600px) {
+	.div {
+		max-width: 400px;
+		left: 20%;
+		right: 20%;
+		margin: 0 auto;
+	}
+}
