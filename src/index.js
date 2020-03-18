@@ -1,10 +1,34 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React, { lazy, Suspense } from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { createStore, compose } from "redux";
+import rootReducer from "./reducers/index";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import * as serviceWorker from "./serviceWorker";
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = composeEnhancers()(createStore);
+
+const SignIn = lazy(() => import("./container/Users/JS/sign_in"));
+
+const App = () => {
+	return (
+		<BrowserRouter>
+			<Switch>
+				<Suspense fallback={<p>Loading</p>}>
+					<Route path="/sign_in" component={SignIn} />
+				</Suspense>
+			</Switch>
+		</BrowserRouter>
+	);
+};
+
+ReactDOM.render(
+	<Provider store={store(rootReducer)}>
+		<App />
+	</Provider>,
+	document.getElementById("root")
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
