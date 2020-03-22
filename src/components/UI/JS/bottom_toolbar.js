@@ -1,25 +1,68 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import styles from "../CSS/bottom_toolbar.module.CSS";
+import { NavLink } from "react-router-dom";
+import styles from "../CSS/bottom_toolbar.module.css";
+import HomeIconActive from "../../../images/home_icon_active.svg";
+import HomeIconInactive from "../../../images/home_icon_inactive.svg";
+import PatientsIconActive from "../../../images/patients_active.svg";
+import PatientsIconInactive from "../../../images/patients_inactive.svg";
+import AppointmentsActive from "../../../images/appointments_active.svg";
+import AppointmentsInactive from "../../../images/appointments_inactive.svg";
+import ProfileIconActive from "../../../images/profile_active.svg";
+import ProfileIconInactive from "../../../images/profile_inactive.svg";
 
 const bottomToolbar = () => (
 	<div className={styles.buttToolbar}>
-		<Link to="/">
-			<i className="fas fa-home"></i>
+		<NavLink
+			to="/"
+			className={styles.nav_link}
+			activeClassName={styles.nav_link_active}
+		>
+			{window.location.pathname === "/" ? (
+				<img src={HomeIconActive} alt="active home icon" />
+			) : (
+				<img src={HomeIconInactive} alt="inactive home icon" />
+			)}
 			Home
-		</Link>
-		<Link to="/">
-			<i className="fas fa-user-friends"></i>
+		</NavLink>
+		<NavLink
+			to="/patients"
+			className={styles.nav_link}
+			activeClassName={styles.nav_link_active}
+		>
+			{window.location.pathname === "/patients" ? (
+				<img src={PatientsIconActive} alt="active patients icon" />
+			) : (
+				<img src={PatientsIconInactive} alt="inactive patients icon" />
+			)}
 			Patients
-		</Link>
-		<Link to="/">
-			<i className="far fa-comments"></i>
+		</NavLink>
+		<NavLink
+			to="/appointments"
+			className={styles.nav_link}
+			activeClassName={styles.nav_link_active}
+		>
+			{window.location.pathname === "/appointments" ? (
+				<img src={AppointmentsActive} alt="active appointments icon" />
+			) : (
+				<img
+					src={AppointmentsInactive}
+					alt="inactive appointments icon"
+				/>
+			)}
 			Appointments
-		</Link>
-		<Link to="/">
-			<i className="far fa-user"></i>
+		</NavLink>
+		<NavLink
+			to="/profile"
+			className={styles.nav_link}
+			activeClassName={styles.nav_link_active}
+		>
+			{window.location.pathname === "/profile" ? (
+				<img src={ProfileIconActive} alt="active profile icon" />
+			) : (
+				<img src={ProfileIconInactive} alt="inactive profile icon" />
+			)}
 			Profile
-		</Link>
+		</NavLink>
 	</div>
 );
 
