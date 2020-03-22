@@ -4,12 +4,14 @@ import { Provider } from "react-redux";
 import { createStore, compose } from "redux";
 import rootReducer from "./reducers/index";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
+import "./index.css";
 import * as serviceWorker from "./serviceWorker";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = composeEnhancers()(createStore);
 
-const SignIn = lazy(() => import("./container/Users/JS/sign_in"));
+const SignIn = lazy(() => import("./container/JS/sign_in"));
+const Home = lazy(() => import("./container/JS/Home/home"));
 
 const App = () => {
 	return (
@@ -17,6 +19,7 @@ const App = () => {
 			<Switch>
 				<Suspense fallback={<p>Loading</p>}>
 					<Route path="/sign_in" component={SignIn} />
+					<Route exact path="/" component={Home} />
 				</Suspense>
 			</Switch>
 		</BrowserRouter>
