@@ -1,0 +1,62 @@
+.container {
+	width: 90vw;
+	margin: auto;
+	margin-top: 110px;
+	background-color: #fbfbfb;
+	border: 0.5px solid #e5e5e5;
+	border-radius: 8px;
+	margin-bottom: 88px;
+}
+
+.container_title {
+	height: 40px;
+	background-color: #f2f5f6;
+	padding: 11px 17px;
+	font-size: 15px;
+	line-height: 18px;
+	font-weight: 600;
+	border-top-left-radius: 8px;
+	border-top-right-radius: 8px;
+}
+
+.records_div {
+	margin: 0;
+	height: fit-content;
+	padding: 24px 17px;
+	padding-bottom: 0;
+}
+
+.each_record {
+	margin-bottom: 23px;
+}
+
+.name {
+	font-size: 15px;
+	line-height: 18px;
+	font-weight: 600;
+}
+
+.details {
+	display: flex;
+	justify-content: space-between;
+}
+
+.details small {
+	color: #8d979b;
+	font-size: 11px;
+	line-height: 13px;
+}
+
+.details small:nth-child(1) {
+	margin-top: 4px;
+	margin-bottom: 8px;
+}
+
+.each_record hr {
+	border: 0.5px solid #d1dadd;
+	margin: 0;
+}
+
+.records_div .each_record:last-child hr {
+	display: none;
+}
