@@ -6,7 +6,7 @@
 	margin: auto;
 	height: 260px;
 	width: 90vw;
-	max-width: 335px;
+	max-width: 774px;
 	background-color: #fbfbfb;
 	box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.05);
 	border-radius: 8px;
@@ -60,4 +60,54 @@
 	color: #000;
 	line-height: 13px;
 	font-weight: 600;
+}
+
+@media (min-width: 600px) {
+	.div {
+		position: static;
+		margin: 130px auto 50px auto;
+		background: #ffffff;
+		border: 1px solid #e7e7ed;
+		border-radius: 16px;
+		height: 334px;
+	}
+
+	.top {
+		color: #333f6b;
+		padding: 11px 30px;
+		font-size: 14px;
+		font-weight: 600;
+		line-height: 25px;
+		background: #fafbfb;
+		opacity: 0.75;
+		height: 48px;
+		border-bottom: 1px solid #e7e7ed;
+		border-radius: 16px 16px 0px 0px;
+	}
+
+	.actions > div {
+		width: 44.8%;
+		max-width: 347px;
+		height: 100px;
+		font-size: 18px;
+		line-height: 32px;
+		font-weight: normal;
+		color: #393a4a;
+		background-color: #fff;
+		border-radius: 16px;
+		border: 1px solid #e7e7ed;
+		margin-top: 28px;
+	}
+
+	.actions div:nth-child(1),
+	.actions div:nth-child(3) {
+		margin-right: 20px;
+		margin-left: 30px;
+	}
+
+	.actions div:nth-child(2),
+	.actions div:nth-child(4) {
+		margin-right: 30px;
+		margin-left: 00px;
+	}
 }
