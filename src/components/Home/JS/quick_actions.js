@@ -26,8 +26,10 @@ const quickActions = () => (
 				</Link>
 			</div>
 			<div>
-				<img src={UpdatePatientDataIcon} alt="update data icon" />
-				Update <br /> Patient Data
+				<Link className={styles.link}>
+					<img src={UpdatePatientDataIcon} alt="update data icon" />
+					Update <br /> Patient Data
+				</Link>
 			</div>
 			<div>
 				<img src={SyncDataIcon} alt="sync data icon" />
