@@ -4,3 +4,9 @@
 	height: 211px;
 	z-index: -1;
 }
+
+@media (min-width: 600px) {
+	.div {
+		display: none;
+	}
+}
