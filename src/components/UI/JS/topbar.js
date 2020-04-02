@@ -13,12 +13,13 @@ import MoreIcon from "../../../images/more_icon.svg";
 import TopBarAvatar from "../../../images/topbar_avatar.svg";
 import { NavLink } from "react-router-dom";
 
-const topbar = ({ page_title }) => (
+const topbar = ({ page_title, openDrawer }) => (
 	<div className={styles.topBar}>
 		<img
 			className={styles.mobile_menu}
 			src={Hamburger}
 			alt="hamburger icon"
+			onClick={() => openDrawer()}
 		/>
 		<div className={styles.mobile_menu}>{page_title}</div>
 		<img
