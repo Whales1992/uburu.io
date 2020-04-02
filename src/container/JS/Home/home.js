@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Layout from "../../../components/UI/JS/layout";
+import Layout from "../UI/layout";
 import BlueBackdrop from "../../../components/Home/JS/blue_backdrop";
 import QuickActions from "../../../components/Home/JS/quick_actions";
 import RecentRecords from "../../../components/Home/JS/recent-records";
