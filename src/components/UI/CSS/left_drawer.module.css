@@ -1,0 +1,75 @@
+.leftSideDrawer {
+	height: 100vh;
+	width: 240px;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 3;
+	background-color: #333f6b;
+	overflow-x: auto;
+	overflow-y: auto;
+	box-sizing: border-box;
+	opacity: 1;
+	transition: transform 0.4s ease-out;
+}
+
+.leftSideDrawerClose {
+	transform: translateX(-100%);
+}
+
+.leftSideDrawerOpen {
+	transform: translateX(0);
+}
+
+.bio {
+	padding-top: 64.55px;
+	height: 220px;
+	width: 240px;
+	border-bottom: 2px solid #394676;
+}
+
+.bio img {
+	display: block;
+	margin: 0 auto;
+	margin-bottom: 25.55px;
+}
+
+.account_owner {
+	text-align: center;
+	color: #fff;
+	font-weight: 500;
+	font-size: 16px;
+	line-height: 19px;
+}
+
+.link_div {
+	height: 45px;
+	border-bottom: 0.5px solid #394676;
+}
+
+.nav_link {
+	height: 100%;
+	display: flex;
+	align-items: center;
+	text-decoration: none;
+	font-weight: 500;
+	font-size: 13px;
+	line-height: 16px;
+	color: #d1dadd;
+}
+
+.nav_link img {
+	margin-right: 23px;
+	margin-left: 23px;
+}
+
+.nav_link_active {
+	color: #fff;
+	border-left: 3px solid #f5ba42;
+}
+
+@media (min-width: 600px) {
+	.leftSideDrawer {
+		display: none;
+	}
+}
