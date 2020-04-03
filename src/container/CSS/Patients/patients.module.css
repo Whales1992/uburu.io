@@ -1,0 +1,15 @@
+.each_tab {
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-weight: 500;
+	font-size: 13px;
+	line-height: 16px;
+	color: #d1dadd;
+}
+
+.tab_active {
+	color: #333f6b;
+	border-bottom: 2px solid #f5ba42;
+}
