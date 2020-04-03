@@ -28,7 +28,10 @@ class layout extends Component {
 	render() {
 		return (
 			<>
-				<Topbar openDrawer={this.openSideDrawer} />
+				<Topbar
+					openDrawer={this.openSideDrawer}
+					page_title={this.props.pageTitle}
+				/>
 				<LeftDrawer open={this.state.leftDrawerOpen} />
 				{this.state.leftDrawerOpen ? (
 					<Backdrop onClick={this.onBackdropClick} />
