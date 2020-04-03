@@ -12,12 +12,14 @@ const store = composeEnhancers()(createStore);
 
 const SignIn = lazy(() => import("./container/JS/sign_in"));
 const Home = lazy(() => import("./container/JS/Home/home"));
+const Patients = lazy(() => import("./container/JS/Patients/patients"));
 
 const App = () => {
 	return (
 		<BrowserRouter>
 			<Switch>
 				<Suspense fallback={<p>Loading</p>}>
+					<Route path="/patients" component={Patients} />
 					<Route path="/sign_in" component={SignIn} />
 					<Route exact path="/" component={Home} />
 				</Suspense>
