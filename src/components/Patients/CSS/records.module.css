@@ -1,0 +1,85 @@
+.container {
+	max-width: 774px;
+	margin: auto;
+	margin-top: 110px;
+	background-color: #fff;
+	margin-bottom: 88px;
+}
+
+.records_div {
+	margin: 0;
+	height: fit-content;
+	padding: 24px 17px;
+	padding-bottom: 0;
+}
+
+.each_record {
+	margin-bottom: 23px;
+}
+
+.name {
+	font-size: 15px;
+	line-height: 18px;
+}
+
+.details {
+	display: flex;
+	justify-content: space-between;
+}
+
+.details small {
+	color: #8d979b;
+	font-size: 11px;
+	line-height: 13px;
+}
+
+.details small:nth-child(1) {
+	margin-top: 4px;
+	margin-bottom: 8px;
+}
+
+.each_record hr {
+	border: 0.5px solid #d1dadd;
+	margin: 0;
+}
+
+.records_div .each_record:last-child hr {
+	display: none;
+}
+
+@media (min-width: 600px) {
+	.container {
+		margin-top: 0;
+		border-radius: 16px;
+		background-color: #fff;
+		border: 1px solid #e7e7ed;
+		box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.05);
+	}
+
+	.records_div {
+		padding: 28px 30px;
+		padding-bottom: 0;
+	}
+
+	.name {
+		font-size: 16px;
+		line-height: 29px;
+		font-weight: normal;
+		color: #000;
+	}
+
+	.details small:first-child {
+		margin-top: 0;
+		margin-bottom: 16px;
+		font-size: 12px;
+		line-height: 21px;
+		font-weight: 400;
+	}
+
+	.details small:nth-child(2) {
+		font-size: 14px;
+		line-height: 25px;
+		font-weight: 400;
+		margin-bottom: 14px;
+	}
+}
