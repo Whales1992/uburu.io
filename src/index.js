@@ -19,6 +19,7 @@ const AppointmentsPage = lazy(() =>
 const AppointmentDetailPage = lazy(() =>
 	import("./components/Appointments/JS/appointment_detail")
 );
+const ProfilePage = lazy(() => import("./container/JS/Profile/profile"));
 
 const App = () => {
 	return (
@@ -29,6 +30,7 @@ const App = () => {
 						path="/appointments/:id"
 						component={AppointmentDetailPage}
 					/>
+					<Route path="/profile" component={ProfilePage} />
 					<Route path="/appointments" component={AppointmentsPage} />
 					<Route path="/patients" component={Patients} />
 					<Route path="/sign_in" component={SignIn} />
