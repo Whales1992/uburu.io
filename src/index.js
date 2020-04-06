@@ -31,7 +31,11 @@ const App = () => {
 						component={AppointmentDetailPage}
 					/>
 					<Route path="/profile" component={ProfilePage} />
-					<Route path="/appointments" component={AppointmentsPage} />
+					<Route
+						exact
+						path="/appointments"
+						component={AppointmentsPage}
+					/>
 					<Route path="/patients" component={Patients} />
 					<Route path="/sign_in" component={SignIn} />
 					<Route exact path="/" component={Home} />
