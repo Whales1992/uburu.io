@@ -1,4 +1,4 @@
-import { HIDE_ERROR_MODAL, SHOW_ERROR_MODAL } from "./constants";
+import { HIDE_ERROR_MODAL, SHOW_ERROR_MODAL, DETAIL } from "./constants";
 
 export const showErrorModal = message => ({
 	type: SHOW_ERROR_MODAL,
@@ -20,3 +20,8 @@ export const errorHandler = async (err, dispatch) => {
 		await setTimeout(() => dispatch(hideErrorModal()), 3000);
 	}
 };
+
+export const detailSubject = obj => ({
+	type: DETAIL,
+	toBeDetailed: obj
+})
