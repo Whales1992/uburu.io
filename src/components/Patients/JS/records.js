@@ -1,10 +1,15 @@
 import React, { memo } from "react";
 import styles from "../CSS/records.module.css";
+import { withRouter } from "react-router-dom";
 
-export const EachRecentRecord = ({ record }) => {
+export const EachRecentRecord = ({ record, detail, redirect }) => {
 	const { name, disease, date } = record;
+	function clicked() {
+		detail(record);
+		redirect(`/appointments/${record.id}`);
+	}
 	return (
-		<div className={styles.each_record}>
+		<div className={styles.each_record} onClick={() => clicked()}>
 			<div className={styles.name}>{name}</div>
 			<div className={styles.details}>
 				<small>{disease}</small>
@@ -15,7 +20,8 @@ export const EachRecentRecord = ({ record }) => {
 	);
 };
 
-const recentRecords = ({ recents }) => {
+const recentRecords = ({ recents, detail, history }) => {
+	console.log(history);
 	return (
 		<div className={styles.container}>
 			<div className={styles.records_div}>
@@ -28,6 +34,8 @@ const recentRecords = ({ recents }) => {
 						<EachRecentRecord
 							key={eachRecord.name}
 							record={eachRecord}
+							detail={detail}
+							redirect={history.push}
 						/>
 					))
 				)}
@@ -36,4 +44,4 @@ const recentRecords = ({ recents }) => {
 	);
 };
 
-export default memo(recentRecords);
+export default memo(withRouter(recentRecords));
