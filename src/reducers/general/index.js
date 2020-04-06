@@ -2,7 +2,8 @@ import {
 	HIDE_ERROR_MODAL,
 	SHOW_ERROR_MODAL,
 	SHOW_DELETE_MODAL,
-	CLOSE_DELETE_MODAL
+	CLOSE_DELETE_MODAL,
+	DETAIL
 } from "../../actions/general/constants";
 
 const initialState = {
@@ -11,7 +12,8 @@ const initialState = {
 		message: null
 	},
 	deleteModalShowing: null,
-	backdropShowing: false
+	backdropShowing: false,
+	detailed: null
 };
 
 export default function(state = initialState, action) {
@@ -43,6 +45,11 @@ export default function(state = initialState, action) {
 				...state,
 				backdropShowing: false,
 				deleteModalShowing: null
+			};
+		case DETAIL:
+			return {
+				...state,
+				detailed: action.toBeDetailed
 			};
 
 		default:
