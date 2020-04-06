@@ -1,12 +1,13 @@
 import React from "react";
+import { withRouter } from "react-router-dom";
 import styles from "../CSS/secondary_navbar.module.css";
 import BackIcon from "../../../images/back_icon.svg";
 
-const secondaryNavbar = ({ page_title }) => (
+const secondaryNavbar = ({ page_title, history }) => (
 	<div className={styles.bar}>
-		<img src={BackIcon} alt="back icon" />
-		<div>{page_title}</div>
+		<img src={BackIcon} alt="back icon" onClick={() => history.goBack()} />
+		<div className={styles.title}>{page_title}</div>
 	</div>
 );
 
-export default secondaryNavbar;
+export default withRouter(secondaryNavbar);
