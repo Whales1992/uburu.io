@@ -7,19 +7,20 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
 
+import PatientDetail from "./container/Patients/JS/patient_detail";
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = composeEnhancers()(createStore);
 
-const SignIn = lazy(() => import("./container/JS/sign_in"));
-const Home = lazy(() => import("./container/JS/Home/home"));
-const Patients = lazy(() => import("./container/JS/Patients/patients"));
+const SignIn = lazy(() => import("./container/SignIn/JS/sign_in"));
+const Home = lazy(() => import("./container/Home/JS/home"));
+const Patients = lazy(() => import("./container/Patients/JS/patients"));
 const AppointmentsPage = lazy(() =>
-	import("./container/JS/Appointments/appointments")
+	import("./container/Appointments/JS/appointments")
 );
 const AppointmentDetailPage = lazy(() =>
 	import("./components/Appointments/JS/appointment_detail")
 );
-const ProfilePage = lazy(() => import("./container/JS/Profile/profile"));
+const ProfilePage = lazy(() => import("./container/Profile/JS/profile"));
 
 const App = () => {
 	return (

@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import ErrorModal from "../../components/UI/JS/error_madal";
-import logo from "../../images/logo.svg";
+import ErrorModal from "../../../components/UI/JS/error_madal";
+import logo from "../../../images/logo.svg";
 
-import { errorHandler } from "../../actions/general/index";
+import { errorHandler } from "../../../actions/general/index";
 
 //style
 import styles from "../CSS/sign_in.module.css";
@@ -15,7 +15,7 @@ class SignIn extends Component {
 		this.state = {
 			password: "",
 			email: "",
-			submitting: false
+			submitting: false,
 		};
 		this.handlePasswordChange = this.handlePasswordChange.bind(this);
 		this.handleEmailChange = this.handleEmailChange.bind(this);
@@ -48,12 +48,12 @@ class SignIn extends Component {
 				method: "POST",
 				headers: {
 					Accept: "application/json",
-					"Content-Type": "application/json"
+					"Content-Type": "application/json",
 				},
 				body: JSON.stringify({
 					email: `${email}`,
-					password: `${password}`
-				})
+					password: `${password}`,
+				}),
 			});
 
 			if (!request.ok) {
@@ -87,13 +87,13 @@ class SignIn extends Component {
 				) : null}
 				<form
 					className={styles.form}
-					onSubmit={e => this.handleSubmit(e)}
+					onSubmit={(e) => this.handleSubmit(e)}
 				>
 					<img src={logo} alt="blue_circle logo" />
 					<label>Email</label>
 					<input
 						value={this.state.email}
-						onChange={e => this.handleEmailChange(e)}
+						onChange={(e) => this.handleEmailChange(e)}
 						type="email"
 						name="email"
 						placeholder="Enter email"
@@ -102,7 +102,7 @@ class SignIn extends Component {
 					<label>Password</label>
 					<input
 						value={this.state.password}
-						onChange={e => this.handlePasswordChange(e)}
+						onChange={(e) => this.handlePasswordChange(e)}
 						type="password"
 						name="password"
 						placeholder="Enter password (minimum length, 6)"
@@ -128,13 +128,13 @@ class SignIn extends Component {
 	}
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
 	form: state.form.sign_in_form,
-	errorModal: state.general.errorModal
+	errorModal: state.general.errorModal,
 });
 
-const mapDispatchToProps = dispatch => ({
-	errorHandler: (...args) => errorHandler(...args, dispatch)
+const mapDispatchToProps = (dispatch) => ({
+	errorHandler: (...args) => errorHandler(...args, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

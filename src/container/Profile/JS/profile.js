@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import Layout from "../../JS/UI/layout";
+import Layout from "../../UI/JS/layout";
 import Tab from "../../../components/UI/JS/tab";
-import styles from "../../CSS/Patients/patients.module.css";
-import pageStyles from "../../CSS/Profile/profile.module.css";
+import styles from "../../Patients/CSS/patients.module.css";
+import pageStyles from "../../Profile/CSS/profile.module.css";
 import Avatar from "../../../images/Profile/avatar.svg";
 import Switch from "../../../images/Profile/switch.svg";
 
@@ -12,7 +12,7 @@ class AppointmentsPage extends Component {
 
 		this.state = {
 			activeTab: "Personal",
-			loading: false
+			loading: false,
 		};
 
 		this.switchTabs = this.switchTabs.bind(this);

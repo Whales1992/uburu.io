@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Topbar from "../../../components/UI/JS/topbar";
 import BottomBar from "../../../components/UI/JS/bottom_toolbar";
-import "../../CSS/UI/layout.module.css";
+import "../../UI/CSS/layout.module.css";
 import LeftDrawer from "../../../components/UI/JS/left_drawer";
 import Backdrop from "../../../components/UI/JS/backdrop";
 
@@ -10,7 +10,7 @@ class layout extends Component {
 		super(props);
 
 		this.state = {
-			leftDrawerOpen: false
+			leftDrawerOpen: false,
 		};
 
 		this.onBackdropClick = this.onBackdropClick.bind(this);

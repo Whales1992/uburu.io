@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Layout from "../UI/layout";
+import Layout from "../../UI/JS/layout";
 import BlueBackdrop from "../../../components/Home/JS/blue_backdrop";
 import QuickActions from "../../../components/Home/JS/quick_actions";
 import RecentRecords from "../../../components/Home/JS/recent-records";
@@ -8,23 +8,23 @@ const recentRecordsArray = [
 	{
 		name: "Okereke Uzodimma",
 		disease: "Diabetes Meningitis 11",
-		date: "30 JAN, 2020"
+		date: "30 JAN, 2020",
 	},
 	{
 		name: "Courtney Fox",
 		disease: "Diabetes Meningitis 11",
-		date: "30 JAN, 2020"
+		date: "30 JAN, 2020",
 	},
 	{
 		name: "Cody Watson",
 		disease: "Diabetes Meningitis 11",
-		date: "30 JAN, 2020"
+		date: "30 JAN, 2020",
 	},
 	{
 		name: "Eduardo Cooper",
 		disease: "Diabetes Meningitis 11",
-		date: "30 JAN, 2020"
-	}
+		date: "30 JAN, 2020",
+	},
 ];
 
 class Home extends Component {
@@ -33,7 +33,7 @@ class Home extends Component {
 
 		this.state = {
 			loading: false,
-			recentRecords: null
+			recentRecords: null,
 		};
 	}
 
