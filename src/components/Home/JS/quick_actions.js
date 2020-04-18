@@ -17,7 +17,7 @@ const quickActions = () => (
 				</Link>
 			</div>
 			<div>
-				<Link className={styles.link}>
+				<Link className={styles.link} to="/book_appointment">
 					<img
 						src={CreateAppointmentIcon}
 						alt="create appointment icon"
