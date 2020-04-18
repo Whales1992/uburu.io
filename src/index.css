@@ -14,5 +14,24 @@ body {
 }
 
 .react-date-picker__wrapper {
-	border: none;
+	border: none !important;
+}
+
+.react-date-picker__button {
+	padding: 0 !important;
+	padding-right: 5px !important;
+}
+
+.react-date-picker__clear-button__icon,
+.react-date-picker__calendar-button__icon {
+	width: 16px;
+	height: 16px;
+}
+
+@media (min-width: 600px) {
+	.react-date-picker__clear-button__icon,
+	.react-date-picker__calendar-button__icon {
+		width: 17px;
+		height: 17px;
+	}
 }
