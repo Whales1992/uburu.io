@@ -9,6 +9,7 @@ import * as serviceWorker from "./serviceWorker";
 
 import PatientDetail from "./container/Patients/JS/patient_detail";
 import BookAppointment from "./container/Appointments/JS/book_appointment";
+import MessageCenter from "./container/Message_Center/JS/message_center";
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = composeEnhancers()(createStore);
 
@@ -37,6 +38,11 @@ const App = () => {
 						exact
 						path="/appointments"
 						component={AppointmentsPage}
+					/>
+					<Route
+						exact
+						path="/message_center"
+						component={MessageCenter}
 					/>
 					<Route
 						path="/book_appointment"
