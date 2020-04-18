@@ -1,6 +1,13 @@
 @font-face {
 	font-family: "Muli";
-	src: url("./assets/Muli-VariableFont.ttf") format("truetype");
+	src: url("./assets/Muli-VariableFont.ttf") format("truetype"),
+		url("./assets/Muli-Black.ttf") format("truetype"),
+		url("./assets/Muli-Bold.ttf") format("truetype"),
+		url("./assets/Muli-SemiBold.ttf") format("truetype"),
+		url("./assets/Muli-Regular.ttf") format("truetype"),
+		url("./assets/Muli-Medium.ttf") format("truetype"),
+		url("./assets/Muli-ExtraBold.ttf") format("truetype");
+	font-weight: 400 500 600 700 800;
 }
 
 * {
