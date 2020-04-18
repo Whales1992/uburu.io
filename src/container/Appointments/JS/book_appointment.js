@@ -3,7 +3,7 @@ import DatePicker from "react-date-picker";
 import SecondaryBar from "../../../components/UI/JS/secondary_navbar";
 
 //styles
-import styles from "..//CSS/book_appointment.module.css";
+import styles from "../CSS/book_appointment.module.css";
 
 class BookAppointment extends Component {
 	constructor(props) {
@@ -51,7 +51,7 @@ class BookAppointment extends Component {
 						<option></option>
 						<option>Oncology Test</option>
 					</select>
-					<label>Patien's Name</label>
+					<label>Patient's Name</label>
 					<input
 						type="text"
 						name="patient_name"
