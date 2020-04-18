@@ -39,6 +39,7 @@ const App = () => {
 						path="/appointments"
 						component={AppointmentsPage}
 					/>
+					<Route exact path="/settings" component={SettingsPage} />
 					<Route
 						exact
 						path="/message_center"

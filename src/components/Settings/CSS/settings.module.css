@@ -1,0 +1,51 @@
+.settings_menu {
+	margin-top: 64px;
+	padding: 0 20px;
+	padding-top: 10px;
+}
+
+.menu_item {
+	display: flex;
+	border-bottom: 0.5px solid #d1dadd;
+	padding-top: 23px;
+	text-decoration: none;
+}
+
+.menu_item img,
+.log_out img {
+	margin-right: 16px;
+	margin-left: 5px;
+}
+
+.menu_item > div {
+	display: flex;
+	flex-direction: column;
+}
+
+.menu_item > div span:first-child {
+	font-weight: normal;
+	font-size: 15px;
+	line-height: 18px;
+	color: #f5ba42;
+	margin-bottom: 4px;
+}
+
+.menu_item > div span:nth-child(2) {
+	font-weight: normal;
+	font-size: 11px;
+	line-height: 13px;
+	color: #8d979b;
+	margin-bottom: 8px;
+}
+
+.log_out {
+	display: flex;
+	padding-top: 33px;
+}
+
+.log_out span {
+	font-weight: 500;
+	font-size: 15px;
+	line-height: 18px;
+	color: #8d979b;
+}
