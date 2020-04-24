@@ -20,6 +20,57 @@ body {
 	padding: 0;
 }
 
+.primary_btn {
+	height: 45px;
+	background: #333f6b;
+	box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.05);
+	border-radius: 2px;
+	font-weight: 500;
+	font-size: 13px;
+	line-height: 16px;
+	color: #fff;
+	border: none;
+	cursor: pointer;
+}
+
+.primary_btn:disabled {
+	background: #333f6b;
+	color: #5c6589;
+	mix-blend-mode: normal;
+	cursor: not-allowed;
+}
+
+.primary_btn:active, .primary_btn:focus {
+	background: #192551;
+	color: #ffffff;
+}
+
+.secondary_btn {
+	box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.05);
+	border-radius: 2px;
+	font-weight: 500;
+	font-size: 13px;
+	line-height: 16px;
+	height: 45px;
+	border: 1px solid #333f6b;
+	background: transparent;
+	color: #333f6b;
+	cursor: pointer;
+}
+
+.secondary_btn:disabled {
+	background-color: #e5e5e5;
+	border: 1px solid #8b91a7;
+	color: #8c92a8;
+	cursor: not-allowed;
+}
+
+.secondary_btn:active, .secondary_btn:focus {
+	background: #fff;
+	color: #333f6b;
+	border: 1px solid #333f6b;
+}
+
 .react-date-picker__wrapper {
 	border: none !important;
 }
