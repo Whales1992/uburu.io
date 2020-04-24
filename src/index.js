@@ -7,6 +7,10 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
 
+import TreatmentOutcome from "./container/AddPatientData/JS/treatment_outcome";
+import InvestigationHistoryForm from "./container/AddPatientData/JS/investigation_history";
+import PatientMedicalHistory from "./container/AddPatientData/JS/medical_history";
+import PatientBiodata from "./container/AddPatientData/JS/patient_biodata";
 import PatientDetail from "./container/Patients/JS/patient_detail";
 import BookAppointment from "./container/Appointments/JS/book_appointment";
 import MessageCenter from "./container/Message_Center/JS/message_center";
@@ -32,6 +36,22 @@ const App = () => {
 					<Route
 						path="/appointments/:id"
 						component={AppointmentDetailPage}
+					/>
+					<Route
+						path="/add_patient_data/patient_biodata"
+						component={PatientBiodata}
+					/>
+					<Route
+						path="/add_patient_data/medical_history"
+						component={PatientMedicalHistory}
+					/>
+					<Route
+						path="/add_patient_data/investigation_history"
+						component={InvestigationHistoryForm}
+					/>
+					<Route
+						path="/add_patient_data/treatment_outcome"
+						component={TreatmentOutcome}
 					/>
 					<Route path="/profile" component={ProfilePage} />
 					<Route
