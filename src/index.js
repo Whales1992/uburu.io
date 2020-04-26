@@ -14,6 +14,7 @@ import PatientBiodata from "./container/AddPatientData/JS/patient_biodata";
 import PatientDetail from "./container/Patients/JS/patient_detail";
 import BookAppointment from "./container/Appointments/JS/book_appointment";
 import MessageCenter from "./container/Message_Center/JS/message_center";
+import SettingsPage from "./components/Settings/JS/settings";
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = composeEnhancers()(createStore);
 
