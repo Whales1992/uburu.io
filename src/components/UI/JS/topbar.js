@@ -13,8 +13,14 @@ import MoreIcon from "../../../images/more_icon.svg";
 import TopBarAvatar from "../../../images/topbar_avatar.svg";
 import { NavLink } from "react-router-dom";
 
-const topbar = ({ page_title, openDrawer }) => (
-	<div className={styles.topBar}>
+const topbar = ({ page_title, openDrawer, hide_on_small_screens }) => (
+	<div
+		className={
+			hide_on_small_screens
+				? [styles.topBar, styles.hide].join(" ")
+				: styles.topBar
+		}
+	>
 		<img
 			className={styles.mobile_menu}
 			src={Hamburger}
