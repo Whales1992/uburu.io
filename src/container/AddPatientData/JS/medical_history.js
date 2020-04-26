@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import SecondaryBar from "../../../components/UI/JS/secondary_navbar";
+import TopBar from "../../../components/UI/JS/topbar";
+import Shell from "../../../components/AddPatientData/JS/shell";
 
 //style
 import styles from "../CSS/patient_biodata.module.css";
@@ -141,282 +143,364 @@ class MedicalHistoryData extends Component {
 		} = this.state;
 		return (
 			<>
+				<TopBar hide_on_small_screens />
 				<SecondaryBar page_title="Add Patient Date (2/4)" shadow />
-				<form className={styles.form}>
-					<div className={styles.current_style}>Medical History</div>
-					<label>Clinical Diagnosis</label>
-					<select
-						name="clinical_diagnosis"
-						className={styles.input}
-						value={clinical_diagnosis}
-						onChange={(e) => this.handleChange(e)}
-						required
-					>
-						<option></option>
-						<option>Breast</option>
-						<option>Prostate</option>
-						<option>Colorectal</option>
-						<option>Other</option>
-					</select>
-					<label>Past Admissions</label>
-					<input
-						name="past_admissions"
-						type="checkbox"
-						className={styles.input}
-						checked={past_admissions}
-						onChange={(e) => this.handleChange(e)}
-					/>
-					{past_admissions ? (
-						<fieldset>
-							<label>Admission Diagnosis</label>
-							<input
-								type="text"
-								name="admission_diagnosis"
-								className={styles.input}
-								value={admission_diagnosis}
-								onChange={(e) => this.handleChange(e)}
-							/>
-							<label>Blood Transfusion</label>
-							<input
-								name="blood_transfusion"
-								type="text"
-								className={styles.input}
-								value={blood_transfusion}
-								onChange={(e) => this.handleChange(e)}
-							/>
-							<label>Any Surgery</label>
-							<input
-								name="any_surgery"
-								type="checkbox"
-								className={styles.input}
-								checked={any_surgery}
-								onChange={(e) => this.handleChange(e)}
-							/>
-							{any_surgery ? (
-								<fieldset>
-									<label>Surgery Modality</label>
-									<input
-										name="surgery_modality"
-										type="text"
-										className={styles.input}
-										value={surgery_modality}
-										onChange={(e) => this.handleChange(e)}
-									/>
-								</fieldset>
+				<Shell>
+					<form className={styles.form}>
+						<div className={styles.current_style}>
+							Medical History
+						</div>
+						<div className={styles.fields}>
+							<label>Clinical Diagnosis</label>
+							<div>
+								<select
+									name="clinical_diagnosis"
+									className={styles.input}
+									value={clinical_diagnosis}
+									onChange={(e) => this.handleChange(e)}
+									required
+								>
+									<option></option>
+									<option>Breast</option>
+									<option>Prostate</option>
+									<option>Colorectal</option>
+									<option>Other</option>
+								</select>
+							</div>
+							<div className={styles.checkbox_div}>
+								<span>Past Admissions</span>
+								<input
+									name="past_admissions"
+									type="checkbox"
+									className={styles.input}
+									checked={past_admissions}
+									onChange={(e) => this.handleChange(e)}
+								/>
+							</div>
+							{past_admissions ? (
+								<div>
+									<fieldset>
+										<label>Admission Diagnosis</label>
+										<input
+											type="text"
+											name="admission_diagnosis"
+											className={styles.input}
+											value={admission_diagnosis}
+											onChange={(e) =>
+												this.handleChange(e)
+											}
+										/>
+										<label>Blood Transfusion</label>
+										<input
+											name="blood_transfusion"
+											type="text"
+											className={styles.input}
+											value={blood_transfusion}
+											onChange={(e) =>
+												this.handleChange(e)
+											}
+										/>
+										<div className={styles.checkbox_div}>
+											<span>Any Surgery</span>
+											<input
+												name="any_surgery"
+												type="checkbox"
+												className={styles.input}
+												checked={any_surgery}
+												onChange={(e) =>
+													this.handleChange(e)
+												}
+											/>
+										</div>
+										{any_surgery ? (
+											<fieldset>
+												<label>Surgery Modality</label>
+												<input
+													name="surgery_modality"
+													type="text"
+													className={styles.input}
+													value={surgery_modality}
+													onChange={(e) =>
+														this.handleChange(e)
+													}
+												/>
+											</fieldset>
+										) : null}
+									</fieldset>
+								</div>
 							) : null}
-						</fieldset>
-					) : null}
-					<label>History of NCD</label>
-					<select
-						name="history_of_NCD"
-						className={styles.input}
-						value={history_of_NCD}
-						onChange={(e) => this.handleChange(e)}
-						required
-					>
-						<option></option>
-						<option>Hypertension</option>
-						<option>Epilepsy</option>
-						<option>Asthma</option>
-						<option>Diabetes</option>
-						<option>Sickle-Cell Anaemia</option>
-						<option>Stroke</option>
-					</select>
-					<label>Chemotherapy</label>
-					<input
-						name="chemotherapy"
-						type="checkbox"
-						className={styles.input}
-						checked={chemotherapy}
-						onChange={(e) => this.handleChange(e)}
-					/>
-					{chemotherapy ? (
-						<fieldset>
-							<label>Regimen</label>
-							<input
-								name="regimen"
-								type="text"
-								className={styles.input}
-								value={regimen}
-								onChange={(e) => this.handleChange(e)}
-							/>
-							<label>1st Line</label>
-							<input
-								name="first_line"
-								type="checkbox"
-								className={styles.input}
-								checked={first_line}
-								onChange={(e) => this.handleChange(e)}
-							/>
-							<label>2nd Line</label>
-							<input
-								name="second_line"
-								type="checkbox"
-								className={styles.input}
-								checked={second_line}
-								onChange={(e) => this.handleChange(e)}
-							/>
-							<label>3rd Line</label>
-							<input
-								name="third_line"
-								type="checkbox"
-								className={styles.input}
-								checked={third_line}
-								onChange={(e) => this.handleChange(e)}
-							/>
-						</fieldset>
-					) : null}
-					<label>Hormonal Therapy</label>
-					<input
-						name="hormonal_therapy"
-						type="checkbox"
-						className={styles.input}
-						checked={hormonal_therapy}
-						onChange={(e) => this.handleChange(e)}
-					/>
-					{hormonal_therapy ? (
-						<fieldset>
-							<label>Drug Name</label>
-							<select
-								name="drug_name"
-								className={styles.input}
-								value={drug_name}
-								onChange={(e) => this.handleChange(e)}
+							<div>
+								<label>History of NCD</label>
+								<select
+									name="history_of_NCD"
+									className={styles.input}
+									value={history_of_NCD}
+									onChange={(e) => this.handleChange(e)}
+									required
+								>
+									<option></option>
+									<option>Hypertension</option>
+									<option>Epilepsy</option>
+									<option>Asthma</option>
+									<option>Diabetes</option>
+									<option>Sickle-Cell Anaemia</option>
+									<option>Stroke</option>
+								</select>
+							</div>
+							<div className={styles.checkbox_div}>
+								<span>Chemotherapy</span>
+								<input
+									name="chemotherapy"
+									type="checkbox"
+									className={styles.input}
+									checked={chemotherapy}
+									onChange={(e) => this.handleChange(e)}
+								/>
+							</div>
+							{chemotherapy ? (
+								<div>
+									<fieldset>
+										<label>Regimen</label>
+										<input
+											name="regimen"
+											type="text"
+											className={styles.input}
+											value={regimen}
+											onChange={(e) =>
+												this.handleChange(e)
+											}
+										/>
+										<div className={styles.checkbox_div}>
+											<span>1st Line</span>
+											<input
+												name="first_line"
+												type="checkbox"
+												className={styles.input}
+												checked={first_line}
+												onChange={(e) =>
+													this.handleChange(e)
+												}
+											/>
+										</div>
+										<div className={styles.checkbox_div}>
+											<span>2nd Line</span>
+											<input
+												name="second_line"
+												type="checkbox"
+												className={styles.input}
+												checked={second_line}
+												onChange={(e) =>
+													this.handleChange(e)
+												}
+											/>
+										</div>
+										<div className={styles.checkbox_div}>
+											<span>3rd Line</span>
+											<input
+												name="third_line"
+												type="checkbox"
+												className={styles.input}
+												checked={third_line}
+												onChange={(e) =>
+													this.handleChange(e)
+												}
+											/>
+										</div>
+									</fieldset>
+								</div>
+							) : null}
+							<div className={styles.checkbox_div}>
+								<span>Hormonal Therapy</span>
+								<input
+									name="hormonal_therapy"
+									type="checkbox"
+									className={styles.input}
+									checked={hormonal_therapy}
+									onChange={(e) => this.handleChange(e)}
+								/>
+							</div>
+							{hormonal_therapy ? (
+								<div>
+									<fieldset>
+										<label>Drug Name</label>
+										<select
+											name="drug_name"
+											className={styles.input}
+											value={drug_name}
+											onChange={(e) =>
+												this.handleChange(e)
+											}
+										>
+											<option>Paracetamol</option>
+											<option>Panadol</option>
+											<option>Codine</option>
+											<option>33</option>
+										</select>
+										<label>Drug Dose</label>
+										<input
+											name="drug_dose"
+											type="text"
+											className={styles.input}
+											value={drug_dose}
+											onChange={(e) =>
+												this.handleChange(e)
+											}
+										/>
+										<label>Drug Duration (in months)</label>
+										<input
+											name="drug_duration"
+											type="number"
+											className={styles.input}
+											value={drug_duration}
+											onChange={(e) =>
+												this.handleChange(e)
+											}
+											placeholder="2 months"
+										/>
+									</fieldset>
+								</div>
+							) : null}
+							<div className={styles.checkbox_div}>
+								<span>Targeted Therapy</span>
+								<input
+									name="targeted_therapy"
+									type="checkbox"
+									className={styles.input}
+									checked={targeted_therapy}
+									onChange={(e) => this.handleChange(e)}
+								/>
+							</div>
+							{targeted_therapy ? (
+								<div>
+									<fieldset>
+										<label>
+											Targeted Therapy Drug Name
+										</label>
+										<select
+											name="targeted_therapy_drug_name"
+											className={styles.input}
+											value={targeted_therapy_drug_name}
+											onChange={(e) =>
+												this.handleChange(e)
+											}
+										>
+											<option>Paracetamol</option>
+											<option>Panadol</option>
+											<option>Codine</option>
+											<option>33</option>
+										</select>
+										<label>
+											Targeted Therapy Drug Dose
+										</label>
+										<input
+											name="targeted_therapy_drug_dose"
+											type="text"
+											className={styles.input}
+											value={targeted_therapy_drug_dose}
+											onChange={(e) =>
+												this.handleChange(e)
+											}
+										/>
+										<label>
+											Targeted Therapy Drug Duration (in
+											months)
+										</label>
+										<input
+											name="targeted_therapy_drug_duration"
+											type="number"
+											className={styles.input}
+											value={
+												targeted_therapy_drug_duration
+											}
+											onChange={(e) =>
+												this.handleChange(e)
+											}
+											placeholder="2 months"
+										/>
+									</fieldset>
+								</div>
+							) : null}
+							<div className={styles.checkbox_div}>
+								<span>Past Radiotherapy</span>
+								<input
+									name="past_radiotherapy"
+									type="checkbox"
+									className={styles.input}
+									checked={past_radiotherapy}
+									onChange={(e) => this.handleChange(e)}
+								/>
+							</div>
+							{past_radiotherapy ? (
+								<div>
+									<fieldset>
+										<label>Dose</label>
+										<input
+											name="dose"
+											type="text"
+											className={styles.input}
+											value={dose}
+											onChange={(e) =>
+												this.handleChange(e)
+											}
+										/>
+										<label>Duration (in months)</label>
+										<input
+											name="duration"
+											type="number"
+											className={styles.input}
+											value={duration}
+											onChange={(e) =>
+												this.handleChange(e)
+											}
+											placeholder="2 months"
+										/>
+										<label>How Long Ago (in months)</label>
+										<input
+											name="how_long_ago"
+											type="number"
+											className={styles.input}
+											value={how_long_ago}
+											onChange={(e) =>
+												this.handleChange(e)
+											}
+											placeholder="2 months"
+										/>
+									</fieldset>
+								</div>
+							) : null}
+							<div>
+								<label>Other Treatments</label>
+								<input
+									name="other_treatments"
+									type="text"
+									className={styles.input}
+									value={other_treatments}
+									onChange={(e) => this.handleChange(e)}
+								/>
+							</div>
+						</div>
+						<div className={styles.btn_area}>
+							<button
+								className="secondary_btn"
+								type="button"
+								onClick={() => this.props.history.goBack()}
 							>
-								<option>Paracetamol</option>
-								<option>Panadol</option>
-								<option>Codine</option>
-								<option>33</option>
-							</select>
-							<label>Drug Dose</label>
-							<input
-								name="drug_dose"
-								type="text"
-								className={styles.input}
-								value={drug_dose}
-								onChange={(e) => this.handleChange(e)}
-							/>
-							<label>Drug Duration (in months)</label>
-							<input
-								name="drug_duration"
-								type="number"
-								className={styles.input}
-								value={drug_duration}
-								onChange={(e) => this.handleChange(e)}
-								placeholder="2 months"
-							/>
-						</fieldset>
-					) : null}
-					<label>Targeted Therapy</label>
-					<input
-						name="targeted_therapy"
-						type="checkbox"
-						className={styles.input}
-						checked={targeted_therapy}
-						onChange={(e) => this.handleChange(e)}
-					/>
-					{targeted_therapy ? (
-						<fieldset>
-							<label>Targeted Therapy Drug Name</label>
-							<select
-								name="targeted_therapy_drug_name"
-								className={styles.input}
-								value={targeted_therapy_drug_name}
-								onChange={(e) => this.handleChange(e)}
+								Back
+							</button>
+							<button
+								className="primary_btn"
+								type="button"
+								onClick={() =>
+									this.props.history.push(
+										"/add_patient_data/investigation_history"
+									)
+								}
 							>
-								<option>Paracetamol</option>
-								<option>Panadol</option>
-								<option>Codine</option>
-								<option>33</option>
-							</select>
-							<label>Targeted Therapy Drug Dose</label>
-							<input
-								name="targeted_therapy_drug_dose"
-								type="text"
-								className={styles.input}
-								value={targeted_therapy_drug_dose}
-								onChange={(e) => this.handleChange(e)}
-							/>
-							<label>
-								Targeted Therapy Drug Duration (in months)
-							</label>
-							<input
-								name="targeted_therapy_drug_duration"
-								type="number"
-								className={styles.input}
-								value={targeted_therapy_drug_duration}
-								onChange={(e) => this.handleChange(e)}
-								placeholder="2 months"
-							/>
-						</fieldset>
-					) : null}
-					<label>Past Radiotherapy</label>
-					<input
-						name="past_radiotherapy"
-						type="checkbox"
-						className={styles.input}
-						checked={past_radiotherapy}
-						onChange={(e) => this.handleChange(e)}
-					/>
-					{past_radiotherapy ? (
-						<fieldset>
-							<label>Dose</label>
-							<input
-								name="dose"
-								type="text"
-								className={styles.input}
-								value={dose}
-								onChange={(e) => this.handleChange(e)}
-							/>
-							<label>Duration (in months)</label>
-							<input
-								name="duration"
-								type="number"
-								className={styles.input}
-								value={duration}
-								onChange={(e) => this.handleChange(e)}
-								placeholder="2 months"
-							/>
-							<label>How Long Ago (in months)</label>
-							<input
-								name="how_long_ago"
-								type="number"
-								className={styles.input}
-								value={how_long_ago}
-								onChange={(e) => this.handleChange(e)}
-								placeholder="2 months"
-							/>
-						</fieldset>
-					) : null}
-					<label>Other Treatments</label>
-					<input
-						name="other_treatments"
-						type="text"
-						className={styles.input}
-						value={other_treatments}
-						onChange={(e) => this.handleChange(e)}
-					/>
-					<div className={styles.btn_area}>
-						<button
-							className="secondary_btn"
-							type="button"
-							onClick={() => this.props.history.goBack()}
-						>
-							Back
-						</button>
-						<button
-							className="primary_btn"
-							type="button"
-							onClick={() =>
-								this.props.history.push(
-									"/add_patient_data/investigation_history"
-								)
-							}
-						>
-							Continue Data Input
-						</button>
-					</div>
-				</form>
+								Continue Data Input
+							</button>
+						</div>
+					</form>
+				</Shell>
 			</>
 		);
 	}

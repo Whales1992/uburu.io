@@ -1,3 +1,8 @@
+.title,
+.left_nav {
+	display: none;
+}
+
 .form {
 	width: 100vw;
 	padding: 11px 20px;
@@ -17,6 +22,20 @@
 	line-height: 16px;
 	color: #3b4346;
 	margin: 19px 0 10px 0;
+}
+
+.checkbox_div {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 19px;
+}
+
+.fields > div.checkbox_div span {
+	font-weight: 500;
+	font-size: 13px;
+	line-height: 71px;
+	color: #3b4346;
 }
 
 .input {
@@ -60,8 +79,113 @@
 
 .btn_area button {
 	width: 100%;
+	max-width: 300px;
 }
 
 .btn_area button:first-child {
 	margin-bottom: 25px;
+}
+
+@media (min-width: 760px) {
+	.container {
+		background: #ffffff;
+		border: 1px solid #e7e7ed;
+		box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.05);
+		border-radius: 16px;
+		width: 90%;
+		max-width: 969.49px;
+		margin: 130.69px auto;
+		height: 80vh;
+		max-height: 570.63px;
+	}
+
+	.title {
+		display: flex;
+		align-items: center;
+		background-color: #f9fafabf;
+		border-bottom: 1px solid #e7e7ed;
+		border-radius: 16px 16px 0px 0px;
+		font-weight: 600;
+		font-size: 14px;
+		height: 48px;
+		text-align: center;
+		color: #333f6b;
+		text-align: left;
+		padding-left: 37.75px;
+	}
+
+	.flexed_container {
+		display: flex;
+		height: calc(100% - 48px);
+		width: 100%;
+	}
+
+	.left_nav {
+		display: block;
+		width: 60%;
+		max-width: 276.75px;
+		height: 100%;
+		border-right: 1px solid #e7e7ed;
+		padding-top: 30px;
+		padding-left: 37.75px;
+		padding-right: 20px;
+	}
+
+	.left_nav div {
+		display: flex;
+		align-items: center;
+		padding-left: 16px;
+		border-radius: 8px;
+		height: 48px;
+		margin-bottom: 15px;
+	}
+
+	.left_nav div:hover {
+		background-color: #fafbfb;
+	}
+
+	.left_nav div a {
+		text-decoration: none;
+		font-weight: 500;
+		font-size: 16px;
+		line-height: 29px;
+		color: #333f6b;
+	}
+
+	.active {
+		background-color: #b3cdff33;
+	}
+
+	.form {
+		margin-top: 0;
+		overflow-y: auto;
+	}
+
+	.current_style {
+		display: none;
+	}
+
+	.fields {
+		/* display: flex;
+		flex-direction: column;
+		align-items: center;
+		height: 100%;
+		overflow-y: auto;
+		padding-bottom: 10px; */
+		width: 60%;
+		max-width: 366px;
+		margin: 0 auto;
+	}
+
+	/* .fields > div {
+		width: 60%;
+		max-width: 366px;
+	} */
+
+	.btn_area {
+		flex-direction: row;
+		justify-content: space-between;
+		margin: 0;
+		padding-top: 44px;
+	}
 }
