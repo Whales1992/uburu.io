@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import styles from "../../../container/AddPatientData/CSS/patient_biodata.module.css";
 
 const shell = ({ children }) => (
@@ -15,9 +14,7 @@ const shell = ({ children }) => (
 							: null
 					}
 				>
-					<Link to="/add_patient_data/patient_biodata">
-						Patient's Biodata
-					</Link>
+					Patient's Biodata
 				</div>
 				<div
 					className={
@@ -27,9 +24,7 @@ const shell = ({ children }) => (
 							: null
 					}
 				>
-					<Link to="/add_patient_data/medical_history">
-						Medical History
-					</Link>
+					Medical History
 				</div>
 				<div
 					className={
@@ -39,9 +34,7 @@ const shell = ({ children }) => (
 							: null
 					}
 				>
-					<Link to="/add_patient_data/investigation_history">
-						Investigation History
-					</Link>
+					Investigation History
 				</div>
 				<div
 					className={
@@ -51,9 +44,7 @@ const shell = ({ children }) => (
 							: null
 					}
 				>
-					<Link to="/add_patient_data/treatment_outcome">
-						Treatment Outcome
-					</Link>
+					Treatment Outcome
 				</div>
 			</section>
 			{children}
