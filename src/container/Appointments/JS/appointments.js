@@ -121,7 +121,6 @@ class AppointmentsPage extends Component {
 				<Tab>
 					<div
 						onClick={() => this.switchTabs("All")}
-						key={"All"}
 						className={
 							activeTab === "All"
 								? [styles.each_tab, styles.tab_active].join(" ")
@@ -132,7 +131,6 @@ class AppointmentsPage extends Component {
 					</div>
 					<div
 						onClick={() => this.switchTabs("Upcoming")}
-						key={"All"}
 						className={
 							activeTab === "Upcoming"
 								? [styles.each_tab, styles.tab_active].join(" ")
@@ -143,7 +141,6 @@ class AppointmentsPage extends Component {
 					</div>
 					<div
 						onClick={() => this.switchTabs("Cancelled")}
-						key={"Cancelled"}
 						className={
 							activeTab === "Cancelled"
 								? [styles.each_tab, styles.tab_active].join(" ")
