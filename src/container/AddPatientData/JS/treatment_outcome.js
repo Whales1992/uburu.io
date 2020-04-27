@@ -63,83 +63,98 @@ class TreatmentOutcome extends Component {
 							Treatment Outcome
 						</div>
 						<div className={styles.fields}>
-							<div className={styles.checkbox_div}>
-								<label>Good Clinical Response</label>
-								<input
-									id="good_clinical_response"
-									type="checkbox"
-									name="good_clinical_response"
-									className={styles.input}
-									onChange={(e) => this.handleChange(e)}
-									checked={good_clinical_response}
-								/>
-							</div>
-							<div className={styles.checkbox_div}>
-								<label>Poor Clinical Response</label>
-								<input
-									id="poor_clinical_response"
-									type="checkbox"
-									name="poor_clinical_response"
-									className={styles.input}
-									onChange={(e) => this.handleChange(e)}
-									checked={poor_clinical_response}
-								/>
-							</div>
-							<div className={styles.checkbox_div}>
-								<label>Complete Remission</label>
-								<input
-									id="complete_remission"
-									type="checkbox"
-									name="complete_remission"
-									className={styles.input}
-									onChange={(e) => this.handleChange(e)}
-									checked={complete_remission}
-								/>
-							</div>
-							<div className={styles.checkbox_div}>
-								<label>Disease Progression</label>
-								<input
-									id="disease_progression"
-									type="checkbox"
-									name="disease_progression"
-									className={styles.input}
-									onChange={(e) => this.handleChange(e)}
-									checked={disease_progression}
-								/>
-							</div>
-							<div className={styles.checkbox_div}>
-								<label>Alive and Well</label>
-								<input
-									id="alive_and_stable"
-									type="checkbox"
-									name="alive_and_stable"
-									className={styles.input}
-									onChange={(e) => this.handleChange(e)}
-									checked={alive_and_stable}
-								/>
-							</div>
-							<div className={styles.checkbox_div}>
-								<label>Died on Treatment</label>
-								<input
-									id="died_on_treatment"
-									type="checkbox"
-									name="died_on_treatment"
-									className={styles.input}
-									onChange={(e) => this.handleChange(e)}
-									checked={died_on_treatment}
-								/>
-							</div>
-							<div className={styles.checkbox_div}>
-								<label>Died after Treatment</label>
-								<input
-									id="died_after_treatment"
-									type="checkbox"
-									name="died_after_treatment"
-									className={styles.input}
-									onChange={(e) => this.handleChange(e)}
-									checked={died_after_treatment}
-								/>
-							</div>
+							{!poor_clinical_response ? (
+								<div className={styles.checkbox_div}>
+									<label>Good Clinical Response</label>
+									<input
+										id="good_clinical_response"
+										type="checkbox"
+										name="good_clinical_response"
+										className={styles.input}
+										onChange={(e) => this.handleChange(e)}
+										checked={good_clinical_response}
+									/>
+								</div>
+							) : null}
+							{!good_clinical_response ? (
+								<div className={styles.checkbox_div}>
+									<label>Poor Clinical Response</label>
+									<input
+										id="poor_clinical_response"
+										type="checkbox"
+										name="poor_clinical_response"
+										className={styles.input}
+										onChange={(e) => this.handleChange(e)}
+										checked={poor_clinical_response}
+									/>
+								</div>
+							) : null}
+							{!disease_progression ? (
+								<div className={styles.checkbox_div}>
+									<label>Complete Remission</label>
+									<input
+										id="complete_remission"
+										type="checkbox"
+										name="complete_remission"
+										className={styles.input}
+										onChange={(e) => this.handleChange(e)}
+										checked={complete_remission}
+									/>
+								</div>
+							) : null}
+							{!complete_remission ? (
+								<div className={styles.checkbox_div}>
+									<label>Disease Progression</label>
+									<input
+										id="disease_progression"
+										type="checkbox"
+										name="disease_progression"
+										className={styles.input}
+										onChange={(e) => this.handleChange(e)}
+										checked={disease_progression}
+									/>
+								</div>
+							) : null}
+							{died_after_treatment ||
+							died_on_treatment ? null : (
+								<div className={styles.checkbox_div}>
+									<label>Alive and Well</label>
+									<input
+										id="alive_and_stable"
+										type="checkbox"
+										name="alive_and_stable"
+										className={styles.input}
+										onChange={(e) => this.handleChange(e)}
+										checked={alive_and_stable}
+									/>
+								</div>
+							)}
+							{alive_and_stable || died_after_treatment ? null : (
+								<div className={styles.checkbox_div}>
+									<label>Died on Treatment</label>
+									<input
+										id="died_on_treatment"
+										type="checkbox"
+										name="died_on_treatment"
+										className={styles.input}
+										onChange={(e) => this.handleChange(e)}
+										checked={died_on_treatment}
+									/>
+								</div>
+							)}
+							{alive_and_stable || died_on_treatment ? null : (
+								<div className={styles.checkbox_div}>
+									<label>Died after Treatment</label>
+									<input
+										id="died_after_treatment"
+										type="checkbox"
+										name="died_after_treatment"
+										className={styles.input}
+										onChange={(e) => this.handleChange(e)}
+										checked={died_after_treatment}
+									/>
+								</div>
+							)}
 						</div>
 						<div className={styles.btn_area}>
 							<button
