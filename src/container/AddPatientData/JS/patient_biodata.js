@@ -14,7 +14,7 @@ class PatientBiodata extends Component {
 		this.state = {
 			surname: localStorage.surname || "",
 			first_name: localStorage.first_name || "",
-			date_of_birth: localStorage.date_of_birth || new Date(),
+			date_of_birth: localStorage.date_of_birth || "",
 			phone_number: localStorage.phone_number || "",
 			next_of_kin_phone_number:
 				localStorage.next_of_kin_phone_number || "",
@@ -130,6 +130,9 @@ class PatientBiodata extends Component {
 									format="dd MMMM y"
 									clearIcon={null}
 									required
+									dayPlaceholder="20"
+									monthPlaceholder="April"
+									yearPlaceholder="1970"
 								/>
 							</div>
 							<div>

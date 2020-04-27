@@ -12,20 +12,20 @@ class InvestigationHistory extends Component {
 		super(props);
 
 		this.state = {
-			last_xray: new Date(),
-			last_ultrasound: new Date(),
+			last_xray: "",
+			last_ultrasound: "",
 			CA15_3: localStorage.CA15_3 || "",
-			CA15_3_date: localStorage.CA15_3_date || new Date(),
+			CA15_3_date: localStorage.CA15_3_date || "",
 			CA125: localStorage.CA125 || "",
-			CA125_date: localStorage.CA125_date || new Date(),
+			CA125_date: localStorage.CA125_date || "",
 			CA25_27: localStorage.CA25_27 || "",
-			CA25_27_date: localStorage.CA25_27_date || new Date(),
+			CA25_27_date: localStorage.CA25_27_date || "",
 			carcinoembryonic_antigen:
 				localStorage.carcinoembryonic_antigen || "",
 			carcinoembryonic_antigen_date:
-				localStorage.carcinoembryonic_antigen_date || new Date(),
+				localStorage.carcinoembryonic_antigen_date || "",
 			PSA: localStorage.PSA || "",
-			PSA_date: localStorage.PSA_date || new Date(),
+			PSA_date: localStorage.PSA_date || "",
 		};
 
 		this.handleChange = this.handleChange.bind(this);
@@ -94,6 +94,9 @@ class InvestigationHistory extends Component {
 									format="dd MMMM y"
 									clearIcon={null}
 									required
+									dayPlaceholder="27"
+									monthPlaceholder="April"
+									yearPlaceholder="2019"
 								/>
 							</div>
 							<div>
@@ -111,6 +114,9 @@ class InvestigationHistory extends Component {
 									format="dd MMMM y"
 									clearIcon={null}
 									required
+									dayPlaceholder="27"
+									monthPlaceholder="April"
+									yearPlaceholder="2019"
 								/>
 							</div>
 							<div>
@@ -136,6 +142,9 @@ class InvestigationHistory extends Component {
 									format="dd MMMM y"
 									clearIcon={null}
 									required
+									dayPlaceholder="27"
+									monthPlaceholder="April"
+									yearPlaceholder="2019"
 								/>
 							</div>
 							<div>
@@ -161,6 +170,9 @@ class InvestigationHistory extends Component {
 									format="dd MMMM y"
 									clearIcon={null}
 									required
+									dayPlaceholder="27"
+									monthPlaceholder="April"
+									yearPlaceholder="2019"
 								/>
 							</div>
 							<div>
@@ -186,6 +198,9 @@ class InvestigationHistory extends Component {
 									format="dd MMMM y"
 									clearIcon={null}
 									required
+									dayPlaceholder="27"
+									monthPlaceholder="April"
+									yearPlaceholder="2019"
 								/>
 							</div>
 							<div>
@@ -214,6 +229,9 @@ class InvestigationHistory extends Component {
 									format="dd MMMM y"
 									clearIcon={null}
 									required
+									dayPlaceholder="27"
+									monthPlaceholder="April"
+									yearPlaceholder="2019"
 								/>
 							</div>
 							<div>
@@ -239,6 +257,9 @@ class InvestigationHistory extends Component {
 									format="dd MMMM y"
 									clearIcon={null}
 									required
+									dayPlaceholder="27"
+									monthPlaceholder="April"
+									yearPlaceholder="2019"
 								/>
 							</div>
 						</div>
