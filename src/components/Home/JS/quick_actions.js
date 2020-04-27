@@ -11,7 +11,10 @@ const quickActions = () => (
 		<div className={styles.top}>Quick Actions</div>
 		<div className={styles.actions}>
 			<div>
-				<Link className={styles.link}>
+				<Link
+					className={styles.link}
+					to="/add_patient_data/patient_biodata"
+				>
 					<img src={AddPatientDataIcon} alt="add patient icon" />
 					Add <br /> Patient Data
 				</Link>
