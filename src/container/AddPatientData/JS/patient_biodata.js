@@ -136,11 +136,13 @@ class PatientBiodata extends Component {
 								<label>Phone Number</label>
 								<input
 									name="phone_number"
-									type="number"
+									type="tel"
 									onChange={(e) => this.handleChange(e)}
 									value={phone_number}
 									className={styles.input}
 									placeholder="Enter phone number"
+									minLength="11"
+									maxLength="11"
 									required
 								/>
 							</div>
@@ -148,11 +150,13 @@ class PatientBiodata extends Component {
 								<label>Next of Kin's Phone Number</label>
 								<input
 									name="next_of_kin_phone_number"
-									type="number"
+									type="tel"
 									onChange={(e) => this.handleChange(e)}
 									value={next_of_kin_phone_number}
 									className={styles.input}
 									placeholder="Enter next of kin's phone number"
+									minLength="11"
+									maxLength="11"
 								/>
 							</div>
 							<div>
@@ -173,11 +177,13 @@ class PatientBiodata extends Component {
 								<label>Hospital Number</label>
 								<input
 									name="hospital_number"
-									type="number"
+									type="tel"
 									onChange={(e) => this.handleChange(e)}
 									value={hospital_number}
 									className={styles.input}
 									placeholder="Enter hospital number"
+									minLength="11"
+									maxLength="11"
 								/>
 							</div>
 							<div>
