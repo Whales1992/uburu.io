@@ -35,8 +35,14 @@ const App = () => {
 			<Switch>
 				<Suspense fallback={<p>Loading</p>}>
 					<Route
+						exact
 						path="/appointments/:id"
 						component={AppointmentDetailPage}
+					/>
+					<Route
+						exact
+						path="/patients/:id"
+						component={PatientDetail}
 					/>
 					<Route
 						path="/add_patient_data/patient_biodata"
