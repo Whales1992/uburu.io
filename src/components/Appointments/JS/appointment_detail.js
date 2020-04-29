@@ -10,7 +10,7 @@ import SecondaryBar from "../../UI/JS/secondary_navbar";
 
 const appointmentDetail = ({ appointment }) => (
 	<>
-		<SecondaryBar page_title={appointment.name} />
+		<SecondaryBar page_title={appointment.name} shadow />
 		<div className={styles.detail}>
 			<div className={detailStyles.indiv_info}>
 				<span className={detailStyles.field_name}>Patient's name</span>
