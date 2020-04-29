@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 
 //styles
 import styles from "../CSS/appointment_detail.module.css";
-import detailStyles from "../../../container/CSS/Profile/profile.module.css";
+import detailStyles from "../../../container/Profile/CSS/profile.module.css";
 
 //components
 import SecondaryBar from "../../UI/JS/secondary_navbar";
