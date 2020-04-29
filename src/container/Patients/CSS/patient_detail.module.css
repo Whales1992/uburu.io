@@ -1,0 +1,20 @@
+.detail {
+	margin-top: 109px;
+	border: 1px solid #fff;
+	padding-bottom: 57px;
+}
+
+.detail h6 {
+	font-weight: 500;
+	font-size: 11px;
+	line-height: 13px;
+	color: #d1dadd;
+	margin-bottom: 16px;
+	padding-left: 20px;
+}
+
+.detail > div {
+	padding: 0 20px;
+	margin-bottom: 40px;
+	border-top: 0.5px solid #d1dadd4d;
+}
