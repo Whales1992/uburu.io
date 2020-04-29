@@ -23,7 +23,6 @@ export const EachRecentRecord = ({ record, detail, redirect }) => {
 };
 
 const recentRecords = ({ recents, detail, history }) => {
-	console.log(history);
 	return (
 		<div className={styles.container}>
 			<div className={styles.records_div}>
