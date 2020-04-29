@@ -32,7 +32,7 @@ const recentRecords = ({ recents, detail, history }) => {
 				) : recents.length === 0 ? (
 					<p>No records yet.</p>
 				) : (
-					recents.map(eachRecord => (
+					recents.map((eachRecord) => (
 						<EachRecentRecord
 							key={eachRecord.name}
 							record={eachRecord}
