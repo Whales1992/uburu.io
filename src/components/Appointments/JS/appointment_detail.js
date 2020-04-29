@@ -41,7 +41,7 @@ const appointmentDetail = ({ appointment }) => (
 );
 
 const mapStateToProps = ({ general }) => ({
-	appointment: general.detailed
+	appointment: general.detailed,
 });
 
 export default connect(mapStateToProps, null)(appointmentDetail);
