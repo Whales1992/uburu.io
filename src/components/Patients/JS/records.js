@@ -37,7 +37,7 @@ const recentRecords = ({ recents, detail, history }) => {
 							key={eachRecord.name}
 							record={eachRecord}
 							detail={detail}
-							redirect={history.push}
+							redirect={history}
 						/>
 					))
 				)}
