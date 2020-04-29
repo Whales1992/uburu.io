@@ -102,8 +102,8 @@ class AppointmentsPage extends Component {
 		this.setState({ activeTab: "All" });
 	}
 
-	async switchTabs(tab) {
-		await this.setState({ activeTab: tab });
+	switchTabs(tab) {
+		this.setState(() => ({ activeTab: tab }));
 
 		const { activeTab } = this.state;
 

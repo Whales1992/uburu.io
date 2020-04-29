@@ -111,8 +111,8 @@ class Patients extends Component {
 		this.setState({ activeTab: diseaseCategories[0] });
 	}
 
-	async switchTabs(tab) {
-		await this.setState({ activeTab: tab });
+	switchTabs(tab) {
+		this.setState(() => ({ activeTab: tab }));
 
 		const { activeTab } = this.state;
 
