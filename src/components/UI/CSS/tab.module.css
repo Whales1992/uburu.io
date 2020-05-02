@@ -10,6 +10,15 @@
 
 @media (min-width: 600px) {
 	.tab {
-		display: none;
+		max-width: 700px;
+		margin: auto;
+		position: static;
+		margin-top: 131px;
+		border-top: 1px solid #e7e7ed;
+		border-right: 1px solid #e7e7ed;
+		border-left: 1px solid #e7e7ed;
+		border-top-left-radius: 16px;
+		border-top-right-radius: 16px;
+		box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.05);
 	}
 }

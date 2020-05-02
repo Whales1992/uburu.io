@@ -41,6 +41,7 @@
 .log_out {
 	display: flex;
 	padding-top: 33px;
+	cursor: pointer;
 }
 
 .log_out span {
@@ -48,4 +49,22 @@
 	font-size: 15px;
 	line-height: 18px;
 	color: #8d979b;
+}
+
+@media (min-width: 600px) {
+	.settings_menu {
+		margin-top: 0;
+		width: 100%;
+		max-width: 700px;
+		margin: auto;
+		margin-top: 0;
+		margin-bottom: 90px;
+		padding-bottom: 50px;
+		border-radius: 16px;
+		border-top-right-radius: 0;
+		border-top-left-radius: 0;
+		background-color: #fff;
+		border: 1px solid #e7e7ed;
+		box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.05);
+	}
 }

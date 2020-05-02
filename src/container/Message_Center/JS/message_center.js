@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import styles from "../CSS/message_center.module.css";
 import SecondaryBar from "../../../components/UI/JS/secondary_navbar";
+import Title from "../../../components/UI/JS/title";
+import Topbar from "../../../components/UI/JS/topbar";
 
 class MessageCenter extends Component {
 	constructor(props) {
@@ -23,7 +25,9 @@ class MessageCenter extends Component {
 		const { send_to, message } = this.state;
 		return (
 			<>
+				<Topbar />
 				<SecondaryBar page_title="Send Patients Message" shadow />
+				<Title title="Message Center" />
 				<form className={styles.form}>
 					<label>Send To</label>
 					<input
@@ -45,7 +49,7 @@ class MessageCenter extends Component {
 					<button
 						type="submit"
 						disabled={!send_to || !message}
-						className={styles.button}
+						className={"primary_btn"}
 					>
 						Send Message
 					</button>

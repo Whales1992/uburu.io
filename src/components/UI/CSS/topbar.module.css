@@ -70,6 +70,7 @@
 	}
 
 	.avatar_div {
+		text-decoration: none;
 		color: #393a4a !important;
 		display: flex;
 		justify-content: center;
@@ -77,6 +78,11 @@
 		font-weight: 600;
 		font-size: 16px;
 		line-height: 29px;
+	}
+
+	.avatar_div a {
+		text-decoration: none;
+		color: #393a4a !important;
 	}
 
 	.avatar_div > img {

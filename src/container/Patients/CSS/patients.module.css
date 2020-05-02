@@ -7,6 +7,11 @@
 	font-size: 13px;
 	line-height: 16px;
 	color: #d1dadd;
+	cursor: pointer;
+}
+
+.each_tab:hover {
+	border-bottom: 2px solid #f5ba42;
 }
 
 .tab_active {

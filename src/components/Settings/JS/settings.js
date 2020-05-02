@@ -7,10 +7,14 @@ import AddUser from "../../../images/Settings/add_user.svg";
 import LogOut from "../../../images/Settings/log_out.svg";
 import Upload from "../../../images/Settings/upload.svg";
 import ViewUsers from "../../../images/Settings/view_users.svg";
+import Topbar from "../../UI/JS/topbar";
+import Title from "../../../components/UI/JS/title";
 
 const settingsPage = () => (
 	<>
+		<Topbar />
 		<SecondaryBar shadow page_title="Settings" />
+		<Title title="Settings" />
 		<div className={styles.settings_menu}>
 			<div className={styles.menu_item}>
 				<img src={Upload} alt="upload to the cloud icon" />

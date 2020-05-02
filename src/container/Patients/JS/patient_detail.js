@@ -9,6 +9,7 @@ import detailStyles from "../../Profile/CSS/profile.module.css";
 //components
 import SecondaryBar from "../../../components/UI/JS/secondary_navbar";
 import Tab from "../../../components/UI/JS/tab";
+import Topbar from "../../../components/UI/JS/topbar";
 
 class PatientDetail extends Component {
 	constructor(props) {
@@ -28,6 +29,7 @@ class PatientDetail extends Component {
 		const { appointment } = this.props;
 		return (
 			<>
+				<Topbar />
 				<SecondaryBar page_title={appointment.name} />
 				<Tab>
 					<div
@@ -102,23 +104,31 @@ class PatientDetail extends Component {
 					<h6>MEDICAL INFORMATION</h6>
 					<div>
 						<div className={detailStyles.indiv_info}>
-							<span className={detailStyles.field_name}>
-								Patient's name
-							</span>
+							<span className={detailStyles.field_name}>BMI</span>
 							<span className={detailStyles.value}>
 								{appointment.name}
 							</span>
 						</div>
 						<div className={detailStyles.indiv_info}>
 							<span className={detailStyles.field_name}>
-								Serial Number
+								Diagnosis
 							</span>
 							<span className={detailStyles.value}>
 								{appointment.serial_number}
 							</span>
 						</div>
 						<div className={detailStyles.indiv_info}>
-							<span className={detailStyles.field_name}>Age</span>
+							<span className={detailStyles.field_name}>
+								Registration Date
+							</span>
+							<span className={detailStyles.value}>
+								{appointment.age}
+							</span>
+						</div>
+						<div className={detailStyles.indiv_info}>
+							<span className={detailStyles.field_name}>
+								Diagnosis Date
+							</span>
 							<span className={detailStyles.value}>
 								{appointment.age}
 							</span>

@@ -51,7 +51,7 @@ class AppointmentsPage extends Component {
 					</div>
 				</Tab>
 				{activeTab === "Personal" ? (
-					<>
+					<div className={pageStyles.profile_div}>
 						<div className={pageStyles.avatar_area}>
 							<img src={Avatar} alt="user profile" />
 							<span>Tap to change picture</span>
@@ -96,12 +96,12 @@ class AppointmentsPage extends Component {
 								</span>
 							</div>
 						</div>
-						<button type="button" className={pageStyles.update_btn}>
+						<button type="button" className="primary_btn">
 							Update Profile
 						</button>
-					</>
+					</div>
 				) : (
-					<>
+					<div className={pageStyles.security_profile_div}>
 						<div className={pageStyles.security_details}>
 							<div className={pageStyles.indiv_info}>
 								<span>Change Password</span>
@@ -118,13 +118,10 @@ class AppointmentsPage extends Component {
 								</span>
 							</div>
 						</div>
-						<button
-							type="button"
-							className={pageStyles.security_update_btn}
-						>
+						<button type="button" className="primary_btn">
 							Update Profile
 						</button>
-					</>
+					</div>
 				)}
 			</Layout>
 		);

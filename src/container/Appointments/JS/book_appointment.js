@@ -4,6 +4,8 @@ import SecondaryBar from "../../../components/UI/JS/secondary_navbar";
 
 //styles
 import styles from "../CSS/book_appointment.module.css";
+import Topbar from "../../../components/UI/JS/topbar";
+import Title from "../../../components/UI/JS/title";
 
 class BookAppointment extends Component {
 	constructor(props) {
@@ -38,7 +40,9 @@ class BookAppointment extends Component {
 		} = this.state;
 		return (
 			<>
+				<Topbar />
 				<SecondaryBar shadow page_title="Book Appointment" />
+				<Title title="Book Appointment" />
 				<form className={styles.form}>
 					<label>Specialty</label>
 					<select
@@ -82,7 +86,7 @@ class BookAppointment extends Component {
 					/>
 					<button
 						type="submit"
-						className={styles.button}
+						className={"primary_btn"}
 						disabled={
 							!appointment_time ||
 							!patient_name ||
