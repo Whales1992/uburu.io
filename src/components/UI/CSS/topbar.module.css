@@ -54,6 +54,7 @@
 		font-weight: normal;
 		line-height: 15px;
 		text-decoration: none;
+		cursor: pointer;
 	}
 
 	.nav_link > img {
