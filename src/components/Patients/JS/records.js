@@ -7,8 +7,9 @@ export const EachRecentRecord = ({ record, detail, redirect }) => {
 	function clicked() {
 		detail(record);
 		if (document.referrer.match(`${window.location.host}/patients`))
-			redirect.push(`/patients/${record.id}`);
-		else redirect.push(`/appointments/${record.id}`);
+			return redirect.push(`/patient_detail/${record.id}`);
+		if (document.referrer.match(`${window.location.host}/appointments`))
+			return redirect.push(`/appointment_detail/${record.id}`);
 	}
 	return (
 		<div className={styles.each_record} onClick={() => clicked()}>
