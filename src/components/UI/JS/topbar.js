@@ -12,7 +12,7 @@ import AppointmentsInactive from "../../../images/topbar_appointments_inactive.s
 import MoreIcon from "../../../images/more_icon.svg";
 import TopBarAvatar from "../../../images/topbar_avatar.svg";
 import MoreMenu from "./more_menu";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 
 class Topbar extends Component {
 	constructor(props) {
@@ -119,7 +119,7 @@ class Topbar extends Component {
 					</div>
 					<div className={styles.avatar_div}>
 						<img src={TopBarAvatar} alt="avatar" />
-						<span>Dr. Nuel</span>
+						<Link to="/profile">Dr. Nuel</Link>
 					</div>
 				</>
 			</div>
