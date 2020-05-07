@@ -70,7 +70,7 @@ class Topbar extends Component {
 									alt="inactive home icon"
 								/>
 							)}
-							Home
+							<span>Home</span>
 						</NavLink>
 						<NavLink
 							to="/patients"
@@ -88,7 +88,7 @@ class Topbar extends Component {
 									alt="inactive patients icon"
 								/>
 							)}
-							Patients
+							<span>Patients</span>
 						</NavLink>
 						<NavLink
 							to="/appointments"
@@ -106,7 +106,7 @@ class Topbar extends Component {
 									alt="inactive appointments icon"
 								/>
 							)}
-							Appointments
+							<span>Appointments</span>
 						</NavLink>
 						<div
 							className={styles.more_div}
