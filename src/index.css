@@ -88,6 +88,21 @@ body {
 	height: 16px;
 }
 
+body::-webkit-scrollbar {
+	width: 7px;
+}
+
+body::-webkit-scrollbar-thumb {
+	background-color: #333f6b;
+	border-radius: 2.5px;
+	height: 50px;
+}
+
+body::-webkit-scrollbar-track {
+	background: #d1dadd;
+	border-bottom-right-radius: 16px;
+}
+
 @media (min-width: 600px) {
 	.react-date-picker__clear-button__icon,
 	.react-date-picker__calendar-button__icon {

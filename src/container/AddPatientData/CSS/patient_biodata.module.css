@@ -152,6 +152,20 @@
 		overflow-y: auto;
 	}
 
+	.form::-webkit-scrollbar {
+		width: 5px;
+	}
+
+	.form::-webkit-scrollbar-thumb {
+		background-color: #333f6b;
+		border-radius: 2.5px;
+	}
+
+	.form::-webkit-scrollbar-track {
+		background: #d1dadd;
+		border-bottom-right-radius: 16px;
+	}
+
 	.current_style {
 		display: none;
 	}
