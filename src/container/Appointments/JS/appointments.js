@@ -103,15 +103,16 @@ class AppointmentsPage extends Component {
 	}
 
 	switchTabs(tab) {
-		this.setState(() => ({ activeTab: tab }));
+		this.setState({ activeTab: tab }, () => {
+			const { activeTab } = this.state;
 
-		const { activeTab } = this.state;
-
-		if (activeTab === "All") return this.setState({ patients: all });
-		if (activeTab === "Upcoming")
-			return this.setState({ patients: Upcoming });
-		if (activeTab === "Cancelled")
-			return this.setState({ patients: cancelled });
+			if (activeTab === "All")
+				return this.setState(() => ({ patients: all }));
+			if (activeTab === "Upcoming")
+				return this.setState(() => ({ patients: Upcoming }));
+			if (activeTab === "Cancelled")
+				return this.setState(() => ({ patients: cancelled }));
+		});
 	}
 
 	render() {

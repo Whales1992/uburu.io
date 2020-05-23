@@ -112,16 +112,16 @@ class Patients extends Component {
 	}
 
 	switchTabs(tab) {
-		this.setState(() => ({ activeTab: tab }));
+		this.setState({ activeTab: tab }, () => {
+			const { activeTab } = this.state;
 
-		const { activeTab } = this.state;
-
-		if (activeTab === "Diabetes")
-			return this.setState({ patients: patientsArray1 });
-		if (activeTab === "HBP")
-			return this.setState({ patients: patientsArray2 });
-		if (activeTab === "Prostrate")
-			return this.setState({ patients: patientsArray3 });
+			if (activeTab === "Diabetes")
+				return this.setState(() => ({ patients: patientsArray1 }));
+			if (activeTab === "HBP")
+				return this.setState(() => ({ patients: patientsArray2 }));
+			if (activeTab === "Prostrate")
+				return this.setState(() => ({ patients: patientsArray3 }));
+		});
 	}
 
 	render() {
