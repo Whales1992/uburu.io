@@ -6,9 +6,9 @@ export const EachRecentRecord = ({ record, detail, redirect }) => {
 	const { name, disease, date } = record;
 	function clicked() {
 		detail(record);
-		if (document.referrer.match(`${window.location.host}/patients`))
+		if (document.URL.match(`${window.location.host}/patients`))
 			return redirect.push(`/patient_detail/${record.id}`);
-		if (document.referrer.match(`${window.location.host}/appointments`))
+		if (document.URL.match(`${window.location.host}/appointments`))
 			return redirect.push(`/appointment_detail/${record.id}`);
 	}
 	return (
