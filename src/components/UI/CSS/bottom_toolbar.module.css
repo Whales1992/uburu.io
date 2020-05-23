@@ -30,7 +30,7 @@
 	color: #333f6b;
 }
 
-@media (min-width: 900px) {
+@media (min-width: 600px) {
 	.buttToolbar {
 		display: none;
 	}
