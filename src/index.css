@@ -20,6 +20,26 @@ body {
 	padding: 0;
 }
 
+html {
+	scrollbar-color: #333f6b #d1dadd;
+	scrollbar-width: thin;
+}
+
+html::-webkit-scrollbar {
+	width: 7px;
+}
+
+html::-webkit-scrollbar-thumb {
+	background-color: #333f6b;
+	border-radius: 2.5px;
+	height: 50px;
+}
+
+html::-webkit-scrollbar-track {
+	background: #d1dadd;
+	border-bottom-right-radius: 16px;
+}
+
 .primary_btn {
 	height: 45px;
 	background: #333f6b;
@@ -86,21 +106,6 @@ body {
 .react-date-picker__calendar-button__icon {
 	width: 16px;
 	height: 16px;
-}
-
-body::-webkit-scrollbar {
-	width: 7px;
-}
-
-body::-webkit-scrollbar-thumb {
-	background-color: #333f6b;
-	border-radius: 2.5px;
-	height: 50px;
-}
-
-body::-webkit-scrollbar-track {
-	background: #d1dadd;
-	border-bottom-right-radius: 16px;
 }
 
 @media (min-width: 600px) {
