@@ -171,21 +171,10 @@
 	}
 
 	.fields {
-		/* display: flex;
-		flex-direction: column;
-		align-items: center;
-		height: 100%;
-		overflow-y: auto;
-		padding-bottom: 10px; */
 		width: 60%;
 		max-width: 366px;
 		margin: 0 auto;
 	}
-
-	/* .fields > div {
-		width: 60%;
-		max-width: 366px;
-	} */
 
 	.btn_area {
 		flex-direction: row;
