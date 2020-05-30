@@ -150,6 +150,8 @@
 	.form {
 		margin-top: 0;
 		overflow-y: auto;
+		scrollbar-color: #333f6b #d1dadd;
+		scrollbar-width: thin;
 	}
 
 	.form::-webkit-scrollbar {
