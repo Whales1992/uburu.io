@@ -7,7 +7,7 @@ import { errorHandler } from "../../../actions/general/index";
 
 //style
 import styles from "../CSS/sign_in.module.css";
-const url = "https://google.com";
+const url = "https://api.notitiang.com/oncology";
 
 class SignIn extends Component {
 	constructor(props) {
@@ -44,33 +44,28 @@ class SignIn extends Component {
 		this.setState({ submitting: true });
 		const { email, password } = this.state;
 		try {
-			const request = await fetch(`${url}/admin/log_in`, {
+			const request = await fetch(`${url}/auth/user/`, {
 				method: "POST",
 				headers: {
 					Accept: "application/json",
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify({
-					email: `${email}`,
-					password: `${password}`,
+					Email: email,
+					Password: password,
 				}),
 			});
 
 			if (!request.ok) {
 				this.setState({ submitting: false });
 				const error = await request.json();
-				throw Error(error.message);
+				throw Error(error.Message);
 			}
 
 			const data = await request.json();
-			localStorage.clear();
-			localStorage.setItem("accessToken", `${data.data.token}`);
-			localStorage.setItem(
-				"expiresIn",
-				`${Date.now() + 3600000 * parseInt(data.data.expiresIn)}`
-			);
-			localStorage.setItem("admin", `${JSON.stringify(data.data.admin)}`);
-			this.props.history.push("/admin/dashboard");
+			localStorage.setItem("accessToken", data.Token);
+			localStorage.setItem("account", JSON.stringify(data.Message));
+			this.props.history.push("/");
 		} catch (err) {
 			this.props.errorHandler(err);
 		}
@@ -110,6 +105,7 @@ class SignIn extends Component {
 						required
 					/>
 					<button
+						className={"primary_btn"}
 						type="submit"
 						disabled={
 							email === "" ||
