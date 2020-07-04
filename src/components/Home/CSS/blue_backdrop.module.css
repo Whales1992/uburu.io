@@ -1,10 +1,23 @@
 .div {
-	color: #fff;
-	text-align: center;
+	display: flex;
+	justify-content: center;
 	background-color: #333f6b;
 	margin-top: 64px;
 	height: 211px;
 	z-index: -1;
+}
+
+.div span {
+	height: 18px;
+	font-size: 10px;
+	line-height: 18px;
+	text-transform: uppercase;
+	color: #e7e7ed;
+}
+
+.div img {
+	height: 16px;
+	margin-right: 10px;
 }
 
 @media (min-width: 600px) {
