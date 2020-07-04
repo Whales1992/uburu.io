@@ -45,7 +45,11 @@ class Home extends Component {
 	render() {
 		const { recentRecords, loading } = this.state;
 		return (
-			<Layout>
+			<Layout
+				pageTitle={`Welcome, Dr. ${
+					JSON.parse(localStorage.account).LastName
+				}`}
+			>
 				<BlueBackdrop />
 				<QuickActions />
 				<RecentRecords recents={recentRecords} loading={loading} />
