@@ -119,7 +119,9 @@ class Topbar extends Component {
 					</div>
 					<div className={styles.avatar_div}>
 						<img src={TopBarAvatar} alt="avatar" />
-						<Link to="/profile">Dr. Nuel</Link>
+						<Link to="/profile">
+							Dr. {JSON.parse(localStorage.account).LastName}
+						</Link>
 					</div>
 				</>
 			</div>
