@@ -6,6 +6,8 @@ import pageStyles from "../../Profile/CSS/profile.module.css";
 import Avatar from "../../../images/Profile/avatar.svg";
 import Switch from "../../../images/Profile/switch.svg";
 
+const account = JSON.parse(localStorage.account);
+
 class AppointmentsPage extends Component {
 	constructor(props) {
 		super(props);
@@ -62,7 +64,7 @@ class AppointmentsPage extends Component {
 									Full Name
 								</span>
 								<span className={pageStyles.value}>
-									Nuel Njikoka
+									{account.FirstName + " " + account.LastName}
 								</span>
 							</div>
 							<div className={pageStyles.indiv_info}>
@@ -70,7 +72,7 @@ class AppointmentsPage extends Component {
 									Account Role
 								</span>
 								<span className={pageStyles.value}>
-									Administrator
+									{account.Role}
 								</span>
 							</div>
 							<div className={pageStyles.indiv_info}>
@@ -92,7 +94,7 @@ class AppointmentsPage extends Component {
 							<div className={pageStyles.indiv_info}>
 								<span className={pageStyles.field}>Email</span>
 								<span className={pageStyles.value}>
-									dr.nuel@gmail.com
+									{account.EmailAddress}
 								</span>
 							</div>
 						</div>
