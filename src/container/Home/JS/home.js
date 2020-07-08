@@ -3,6 +3,7 @@ import Layout from "../../UI/JS/layout";
 import BlueBackdrop from "../../../components/Home/JS/blue_backdrop";
 import QuickActions from "../../../components/Home/JS/quick_actions";
 import RecentRecords from "../../../components/Home/JS/recent-records";
+import InstitutionBanner from "../../../components/UI/JS/institution_banner";
 
 const recentRecordsArray = [
 	{
@@ -50,6 +51,7 @@ class Home extends Component {
 					JSON.parse(localStorage.account).LastName
 				}`}
 			>
+				<InstitutionBanner />
 				<BlueBackdrop />
 				<QuickActions />
 				<RecentRecords recents={recentRecords} loading={loading} />
