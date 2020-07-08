@@ -4,7 +4,7 @@
 	left: 5px;
 	right: 5px;
 	margin: auto;
-	height: 260px;
+	height: 160px;
 	width: 90vw;
 	max-width: 774px;
 	background-color: #fbfbfb;
@@ -23,22 +23,20 @@
 
 .actions {
 	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
+	padding: 20px 17px;
 }
 
 .actions > div {
 	display: flex;
-	justify-content: center;
+	flex-grow: 1;
+	width: calc(50% - 28.5px);
 	align-items: center;
 	background-color: #f2f5f6;
 	color: #000;
 	line-height: 13px;
 	border: 0.5px solid #d1dadd;
 	border-radius: 8px;
-	margin: 20px 0 0 17px;
 	height: 80px;
-	width: 130px;
 	font-size: 11px;
 	font-weight: 600;
 }
@@ -47,18 +45,24 @@
 	margin-right: 13px;
 }
 
-.actions div:nth-child(2),
-.actions div:nth-child(4) {
-	margin-right: 17px;
+.actions div:first-child {
+	margin-right: 8.5px;
+}
+
+.actions div:nth-child(2) {
+	margin-left: 8.5px;
+	padding-left: 12px;
 }
 
 .link {
 	display: flex;
-	justify-content: space-around;
+	align-items: center;
+	padding-left: 12px;
 	font-size: 11px;
 	text-decoration: none;
 	color: #000;
-	line-height: 13px;
+	height: 100%;
+	width: 100%;
 	font-weight: 600;
 }
 
@@ -69,7 +73,7 @@
 		background: #ffffff;
 		border: 1px solid #e7e7ed;
 		border-radius: 16px;
-		height: 334px;
+		height: 210px;
 	}
 
 	.top {
@@ -85,22 +89,27 @@
 		border-radius: 16px 16px 0px 0px;
 	}
 
+	.actions {
+		padding: 28px 30px 34px;
+	}
+
 	.actions > div {
-		width: 44.8%;
+		justify-content: center;
 		max-width: 347px;
 		height: 100px;
 		font-size: 18px;
 		line-height: 32px;
 		font-weight: normal;
-		color: #393a4a;
+		color: #333f6b;
 		background-color: #fff;
 		border-radius: 16px;
 		border: 1px solid #e7e7ed;
-		margin-top: 28px;
 		cursor: pointer;
 	}
 
 	.link {
+		padding-left: 0;
+		justify-content: center;
 		font-size: 18px;
 		line-height: 32px;
 		font-weight: normal;
@@ -112,15 +121,12 @@
 		display: none;
 	}
 
-	.actions div:nth-child(1),
-	.actions div:nth-child(3) {
+	.actions div:first-child {
 		margin-right: 20px;
-		margin-left: 30px;
 	}
 
-	.actions div:nth-child(2),
-	.actions div:nth-child(4) {
-		margin-right: 30px;
-		margin-left: 00px;
+	.actions div:nth-child(2) {
+		margin-left: 0;
+		padding-left: 0;
 	}
 }
