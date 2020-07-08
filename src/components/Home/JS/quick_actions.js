@@ -8,7 +8,7 @@ const quickActions = () => (
 	<div className={styles.div}>
 		<div className={styles.top}>{`${
 			JSON.parse(localStorage.account).Department
-		} - Quick Actions`}</div>
+		} Registry - Quick Actions`}</div>
 		<div className={styles.actions}>
 			<div>
 				<Link className={styles.link} to="/search_folder_number">
