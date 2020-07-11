@@ -15,6 +15,7 @@ import PatientDetail from "./container/Patients/JS/patient_detail";
 import BookAppointment from "./container/Appointments/JS/book_appointment";
 import MessageCenter from "./container/Message_Center/JS/message_center";
 import SettingsPage from "./components/Settings/JS/settings";
+import SearchFolderNoPage from "./components/SearchFolderNo/JS/search_folder_no";
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = composeEnhancers()(createStore);
 
@@ -59,6 +60,10 @@ const App = () => {
 					<Route
 						path="/add_patient_data/treatment_outcome"
 						component={TreatmentOutcome}
+					/>
+					<Route
+						path="/search_folder_number"
+						component={SearchFolderNoPage}
 					/>
 					<Route path="/profile" component={ProfilePage} />
 					<Route
