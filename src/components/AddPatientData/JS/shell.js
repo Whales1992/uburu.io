@@ -5,7 +5,7 @@ const shell = ({ children }) => (
 	<div className={styles.container}>
 		<div className={styles.title}>Add Patient Data</div>
 		<div className={styles.flexed_container}>
-			<section className={styles.left_nav}>
+			<aside className={styles.left_nav}>
 				<div
 					className={
 						window.location.pathname.split("/")[2] ===
