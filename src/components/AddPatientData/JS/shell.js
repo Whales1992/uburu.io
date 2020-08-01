@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../../../container/AddPatientData/CSS/patient_biodata.module.css";
+import styles from "../CSS/shell.module.css";
 
 const shell = ({ children }) => (
 	<div className={styles.container}>
