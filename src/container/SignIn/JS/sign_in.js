@@ -7,7 +7,7 @@ import { errorHandler } from "../../../actions/general/index";
 
 //style
 import styles from "../CSS/sign_in.module.css";
-const url = "https://api.notitiang.com/oncology";
+const url = "https://api.notitiang.com";
 
 class SignIn extends Component {
 	constructor(props) {
