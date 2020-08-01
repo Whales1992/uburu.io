@@ -64,6 +64,11 @@
 	width: 15px;
 }
 
+.form select {
+	padding: 0;
+	padding-left: 10px;
+}
+
 .btn_area {
 	display: flex;
 	flex-direction: column;
