@@ -14,7 +14,7 @@ const shell = ({ children }) => (
 							: null
 					}
 				>
-					Patient's Biodata
+					Bio-data
 				</div>
 				<div
 					className={
