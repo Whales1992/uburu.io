@@ -58,15 +58,14 @@ class PatientBiodata extends Component {
 		const value =
 			target.type === "checkbox" ? target.checked : target.value;
 		const name = target.name;
-		this.setState(() => ({ [name]: value }));
-		localStorage.setItem(`${name}`, `${value}`);
-		if (
-			name === "family_history_of_cancer" &&
-			!this.state.family_history_of_cancer
-		) {
-			this.setState({ relationship: "" });
-			localStorage.removeItem("relationship");
-		}
+		this.setState(
+			(state) => ({ biodata: { ...state.biodata, [name]: value } }),
+			() =>
+				localStorage.setItem(
+					"bio_data",
+					JSON.stringify(this.state.biodata)
+				)
+		);
 	}
 
 	async skipCreate(e) {
