@@ -114,7 +114,11 @@
 	.fields {
 		width: 60%;
 		max-width: 366px;
-		margin: 0 auto;
+		margin: 0;
+	}
+
+	.input {
+		color: #333f6b;
 	}
 
 	.btn_area {
