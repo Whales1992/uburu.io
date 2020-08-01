@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import ErrorModal from "../../../components/UI/JS/error_madal";
+import ErrorModal from "../../../components/UI/JS/error_modal";
 import logo from "../../../images/logo.svg";
 
 import { errorHandler } from "../../../actions/general/index";
