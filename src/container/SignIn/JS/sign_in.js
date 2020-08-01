@@ -22,12 +22,11 @@ class SignIn extends Component {
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
-	componentDidMount() {
-		const tokenExpirationTime = localStorage.expiresIn;
-
-		if (Date.now() < parseInt(tokenExpirationTime))
-			this.props.history.push("/admin/dashboard");
-	}
+	// componentDidMount() {
+		// const tokenExpirationTime = localStorage.expiresIn;
+		// if (Date.now() < parseInt(tokenExpirationTime))
+		// 	this.props.history.push("/admin/dashboard");
+	// }
 
 	handleEmailChange(e) {
 		const value = e.target.value;
