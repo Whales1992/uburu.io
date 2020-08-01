@@ -46,7 +46,7 @@ const shell = ({ children }) => (
 				>
 					Treatment Outcome
 				</div>
-			</section>
+			</aside>
 			{children}
 		</div>
 	</div>
