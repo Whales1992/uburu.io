@@ -15,7 +15,7 @@ class SignIn extends Component {
 		this.state = {
 			password: "",
 			email: "",
-			submitting: false,
+			submitting: false
 		};
 		this.handlePasswordChange = this.handlePasswordChange.bind(this);
 		this.handleEmailChange = this.handleEmailChange.bind(this);
@@ -48,12 +48,12 @@ class SignIn extends Component {
 				method: "POST",
 				headers: {
 					Accept: "application/json",
-					"Content-Type": "application/json",
+					"Content-Type": "application/json"
 				},
 				body: JSON.stringify({
 					Email: email,
-					Password: password,
-				}),
+					Password: password
+				})
 			});
 
 			if (!request.ok) {
@@ -126,11 +126,11 @@ class SignIn extends Component {
 
 const mapStateToProps = (state) => ({
 	form: state.form.sign_in_form,
-	errorModal: state.general.errorModal,
+	errorModal: state.general.errorModal
 });
 
 const mapDispatchToProps = (dispatch) => ({
-	errorHandler: (...args) => errorHandler(...args, dispatch),
+	errorHandler: (...args) => errorHandler(...args, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
