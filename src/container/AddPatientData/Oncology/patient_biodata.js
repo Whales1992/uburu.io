@@ -58,7 +58,6 @@ class PatientBiodata extends Component {
 		};
 
 		this.handleChange = this.handleChange.bind(this);
-		this.handleDateChange = this.handleDateChange.bind(this);
 	}
 
 	handleChange(e) {
@@ -74,10 +73,6 @@ class PatientBiodata extends Component {
 					JSON.stringify(this.state.biodata)
 				)
 		);
-	}
-
-	handleDateChange(name, date) {
-		this.setState({ [name]: date });
 	}
 
 	async skipCreate(e) {
