@@ -103,6 +103,17 @@ html::-webkit-scrollbar-track {
 	height: 16px;
 }
 
+.disabled_label {
+	color: #cdced9 !important;
+}
+
+input:disabled,
+select:disabled,
+input[type="date"]:disabled,
+.react-date-picker--disabled {
+	cursor: not-allowed !important;
+}
+
 @media (min-width: 600px) {
 	.react-date-picker__clear-button__icon,
 	.react-date-picker__calendar-button__icon {
