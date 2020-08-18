@@ -5,7 +5,7 @@ import TopBar from "../../../components/UI/JS/topbar";
 import BottomBar from "../../../components/UI/JS/bottom_toolbar";
 
 //style
-import styles from "../CSS/patient_biodata.module.css";
+import styles from "../CSS/add_patient_data.module.css";
 
 const url = "https://api.notitiang.com";
 
