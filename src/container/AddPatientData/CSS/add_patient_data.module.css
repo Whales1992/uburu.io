@@ -82,8 +82,8 @@
 .btn_area button {
 	margin-right: auto;
 	margin-left: auto;
-	width: 100%;
-	max-width: 300px;
+	width: calc(100% - 40px);
+	max-width: 400px;
 }
 
 .btn_area button:first-child {
