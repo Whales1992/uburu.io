@@ -1,7 +1,10 @@
 .form {
 	width: 100vw;
+	max-width: 450px;
 	padding: 11px 20px;
 	margin-top: 64px;
+	margin-right: auto;
+	margin-left: auto;
 }
 
 .current_style {
