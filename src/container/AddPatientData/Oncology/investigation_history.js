@@ -227,7 +227,7 @@ class InvestigationHistory extends Component {
 									this.continue("investigation_history")
 								}
 							>
-								Continue Data Input
+								Continue to Treatment Outcome
 							</button>
 						</div>
 					</form>
