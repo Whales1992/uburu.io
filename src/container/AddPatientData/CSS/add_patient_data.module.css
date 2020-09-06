@@ -3,6 +3,7 @@
 	max-width: 450px;
 	padding: 11px 20px;
 	margin-top: 64px;
+	margin-bottom: 21px;
 	margin-right: auto;
 	margin-left: auto;
 }
@@ -79,20 +80,15 @@
 	margin-bottom: 95px;
 }
 
-.btn_area button {
-	margin-right: auto;
-	margin-left: auto;
-	width: calc(100% - 40px);
-	max-width: 400px;
-}
-
 .btn_area button:first-child {
 	margin-bottom: 25px;
 }
 
 @media (min-width: 760px) {
 	.form {
+		max-width: 100%;
 		margin-top: 0;
+		margin-bottom: 0;
 		overflow-y: auto;
 		scrollbar-color: #333f6b #d1dadd;
 		scrollbar-width: thin;
@@ -131,5 +127,18 @@
 		justify-content: space-between;
 		margin: 0;
 		padding-top: 44px;
+	}
+
+	.btn_area button {
+		width: calc(100% - 40px);
+		max-width: 300px;
+	}
+
+	.btn_area button:first-child {
+		margin-right: 10px;
+	}
+
+	.btn_area button:last-child {
+		margin-left: 10px;
 	}
 }
