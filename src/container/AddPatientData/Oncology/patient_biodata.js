@@ -539,8 +539,6 @@ class PatientBiodata extends Component {
 									!ethnic_group ||
 									!religion ||
 									this.state.submitting
-										? true
-										: false
 								}
 							>
 								Skip to Create Profile
