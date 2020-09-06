@@ -6,262 +6,211 @@ import Shell from "../../../components/AddPatientData/JS/shell";
 
 //style
 import styles from "../CSS/add_patient_data.module.css";
+import styles2 from "../CSS/medical_history.module.css";
 
 class InvestigationHistory extends Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			last_xray: "",
-			last_ultrasound: "",
-			CA15_3: localStorage.CA15_3 || "",
-			CA15_3_date: localStorage.CA15_3_date || "",
-			CA125: localStorage.CA125 || "",
-			CA125_date: localStorage.CA125_date || "",
-			CA25_27: localStorage.CA25_27 || "",
-			CA25_27_date: localStorage.CA25_27_date || "",
-			carcinoembryonic_antigen:
-				localStorage.carcinoembryonic_antigen || "",
-			carcinoembryonic_antigen_date:
-				localStorage.carcinoembryonic_antigen_date || "",
-			PSA: localStorage.PSA || "",
-			PSA_date: localStorage.PSA_date || "",
+			investigation: "",
+			report: "",
+			date: "",
+			entry: ""
 		};
 
 		this.handleChange = this.handleChange.bind(this);
-		this.handleDateChange = this.handleDateChange.bind(this);
+		this.resetRecord = this.resetRecord.bind(this);
+		this.submitRecord = this.submitRecord.bind(this);
+		this.continue = this.continue.bind(this);
 	}
 
 	componentDidMount() {
 		window.scrollTo(0, 0);
 	}
 
-	handleChange(e) {
-		const target = e.target;
-		const value =
-			target.type === "checkbox" ? target.checked : target.value;
-		const name = target.name;
+	handleChange(name, e) {
+		let value;
+
+		if (name === "date") {
+			value = e;
+		} else {
+			value = e.target.value;
+		}
+
 		this.setState(() => ({ [name]: value }));
-		localStorage.setItem(`${name}`, `${value}`);
-		if (
-			name === "family_history_of_cancer" &&
-			!this.state.family_history_of_cancer
-		) {
-			this.setState({ relationship: "", oncology_diagnosis: "" });
-			localStorage.removeItem("relationship");
-			localStorage.removeItem("oncology_diagnosis");
+	}
+
+	resetRecord() {
+		this.setState({
+			investigation: "",
+			report: "",
+			date: "",
+			entry: ""
+		});
+	}
+
+	submitRecord(e, recordName) {
+		if (e) e.preventDefault();
+		let localStorageValue =
+			localStorage.getItem(recordName) &&
+			JSON.parse(localStorage.getItem(recordName));
+		if (localStorageValue) {
+			localStorageValue.push(this.state);
+			const lSValueStringified = JSON.stringify(localStorageValue);
+			localStorage.setItem(recordName, lSValueStringified);
+			this.resetRecord();
+		} else {
+			localStorage.setItem(recordName, `${JSON.stringify([this.state])}`);
+			this.resetRecord();
 		}
 	}
 
-	handleDateChange(name, date) {
-		this.setState({ [name]: date });
+	continue(recordName) {
+		const { investigation, report, date, entry } = this.state;
+
+		if (investigation && (report || entry) && date) {
+			this.submitRecord(null, recordName);
+			this.props.history.push("/add_patient_data/treatment_outcome");
+		} else {
+			this.props.history.push("/add_patient_data/treatment_outcome");
+		}
 	}
 
 	render() {
-		const {
-			last_xray,
-			last_ultrasound,
-			CA15_3,
-			CA15_3_date,
-			CA125,
-			CA125_date,
-			CA25_27,
-			CA25_27_date,
-			carcinoembryonic_antigen,
-			carcinoembryonic_antigen_date,
-			PSA,
-			PSA_date,
-		} = this.state;
+		const { investigation, report, date, entry } = this.state;
 		return (
 			<>
 				<TopBar hide_on_small_screens />
-				<SecondaryBar page_title="Add Patient Data (3/4)" shadow />
+				<SecondaryBar page_title="Investigation History Data" shadow />
 				<Shell>
-					<form className={styles.form}>
-						<div className={styles.current_style}>
-							Investigation History
-						</div>
+					<form
+						className={styles.form}
+						onSubmit={(e) =>
+							this.submitRecord(e, "investigation_history")
+						}
+					>
 						<div className={styles.fields}>
 							<div>
-								<label>Last X-ray</label>
+								<label htmlFor="investigation">
+									Investigation
+								</label>
+								<select
+									id="investigation"
+									name="investigation"
+									className={styles.input}
+									value={investigation}
+									onChange={(e) =>
+										this.handleChange("investigation", e)
+									}
+									required
+								>
+									<option></option>
+									<option>Chest X-ray</option>
+									<option>Ultrasound</option>
+									<option>CT-Scan</option>
+									<option>Full Blood Count</option>
+									<option>CA 15-3</option>
+									<option>CA 125</option>
+									<option>CA 27-29</option>
+									<option>CEA</option>
+									<option>PSA</option>
+								</select>
+							</div>
+							<div>
+								<label
+									className={
+										!investigation ? "disabled_label" : ""
+									}
+									htmlFor={
+										investigation === "Chest X-ray" ||
+										investigation === "Ultrasound" ||
+										investigation === "CT-Scan" ||
+										investigation === ""
+											? "Report"
+											: "entry"
+									}
+								>
+									{investigation === "Chest X-ray" ||
+									investigation === "Ultrasound" ||
+									investigation === "CT-Scan" ||
+									investigation === ""
+										? "Report"
+										: `Entry (unit: ${
+												investigation ===
+												"Full Blood Count"
+													? "mls"
+													: investigation === "CEA" ||
+													  investigation === "PSA"
+													? "ng/mL"
+													: "U/mL"
+										  })`}
+								</label>
+								{investigation === "Chest X-ray" ||
+								investigation === "Ultrasound" ||
+								investigation === "CT-Scan" ||
+								investigation === "" ? (
+									<textarea
+										id="report"
+										type="text"
+										name="report"
+										placeholder="Type in report"
+										className={styles.textarea}
+										value={report}
+										onChange={(e) =>
+											this.handleChange("report", e)
+										}
+										disabled={!investigation}
+									/>
+								) : (
+									<input
+										id="entry"
+										type="number"
+										name="entry"
+										className={styles.input}
+										value={entry}
+										onChange={(e) =>
+											this.handleChange("entry", e)
+										}
+										disabled={!investigation}
+									/>
+								)}
+							</div>
+							<div>
+								<label
+									className={!report ? "disabled_label" : ""}
+								>
+									Date of Record
+								</label>
 								<DatePicker
-									name="last_xray"
+									name="date"
 									className={styles.input}
 									onChange={(e) =>
-										this.handleDateChange("last_ray", e)
+										this.handleChange("date", e)
 									}
-									value={last_xray}
-									format="dd MMMM y"
-									clearIcon={null}
+									value={date}
+									format="dd/MM/y"
 									required
-									dayPlaceholder="27"
-									monthPlaceholder="April"
-									yearPlaceholder="2019"
+									disabled={!report && !entry}
 								/>
 							</div>
-							<div>
-								<label>Last Ultrasound</label>
-								<DatePicker
-									name="last_ultrasound"
-									className={styles.input}
-									onChange={(e) =>
-										this.handleDateChange(
-											"last_ultrasound",
-											e
-										)
-									}
-									value={last_ultrasound}
-									format="dd MMMM y"
-									clearIcon={null}
-									required
-									dayPlaceholder="27"
-									monthPlaceholder="April"
-									yearPlaceholder="2019"
-								/>
-							</div>
-							<div>
-								<label>CA15-3</label>
-								<input
-									type="text"
-									name="CA15_3"
-									className={styles.input}
-									onChange={(e) => this.handleChange(e)}
-									value={CA15_3}
-									required
-								/>
-							</div>
-							<div>
-								<label>CA15-3 Date</label>
-								<DatePicker
-									name="CA15_3_date"
-									className={styles.input}
-									onChange={(e) =>
-										this.handleDateChange("CA15_3_date", e)
-									}
-									value={CA15_3_date}
-									format="dd MMMM y"
-									clearIcon={null}
-									required
-									dayPlaceholder="27"
-									monthPlaceholder="April"
-									yearPlaceholder="2019"
-								/>
-							</div>
-							<div>
-								<label>CA125</label>
-								<input
-									type="text"
-									name="CA125"
-									className={styles.input}
-									onChange={(e) => this.handleChange(e)}
-									value={CA125}
-									required
-								/>
-							</div>
-							<div>
-								<label>CA125 Date</label>
-								<DatePicker
-									name="CA125_date"
-									className={styles.input}
-									onChange={(e) =>
-										this.handleDateChange("CA125_date", e)
-									}
-									value={CA125_date}
-									format="dd MMMM y"
-									clearIcon={null}
-									required
-									dayPlaceholder="27"
-									monthPlaceholder="April"
-									yearPlaceholder="2019"
-								/>
-							</div>
-							<div>
-								<label>CA25_27</label>
-								<input
-									type="text"
-									name="CA25_27"
-									className={styles.input}
-									onChange={(e) => this.handleChange(e)}
-									value={CA25_27}
-									required
-								/>
-							</div>
-							<div>
-								<label>CA25_27 Date</label>
-								<DatePicker
-									name="CA25_27_date"
-									className={styles.input}
-									onChange={(e) =>
-										this.handleDateChange("CA25_27_date", e)
-									}
-									value={CA25_27_date}
-									format="dd MMMM y"
-									clearIcon={null}
-									required
-									dayPlaceholder="27"
-									monthPlaceholder="April"
-									yearPlaceholder="2019"
-								/>
-							</div>
-							<div>
-								<label>Carcinoembryonic Antigen</label>
-								<input
-									type="text"
-									name="carcinoembryonic_antigen"
-									className={styles.input}
-									onChange={(e) => this.handleChange(e)}
-									value={carcinoembryonic_antigen}
-									required
-								/>
-							</div>
-							<div>
-								<label>Carcinoembryonic Antigen Date</label>
-								<DatePicker
-									name="carcinoembryonic_antigen_date"
-									className={styles.input}
-									onChange={(e) =>
-										this.handleDateChange(
-											"carcinoembryonic_antigen_date",
-											e
-										)
-									}
-									value={carcinoembryonic_antigen_date}
-									format="dd MMMM y"
-									clearIcon={null}
-									required
-									dayPlaceholder="27"
-									monthPlaceholder="April"
-									yearPlaceholder="2019"
-								/>
-							</div>
-							<div>
-								<label>PSA</label>
-								<input
-									type="text"
-									name="PSA"
-									className={styles.input}
-									onChange={(e) => this.handleChange(e)}
-									value={PSA}
-									required
-								/>
-							</div>
-							<div>
-								<label>PSA Date</label>
-								<DatePicker
-									name="PSA_date"
-									className={styles.input}
-									onChange={(e) =>
-										this.handleDateChange("PSA_date", e)
-									}
-									value={PSA_date}
-									format="dd MMMM y"
-									clearIcon={null}
-									required
-									dayPlaceholder="27"
-									monthPlaceholder="April"
-									yearPlaceholder="2019"
-								/>
-							</div>
+							<button
+								type="submit"
+								className={
+									!investigation ||
+									(!report && !entry) ||
+									!date
+										? styles2.submit_btn_disabled
+										: styles2.submit_btn
+								}
+								disabled={
+									!investigation ||
+									(!report && !entry) ||
+									!date
+								}
+							>
+								Add New Record
+							</button>
 						</div>
 						<div className={styles.btn_area}>
 							<button
@@ -275,9 +224,7 @@ class InvestigationHistory extends Component {
 								className="primary_btn"
 								type="button"
 								onClick={() =>
-									this.props.history.push(
-										"/add_patient_data/treatment_outcome"
-									)
+									this.continue("investigation_history")
 								}
 							>
 								Continue Data Input
