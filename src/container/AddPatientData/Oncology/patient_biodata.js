@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import localForage from "localforage";
 import SecondaryBar from "../../../components/UI/JS/secondary_navbar";
 import Shell from "../../../components/AddPatientData/JS/shell";
 import TopBar from "../../../components/UI/JS/topbar";
@@ -101,6 +102,7 @@ class PatientBiodata extends Component {
 		};
 
 		this.handleChange = this.handleChange.bind(this);
+		this.skipCreate = this.skipCreate.bind(this);
 	}
 
 	handleChange(e) {
@@ -121,74 +123,107 @@ class PatientBiodata extends Component {
 	async skipCreate(e) {
 		e.preventDefault();
 		this.setState({ submitting: true });
-		const {
-			surname,
-			first_name,
-			phone_number,
-			next_of_kin_phone_number,
-			folder_number,
-			sex,
-			age,
-			marital_status,
-			organ_diagnosis,
-			hispathology_diagnosis,
-			occupation,
-			ethnic_group,
-			religion,
-			residence,
-			highest_education,
-			alcohol_frequency,
-			alcohol_use,
-			family_history_of_cancer
-		} = this.state.biodata;
-		try {
-			const request = await fetch(`${url}/publish/skip_create/`, {
-				method: "POST",
-				headers: {
-					Accept: "application/json",
-					"Content-Type": "application/json",
-					Authorisation: `Bearer ${localStorage.accessToken}`
-				},
-				body: JSON.stringify({
-					profile: {
-						Surname: surname,
-						FirstName: first_name,
-						PhoneNumber: phone_number,
-						KinsNumber: next_of_kin_phone_number,
-						Gender: sex,
-						Age: age,
-						MaritalStatus: marital_status,
-						Occupation: occupation,
-						EthnicGroup: ethnic_group,
-						Religion: religion,
-						Residence: residence,
-						HighestEducation: highest_education
-					},
-					patient: {
-						FolderNumber: folder_number,
-						OrganDiagnosis: organ_diagnosis,
-						HispathologyDiagnosis: hispathology_diagnosis,
-						AlcoholUse:
-							alcohol_use === "Yes"
-								? alcohol_frequency
-								: alcohol_use,
-						CancerHistory: family_history_of_cancer
+		localForage
+			.setItem(this.state.biodata.folder_number, this.state.biodata)
+			.then((value) => {
+				localStorage.removeItem("bio_data");
+				console.log("Successful");
+				this.setState({
+					submitting: false,
+					biodata: {
+						surname: "",
+						first_name: "",
+						phone_number: "",
+						next_of_kin_phone_number: "",
+						folder_number: "",
+						sex: "",
+						age: "",
+						marital_status: "",
+						organ_diagnosis: "",
+						hispathology_diagnosis: "",
+						occupation: "",
+						ethnic_group: "",
+						religion: "",
+						residence: "",
+						highest_education: "",
+						alcohol_use: "",
+						alcohol_frequency: "",
+						family_history_of_cancer: ""
 					}
-				})
-			});
-
-			if (!request.ok) {
+				});
+			})
+			.catch((err) => {
 				this.setState({ submitting: false });
-				const error = await request.json();
-				throw Error(error.Message);
-			}
+				console.log(err);
+			});
+		// const {
+		// 	surname,
+		// 	first_name,
+		// 	phone_number,
+		// 	next_of_kin_phone_number,
+		// 	folder_number,
+		// 	sex,
+		// 	age,
+		// 	marital_status,
+		// 	organ_diagnosis,
+		// 	hispathology_diagnosis,
+		// 	occupation,
+		// 	ethnic_group,
+		// 	religion,
+		// 	residence,
+		// 	highest_education,
+		// 	alcohol_frequency,
+		// 	alcohol_use,
+		// 	family_history_of_cancer
+		// } = this.state.biodata;
+		// try {
+		// 	const request = await fetch(`${url}/publish/skip_create/`, {
+		// 		method: "POST",
+		// 		headers: {
+		// 			Accept: "application/json",
+		// 			"Content-Type": "application/json",
+		// 			Authorisation: `Bearer ${localStorage.accessToken}`
+		// 		},
+		// 		body: JSON.stringify({
+		// 			profile: {
+		// 				Surname: surname,
+		// 				FirstName: first_name,
+		// 				PhoneNumber: phone_number,
+		// 				KinsNumber: next_of_kin_phone_number,
+		// 				Gender: sex,
+		// 				Age: age,
+		// 				MaritalStatus: marital_status,
+		// 				Occupation: occupation,
+		// 				EthnicGroup: ethnic_group,
+		// 				Religion: religion,
+		// 				Residence: residence,
+		// 				HighestEducation: highest_education
+		// 			},
+		// 			patient: {
+		// 				FolderNumber: folder_number,
+		// 				OrganDiagnosis: organ_diagnosis,
+		// 				HispathologyDiagnosis: hispathology_diagnosis,
+		// 				AlcoholUse:
+		// 					alcohol_use === "Yes"
+		// 						? alcohol_frequency
+		// 						: alcohol_use,
+		// 				CancerHistory: family_history_of_cancer
+		// 			}
+		// 		})
+		// 	});
 
-			const data = await request.json();
-			console.log(data);
-		} catch (err) {
-			console.log(err);
-			this.props.errorHandler(err);
-		}
+		// 	if (!request.ok) {
+		// 		this.setState({ submitting: false });
+		// 		const error = await request.json();
+		// 		throw Error(error.Message);
+		// 	}
+
+		// 	const data = await request.json();
+		// 	console.log(data);
+		// } catch (err) {
+		// 	console.log(err);
+		// 	this.props.errorHandler(err);
+		// }
 	}
 
 	render() {
