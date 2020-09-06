@@ -15,50 +15,69 @@ body {
 	padding: 0;
 }
 
-html {
+:root {
+	--color-primary: #333f6b;
+	--color-disabled: #cdced9;
+	--background-color-primary: #fbfbfb;
+	--label-primary-color: #3b4346;
+
+	/* primary button */
+	--primary-btn-color: #fff;
+	--primary-btn-disabled-color: #5c6589;
+	--primary-btn-active-background-color: #192551;
+
+	/* secondary button */
+	--secondary-btn-background-color: transparent;
+	--secondary-btn-disabled-background-color: #e5e5e5;
+	--secondary-btn-disabled-color: #8c92a8;
+	--secondary-btn-disabled-border-color: #8c92a8;
+	--secondary-btn-active-background-color: #fff;
+}
+
+* {
 	scrollbar-color: #333f6b #d1dadd;
 	scrollbar-width: thin;
 }
 
-html::-webkit-scrollbar {
+*::-webkit-scrollbar {
 	width: 7px;
 }
 
-html::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-thumb {
 	background-color: #333f6b;
 	border-radius: 2.5px;
 	height: 50px;
 }
 
-html::-webkit-scrollbar-track {
+*::-webkit-scrollbar-track {
 	background: #d1dadd;
 	border-bottom-right-radius: 16px;
 }
 
 .primary_btn {
 	height: 45px;
-	background: #333f6b;
+	background: var(--color-primary);
 	box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.05);
 	border-radius: 2px;
 	font-weight: 500;
 	font-size: 13px;
 	line-height: 16px;
-	color: #fff;
+	color: var(--primary-btn-color);
 	border: none;
 	cursor: pointer;
 }
 
 .primary_btn:disabled {
-	background: #333f6b;
-	color: #5c6589;
+	background: var(--color-primary);
+	color: var(--primary-btn-disabled-color);
 	mix-blend-mode: normal;
 	cursor: not-allowed;
 }
 
 .primary_btn:active,
 .primary_btn:focus {
-	background: #192551;
-	color: #ffffff;
+	background: var(--primary-btn-active-background-color);
+	color: var(--primary-btn-color);
 }
 
 .secondary_btn {
@@ -68,24 +87,24 @@ html::-webkit-scrollbar-track {
 	font-size: 13px;
 	line-height: 16px;
 	height: 45px;
-	border: 1px solid #333f6b;
-	background: transparent;
-	color: #333f6b;
+	border: 1px solid var(--color-primary);
+	background: var(--secondary-btn-background-color);
+	color: var(--color-primary);
 	cursor: pointer;
 }
 
 .secondary_btn:disabled {
-	background-color: #e5e5e5;
-	border: 1px solid #8b91a7;
-	color: #8c92a8;
+	background-color: var(--secondary-btn-disabled-background-color);
+	border: 1px solid var(--secondary-btn-disabled-border-color);
+	color: var(--secondary-btn-disabled-color);
 	cursor: not-allowed;
 }
 
 .secondary_btn:active,
 .secondary_btn:focus {
-	background: #fff;
-	color: #333f6b;
-	border: 1px solid #333f6b;
+	background: var(--secondary-btn-active-background-color);
+	color: var(--color-primary);
+	border: 1px solid var(--color-primary);
 }
 
 .react-date-picker__wrapper {
@@ -104,7 +123,7 @@ html::-webkit-scrollbar-track {
 }
 
 .disabled_label {
-	color: #cdced9 !important;
+	color: var(--color-disabled) !important;
 }
 
 input:disabled,
@@ -112,6 +131,7 @@ select:disabled,
 input[type="date"]:disabled,
 .react-date-picker--disabled {
 	cursor: not-allowed !important;
+	background-color: #fff !important;
 }
 
 @media (min-width: 600px) {
@@ -121,6 +141,6 @@ input[type="date"]:disabled,
 		height: 17px;
 	}
 	body {
-		background-color: #fbfbfb;
+		background-color: var(--background-color-primary);
 	}
 }
