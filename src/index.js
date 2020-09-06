@@ -72,6 +72,10 @@ const App = () => {
 						component={PatientMedicalHistory}
 					/>
 					<Route
+						path="/add_patient_data/drug_history"
+						component={DrugHistory}
+					/>
+					<Route
 						path="/add_patient_data/investigation_history"
 						component={InvestigationHistoryForm}
 					/>
