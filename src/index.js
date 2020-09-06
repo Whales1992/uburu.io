@@ -30,6 +30,24 @@ const AppointmentDetailPage = lazy(() =>
 );
 const ProfilePage = lazy(() => import("./container/Profile/JS/profile"));
 
+const PatientBiodata = () => {
+	const registry = localStorage.account
+		? JSON.parse(localStorage.account).Department
+		: null;
+	if (registry === "Oncology")
+		return lazy(() =>
+			import("./container/AddPatientData/Oncology/patient_biodata")
+		);
+	if (registry === "Diabetes")
+		return lazy(() =>
+			import("./container/AddPatientData/Diabetes/patient_biodata")
+		);
+	if (registry === "Asthma")
+		return lazy(() =>
+			import("./container/AddPatientData/Asthma/patient_biodata")
+		);
+};
+
 const App = () => {
 	return (
 		<BrowserRouter>
