@@ -1,55 +1,64 @@
 import React, { Component } from "react";
+import DatePicker from "react-date-picker";
 import SecondaryBar from "../../../components/UI/JS/secondary_navbar";
 import TopBar from "../../../components/UI/JS/topbar";
 import Shell from "../../../components/AddPatientData/JS/shell";
 
 //style
 import styles from "../CSS/add_patient_data.module.css";
+import styles2 from "../CSS/medical_history.module.css";
+
+const upArrow = (
+	<svg width="5" height="6" viewBox="0 0 5 6" fill="none">
+		<path
+			d="M0.460845 2.64645C0.145863 2.96143 0.368947 3.5 0.814399 3.5H4.1856C4.63106 3.5 4.85414 2.96143 4.53916 2.64645L2.85355 0.960843C2.65829 0.765581 2.34171 0.765581 2.14645 0.960844L0.460845 2.64645Z"
+			fill="#333F6B"
+		/>
+	</svg>
+);
+
+const downArrow = (
+	<svg width="7" height="6" viewBox="0 0 7 6" fill="none">
+		<path
+			d="M1.07515 3.35355C0.760168 3.03857 0.983251 2.5 1.4287 2.5H5.5713C6.01675 2.5 6.23983 3.03857 5.92485 3.35355L3.85355 5.42485C3.65829 5.62011 3.34171 5.62011 3.14645 5.42485L1.07515 3.35355Z"
+			fill="#333F6B"
+		/>
+	</svg>
+);
 
 class MedicalHistoryData extends Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			clinical_diagnosis: localStorage.clinical_diagnosis || "",
-			past_admissions:
-				localStorage.past_admissions === "true" ? true : false,
-			admission_diagnosis: localStorage.admission_diagnosis || "",
-			blood_transfusion: localStorage.blood_transfusion || "",
-			any_surgery: localStorage.any_surgery === "true" ? true : false,
-			surgery_modality: localStorage.surgery_modality || "",
-			history_of_NCD: localStorage.history_of_NCD || "",
-			chemotherapy: localStorage.chemotherapy === "true" ? true : false,
-			regimen: localStorage.regimen || "",
-			first_line: localStorage.first_line === "true" ? true : false,
-			second_line: localStorage.second_line === "true" ? true : false,
-			third_line: localStorage.third_line === "true" ? true : false,
-			hormonal_therapy:
-				localStorage.hormonal_therapy === "true" ? true : false,
-			drug_name: localStorage.drug_name || "",
-			drug_dose: localStorage.drug_dose || "",
-			drug_duration: localStorage.drug_duration || "",
-			targeted_therapy:
-				localStorage.targeted_therapy === "true" ? true : false,
-			targeted_therapy_drug_name:
-				localStorage.targeted_therapy_drug_name || "",
-			targeted_therapy_drug_dose:
-				localStorage.targeted_therapy_drug_dose || "",
-			targeted_therapy_drug_duration:
-				localStorage.targeted_therapy_drug_duration || "",
-			past_radiotherapy:
-				localStorage.past_radiotherapy === "true" ? true : false,
-			dose: localStorage.dose || "",
-			duration: localStorage.duration || "",
-			how_long_ago: localStorage.how_long_ago || "",
-			other_treatments: localStorage.other_treatments || "",
+			Nature: "",
+			Description: "",
+			Value: "",
+			Date: ""
 		};
 
 		this.handleChange = this.handleChange.bind(this);
+		this.handleDateChange = this.handleDateChange.bind(this);
+		this.resetRecord = this.resetRecord.bind(this);
+		this.submitRecord = this.submitRecord.bind(this);
+		this.continue = this.continue.bind(this);
 	}
 
 	componentDidMount() {
 		window.scrollTo(0, 0);
+	}
+
+	handleDateChange(name, date) {
+		this.setState({ [name]: date });
+	}
+
+	resetRecord() {
+		this.setState({
+			Nature: "",
+			Description: "",
+			Value: "",
+			Date: ""
+		});
 	}
 
 	handleChange(e) {
@@ -58,449 +67,733 @@ class MedicalHistoryData extends Component {
 			target.type === "checkbox" ? target.checked : target.value;
 		const name = target.name;
 		this.setState({ [name]: value });
-		localStorage.setItem(`${name}`, `${value}`);
-		if (name === "past_admissions" && !this.state.past_admissions) {
-			this.setState({
-				admission_diagnosis: "",
-				blood_transfusion: "",
-				any_surgery: "",
-				surgery_modality: "",
-			});
-			localStorage.removeItem("admission_diagnosis");
-			localStorage.removeItem("blood_transfusion");
-			localStorage.removeItem("any_surgery");
-			localStorage.removeItem("surgery_modality");
+	}
+
+	submitRecord(e, recordName) {
+		if (e) e.preventDefault();
+		let localStorageValue =
+			localStorage.getItem(recordName) &&
+			JSON.parse(localStorage.getItem(recordName));
+		if (localStorageValue) {
+			localStorageValue.push(this.state);
+			const lSValueStringified = JSON.stringify(localStorageValue);
+			localStorage.setItem(recordName, lSValueStringified);
+			this.resetRecord();
+		} else {
+			localStorage.setItem(recordName, `${JSON.stringify([this.state])}`);
+			this.resetRecord();
 		}
-		if (name === "any_surgery" && !this.state.any_surgery) {
-			this.setState({
-				surgery_modality: "",
-			});
-			localStorage.removeItem("surgery_modality");
-		}
-		if (name === "chemotherapy" && !this.state.chemotherapy) {
-			this.setState({
-				regimen: "",
-				first_line: "",
-				second_line: "",
-				third_line: "",
-			});
-			localStorage.removeItem("regimen");
-			localStorage.removeItem("first_line");
-			localStorage.removeItem("second_line");
-			localStorage.removeItem("third_line");
-		}
-		if (name === "hormonal_therapy" && !this.state.hormonal_therapy) {
-			this.setState({ drug_name: "", drug_dose: "", drug_duration: "" });
-			localStorage.removeItem("drug_name");
-			localStorage.removeItem("drug_dose");
-			localStorage.removeItem("drug_duration");
-		}
-		if (name === "targeted_therapy" && !this.state.targeted_therapy) {
-			this.setState({
-				targeted_therapy_drug_name: "",
-				targeted_therapy_drug_dose: "",
-				targeted_therapy_drug_duration: "",
-			});
-			localStorage.removeItem("targeted_therapy_drug_name");
-			localStorage.removeItem("targeted_therapy_drug_dose");
-			localStorage.removeItem("targeted_therapy_drug_duration");
-		}
-		if (name === "past_radiotherapy" && !this.state.past_radiotherapy) {
-			this.setState({ dose: "", duration: "", how_long_ago: "" });
-			localStorage.removeItem("dose");
-			localStorage.removeItem("duration");
-			localStorage.removeItem("how_long_ago");
+	}
+
+	continue(recordName) {
+		const { Nature, Description, Value, Date } = this.state;
+
+		if (Nature && Description && Value && Date) {
+			this.submitRecord(null, recordName);
+			this.props.history.push("/add_patient_data/investigation_history");
+		} else {
+			this.props.history.push("/add_patient_data/investigation_history");
 		}
 	}
 
 	render() {
-		const {
-			clinical_diagnosis,
-			past_admissions,
-			admission_diagnosis,
-			blood_transfusion,
-			any_surgery,
-			surgery_modality,
-			history_of_NCD,
-			chemotherapy,
-			regimen,
-			first_line,
-			second_line,
-			third_line,
-			hormonal_therapy,
-			drug_name,
-			drug_dose,
-			drug_duration,
-			targeted_therapy,
-			targeted_therapy_drug_name,
-			targeted_therapy_drug_dose,
-			targeted_therapy_drug_duration,
-			past_radiotherapy,
-			dose,
-			duration,
-			how_long_ago,
-			other_treatments,
-		} = this.state;
+		const { Nature, Description, Value, Date } = this.state;
 		return (
 			<>
 				<TopBar hide_on_small_screens />
-				<SecondaryBar page_title="Add Patient Date (2/4)" shadow />
-				<Shell>
-					<form className={styles.form}>
-						<div className={styles.current_style}>
-							Medical History
-						</div>
-						<div className={styles.fields}>
-							<label>Clinical Diagnosis</label>
-							<div>
-								<select
-									name="clinical_diagnosis"
-									className={styles.input}
-									value={clinical_diagnosis}
-									onChange={(e) => this.handleChange(e)}
-									required
+				<SecondaryBar page_title="Medical History Data" shadow />
+				<Shell
+					reset={this.resetRecord}
+					render={(activeRecord, toggleRecord) => (
+						<div className={styles2.container}>
+							<button
+								aria-pressed={activeRecord === "Assessment"}
+								className={[
+									styles2.toggle_record,
+									styles2.assessment_toggle
+								].join(" ")}
+								onClick={() => toggleRecord("Assessment")}
+							>
+								<span>Assessment Record</span>
+								{activeRecord === "Assessment"
+									? upArrow
+									: downArrow}
+							</button>
+							{activeRecord === "Assessment" && (
+								<form
+									className={[
+										styles.form,
+										styles2.no_margin_top
+									].join(" ")}
+									onSubmit={(e) =>
+										this.submitRecord(e, activeRecord)
+									}
 								>
-									<option></option>
-									<option>Breast</option>
-									<option>Prostate</option>
-									<option>Colorectal</option>
-									<option>Other</option>
-								</select>
-							</div>
-							<div className={styles.checkbox_div}>
-								<span>Past Admissions</span>
-								<input
-									name="past_admissions"
-									type="checkbox"
-									className={styles.input}
-									checked={past_admissions}
-									onChange={(e) => this.handleChange(e)}
-								/>
-							</div>
-							{past_admissions ? (
-								<div>
-									<fieldset>
-										<label>Admission Diagnosis</label>
-										<input
-											type="text"
-											name="admission_diagnosis"
-											className={styles.input}
-											value={admission_diagnosis}
-											onChange={(e) =>
-												this.handleChange(e)
-											}
-										/>
-										<label>Blood Transfusion</label>
-										<input
-											name="blood_transfusion"
-											type="text"
-											className={styles.input}
-											value={blood_transfusion}
-											onChange={(e) =>
-												this.handleChange(e)
-											}
-										/>
-										<div className={styles.checkbox_div}>
-											<span>Any Surgery</span>
-											<input
-												name="any_surgery"
-												type="checkbox"
+									<h2 className={styles2.h2}>
+										Assessment Record
+									</h2>
+									<div className={styles.fields}>
+										<div>
+											<label htmlFor="Nature">
+												Nature
+											</label>
+											<select
+												id="Nature"
+												name="Nature"
 												className={styles.input}
-												checked={any_surgery}
+												value={Nature}
 												onChange={(e) =>
 													this.handleChange(e)
 												}
-											/>
+												required
+											>
+												<option></option>
+												<option>Core Symtops</option>
+												<option>Co-morbidity</option>
+												<option>Examination</option>
+											</select>
 										</div>
-										{any_surgery ? (
-											<fieldset>
-												<label>Surgery Modality</label>
-												<input
-													name="surgery_modality"
-													type="text"
+										<div>
+											<label
+												className={
+													!Nature
+														? "disabled_label"
+														: ""
+												}
+												htmlFor="Description"
+											>
+												Description
+											</label>
+											<select
+												id="Description"
+												name="Description"
+												className={styles.input}
+												value={Description}
+												onChange={(e) =>
+													this.handleChange(e)
+												}
+												required
+												disabled={!Nature}
+											>
+												<option></option>
+												{Nature === "Core Symptoms" ? (
+													<>
+														<option>Chronic</option>
+														<option>
+															Fever of Unknown
+															Origin
+														</option>
+														<option>
+															Chronic Pain
+														</option>
+														<option>
+															Breast Mass
+														</option>
+														<option>LUTS</option>
+													</>
+												) : Nature ===
+												  "Co-morbidity" ? (
+													<>
+														<option>
+															Asthma Co-morbidity
+														</option>
+														<option>
+															SCA Co-morbidity
+														</option>
+														<option>
+															Diabetes
+															Co-morbidity
+														</option>
+														<option>
+															Stroke Co-morbidity
+														</option>
+													</>
+												) : (
+													<>
+														<option>
+															Systolic BP (unit:
+															mmHg)
+														</option>
+														<option>
+															Diastolic BP (unit:
+															mmHg)
+														</option>
+														<option>
+															Weight (unit: Kg)
+														</option>
+														<option>
+															Height (unit: m)
+														</option>
+														<option>
+															Pulse Rate
+														</option>
+														<option>
+															Respiratory Rate
+														</option>
+														<option>Thrush</option>
+														<option>
+															Hip Circumference
+															(unit: m)
+														</option>
+														<option>
+															Waist Circumference
+															(unit: m)
+														</option>
+													</>
+												)}
+											</select>
+										</div>
+										<div>
+											<label
+												className={
+													!Description
+														? "disabled_label"
+														: ""
+												}
+												htmlFor="Value"
+											>
+												{Nature === "Examination"
+													? "Entry"
+													: "Duration"}
+											</label>
+											{Description === "Thrush" ? (
+												<select
+													id="Value"
+													name="Value"
 													className={styles.input}
-													value={surgery_modality}
+													value={Value}
 													onChange={(e) =>
 														this.handleChange(e)
 													}
+													required
+													disabled={!Description}
+												>
+													<option></option>
+													<option>Yes</option>
+													<option>No</option>
+												</select>
+											) : (
+												<input
+													id="Value"
+													type="number"
+													name="Value"
+													className={styles.input}
+													value={Value}
+													onChange={(e) =>
+														this.handleChange(e)
+													}
+													disabled={!Description}
 												/>
-											</fieldset>
-										) : null}
-									</fieldset>
-								</div>
-							) : null}
-							<div>
-								<label>History of NCD</label>
-								<select
-									name="history_of_NCD"
-									className={styles.input}
-									value={history_of_NCD}
-									onChange={(e) => this.handleChange(e)}
-									required
+											)}
+										</div>
+										<div>
+											<label
+												className={
+													!Value
+														? "disabled_label"
+														: ""
+												}
+												htmlFor="Date"
+											>
+												Date of Record
+											</label>
+											<DatePicker
+												id="Date"
+												name="Date"
+												value={Date}
+												className={styles.input}
+												onChange={(e) =>
+													this.handleDateChange(
+														"Date",
+														e
+													)
+												}
+												required
+												format="dd/MM/y"
+												disabled={!Value}
+											/>
+										</div>
+										<button
+											type="submit"
+											className={
+												!Nature ||
+												!Description ||
+												!Value ||
+												!Date
+													? styles2.submit_btn_disabled
+													: styles2.submit_btn
+											}
+											disabled={
+												!Nature ||
+												!Description ||
+												!Value ||
+												!Date
+											}
+										>
+											Add New Record
+										</button>
+									</div>
+								</form>
+							)}
+
+							{/* Beginning of Care Record Form */}
+							<button
+								className={[
+									styles2.toggle_record,
+									styles2.care_toggle
+								].join(" ")}
+								aria-pressed={activeRecord === "Care"}
+								onClick={() => toggleRecord("Care")}
+							>
+								<span>Care Record</span>
+								{activeRecord === "Care" ? upArrow : downArrow}
+							</button>
+							{activeRecord === "Care" && (
+								<form
+									className={[
+										styles.form,
+										styles2.no_margin_top
+									].join(" ")}
+									onSubmit={(e) =>
+										this.submitRecord(e, activeRecord)
+									}
 								>
-									<option></option>
-									<option>Hypertension</option>
-									<option>Epilepsy</option>
-									<option>Asthma</option>
-									<option>Diabetes</option>
-									<option>Sickle-Cell Anaemia</option>
-									<option>Stroke</option>
-								</select>
-							</div>
-							<div className={styles.checkbox_div}>
-								<span>Chemotherapy</span>
-								<input
-									name="chemotherapy"
-									type="checkbox"
-									className={styles.input}
-									checked={chemotherapy}
-									onChange={(e) => this.handleChange(e)}
-								/>
-							</div>
-							{chemotherapy ? (
-								<div>
-									<fieldset>
-										<label>Regimen</label>
-										<input
-											name="regimen"
-											type="text"
-											className={styles.input}
-											value={regimen}
-											onChange={(e) =>
-												this.handleChange(e)
+									<h2 className={styles2.h2}>Care Record</h2>
+									<div className={styles.fields}>
+										<div>
+											<label htmlFor="Nature">
+												Nature
+											</label>
+											<select
+												id="Nature"
+												name="Nature"
+												className={styles.input}
+												value={Nature}
+												onChange={(e) =>
+													this.handleChange(e)
+												}
+												required
+											>
+												<option></option>
+												<option>Hospitalization</option>
+												<option>Surgery</option>
+												<option>Chemotherapy</option>
+												<option>Radiotherapy</option>
+												<option>
+													Blood Transfusion
+												</option>
+											</select>
+										</div>
+										<div>
+											<label
+												className={
+													!Nature
+														? "disabled_label"
+														: ""
+												}
+												htmlFor="Description"
+											>
+												Description
+											</label>
+											<select
+												id="Description"
+												name="Description"
+												className={styles.input}
+												value={Description}
+												onChange={(e) =>
+													this.handleChange(e)
+												}
+												required
+												disabled={!Nature}
+											>
+												<option></option>
+												{Nature ===
+												"Hospitalization" ? (
+													<>
+														<option>
+															Non-emergency
+														</option>
+														<option>
+															Emergency
+														</option>
+														<option>
+															Intensive Care
+														</option>
+													</>
+												) : Nature === "Surgery" ? (
+													<>
+														<option>
+															Mastectomy
+														</option>
+														<option>
+															Lumpectomy
+														</option>
+														<option>
+															Prostatectomy
+														</option>
+														<option>Other</option>
+													</>
+												) : Nature ===
+												  "Chemotherapy" ? (
+													<>
+														<option>
+															Chemo Regimen
+														</option>
+													</>
+												) : Nature ===
+												  "Radiotherapy" ? (
+													<option>
+														Radiation Dose
+													</option>
+												) : (
+													<>
+														<option>
+															Whole Blood
+														</option>
+														<option>
+															Packed Red Blood
+															Cells
+														</option>
+														<option>
+															Fresh Frozen Plasma
+														</option>
+														<option>
+															Platelets
+														</option>
+														<option>
+															Cryoprecipitate
+														</option>
+														<option>
+															Granulocytes
+														</option>
+													</>
+												)}
+											</select>
+										</div>
+										<div>
+											<label
+												className={
+													!Description
+														? "disabled_label"
+														: ""
+												}
+												htmlFor="Value"
+											>
+												{Nature === "Hospitalization"
+													? "Duration"
+													: "Entry"}
+											</label>
+											{Description === "Chemo Regimen" ? (
+												<select
+													id="Value"
+													name="Value"
+													className={styles.input}
+													value={Value}
+													onChange={(e) =>
+														this.handleChange(e)
+													}
+													required
+													disabled={!Description}
+												>
+													<option></option>
+													<option>1st Line</option>
+													<option>2nd Line</option>
+													<option>3rd Line</option>
+												</select>
+											) : (
+												<input
+													id="Value"
+													type="number"
+													name="Value"
+													className={styles.input}
+													value={Value}
+													onChange={(e) =>
+														this.handleChange(e)
+													}
+													disabled={!Description}
+													placeholder={
+														Description ===
+														"Radiation Dose"
+															? "Unit: Gy"
+															: Nature ===
+															  "Blood Transfusion"
+															? "unit: mls"
+															: ""
+													}
+												/>
+											)}
+										</div>
+										<div>
+											<label
+												className={
+													!Value
+														? "disabled_label"
+														: ""
+												}
+												htmlFor="Date"
+											>
+												Date of Record
+											</label>
+											<DatePicker
+												id="Date"
+												name="Date"
+												value={Date}
+												className={styles.input}
+												onChange={(e) =>
+													this.handleDateChange(
+														"Date",
+														e
+													)
+												}
+												required
+												format="dd/MM/y"
+												disabled={!Value}
+											/>
+										</div>
+										<button
+											type="submit"
+											className={
+												!Nature ||
+												!Description ||
+												!Value ||
+												!Date
+													? styles2.submit_btn_disabled
+													: styles2.submit_btn
 											}
-										/>
-										<div className={styles.checkbox_div}>
-											<span>1st Line</span>
-											<input
-												name="first_line"
-												type="checkbox"
-												className={styles.input}
-												checked={first_line}
-												onChange={(e) =>
-													this.handleChange(e)
-												}
-											/>
-										</div>
-										<div className={styles.checkbox_div}>
-											<span>2nd Line</span>
-											<input
-												name="second_line"
-												type="checkbox"
-												className={styles.input}
-												checked={second_line}
-												onChange={(e) =>
-													this.handleChange(e)
-												}
-											/>
-										</div>
-										<div className={styles.checkbox_div}>
-											<span>3rd Line</span>
-											<input
-												name="third_line"
-												type="checkbox"
-												className={styles.input}
-												checked={third_line}
-												onChange={(e) =>
-													this.handleChange(e)
-												}
-											/>
-										</div>
-									</fieldset>
-								</div>
-							) : null}
-							<div className={styles.checkbox_div}>
-								<span>Hormonal Therapy</span>
-								<input
-									name="hormonal_therapy"
-									type="checkbox"
-									className={styles.input}
-									checked={hormonal_therapy}
-									onChange={(e) => this.handleChange(e)}
-								/>
-							</div>
-							{hormonal_therapy ? (
-								<div>
-									<fieldset>
-										<label>Drug Name</label>
-										<select
-											name="drug_name"
-											className={styles.input}
-											value={drug_name}
-											onChange={(e) =>
-												this.handleChange(e)
+											disabled={
+												!Nature ||
+												!Description ||
+												!Value ||
+												!Date
 											}
 										>
-											<option>Paracetamol</option>
-											<option>Panadol</option>
-											<option>Codine</option>
-											<option>33</option>
-										</select>
-										<label>Drug Dose</label>
-										<input
-											name="drug_dose"
-											type="text"
-											className={styles.input}
-											value={drug_dose}
-											onChange={(e) =>
-												this.handleChange(e)
+											Add New Record
+										</button>
+									</div>
+								</form>
+							)}
+
+							{/* Beginning of Complication Record. */}
+							<button
+								className={[
+									styles2.toggle_record,
+									styles2.complication_toggle
+								].join(" ")}
+								aria-pressed={activeRecord === "Complication"}
+								onClick={() => toggleRecord("Complication")}
+							>
+								<span>Complication Record</span>
+								{activeRecord === "Complication"
+									? upArrow
+									: downArrow}
+							</button>
+							{activeRecord === "Complication" && (
+								<form
+									className={[
+										styles.form,
+										styles2.no_margin_top
+									].join(" ")}
+									onSubmit={(e) =>
+										this.submitRecord(e, activeRecord)
+									}
+								>
+									<h2 className={styles2.h2}>
+										Complication Record
+									</h2>
+									<div className={styles.fields}>
+										<div>
+											<label htmlFor="Nature">
+												Nature
+											</label>
+											<select
+												id="Nature"
+												name="Nature"
+												className={styles.input}
+												value={Nature}
+												onChange={(e) =>
+													this.handleChange(e)
+												}
+												required
+											>
+												<option></option>
+												<option>
+													Chemotherapy Complication
+												</option>
+												<option>
+													Radiotherapy Complication
+												</option>
+											</select>
+										</div>
+										<div>
+											<label
+												className={
+													!Nature
+														? "disabled_label"
+														: ""
+												}
+												htmlFor="Description"
+											>
+												Description
+											</label>
+											<select
+												id="Description"
+												name="Description"
+												className={styles.input}
+												value={Description}
+												onChange={(e) =>
+													this.handleChange(e)
+												}
+												required
+												disabled={!Nature}
+											>
+												<option></option>
+												{Nature ===
+												"Chemotherapy Complication" ? (
+													<>
+														<option>
+															Alopecia
+														</option>
+														<option>Fatigue</option>
+														<option>
+															Skin/Nail Changes
+														</option>
+														<option>
+															Infection
+														</option>
+														<option>Anemia</option>
+														<option>
+															Diarrhoea/Constipation
+														</option>
+														<option>
+															Fertility Problems
+														</option>
+													</>
+												) : (
+													<>
+														<option>
+															Mucositis
+														</option>
+														<option>
+															Lymphoedema
+														</option>
+														<option>
+															Fertility Problems
+														</option>
+														<option>
+															Skin Changes
+														</option>
+														<option>
+															Xerostomia
+														</option>
+														<option>
+															Enteropathy
+														</option>
+														<option>
+															Cardiovascular
+															Disease
+														</option>
+														<option>Cancer</option>
+													</>
+												)}
+											</select>
+										</div>
+										<div>
+											<label
+												className={
+													!Description
+														? "disabled_label"
+														: ""
+												}
+												htmlFor="Value"
+											>
+												Value
+											</label>
+											<input
+												id="Value"
+												type="number"
+												name="Value"
+												className={styles.input}
+												value={Value}
+												onChange={(e) =>
+													this.handleChange(e)
+												}
+												disabled={!Description}
+											/>
+										</div>
+										<div>
+											<label
+												className={
+													!Value
+														? "disabled_label"
+														: ""
+												}
+												htmlFor="Date"
+											>
+												Date of Record
+											</label>
+											<DatePicker
+												id="Date"
+												name="Date"
+												value={Date}
+												className={styles.input}
+												onChange={(e) =>
+													this.handleDateChange(
+														"Date",
+														e
+													)
+												}
+												required
+												format="dd/MM/y"
+												disabled={!Value}
+											/>
+										</div>
+										<button
+											type="submit"
+											className={
+												!Nature ||
+												!Description ||
+												!Value ||
+												!Date
+													? styles2.submit_btn_disabled
+													: styles2.submit_btn
 											}
-										/>
-										<label>Drug Duration (in months)</label>
-										<input
-											name="drug_duration"
-											type="number"
-											className={styles.input}
-											value={drug_duration}
-											onChange={(e) =>
-												this.handleChange(e)
-											}
-											placeholder="2 months"
-										/>
-									</fieldset>
-								</div>
-							) : null}
-							<div className={styles.checkbox_div}>
-								<span>Targeted Therapy</span>
-								<input
-									name="targeted_therapy"
-									type="checkbox"
-									className={styles.input}
-									checked={targeted_therapy}
-									onChange={(e) => this.handleChange(e)}
-								/>
-							</div>
-							{targeted_therapy ? (
-								<div>
-									<fieldset>
-										<label>
-											Targeted Therapy Drug Name
-										</label>
-										<select
-											name="targeted_therapy_drug_name"
-											className={styles.input}
-											value={targeted_therapy_drug_name}
-											onChange={(e) =>
-												this.handleChange(e)
+											disabled={
+												!Nature ||
+												!Description ||
+												!Value ||
+												!Date
 											}
 										>
-											<option>Paracetamol</option>
-											<option>Panadol</option>
-											<option>Codine</option>
-											<option>33</option>
-										</select>
-										<label>
-											Targeted Therapy Drug Dose
-										</label>
-										<input
-											name="targeted_therapy_drug_dose"
-											type="text"
-											className={styles.input}
-											value={targeted_therapy_drug_dose}
-											onChange={(e) =>
-												this.handleChange(e)
-											}
-										/>
-										<label>
-											Targeted Therapy Drug Duration (in
-											months)
-										</label>
-										<input
-											name="targeted_therapy_drug_duration"
-											type="number"
-											className={styles.input}
-											value={
-												targeted_therapy_drug_duration
-											}
-											onChange={(e) =>
-												this.handleChange(e)
-											}
-											placeholder="2 months"
-										/>
-									</fieldset>
-								</div>
-							) : null}
-							<div className={styles.checkbox_div}>
-								<span>Past Radiotherapy</span>
-								<input
-									name="past_radiotherapy"
-									type="checkbox"
-									className={styles.input}
-									checked={past_radiotherapy}
-									onChange={(e) => this.handleChange(e)}
-								/>
-							</div>
-							{past_radiotherapy ? (
-								<div>
-									<fieldset>
-										<label>Dose</label>
-										<input
-											name="dose"
-											type="text"
-											className={styles.input}
-											value={dose}
-											onChange={(e) =>
-												this.handleChange(e)
-											}
-										/>
-										<label>Duration (in months)</label>
-										<input
-											name="duration"
-											type="number"
-											className={styles.input}
-											value={duration}
-											onChange={(e) =>
-												this.handleChange(e)
-											}
-											placeholder="2 months"
-										/>
-										<label>How Long Ago (in months)</label>
-										<input
-											name="how_long_ago"
-											type="number"
-											className={styles.input}
-											value={how_long_ago}
-											onChange={(e) =>
-												this.handleChange(e)
-											}
-											placeholder="2 months"
-										/>
-									</fieldset>
-								</div>
-							) : null}
-							<div>
-								<label>Other Treatments</label>
-								<input
-									name="other_treatments"
-									type="text"
-									className={styles.input}
-									value={other_treatments}
-									onChange={(e) => this.handleChange(e)}
-								/>
+											Add New Record
+										</button>
+									</div>
+								</form>
+							)}
+							<div className={styles.btn_area}>
+								<button
+									className={[
+										"secondary_btn",
+										styles2.buttons
+									].join(" ")}
+									type="button"
+									onClick={() => this.props.history.goBack()}
+								>
+									Back
+								</button>
+								<button
+									className={[
+										"primary_btn",
+										styles2.buttons
+									].join(" ")}
+									type="button"
+									onClick={() => this.continue(activeRecord)}
+								>
+									Continue Data Input
+								</button>
 							</div>
 						</div>
-						<div className={styles.btn_area}>
-							<button
-								className="secondary_btn"
-								type="button"
-								onClick={() => this.props.history.goBack()}
-							>
-								Back
-							</button>
-							<button
-								className="primary_btn"
-								type="button"
-								onClick={() =>
-									this.props.history.push(
-										"/add_patient_data/investigation_history"
-									)
-								}
-							>
-								Continue Data Input
-							</button>
-						</div>
-					</form>
-				</Shell>
+					)}
+				/>
 			</>
 		);
 	}
