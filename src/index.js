@@ -65,7 +65,7 @@ const App = () => {
 					/>
 					<Route
 						path="/add_patient_data/patient_biodata"
-						component={PatientBiodata}
+						component={PatientBiodata()}
 					/>
 					<Route
 						path="/add_patient_data/medical_history"
