@@ -8,7 +8,7 @@ const secondaryNavbar = ({ page_title, history, shadow }) => (
 		className={shadow ? [styles.bar, styles.shadow].join(" ") : styles.bar}
 	>
 		<img src={BackIcon} alt="back icon" onClick={() => history.goBack()} />
-		<div className={styles.title}>{page_title}</div>
+		<h1 className={styles.title}>{page_title}</h1>
 	</div>
 );
 
