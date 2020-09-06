@@ -90,9 +90,9 @@ class MedicalHistoryData extends Component {
 
 		if (Nature && Description && Value && Date) {
 			this.submitRecord(null, recordName);
-			this.props.history.push("/add_patient_data/investigation_history");
+			this.props.history.push("/add_patient_data/drug_history");
 		} else {
-			this.props.history.push("/add_patient_data/investigation_history");
+			this.props.history.push("/add_patient_data/drug_history");
 		}
 	}
 
