@@ -20,38 +20,81 @@ class PatientBiodata extends Component {
 
 		this.state = {
 			biodata: {
-				surname: JSON.parse(localStorage.bio_data).surname || "",
-				first_name: JSON.parse(localStorage.bio_data).first_name || "",
-				phone_number:
-					JSON.parse(localStorage.bio_data).phone_number || "",
-				next_of_kin_phone_number:
-					JSON.parse(localStorage.bio_data)
-						.next_of_kin_phone_number || "",
-				folder_number:
-					JSON.parse(localStorage.bio_data).folder_number || "",
-				sex: JSON.parse(localStorage.bio_data).sex || "",
-				age: JSON.parse(localStorage.bio_data).age || "",
-				marital_status:
-					JSON.parse(localStorage.bio_data).marital_status || "",
-				organ_diagnosis:
-					JSON.parse(localStorage.bio_data).organ_diagnosis || "",
-				hispathology_diagnosis:
-					JSON.parse(localStorage.bio_data).hispathology_diagnosis ||
+				surname:
+					(localStorage.bio_data &&
+						JSON.parse(localStorage.bio_data).surname) ||
 					"",
-				occupation: JSON.parse(localStorage.bio_data).occupation || "",
+				first_name:
+					(localStorage.bio_data &&
+						JSON.parse(localStorage.bio_data).first_name) ||
+					"",
+				phone_number:
+					(localStorage.bio_data &&
+						JSON.parse(localStorage.bio_data).phone_number) ||
+					"",
+				next_of_kin_phone_number:
+					(localStorage.bio_data &&
+						JSON.parse(localStorage.bio_data)
+							.next_of_kin_phone_number) ||
+					"",
+				folder_number:
+					(localStorage.bio_data &&
+						JSON.parse(localStorage.bio_data).folder_number) ||
+					"",
+				sex:
+					(localStorage.bio_data &&
+						JSON.parse(localStorage.bio_data).sex) ||
+					"",
+				age:
+					(localStorage.bio_data &&
+						JSON.parse(localStorage.bio_data).age) ||
+					"",
+				marital_status:
+					(localStorage.bio_data &&
+						JSON.parse(localStorage.bio_data).marital_status) ||
+					"",
+				organ_diagnosis:
+					(localStorage.bio_data &&
+						JSON.parse(localStorage.bio_data).organ_diagnosis) ||
+					"",
+				hispathology_diagnosis:
+					(localStorage.bio_data &&
+						JSON.parse(localStorage.bio_data)
+							.hispathology_diagnosis) ||
+					"",
+				occupation:
+					(localStorage.bio_data &&
+						JSON.parse(localStorage.bio_data).occupation) ||
+					"",
 				ethnic_group:
-					JSON.parse(localStorage.bio_data).ethnic_group || "",
-				religion: JSON.parse(localStorage.bio_data).religion || "",
-				residence: JSON.parse(localStorage.bio_data).residence || "",
+					(localStorage.bio_data &&
+						JSON.parse(localStorage.bio_data).ethnic_group) ||
+					"",
+				religion:
+					(localStorage.bio_data &&
+						JSON.parse(localStorage.bio_data).religion) ||
+					"",
+				residence:
+					(localStorage.bio_data &&
+						JSON.parse(localStorage.bio_data).residence) ||
+					"",
 				highest_education:
-					JSON.parse(localStorage.bio_data).highest_education || "",
+					(localStorage.bio_data &&
+						JSON.parse(localStorage.bio_data).highest_education) ||
+					"",
 				alcohol_use:
-					JSON.parse(localStorage.bio_data).alcohol_use || "",
+					(localStorage.bio_data &&
+						JSON.parse(localStorage.bio_data).alcohol_use) ||
+					"",
 				alcohol_frequency:
-					JSON.parse(localStorage.bio_data).alcohol_frequency || "",
+					(localStorage.bio_data &&
+						JSON.parse(localStorage.bio_data).alcohol_frequency) ||
+					"",
 				family_history_of_cancer:
-					JSON.parse(localStorage.bio_data)
-						.family_history_of_cancer || ""
+					(localStorage.bio_data &&
+						JSON.parse(localStorage.bio_data)
+							.family_history_of_cancer) ||
+					""
 			},
 			//end of parameters
 			submitting: false
