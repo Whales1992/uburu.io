@@ -128,6 +128,7 @@ body {
 
 input:disabled,
 select:disabled,
+textarea:disabled,
 input[type="date"]:disabled,
 .react-date-picker--disabled {
 	cursor: not-allowed !important;
