@@ -13,7 +13,7 @@ import { errorHandler } from "../../../actions/general/index";
 //style
 import styles from "../CSS/add_patient_data.module.css";
 
-const url = "https://api.notitiang.com";
+// const url = "https://api.notitiang.com";
 
 class PatientBiodata extends Component {
 	constructor(props) {
