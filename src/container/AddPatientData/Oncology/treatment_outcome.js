@@ -187,15 +187,13 @@ class TreatmentOutcome extends Component {
 									required
 								>
 									<option></option>
-									<option>Chest X-ray</option>
-									<option>Ultrasound</option>
-									<option>CT-Scan</option>
-									<option>Full Blood Count</option>
-									<option>CA 15-3</option>
-									<option>CA 125</option>
-									<option>CA 27-29</option>
-									<option>CEA</option>
-									<option>PSA</option>
+									<option>Good Clinical Response</option>
+									<option>Poor Clinical Response</option>
+									<option>Complete Remission</option>
+									<option>Disease Progression</option>
+									<option>Alive and Stable</option>
+									<option>Died on Treatment</option>
+									<option>Died after Treatment</option>
 								</select>
 							</div>
 							<div>
