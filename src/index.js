@@ -7,28 +7,27 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
 
-import TreatmentOutcome from "./container/AddPatientData/JS/treatment_outcome";
-import InvestigationHistoryForm from "./container/AddPatientData/JS/investigation_history";
-import PatientMedicalHistory from "./container/AddPatientData/JS/medical_history";
-import PatientBiodata from "./container/AddPatientData/JS/patient_biodata";
+import SignIn from "./container/SignIn/JS/sign_in";
+import Home from "./container/Home/JS/home";
+import Patients from "./container/Patients/JS/patients";
+import AppointmentsPage from "./container/Appointments/JS/appointments";
+import AppointmentDetailPage from "./components/Appointments/JS/appointment_detail";
+
+//Oncology Begins
+import TreatmentOutcome from "./container/AddPatientData/Oncology/treatment_outcome";
+import InvestigationHistoryForm from "./container/AddPatientData/Oncology/investigation_history";
+import PatientMedicalHistory from "./container/AddPatientData/Oncology/medical_history";
+import DrugHistory from "./container/AddPatientData/Oncology/drug_history";
+
 import PatientDetail from "./container/Patients/JS/patient_detail";
 import BookAppointment from "./container/Appointments/JS/book_appointment";
 import MessageCenter from "./container/Message_Center/JS/message_center";
 import SettingsPage from "./components/Settings/JS/settings";
 import SearchFolderNoPage from "./components/SearchFolderNo/JS/search_folder_no";
+import ProfilePage from "./container/Profile/JS/profile";
+
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = composeEnhancers()(createStore);
-
-const SignIn = lazy(() => import("./container/SignIn/JS/sign_in"));
-const Home = lazy(() => import("./container/Home/JS/home"));
-const Patients = lazy(() => import("./container/Patients/JS/patients"));
-const AppointmentsPage = lazy(() =>
-	import("./container/Appointments/JS/appointments")
-);
-const AppointmentDetailPage = lazy(() =>
-	import("./components/Appointments/JS/appointment_detail")
-);
-const ProfilePage = lazy(() => import("./container/Profile/JS/profile"));
 
 const PatientBiodata = () => {
 	const registry = localStorage.account
