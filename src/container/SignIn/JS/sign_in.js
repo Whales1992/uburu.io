@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import ErrorModal from "../../../components/UI/JS/error_modal";
-import logo from "../../../images/logo.svg";
+import logo from "../../../assets/UB.png";
 
 import { errorHandler } from "../../../actions/general/index";
 
@@ -23,9 +23,9 @@ class SignIn extends Component {
 	}
 
 	// componentDidMount() {
-		// const tokenExpirationTime = localStorage.expiresIn;
-		// if (Date.now() < parseInt(tokenExpirationTime))
-		// 	this.props.history.push("/admin/dashboard");
+	// const tokenExpirationTime = localStorage.expiresIn;
+	// if (Date.now() < parseInt(tokenExpirationTime))
+	// 	this.props.history.push("/admin/dashboard");
 	// }
 
 	handleEmailChange(e) {

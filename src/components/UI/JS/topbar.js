@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import styles from "../CSS/topbar.module.css";
 import Hamburger from "../../../images/hamburger.svg";
 import NotificationIcon from "../../../images/notification_icon.svg";
-import TopBarLogo from "../../../images/topbar_logo.svg";
+import TopBarLogo from "../../../assets/UB.png";
 import HomeIconActive from "../../../images/topbar_home_icon_active.svg";
 import HomeIconInactive from "../../../images/home_icon_inactive.svg";
 import PatientsIconActive from "../../../images/patients_active.svg";
@@ -19,7 +19,7 @@ class Topbar extends Component {
 		super(props);
 
 		this.state = {
-			moreMenuShowing: false,
+			moreMenuShowing: false
 		};
 	}
 
