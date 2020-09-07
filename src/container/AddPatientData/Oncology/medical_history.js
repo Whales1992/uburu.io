@@ -148,7 +148,7 @@ class MedicalHistoryData extends Component {
 												required
 											>
 												<option></option>
-												<option>Core Symtops</option>
+												<option>Core Symptoms</option>
 												<option>Co-morbidity</option>
 												<option>Examination</option>
 											</select>
