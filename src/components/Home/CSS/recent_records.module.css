@@ -98,6 +98,10 @@
 		color: #000;
 	}
 
+	.records_div .each_record:first-child .name {
+		margin-top: 0;
+	}
+
 	.details small:first-child {
 		margin-top: 0;
 		margin-bottom: 16px;
