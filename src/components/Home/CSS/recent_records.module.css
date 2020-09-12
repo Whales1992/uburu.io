@@ -29,6 +29,7 @@
 
 .each_record {
 	margin-bottom: 23px;
+	text-decoration: none;
 }
 
 .name {
