@@ -1,17 +1,26 @@
 import React, { memo } from "react";
+import { Link } from "react-router-dom";
 import styles from "../CSS/recent_records.module.css";
 
 const EachRecentRecord = ({ record }) => {
-	const { name, disease, date } = record;
+	const {
+		surname,
+		first_name,
+		organ_diagnosis,
+		folder_number
+	} = record.bioData;
 	return (
-		<div className={styles.each_record}>
-			<div className={styles.name}>{name}</div>
+		<Link
+			to={`/patient_detail/${folder_number}`}
+			className={styles.each_record}
+		>
+			<div className={styles.name}>{`${surname} ${first_name}`}</div>
 			<div className={styles.details}>
-				<small>{disease}</small>
-				<small>{date}</small>
+				<small>{organ_diagnosis}</small>
+				<small>{}</small>
 			</div>
 			<hr />
-		</div>
+		</Link>
 	);
 };
 
@@ -25,7 +34,7 @@ const recentRecords = ({ recents }) => {
 				) : recents.length === 0 ? (
 					<p>No recent records yet.</p>
 				) : (
-					recents.map(eachRecord => (
+					recents.map((eachRecord) => (
 						<EachRecentRecord
 							key={eachRecord.name}
 							record={eachRecord}
