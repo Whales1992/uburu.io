@@ -124,7 +124,9 @@ class PatientBiodata extends Component {
 		e.preventDefault();
 		this.setState({ submitting: true });
 		localForage
-			.setItem(this.state.biodata.folder_number, this.state.biodata)
+			.setItem(this.state.biodata.folder_number, {
+				bioData: this.state.biodata
+			})
 			.then((value) => {
 				localStorage.removeItem("bio_data");
 				console.log("Successful");
