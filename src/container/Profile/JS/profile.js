@@ -8,13 +8,13 @@ import Switch from "../../../images/Profile/switch.svg";
 
 const account = localStorage.account && JSON.parse(localStorage.account);
 
-class AppointmentsPage extends Component {
+class ProfilePage extends Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
 			activeTab: "Personal",
-			loading: false,
+			loading: false
 		};
 
 		this.switchTabs = this.switchTabs.bind(this);
@@ -130,4 +130,4 @@ class AppointmentsPage extends Component {
 	}
 }
 
-export default AppointmentsPage;
+export default ProfilePage;
