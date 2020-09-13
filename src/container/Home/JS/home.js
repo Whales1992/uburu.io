@@ -1,32 +1,23 @@
 import React, { Component } from "react";
+import localForage from "localforage";
 import Layout from "../../UI/JS/layout";
 import BlueBackdrop from "../../../components/Home/JS/blue_backdrop";
 import QuickActions from "../../../components/Home/JS/quick_actions";
 import RecentRecords from "../../../components/Home/JS/recent-records";
 import InstitutionBanner from "../../../components/UI/JS/institution_banner";
 
-const recentRecordsArray = [
-	{
-		name: "Okereke Uzodimma",
-		disease: "Diabetes Meningitis 11",
-		date: "30 JAN, 2020",
-	},
-	{
-		name: "Courtney Fox",
-		disease: "Diabetes Meningitis 11",
-		date: "30 JAN, 2020",
-	},
-	{
-		name: "Cody Watson",
-		disease: "Diabetes Meningitis 11",
-		date: "30 JAN, 2020",
-	},
-	{
-		name: "Eduardo Cooper",
-		disease: "Diabetes Meningitis 11",
-		date: "30 JAN, 2020",
-	},
-];
+const recentRecordsArray = async () => {
+	try {
+		let patients = [];
+
+		await localForage.iterate((value, key) => {
+			patients.push(value);
+		});
+		return patients;
+	} catch (error) {
+		console.log(error);
+	}
+};
 
 class Home extends Component {
 	constructor(props) {
@@ -34,13 +25,15 @@ class Home extends Component {
 
 		this.state = {
 			loading: false,
-			recentRecords: null,
+			recentRecords: null
 		};
 	}
 
-	componentDidMount() {
-		this.setState({ loading: true });
-		this.setState({ recentRecords: recentRecordsArray, loading: false });
+	async componentDidMount() {
+		this.setState({
+			recentRecords: await recentRecordsArray(),
+			loading: false
+		});
 	}
 
 	render() {
@@ -54,7 +47,9 @@ class Home extends Component {
 				<InstitutionBanner />
 				<BlueBackdrop />
 				<QuickActions />
-				<RecentRecords recents={recentRecords} loading={loading} />
+				{recentRecords && (
+					<RecentRecords recents={recentRecords} loading={loading} />
+				)}
 			</Layout>
 		);
 	}
