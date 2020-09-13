@@ -6,7 +6,7 @@ import pageStyles from "../../Profile/CSS/profile.module.css";
 import Avatar from "../../../images/Profile/avatar.svg";
 import Switch from "../../../images/Profile/switch.svg";
 
-const account = JSON.parse(localStorage.account);
+const account = localStorage.account && JSON.parse(localStorage.account);
 
 class AppointmentsPage extends Component {
 	constructor(props) {
