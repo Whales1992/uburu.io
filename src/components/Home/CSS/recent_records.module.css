@@ -55,7 +55,8 @@
 }
 
 .each_record hr {
-	border: 0.5px solid #d1dadd;
+	background-color: #d1dadd;
+	height: 0.5px;
 	margin: 0;
 }
 
