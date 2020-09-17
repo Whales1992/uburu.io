@@ -1,20 +1,62 @@
-.each_tab {
-	flex: 1;
+.form {
+	width: calc(100% - 34px);
+	max-width: 774px;
+	margin: 94px 17px 0 17px;
+	padding: 0;
 	display: flex;
-	justify-content: center;
-	align-items: center;
-	font-weight: 500;
-	font-size: 13px;
-	line-height: 16px;
-	color: #d1dadd;
-	cursor: pointer;
 }
 
-.each_tab:hover {
-	border-bottom: 2px solid #f5ba42;
+.form .input {
+	width: 80%;
+	height: 40px;
+	padding-left: 18px;
+	background-color: #f1f2f5;
+	border-radius: 3px;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+	border: none;
+	outline: none;
 }
 
-.tab_active {
-	color: #333f6b;
-	border-bottom: 2px solid #f5ba42;
+.form button {
+	width: 20%;
+	height: 40px;
+	border: none;
+	border-top-right-radius: 3px;
+	border-bottom-right-radius: 3px;
+	background-color: #f1f2f5;
+}
+
+.form .input::placeholder {
+	font-size: 16px;
+	line-height: 29px;
+	color: #a7a9bc;
+}
+
+@media (min-width: 600px) {
+	.form {
+		width: 80%;
+		height: 86px;
+		align-items: center;
+		padding-left: 30px;
+		padding-right: 30px;
+		border-right: 1px solid #e7e7ed;
+		border-left: 1px solid #e7e7ed;
+		background-color: #fff;
+		margin-left: auto;
+		margin-right: auto;
+		margin-top: 0;
+	}
+
+	.form .input {
+		width: 90%;
+	}
+
+	.form button {
+		width: 10%;
+	}
+
+	.form button:disabled {
+		cursor: not-allowed;
+	}
 }
