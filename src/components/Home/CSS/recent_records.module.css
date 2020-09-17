@@ -36,6 +36,7 @@
 	font-size: 15px;
 	line-height: 18px;
 	font-weight: 600;
+	color: #000;
 }
 
 .details {
@@ -58,6 +59,7 @@
 	background-color: #d1dadd;
 	height: 0.5px;
 	margin: 0;
+	margin-bottom: 23px;
 }
 
 .records_div .each_record:last-child hr {
@@ -97,7 +99,6 @@
 		font-size: 16px;
 		line-height: 29px;
 		font-weight: normal;
-		color: #000;
 	}
 
 	.records_div .each_record:first-child .name {
@@ -117,5 +118,9 @@
 		line-height: 25px;
 		font-weight: 400;
 		margin-bottom: 14px;
+	}
+
+	.each_record hr {
+		margin: 0;
 	}
 }
