@@ -46,8 +46,9 @@ const SearchFolderNoPage = () => {
 				</>
 			) : null} */}
 			<form className={styles.form} onSubmit={(e) => search(e)}>
-				<label>Search Patient folder</label>
+				<label htmlFor="search">Search Patient folder</label>
 				<input
+					id="search"
 					className={styles.input}
 					name="search_folder_no"
 					value={value}
