@@ -12,7 +12,13 @@ export const EachRecentRecord = ({ record }) => {
 
 	return (
 		<Link
-			to={{ pathname: `/patient_detail/${folder_number}`, state: record }}
+			to={{
+				pathname:
+					window.innerWidth > 600
+						? `/patients/${folder_number}`
+						: `/patients/${folder_number}/record_list`,
+				state: record
+			}}
 			className={styles.each_record}
 		>
 			<div className={styles.name}>{`${surname} ${first_name}`}</div>

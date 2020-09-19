@@ -78,7 +78,10 @@ const SearchFolderNoPage = () => {
 					<>
 						<Link
 							to={{
-								pathname: `/patient_detail/${searchResult.bioData.folder_number}`,
+								pathname:
+									window.innerWidth > 600
+										? `/patients/${searchResult.bioData.folder_number}`
+										: `/patients/${searchResult.bioData.folder_number}/record_list`,
 								state: searchResult
 							}}
 							className={styles.result}
