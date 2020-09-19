@@ -1,11 +1,12 @@
 import React, { useState } from "react";
+import localForage from "localforage";
 import { useLocation } from "react-router-dom";
 import Shell from "../JS/detail_shell";
 import TopBar from "../../UI/JS/topbar";
 import SecondaryBar from "../../UI/JS/secondary_navbar";
 import styles from "../../../container/AddPatientData/CSS/add_patient_data.module.css";
 
-const BioData = () => {
+const BioData = (props) => {
 	const record = useLocation().state;
 	const [value, changeValue] = useState({
 		surname: record ? record.bioData.surname : "",
@@ -42,7 +43,17 @@ const BioData = () => {
 		changeValue({ ...value, [name]: e.target.value });
 	}
 
-	function update() {}
+	function update(e) {
+		e.preventDefault();
+
+		localForage
+			.setItem(record.bioData.folder_number, {
+				...record,
+				bioData: { ...value }
+			})
+			.then(() => props.history.goBack());
+	}
+	console.log(props);
 
 	return (
 		<>
@@ -360,7 +371,7 @@ const BioData = () => {
 					<div className={styles.btn_area}>
 						<button
 							className="primary_btn"
-							type="button"
+							type="submit"
 							disabled={
 								!value.surname ||
 								!value.first_name ||
@@ -383,11 +394,6 @@ const BioData = () => {
 									!value.alcohol_frequency)
 									? true
 									: false
-							}
-							onClick={() =>
-								this.props.history.push(
-									"/add_patient_data/medical_history"
-								)
 							}
 						>
 							Update Basic Information
