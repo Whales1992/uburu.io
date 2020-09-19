@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
-import Shell from "../detail_shell";
-import TopBar from "../../../UI/JS/topbar";
-import SecondaryBar from "../../../UI/JS/secondary_navbar";
-import styles from "../../../../container/AddPatientData/CSS/add_patient_data.module.css";
+import Shell from "../JS/detail_shell";
+import TopBar from "../../UI/JS/topbar";
+import SecondaryBar from "../../UI/JS/secondary_navbar";
+import styles from "../../../container/AddPatientData/CSS/add_patient_data.module.css";
 
 const BioData = () => {
 	const record = useLocation().state;
