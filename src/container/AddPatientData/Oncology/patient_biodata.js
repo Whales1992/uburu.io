@@ -366,7 +366,7 @@ class PatientBiodata extends Component {
 									onChange={(e) => this.handleChange(e)}
 									value={age}
 									className={styles.input}
-									placeholder="Enter phone number"
+									placeholder="Enter age"
 									minLength="1"
 									maxLength="3"
 									required
