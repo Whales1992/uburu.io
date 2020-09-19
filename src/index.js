@@ -28,7 +28,7 @@ import ProfilePage from "./container/Profile/JS/profile";
 
 //Patient Detail
 import RecordList from "./components/Patients/JS/data_category_list";
-import BioData from "./components/Patients/Oncology/bio-data";
+import BioData from "./components/Patients/Oncology/JS/bio-data";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = composeEnhancers()(createStore);
