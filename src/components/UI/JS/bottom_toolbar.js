@@ -29,7 +29,7 @@ const bottomToolbar = () => (
 			className={styles.nav_link}
 			activeClassName={styles.nav_link_active}
 		>
-			{window.location.pathname === "/patients" ? (
+			{window.location.pathname.split("/")[1] === "patients" ? (
 				<img src={PatientsIconActive} alt="active patients icon" />
 			) : (
 				<img src={PatientsIconInactive} alt="inactive patients icon" />
