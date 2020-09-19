@@ -25,6 +25,7 @@ import MessageCenter from "./container/Message_Center/JS/message_center";
 import SettingsPage from "./components/Settings/JS/settings";
 import SearchFolderNoPage from "./components/SearchFolderNo/JS/search_folder_no";
 import ProfilePage from "./container/Profile/JS/profile";
+import RecordList from "./components/Patients/JS/data_category_list";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = composeEnhancers()(createStore);

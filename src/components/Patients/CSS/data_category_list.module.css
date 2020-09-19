@@ -1,0 +1,21 @@
+.ul {
+	padding: 0;
+	margin-bottom: 80px;
+	width: calc(100vw - 34px);
+	margin-left: auto;
+	margin-right: auto;
+	list-style-type: none;
+}
+
+.ul .record_link {
+	display: flex;
+	justify-content: space-between;
+	padding-bottom: 14px;
+	margin-top: 29px;
+	text-decoration: none;
+	font-size: 15px;
+	font-weight: 600;
+	line-height: 17.9px;
+	color: #000;
+	border-bottom: 0.5px solid #d1dadd;
+}
