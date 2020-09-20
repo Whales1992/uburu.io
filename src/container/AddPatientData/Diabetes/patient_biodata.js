@@ -222,7 +222,7 @@ class PatientBiodata extends Component {
 				self_glucose_monitoring
 			} = this.state.biodata;
 			try {
-				const request = await fetch(`${url}/publish/skip_create/`, {
+				const request = await fetch(`${url}/patient`, {
 					method: "POST",
 					headers: {
 						Accept: "application/json",
