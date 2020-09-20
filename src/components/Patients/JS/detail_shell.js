@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import styles from "../../AddPatientData/CSS/shell.module.css";
 import styles2 from "../CSS/detail_shell.module.css";
 
 const Shell = ({ render, children, name }) => {
+	const location = useLocation();
+
 	const [activeRecord, setActiveRecord] = useState(
 		window.location.pathname.split("/")[2] === "medical_history"
 			? "Assessment"
@@ -30,7 +33,14 @@ const Shell = ({ render, children, name }) => {
 									: null
 							}
 						>
-							Bio-data
+							<Link
+								to={{
+									pathname: `/patients/${location.state.bioData.folder_number}/bio-data`,
+									state: location.state
+								}}
+							>
+								Bio-data
+							</Link>
 						</li>
 						<li
 							className={
@@ -40,7 +50,14 @@ const Shell = ({ render, children, name }) => {
 									: null
 							}
 						>
-							Medical History
+							<Link
+								to={{
+									pathname: `/patients/${location.state.bioData.folder_number}/medical_history`,
+									state: location.state
+								}}
+							>
+								Medical History
+							</Link>
 						</li>
 						<li
 							className={
@@ -50,7 +67,14 @@ const Shell = ({ render, children, name }) => {
 									: null
 							}
 						>
-							Drug History
+							<Link
+								to={{
+									pathname: `/patients/${location.state.bioData.folder_number}/drug_history`,
+									state: location.state
+								}}
+							>
+								Drug History
+							</Link>
 						</li>
 						<li
 							className={
@@ -60,7 +84,14 @@ const Shell = ({ render, children, name }) => {
 									: null
 							}
 						>
-							Investigation History
+							<Link
+								to={{
+									pathname: `/patients/${location.state.bioData.folder_number}/investigation_history`,
+									state: location.state
+								}}
+							>
+								Investigation History
+							</Link>
 						</li>
 						<li
 							className={
@@ -70,7 +101,14 @@ const Shell = ({ render, children, name }) => {
 									: null
 							}
 						>
-							Treatment Outcome
+							<Link
+								to={{
+									pathname: `/patients/${location.state.bioData.folder_number}/treatment_outcome`,
+									state: location.state
+								}}
+							>
+								Treatment Outcome
+							</Link>
 						</li>
 					</ul>
 				</nav>

@@ -15,6 +15,13 @@
 	cursor: pointer;
 }
 
+.list > li > a {
+	text-decoration: none;
+	color: inherit;
+	line-height: 48px;
+	width: 100%;
+}
+
 .list > li:hover {
 	font-weight: 600;
 	color: #333f6b !important;
