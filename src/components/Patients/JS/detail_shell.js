@@ -25,7 +25,7 @@ const Shell = ({ render, children, name }) => {
 						<li
 							className={
 								window.location.pathname.split("/")[3] ===
-								"patient_biodata"
+								"bio-data"
 									? styles2.active
 									: null
 							}
