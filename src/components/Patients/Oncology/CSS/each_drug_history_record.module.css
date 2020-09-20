@@ -1,0 +1,65 @@
+.record {
+	width: calc(100% - 40px);
+	height: 105px;
+	margin: 17px auto;
+	padding: 10px 15px;
+	background: #eef2fa;
+	box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.04);
+	border-radius: 8px;
+}
+
+.drug {
+	display: flex;
+	justify-content: space-between;
+}
+
+.drug > span {
+	font-size: 15px;
+	font-weight: 600;
+	line-height: 18px;
+	margin-bottom: 8px;
+	color: #000000;
+}
+
+.drug > svg {
+	cursor: pointer;
+}
+
+.drug .delete {
+	margin-left: 20px;
+}
+
+.dosage,
+.duration {
+	display: block;
+	font-size: 11px;
+	line-height: 13px;
+	margin-bottom: 8px;
+	color: #6b6c7e;
+}
+
+.dosage > b,
+.duration > b {
+	font-weight: 600;
+	font-size: 11px;
+	line-height: 13px;
+	color: #000;
+}
+
+.side_effect {
+	display: flex;
+	font-weight: 500;
+	font-size: 10px;
+	line-height: 12px;
+	color: #89a7e0;
+}
+
+.side_effect .type_icon {
+	margin-right: 4px;
+}
+
+@media (min-width: 760px) {
+	.record {
+		width: calc(100% - 60px);
+	}
+}
