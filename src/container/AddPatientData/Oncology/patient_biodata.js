@@ -13,7 +13,7 @@ import { errorHandler } from "../../../actions/general/index";
 //style
 import styles from "../CSS/add_patient_data.module.css";
 
-// const url = "https://api.notitiang.com";
+const url = process.env.REACT_APP_BASE_URL;
 
 class PatientBiodata extends Component {
 	constructor(props) {
@@ -38,6 +38,11 @@ class PatientBiodata extends Component {
 						JSON.parse(localStorage.bio_data)
 							.next_of_kin_phone_number) ||
 					"",
+				relationship_to_next_of_kin:
+					(localStorage.bio_data &&
+						JSON.parse(localStorage.bio_data)
+							.relationship_to_next_of_kin) ||
+					"",
 				folder_number:
 					(localStorage.bio_data &&
 						JSON.parse(localStorage.bio_data).folder_number) ||
@@ -46,34 +51,57 @@ class PatientBiodata extends Component {
 					(localStorage.bio_data &&
 						JSON.parse(localStorage.bio_data).sex) ||
 					"",
-				age:
-					(localStorage.bio_data &&
-						JSON.parse(localStorage.bio_data).age) ||
-					"",
+				// age:
+				// 	(localStorage.bio_data &&
+				// 		JSON.parse(localStorage.bio_data).age) ||
+				// 	"",
 				marital_status:
 					(localStorage.bio_data &&
 						JSON.parse(localStorage.bio_data).marital_status) ||
 					"",
-				organ_diagnosis:
-					(localStorage.bio_data &&
-						JSON.parse(localStorage.bio_data).organ_diagnosis) ||
-					"",
-				hispathology_diagnosis:
+				histopathology_diagnosis:
 					(localStorage.bio_data &&
 						JSON.parse(localStorage.bio_data)
-							.hispathology_diagnosis) ||
+							.histopathology_diagnosis) ||
+					"",
+				other_histopathology_diagnosis:
+					(localStorage.bio_data &&
+						JSON.parse(localStorage.bio_data)
+							.other_histopathology_diagnosis) ||
 					"",
 				occupation:
 					(localStorage.bio_data &&
 						JSON.parse(localStorage.bio_data).occupation) ||
 					"",
+				other_occupation:
+					(localStorage.bio_data &&
+						JSON.parse(localStorage.bio_data).other_occupation) ||
+					"",
 				ethnic_group:
 					(localStorage.bio_data &&
 						JSON.parse(localStorage.bio_data).ethnic_group) ||
 					"",
+				other_ethnic_group:
+					(localStorage.bio_data &&
+						JSON.parse(localStorage.bio_data).other_ethnic_group) ||
+					"",
 				religion:
 					(localStorage.bio_data &&
 						JSON.parse(localStorage.bio_data).religion) ||
+					"",
+				other_religion:
+					(localStorage.bio_data &&
+						JSON.parse(localStorage.bio_data).other_religion) ||
+					"",
+				primary_organ_affected:
+					(localStorage.bio_data &&
+						JSON.parse(localStorage.bio_data)
+							.primary_organ_affected) ||
+					"",
+				other_primary_organ_affected:
+					(localStorage.bio_data &&
+						JSON.parse(localStorage.bio_data)
+							.other_primary_organ_affected) ||
 					"",
 				residence:
 					(localStorage.bio_data &&
@@ -123,109 +151,154 @@ class PatientBiodata extends Component {
 	async skipCreate(e) {
 		e.preventDefault();
 		this.setState({ submitting: true });
-		localForage
-			.setItem(this.state.biodata.folder_number, {
-				bioData: this.state.biodata
-			})
-			.then((value) => {
-				localStorage.removeItem("bio_data");
-				console.log("Successful");
-				this.setState({
-					submitting: false,
-					biodata: {
-						surname: "",
-						first_name: "",
-						phone_number: "",
-						next_of_kin_phone_number: "",
-						folder_number: "",
-						sex: "",
-						age: "",
-						marital_status: "",
-						organ_diagnosis: "",
-						hispathology_diagnosis: "",
-						occupation: "",
-						ethnic_group: "",
-						religion: "",
-						residence: "",
-						highest_education: "",
-						alcohol_use: "",
-						alcohol_frequency: "",
-						family_history_of_cancer: ""
+		if (!window.navigator.onLine) {
+			localForage
+				.setItem(this.state.biodata.folder_number, {
+					bioData: {
+						...this.state.biodata,
+						histopathology_diagnosis:
+							this.state.histopathology_diagnosis === "Others"
+								? this.state.other_histopathology_diagnosis
+								: this.state.histopathology_diagnosis,
+						occupation:
+							this.state.occupation === "Others"
+								? this.state.other_occupation
+								: this.state.occupation,
+						ethnic_group:
+							this.state.ethnic_group === "Others"
+								? this.state.other_ethnic_group
+								: this.state.ethnic_group,
+						religion:
+							this.state.religion === "Others"
+								? this.state.other_religion
+								: this.state.religion,
+						primary_organ_affected:
+							this.state.primary_organ_affected === "Others"
+								? this.state.other_primary_organ_affected
+								: this.state.primary_organ_affected
 					}
+				})
+				.then((value) => {
+					localStorage.removeItem("bio_data");
+					this.setState({
+						submitting: false,
+						biodata: {
+							surname: "",
+							first_name: "",
+							phone_number: "",
+							next_of_kin_phone_number: "",
+							relationship_to_next_of_kin: "",
+							folder_number: "",
+							sex: "",
+							// age: "",
+							marital_status: "",
+							histopathology_diagnosis: "",
+							other_histopathology_diagnosis: "",
+							occupation: "",
+							other_occupation: "",
+							primary_organ_affected: "",
+							other_primary_organ_affected: "",
+							ethnic_group: "",
+							other_ethnic_group: "",
+							religion: "",
+							other_religion: "",
+							residence: "",
+							highest_education: "",
+							alcohol_use: "",
+							alcohol_frequency: "",
+							family_history_of_cancer: ""
+						}
+					});
+				})
+				.catch((err) => {
+					this.setState({ submitting: false });
+					console.log(err);
 				});
-			})
-			.catch((err) => {
-				this.setState({ submitting: false });
+		} else {
+			const {
+				surname,
+				first_name,
+				phone_number,
+				next_of_kin_phone_number,
+				relationship_to_next_of_kin,
+				folder_number,
+				sex,
+				// age,
+				marital_status,
+				histopathology_diagnosis,
+				other_histopathology_diagnosis,
+				occupation,
+				other_occupation,
+				primary_organ_affected,
+				other_primary_organ_affected,
+				ethnic_group,
+				other_ethnic_group,
+				religion,
+				other_religion,
+				residence,
+				highest_education,
+				alcohol_frequency,
+				alcohol_use,
+				family_history_of_cancer
+			} = this.state.biodata;
+			try {
+				const request = await fetch(`${url}/patient`, {
+					method: "POST",
+					headers: {
+						Accept: "application/json",
+						"Content-Type": "application/json",
+						Authorisation: `Bearer ${localStorage.accessToken}`
+					},
+					body: JSON.stringify({
+						LastName: surname,
+						FirstName: first_name,
+						PhoneNumber: phone_number,
+						KinsNumber: next_of_kin_phone_number,
+						RelationshipToNextOfKin: relationship_to_next_of_kin,
+						Gender: sex,
+						// Age: age,
+						MaritalStatus: marital_status,
+						Occupation:
+							occupation === "Others"
+								? other_occupation
+								: occupation,
+						EthnicGroup:
+							ethnic_group === "Others"
+								? other_ethnic_group
+								: ethnic_group,
+						Religion:
+							religion === "Others" ? other_religion : religion,
+						OrganDiagnosis:
+							primary_organ_affected === "Others"
+								? other_primary_organ_affected
+								: primary_organ_affected,
+						Residence: residence,
+						HighestEducation: highest_education,
+						FolderNo: folder_number,
+						HistoDiagnosis:
+							histopathology_diagnosis === "Others"
+								? other_histopathology_diagnosis
+								: histopathology_diagnosis,
+						AlcoholUse:
+							alcohol_use === "Yes"
+								? alcohol_frequency
+								: alcohol_use,
+						FamilyHistory: family_history_of_cancer
+					})
+				});
+
+				if (!request.ok) {
+					this.setState({ submitting: false });
+					const error = await request.json();
+					throw Error(error.Message);
+				}
+				const data = await request.json();
+				console.log(data);
+			} catch (err) {
 				console.log(err);
-			});
-		// const {
-		// 	surname,
-		// 	first_name,
-		// 	phone_number,
-		// 	next_of_kin_phone_number,
-		// 	folder_number,
-		// 	sex,
-		// 	age,
-		// 	marital_status,
-		// 	organ_diagnosis,
-		// 	hispathology_diagnosis,
-		// 	occupation,
-		// 	ethnic_group,
-		// 	religion,
-		// 	residence,
-		// 	highest_education,
-		// 	alcohol_frequency,
-		// 	alcohol_use,
-		// 	family_history_of_cancer
-		// } = this.state.biodata;
-		// try {
-		// 	const request = await fetch(`${url}/publish/skip_create/`, {
-		// 		method: "POST",
-		// 		headers: {
-		// 			Accept: "application/json",
-		// 			"Content-Type": "application/json",
-		// 			Authorisation: `Bearer ${localStorage.accessToken}`
-		// 		},
-		// 		body: JSON.stringify({
-		// 			profile: {
-		// 				Surname: surname,
-		// 				FirstName: first_name,
-		// 				PhoneNumber: phone_number,
-		// 				KinsNumber: next_of_kin_phone_number,
-		// 				Gender: sex,
-		// 				Age: age,
-		// 				MaritalStatus: marital_status,
-		// 				Occupation: occupation,
-		// 				EthnicGroup: ethnic_group,
-		// 				Religion: religion,
-		// 				Residence: residence,
-		// 				HighestEducation: highest_education
-		// 			},
-		// 			patient: {
-		// 				FolderNumber: folder_number,
-		// 				OrganDiagnosis: organ_diagnosis,
-		// 				HispathologyDiagnosis: hispathology_diagnosis,
-		// 				AlcoholUse:
-		// 					alcohol_use === "Yes"
-		// 						? alcohol_frequency
-		// 						: alcohol_use,
-		// 				CancerHistory: family_history_of_cancer
-		// 			}
-		// 		})
-		// 	});
-
-		// 	if (!request.ok) {
-		// 		this.setState({ submitting: false });
-		// 		const error = await request.json();
-		// 		throw Error(error.Message);
-		// 	}
-
-		// 	const data = await request.json();
-		// 	console.log(data);
-		// } catch (err) {
-		// 	console.log(err);
-		// 	this.props.errorHandler(err);
-		// }
+				this.props.errorHandler(err);
+			}
+		}
 	}
 
 	render() {
@@ -235,15 +308,21 @@ class PatientBiodata extends Component {
 			first_name,
 			phone_number,
 			next_of_kin_phone_number,
+			relationship_to_next_of_kin,
 			folder_number,
 			sex,
-			age,
+			// age,
 			marital_status,
-			organ_diagnosis,
-			hispathology_diagnosis,
+			histopathology_diagnosis,
+			other_histopathology_diagnosis,
 			occupation,
+			other_occupation,
 			ethnic_group,
+			other_ethnic_group,
 			religion,
+			other_religion,
+			primary_organ_affected,
+			other_primary_organ_affected,
 			residence,
 			highest_education,
 			alcohol_use,
@@ -307,7 +386,6 @@ class PatientBiodata extends Component {
 									placeholder="Enter phone number"
 									minLength="11"
 									maxLength="11"
-									required
 								/>
 							</div>
 							<div>
@@ -324,6 +402,20 @@ class PatientBiodata extends Component {
 									placeholder="Enter next of kin's phone number"
 									minLength="11"
 									maxLength="11"
+								/>
+							</div>
+							<div>
+								<label htmlFor="relationship_to_next_of_kin">
+									First Name
+								</label>
+								<input
+									id="relationship_to_next_of_kin"
+									type="text"
+									name="relationship_to_next_of_kin"
+									className={styles.input}
+									onChange={(e) => this.handleChange(e)}
+									value={relationship_to_next_of_kin}
+									placeholder="Enter relationship to next of kin"
 									required
 								/>
 							</div>
@@ -357,7 +449,7 @@ class PatientBiodata extends Component {
 									<option>Male</option>
 								</select>
 							</div>
-							<div>
+							{/* <div>
 								<label htmlFor="age">Age</label>
 								<input
 									id="age"
@@ -371,7 +463,7 @@ class PatientBiodata extends Component {
 									maxLength="3"
 									required
 								/>
-							</div>
+							</div> */}
 							<div>
 								<label htmlFor="marital_status">
 									Marital Status
@@ -392,40 +484,44 @@ class PatientBiodata extends Component {
 								</select>
 							</div>
 							<div>
-								<label htmlFor="organ_diagnosis">
+								<label htmlFor="histopathology_diagnosis">
 									Organ Diagnosis
 								</label>
 								<select
-									id="organ_diagnosis"
-									name="organ_diagnosis"
-									value={organ_diagnosis}
+									id="histopathology_diagnosis"
+									name="histopathology_diagnosis"
+									value={histopathology_diagnosis}
 									onChange={(e) => this.handleChange(e)}
 									className={styles.input}
 									required
 								>
 									<option></option>
-									<option>Breast Cancer</option>
-									<option>Prostate Cancer</option>
-									<option>Anal Cancer</option>
-									<option>Head and Neck Cancer</option>
-									<option>Colorectal Cancer</option>
+									<option>Squamous cell carcinoma</option>
+									<option>Adenocarcinoma</option>
+									<option>Lymphoma</option>
+									<option>Sarcoma</option>
+									<option>Melanoma</option>
+									<option>Leukemia</option>
+									<option>Others</option>
 								</select>
 							</div>
-							<div>
-								<label htmlFor="hispathology_diagnosis">
-									Hispathology Diagnosis
-								</label>
-								<input
-									id="hispathology_diagnosis"
-									name="hispathology_diagnosis"
-									type="text"
-									onChange={(e) => this.handleChange(e)}
-									value={hispathology_diagnosis}
-									className={styles.input}
-									placeholder="Enter hispathology diagnosis"
-									required
-								/>
-							</div>
+							{histopathology_diagnosis === "Others" ? (
+								<div>
+									<label htmlFor="other_histopathology_diagnosis">
+										Other Histopathology Diagnosis
+									</label>
+									<input
+										id="other_histopathology_diagnosis"
+										name="other_histopathology_diagnosis"
+										type="text"
+										onChange={(e) => this.handleChange(e)}
+										value={other_histopathology_diagnosis}
+										className={styles.input}
+										placeholder="Type in other histopathology diagnosis"
+										required
+									/>
+								</div>
+							) : null}
 							<div>
 								<label htmlFor="occupation">Occupation</label>
 								<select
@@ -437,11 +533,32 @@ class PatientBiodata extends Component {
 									required
 								>
 									<option></option>
-									<option>Professional</option>
-									<option>Skilled Manual Labour</option>
-									<option>Unskilled</option>
+									<option>Government employed</option>
+									<option>Private sector employed</option>
+									<option>Student</option>
+									<option>Retired</option>
+									<option>Unemployed (able to work)</option>
+									<option>Unemployed (Unable to work)</option>
+									<option>Others</option>
 								</select>
 							</div>
+							{occupation === "Others" ? (
+								<div>
+									<label htmlFor="other_occupation">
+										Other Occupation
+									</label>
+									<input
+										id="other_occupation"
+										name="other_occupation"
+										type="text"
+										onChange={(e) => this.handleChange(e)}
+										value={other_occupation}
+										className={styles.input}
+										placeholder="Type in other occupation"
+										required
+									/>
+								</div>
+							) : null}
 							<div>
 								<label htmlFor="ethnic_group">
 									Ethnic Group
@@ -458,8 +575,26 @@ class PatientBiodata extends Component {
 									<option>Igbo</option>
 									<option>Hausa</option>
 									<option>Yoruba</option>
+									<option>Others</option>
 								</select>
 							</div>
+							{ethnic_group === "Others" ? (
+								<div>
+									<label htmlFor="other_ethnic_group">
+										Other Ethnic Group
+									</label>
+									<input
+										id="other_ethnic_group"
+										name="other_ethnic_group"
+										type="text"
+										onChange={(e) => this.handleChange(e)}
+										value={other_ethnic_group}
+										className={styles.input}
+										placeholder="Type in other ethnic group"
+										required
+									/>
+								</div>
+							) : null}
 							<div>
 								<label htmlFor="religion">Religion</label>
 								<select
@@ -478,6 +613,62 @@ class PatientBiodata extends Component {
 									<option>Islam</option>
 								</select>
 							</div>
+							{religion === "Others" ? (
+								<div>
+									<label htmlFor="other_religion">
+										Other Religion
+									</label>
+									<input
+										id="other_religion"
+										name="other_religion"
+										type="text"
+										onChange={(e) => this.handleChange(e)}
+										value={other_religion}
+										className={styles.input}
+										placeholder="Type in other religion"
+										required
+									/>
+								</div>
+							) : null}
+							<div>
+								<label htmlFor="primary_organ_affected">
+									Primary Organ Affected
+								</label>
+								<select
+									id="primary_organ_affected"
+									name="primary_organ_affected"
+									value={primary_organ_affected}
+									onChange={(e) => this.handleChange(e)}
+									className={styles.input}
+									required
+								>
+									<option></option>
+									<option></option>
+									<option>Breast Cancer</option>
+									<option>Prostate Cancer</option>
+									<option>Anal Cancer</option>
+									<option>Head and Neck Cancer</option>
+									<option>Colorectal Cancer</option>
+									<option>Others</option>
+								</select>
+							</div>
+							{other_primary_organ_affected === "Others" ? (
+								<div>
+									<label htmlFor="other_primary_organ_affected">
+										Other Primary Organ Affected
+									</label>
+									<input
+										id="other_primary_organ_affected"
+										name="other_primary_organ_affected"
+										type="text"
+										onChange={(e) => this.handleChange(e)}
+										value={other_primary_organ_affected}
+										className={styles.input}
+										placeholder="Type in other primary organ"
+										required
+									/>
+								</div>
+							) : null}
 							<div>
 								<label htmlFor="residence">Residence</label>
 								<select
@@ -564,17 +755,23 @@ class PatientBiodata extends Component {
 								disabled={
 									!surname ||
 									!first_name ||
-									!phone_number ||
+									!relationship_to_next_of_kin ||
 									!sex ||
-									!age ||
-									!next_of_kin_phone_number ||
+									// !age ||
 									!folder_number ||
 									!marital_status ||
-									!organ_diagnosis ||
-									!hispathology_diagnosis ||
+									!primary_organ_affected ||
+									(primary_organ_affected === "Others" &&
+										!other_primary_organ_affected) ||
 									!occupation ||
+									(occupation === "Others" &&
+										!other_occupation) ||
 									!ethnic_group ||
+									(ethnic_group === "Others" &&
+										!other_ethnic_group) ||
 									!religion ||
+									(religion === "Others" &&
+										!other_religion) ||
 									this.state.submitting
 								}
 							>
@@ -586,17 +783,26 @@ class PatientBiodata extends Component {
 								disabled={
 									!surname ||
 									!first_name ||
-									!phone_number ||
 									!sex ||
-									!age ||
-									!next_of_kin_phone_number ||
+									// !age ||
+									relationship_to_next_of_kin ||
 									!folder_number ||
 									!marital_status ||
-									!organ_diagnosis ||
-									!hispathology_diagnosis ||
+									!histopathology_diagnosis ||
+									(histopathology_diagnosis === "Others" &&
+										!other_histopathology_diagnosis) ||
+									!primary_organ_affected ||
+									(primary_organ_affected === "Others" &&
+										!other_primary_organ_affected) ||
 									!occupation ||
+									(occupation === "Others" &&
+										!other_occupation) ||
 									!ethnic_group ||
+									(ethnic_group === "Others" &&
+										!other_ethnic_group) ||
 									!religion ||
+									(religion === "Others" &&
+										!other_religion) ||
 									!residence ||
 									!highest_education ||
 									!alcohol_use ||
