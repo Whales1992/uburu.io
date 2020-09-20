@@ -87,7 +87,13 @@ const DataCategoryList = (props) => {
 					Drug History
 					<img src={ArrowHead} alt="arrow head icon" />
 				</Link>
-				<Link to={{ pathname: `` }} className={styles.record_link}>
+				<Link
+					to={{
+						pathname: `/patients/${location.state.bioData.folder_number}/investigation_history`,
+						state: location.state
+					}}
+					className={styles.record_link}
+				>
 					Investigation History
 					<img src={ArrowHead} alt="arrow head icon" />
 				</Link>

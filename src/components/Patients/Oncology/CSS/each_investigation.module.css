@@ -1,0 +1,52 @@
+.record {
+	width: calc(100% - 40px);
+	margin: 17px auto;
+	padding: 10px 15px;
+	background: #eef2fa;
+	box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.04);
+	border-radius: 8px;
+}
+
+.investigation {
+	display: flex;
+	justify-content: space-between;
+}
+
+.investigation > span {
+	font-size: 15px;
+	font-weight: 600;
+	line-height: 18px;
+	margin-bottom: 8px;
+	color: #000000;
+}
+
+.investigation > svg {
+	cursor: pointer;
+}
+
+.investigation .delete {
+	margin-left: 20px;
+}
+
+.report,
+.date {
+	display: block;
+	font-size: 11px;
+	line-height: 13px;
+	margin-bottom: 8px;
+	color: #6b6c7e;
+}
+
+.report > b,
+.date > b {
+	font-weight: 600;
+	font-size: 11px;
+	line-height: 13px;
+	color: #000;
+}
+
+@media (min-width: 760px) {
+	.record {
+		width: calc(100% - 60px);
+	}
+}
