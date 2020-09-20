@@ -282,7 +282,8 @@ class MedicalHistoryData extends Component {
 											</label>
 											{Description ===
 												"Foot Examination" ||
-											"Eye Examination" ? (
+											Description ===
+												"Eye Examination" ? (
 												<select
 													id="Value"
 													name="Value"
