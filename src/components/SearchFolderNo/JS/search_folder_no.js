@@ -80,7 +80,7 @@ const SearchFolderNoPage = () => {
 							to={{
 								pathname:
 									window.innerWidth > 600
-										? `/patients/${searchResult.bioData.folder_number}`
+										? `/patients/${searchResult.bioData.folder_number}/bio-data`
 										: `/patients/${searchResult.bioData.folder_number}/record_list`,
 								state: searchResult
 							}}
