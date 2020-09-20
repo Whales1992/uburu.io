@@ -32,6 +32,7 @@ import BioData from "./components/Patients/Oncology/JS/bio-data";
 import MedicalHistory from "./components/Patients/Oncology/JS/medical_history_data";
 import PatientDrugHistory from "./components/Patients/Oncology/JS/drug_history";
 import InvestigationHistory from "./components/Patients/Oncology/JS/investigation_history";
+import PatientTreatmentOutcome from "./components/Patients/Oncology/JS/treatment_outcome";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = composeEnhancers()(createStore);
@@ -63,6 +64,11 @@ const App = () => {
 						exact
 						path="/appointment_detail/:id"
 						component={AppointmentDetailPage}
+					/>
+					<Route
+						exact
+						path="/patients/:id/treatment_outcome"
+						component={PatientTreatmentOutcome}
 					/>
 					<Route
 						exact
