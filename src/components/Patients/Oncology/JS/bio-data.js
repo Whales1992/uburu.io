@@ -53,7 +53,6 @@ const BioData = (props) => {
 			})
 			.then(() => props.history.goBack());
 	}
-	console.log(props);
 
 	return (
 		<>
