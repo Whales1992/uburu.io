@@ -1,0 +1,28 @@
+.list {
+	list-style-type: none;
+	padding: 0;
+}
+
+.list > li {
+	display: flex;
+	align-items: center;
+	padding-left: 16px;
+	height: 48px;
+	margin-bottom: 15px;
+	font-size: 16px;
+	line-height: 29px;
+	color: #cdced9;
+	cursor: pointer;
+}
+
+.list > li:hover {
+	font-weight: 600;
+	color: #333f6b !important;
+}
+
+.active {
+	background: #b3cdff33;
+	border-radius: 8px;
+	font-weight: 600;
+	color: #333f6b !important;
+}

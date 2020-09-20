@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styles from "../../AddPatientData/CSS/shell.module.css";
+import styles2 from "../CSS/detail_shell.module.css";
 
 const Shell = ({ render, children, name }) => {
 	const [activeRecord, setActiveRecord] = useState(
@@ -20,12 +21,12 @@ const Shell = ({ render, children, name }) => {
 			<div className={styles.title}>{name}</div>
 			<div className={styles.flexed_container}>
 				<nav className={styles.left_nav}>
-					<ul>
+					<ul className={styles2.list}>
 						<li
 							className={
-								window.location.pathname.split("/")[2] ===
+								window.location.pathname.split("/")[3] ===
 								"patient_biodata"
-									? styles.active
+									? styles2.active
 									: null
 							}
 						>
@@ -33,22 +34,19 @@ const Shell = ({ render, children, name }) => {
 						</li>
 						<li
 							className={
-								window.location.pathname.split("/")[2] ===
+								window.location.pathname.split("/")[3] ===
 								"medical_history"
-									? [
-											styles.medical_history_active,
-											styles.medical_history
-									  ].join(" ")
-									: styles.medical_history
+									? styles2.active
+									: null
 							}
 						>
 							Medical History
 						</li>
 						<li
 							className={
-								window.location.pathname.split("/")[2] ===
+								window.location.pathname.split("/")[3] ===
 								"drug_history"
-									? styles.active
+									? styles2.active
 									: null
 							}
 						>
@@ -56,9 +54,9 @@ const Shell = ({ render, children, name }) => {
 						</li>
 						<li
 							className={
-								window.location.pathname.split("/")[2] ===
+								window.location.pathname.split("/")[3] ===
 								"investigation_history"
-									? styles.active
+									? styles2.active
 									: null
 							}
 						>
@@ -66,9 +64,9 @@ const Shell = ({ render, children, name }) => {
 						</li>
 						<li
 							className={
-								window.location.pathname.split("/")[2] ===
+								window.location.pathname.split("/")[3] ===
 								"treatment_outcome"
-									? styles.active
+									? styles2.active
 									: null
 							}
 						>
