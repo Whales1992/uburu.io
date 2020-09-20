@@ -144,21 +144,21 @@ class PatientBiodata extends Component {
 					bioData: {
 						...this.state.biodata,
 						diagnosis:
-							this.state.diagnosis === "Others"
-								? this.state.diagnosis
-								: this.state.other_diagnosis,
+							this.state.bioData.diagnosis === "Others"
+								? this.state.bioData.other_diagnosis
+								: this.state.bioData.diagnosis,
 						occupation:
-							this.state.occupation === "Others"
-								? this.state.other_occupation
-								: this.state.occupation,
+							this.state.bioData.occupation === "Others"
+								? this.state.bioData.other_occupation
+								: this.state.bioData.occupation,
 						ethnic_group:
-							this.state.ethnic_group === "Others"
-								? this.state.other_ethnic_group
-								: this.state.ethnic_group,
+							this.state.bioData.ethnic_group === "Others"
+								? this.state.bioData.other_ethnic_group
+								: this.state.bioData.ethnic_group,
 						religion:
-							this.state.religion === "Others"
-								? this.state.other_religion
-								: this.state.religion
+							this.state.bioData.religion === "Others"
+								? this.state.bioData.other_religion
+								: this.state.bioData.religion
 					}
 				})
 				.then((value) => {

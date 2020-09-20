@@ -157,25 +157,29 @@ class PatientBiodata extends Component {
 					bioData: {
 						...this.state.biodata,
 						histopathology_diagnosis:
-							this.state.histopathology_diagnosis === "Others"
-								? this.state.other_histopathology_diagnosis
-								: this.state.histopathology_diagnosis,
+							this.state.biodata.histopathology_diagnosis ===
+							"Others"
+								? this.state.biodata
+										.other_histopathology_diagnosis
+								: this.state.biodata.histopathology_diagnosis,
 						occupation:
-							this.state.occupation === "Others"
-								? this.state.other_occupation
-								: this.state.occupation,
+							this.state.biodata.occupation === "Others"
+								? this.state.biodata.other_occupation
+								: this.state.biodata.occupation,
 						ethnic_group:
-							this.state.ethnic_group === "Others"
-								? this.state.other_ethnic_group
-								: this.state.ethnic_group,
+							this.state.biodata.ethnic_group === "Others"
+								? this.state.biodata.other_ethnic_group
+								: this.state.biodata.ethnic_group,
 						religion:
-							this.state.religion === "Others"
-								? this.state.other_religion
-								: this.state.religion,
+							this.state.biodata.religion === "Others"
+								? this.state.biodata.other_religion
+								: this.state.biodata.religion,
 						primary_organ_affected:
-							this.state.primary_organ_affected === "Others"
-								? this.state.other_primary_organ_affected
-								: this.state.primary_organ_affected
+							this.state.biodata.primary_organ_affected ===
+							"Others"
+								? this.state.biodata
+										.other_primary_organ_affected
+								: this.state.biodata.primary_organ_affected
 					}
 				})
 				.then((value) => {
