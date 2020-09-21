@@ -60,6 +60,8 @@ const DrugHistory = ({ history }) => {
 			...inputValues,
 			drug: drug === "Others" ? other_drug : drug
 		};
+        
+        delete modifiedValues.other_drug;
 
 		if (localStorageValue) {
 			localStorageValue.push(modifiedValues);
