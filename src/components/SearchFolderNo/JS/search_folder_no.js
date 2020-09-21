@@ -100,7 +100,20 @@ const SearchFolderNoPage = () => {
 					</>
 				)}
 				{searchResult === null && (
-					<p className={styles.not_found}>No result found.</p>
+					<>
+						<p className={styles.not_found}>No result found.</p>
+						<Link
+							to="/add_patient_data/patient_biodata"
+							className={styles.add_new_patient_link_mobile}
+						>
+							<img
+								rel="preload"
+								src={AddPatientIcon}
+								alt="add patient icon"
+							/>{" "}
+							Add New Patient
+						</Link>
+					</>
 				)}
 			</form>
 			{/* <div className={styles.result}>
