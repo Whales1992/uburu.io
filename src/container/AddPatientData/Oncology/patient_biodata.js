@@ -822,34 +822,32 @@ class PatientBiodata extends Component {
 								disabled={
 									!surname ||
 									!first_name ||
-									!sex ||
 									!age ||
-									relationship_to_next_of_kin ||
 									!folder_number ||
+									!relationship_to_next_of_kin ||
+									!sex ||
 									!marital_status ||
-									!histopathology_diagnosis ||
-									(histopathology_diagnosis === "Others" &&
-										!other_histopathology_diagnosis) ||
-									!primary_organ_affected ||
-									(primary_organ_affected === "Others" &&
-										!other_primary_organ_affected) ||
 									!occupation ||
 									(occupation === "Others" &&
 										!other_occupation) ||
 									!ethnic_group ||
 									(ethnic_group === "Others" &&
 										!other_ethnic_group) ||
+									!histopathology_diagnosis ||
+									(histopathology_diagnosis === "Others" &&
+										!other_histopathology_diagnosis) ||
 									!religion ||
 									(religion === "Others" &&
 										!other_religion) ||
+									!primary_organ_affected ||
+									(primary_organ_affected === "Others" &&
+										!other_primary_organ_affected) ||
 									!residence ||
 									!highest_education ||
-									!alcohol_use ||
 									!family_history_of_cancer ||
+									!alcohol_use ||
 									(alcohol_use === "Yes" &&
 										!alcohol_frequency)
-										? true
-										: false
 								}
 								onClick={() =>
 									this.props.history.push(
