@@ -670,6 +670,45 @@ class PatientBiodata extends Component {
 								</div>
 							) : null}
 							<div>
+								<label htmlFor="histopathology_diagnosis">
+									Histopathology Diagnosis
+								</label>
+								<select
+									id="histopathology_diagnosis"
+									name="histopathology_diagnosis"
+									value={histopathology_diagnosis}
+									onChange={(e) => this.handleChange(e)}
+									className={styles.input}
+									required
+								>
+									<option></option>
+									<option>Squamous cell carcinoma</option>
+									<option>Adenocarcinoma</option>
+									<option>Lymphoma</option>
+									<option>Sarcoma</option>
+									<option>Melanoma</option>
+									<option>Leukemia</option>
+									<option>Others</option>
+								</select>
+							</div>
+							{histopathology_diagnosis === "Others" ? (
+								<div>
+									<label htmlFor="other_histopathology_diagnosis">
+										Other Histopathology Diagnosis
+									</label>
+									<input
+										id="other_histopathology_diagnosis"
+										name="other_histopathology_diagnosis"
+										type="text"
+										onChange={(e) => this.handleChange(e)}
+										value={other_histopathology_diagnosis}
+										className={styles.input}
+										placeholder="Type in other histopathology diagnosis"
+										required
+									/>
+								</div>
+							) : null}
+							<div>
 								<label htmlFor="residence">Residence</label>
 								<select
 									id="residence"
