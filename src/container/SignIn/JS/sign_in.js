@@ -99,8 +99,8 @@ class SignIn extends Component {
 						onChange={(e) => this.handlePasswordChange(e)}
 						type="password"
 						name="password"
-						placeholder="Enter password (minimum length, 6)"
-						minLength="6"
+						placeholder="Enter password"
+						// minLength="6"
 						required
 					/>
 					<button
@@ -109,7 +109,7 @@ class SignIn extends Component {
 						disabled={
 							email === "" ||
 							password === "" ||
-							password.length < 6 ||
+							// password.length < 6 ||
 							submitting
 								? true
 								: false
