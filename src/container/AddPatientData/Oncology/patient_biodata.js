@@ -51,10 +51,10 @@ class PatientBiodata extends Component {
 					(localStorage.bio_data &&
 						JSON.parse(localStorage.bio_data).sex) ||
 					"",
-				// age:
-				// 	(localStorage.bio_data &&
-				// 		JSON.parse(localStorage.bio_data).age) ||
-				// 	"",
+				age:
+					(localStorage.bio_data &&
+						JSON.parse(localStorage.bio_data).age) ||
+					"",
 				marital_status:
 					(localStorage.bio_data &&
 						JSON.parse(localStorage.bio_data).marital_status) ||
@@ -194,7 +194,7 @@ class PatientBiodata extends Component {
 							relationship_to_next_of_kin: "",
 							folder_number: "",
 							sex: "",
-							// age: "",
+							age: "",
 							marital_status: "",
 							histopathology_diagnosis: "",
 							other_histopathology_diagnosis: "",
@@ -227,7 +227,7 @@ class PatientBiodata extends Component {
 				relationship_to_next_of_kin,
 				folder_number,
 				sex,
-				// age,
+				age,
 				marital_status,
 				histopathology_diagnosis,
 				other_histopathology_diagnosis,
@@ -260,7 +260,7 @@ class PatientBiodata extends Component {
 						KinsNumber: next_of_kin_phone_number,
 						RelationshipToNextOfKin: relationship_to_next_of_kin,
 						Gender: sex,
-						// Age: age,
+						Age: age,
 						MaritalStatus: marital_status,
 						Occupation:
 							occupation === "Others"
@@ -315,7 +315,7 @@ class PatientBiodata extends Component {
 			relationship_to_next_of_kin,
 			folder_number,
 			sex,
-			// age,
+			age,
 			marital_status,
 			histopathology_diagnosis,
 			other_histopathology_diagnosis,
@@ -450,7 +450,7 @@ class PatientBiodata extends Component {
 									<option>Male</option>
 								</select>
 							</div>
-							{/* <div>
+							<div>
 								<label htmlFor="age">Age</label>
 								<input
 									id="age"
@@ -464,7 +464,7 @@ class PatientBiodata extends Component {
 									maxLength="3"
 									required
 								/>
-							</div> */}
+							</div>
 							<div>
 								<label htmlFor="marital_status">
 									Marital Status
@@ -758,7 +758,7 @@ class PatientBiodata extends Component {
 									!first_name ||
 									!relationship_to_next_of_kin ||
 									!sex ||
-									// !age ||
+									!age ||
 									!folder_number ||
 									!marital_status ||
 									!primary_organ_affected ||
@@ -785,7 +785,7 @@ class PatientBiodata extends Component {
 									!surname ||
 									!first_name ||
 									!sex ||
-									// !age ||
+									!age ||
 									relationship_to_next_of_kin ||
 									!folder_number ||
 									!marital_status ||
