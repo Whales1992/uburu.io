@@ -47,8 +47,9 @@ const Shell = ({ render, reset, children }) => {
 							<li
 								onClick={() => toggleRecord("Assessment")}
 								className={
-									activeRecord === "Assessment" &&
-									styles.active_span
+									activeRecord === "Assessment"
+										? styles.active_span
+										: ""
 								}
 							>
 								Assessment Record
@@ -56,8 +57,9 @@ const Shell = ({ render, reset, children }) => {
 							<li
 								onClick={() => toggleRecord("Care")}
 								className={
-									activeRecord === "Care" &&
-									styles.active_span
+									activeRecord === "Care"
+										? styles.active_span
+										: ""
 								}
 							>
 								Care Record
@@ -65,8 +67,9 @@ const Shell = ({ render, reset, children }) => {
 							<li
 								onClick={() => toggleRecord("Complication")}
 								className={
-									activeRecord === "Complication" &&
-									styles.active_span
+									activeRecord === "Complication"
+										? styles.active_span
+										: ""
 								}
 							>
 								Complication Record
