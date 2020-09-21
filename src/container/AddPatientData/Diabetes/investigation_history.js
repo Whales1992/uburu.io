@@ -184,7 +184,6 @@ class InvestigationHistory extends Component {
 									}
 									disabled={!investigation}
 								/>
-								)}
 							</div>
 							<div>
 								<label
