@@ -7,7 +7,7 @@ import SyncDataIcon from "../../../images/sync_data.svg";
 const quickActions = () => (
 	<div className={styles.div}>
 		<div className={styles.top}>{`${
-			JSON.parse(localStorage.account).Department
+			JSON.parse(localStorage.account).Name
 		} Registry - Quick Actions`}</div>
 		<div className={styles.actions}>
 			<div>
