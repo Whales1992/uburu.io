@@ -1,7 +1,7 @@
 .div {
 	display: flex;
 	justify-content: center;
-	background-color: #333f6b;
+	background-color: var(--color-primary);
 	margin-top: 64px;
 	height: 128px;
 	z-index: -1;

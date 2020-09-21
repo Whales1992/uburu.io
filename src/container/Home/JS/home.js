@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import localForage from "localforage";
 import Layout from "../../UI/JS/layout";
-import BlueBackdrop from "../../../components/Home/JS/blue_backdrop";
+import BlackBackdrop from "../../../components/Home/JS/black_backdrop";
 import QuickActions from "../../../components/Home/JS/quick_actions";
 import RecentRecords from "../../../components/Home/JS/recent-records";
 import InstitutionBanner from "../../../components/UI/JS/institution_banner";
@@ -45,7 +45,7 @@ class Home extends Component {
 				}`}
 			>
 				<InstitutionBanner />
-				<BlueBackdrop />
+				<BlackBackdrop />
 				<QuickActions />
 				{recentRecords && (
 					<RecentRecords recents={recentRecords} loading={loading} />
