@@ -127,7 +127,7 @@ class InvestigationHistory extends Component {
 										investigation === "Ultrasound" ||
 										investigation === "CT-Scan" ||
 										investigation === ""
-											? "Report"
+											? "report"
 											: "entry"
 									}
 								>
