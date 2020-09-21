@@ -340,15 +340,12 @@ class PatientBiodata extends Component {
 					<ErrorModal message={message} show={showing} />
 				) : null}
 				<TopBar hide_on_small_screens />
-				<SecondaryBar shadow page_title="Add Patient Data (1/4)" />
+				<SecondaryBar shadow page_title="Add Patient Bio-data" />
 				<Shell>
 					<form
 						className={styles.form}
 						onSubmit={(e) => this.skipCreate(e)}
 					>
-						<h3 className={styles.current_style}>
-							Patient Biodata
-						</h3>
 						<div className={styles.fields}>
 							<div>
 								<label htmlFor="surname">Surname</label>
