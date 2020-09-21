@@ -7,7 +7,7 @@ import { errorHandler } from "../../../actions/general/index";
 
 //style
 import styles from "../CSS/sign_in.module.css";
-const url = "https://api.notitiang.com";
+const url = process.env.REACT_APP_BASE_URL;
 
 class SignIn extends Component {
 	constructor(props) {
@@ -43,7 +43,7 @@ class SignIn extends Component {
 		this.setState({ submitting: true });
 		const { email, password } = this.state;
 		try {
-			const request = await fetch(`${url}/auth/user/`, {
+			const request = await fetch(`${url}/auth/signin`, {
 				method: "POST",
 				headers: {
 					Accept: "application/json",
@@ -58,12 +58,12 @@ class SignIn extends Component {
 			if (!request.ok) {
 				this.setState({ submitting: false });
 				const error = await request.json();
-				throw Error(error.Message);
+				throw Error(error.error);
 			}
 
 			const data = await request.json();
-			localStorage.setItem("accessToken", data.Token);
-			localStorage.setItem("account", JSON.stringify(data.Message));
+			localStorage.setItem("token", data.token);
+			localStorage.setItem("account", JSON.stringify(data.records));
 			this.props.history.push("/");
 		} catch (err) {
 			this.props.errorHandler(err);
