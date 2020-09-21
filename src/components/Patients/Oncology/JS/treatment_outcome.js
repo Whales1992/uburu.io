@@ -61,7 +61,6 @@ class TreatmentOutcome extends Component {
 
 	render() {
 		const { treatmentOutcome, date } = this.state;
-		console.log(this.props.location);
 		return (
 			<>
 				<TopBar hide_on_small_screens />
