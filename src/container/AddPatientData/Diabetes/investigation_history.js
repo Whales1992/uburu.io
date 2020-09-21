@@ -137,14 +137,7 @@ class InvestigationHistory extends Component {
 									className={
 										!investigation ? "disabled_label" : ""
 									}
-									htmlFor={
-										investigation === "Chest X-ray" ||
-										investigation === "Ultrasound" ||
-										investigation === "CT-Scan" ||
-										investigation === ""
-											? "Report"
-											: "entry"
-									}
+									htmlFor="entry"
 								>
 									{investigation === ""
 										? "Entry"
