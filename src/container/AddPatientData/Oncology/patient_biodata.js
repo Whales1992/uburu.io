@@ -644,7 +644,6 @@ class PatientBiodata extends Component {
 									required
 								>
 									<option></option>
-									<option></option>
 									<option>Breast Cancer</option>
 									<option>Prostate Cancer</option>
 									<option>Anal Cancer</option>
