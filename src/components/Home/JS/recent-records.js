@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, Fragment } from "react";
 import { Link } from "react-router-dom";
 import styles from "../CSS/recent_records.module.css";
 
@@ -41,10 +41,9 @@ const recentRecords = ({ recents }) => {
 					<p>No recent records yet.</p>
 				) : (
 					recents.map((eachRecord) => (
-						<EachRecentRecord
-							key={eachRecord.name}
-							record={eachRecord}
-						/>
+						<Fragment key={eachRecord.bioData.folder_number}>
+							<EachRecentRecord record={eachRecord} />
+						</Fragment>
 					))
 				)}
 			</div>
