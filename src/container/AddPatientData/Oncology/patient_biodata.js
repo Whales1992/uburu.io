@@ -486,7 +486,7 @@ class PatientBiodata extends Component {
 							</div>
 							<div>
 								<label htmlFor="histopathology_diagnosis">
-									Organ Diagnosis
+									Histopathology Diagnosis
 								</label>
 								<select
 									id="histopathology_diagnosis"
