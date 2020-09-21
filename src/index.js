@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from "react";
+import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { createStore, compose } from "redux";
@@ -12,12 +12,6 @@ import Home from "./container/Home/JS/home";
 import Patients from "./container/Patients/JS/patients";
 import AppointmentsPage from "./container/Appointments/JS/appointments";
 import AppointmentDetailPage from "./components/Appointments/JS/appointment_detail";
-
-//Oncology Begins
-import TreatmentOutcome from "./container/AddPatientData/Oncology/treatment_outcome";
-import InvestigationHistoryForm from "./container/AddPatientData/Oncology/investigation_history";
-import PatientMedicalHistory from "./container/AddPatientData/Oncology/medical_history";
-import DrugHistory from "./container/AddPatientData/Oncology/drug_history";
 
 import PatientDetail from "./container/Patients/JS/patient_detail";
 import BookAppointment from "./container/Appointments/JS/book_appointment";
@@ -34,25 +28,76 @@ import PatientDrugHistory from "./components/Patients/Oncology/JS/drug_history";
 import InvestigationHistory from "./components/Patients/Oncology/JS/investigation_history";
 import PatientTreatmentOutcome from "./components/Patients/Oncology/JS/treatment_outcome";
 
+//Oncology data forms
+import OncologyPatientBiodataForm from "./container/AddPatientData/Oncology/patient_biodata";
+import OncologyMedicalHistoryForm from "./container/AddPatientData/Oncology/medical_history";
+import OncologyDrugHistoryForm from "./container/AddPatientData/Oncology/drug_history";
+import OncologyInvestigationHistoryForm from "./container/AddPatientData/Oncology/investigation_history";
+import OncologyTreatmentOutcomeForm from "./container/AddPatientData/Oncology/treatment_outcome";
+
+//Diabetes data forms
+import DiabetesPatientBiodataForm from "./container/AddPatientData/Diabetes/patient_biodata";
+import DiabetesMedicalHistoryForm from "./container/AddPatientData/Diabetes/medical_history";
+import DiabetesDrugHistoryForm from "./container/AddPatientData/Diabetes/drug_history";
+import DiabetesInvestigationHistoryForm from "./container/AddPatientData/Diabetes/investigation_history";
+
+//Asthma data forms
+import AsthmaPatientBiodataForm from "./container/AddPatientData/Asthma/patient_biodata";
+import AsthmaMedicalHistoryForm from "./container/AddPatientData/Asthma/medical_history";
+import AsthmDrugHistoryForm from "./container/AddPatientData/Asthma/drug_history";
+import AsthmaInvestigationHistoryForm from "./container/AddPatientData/Asthma/investigation_history";
+
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = composeEnhancers()(createStore);
 
+//conditionally import forms
 const PatientBiodata = () => {
 	const registry = localStorage.account
-		? JSON.parse(localStorage.account).Department
+		? JSON.parse(localStorage.account).Name
 		: null;
-	if (registry === "Oncology")
-		return lazy(() =>
-			import("./container/AddPatientData/Oncology/patient_biodata")
-		);
-	if (registry === "Diabetes")
-		return lazy(() =>
-			import("./container/AddPatientData/Diabetes/patient_biodata")
-		);
-	if (registry === "Asthma")
-		return lazy(() =>
-			import("./container/AddPatientData/Asthma/patient_biodata")
-		);
+	if (registry === "Oncology") return OncologyPatientBiodataForm;
+	if (registry === "Diabetes") return DiabetesPatientBiodataForm;
+	if (registry === "Asthma") return AsthmaPatientBiodataForm;
+};
+
+const PatientMedicalHistory = () => {
+	const registry = localStorage.account
+		? JSON.parse(localStorage.account).Name
+		: null;
+	if (registry === "Oncology") return OncologyMedicalHistoryForm;
+	if (registry === "Diabetes") return DiabetesMedicalHistoryForm;
+	if (registry === "Asthma") return AsthmaMedicalHistoryForm;
+};
+
+const DrugHistory = () => {
+	const registry = localStorage.account
+		? JSON.parse(localStorage.account).Name
+		: null;
+	if (registry === "Oncology") return OncologyDrugHistoryForm;
+	if (registry === "Diabetes") return DiabetesDrugHistoryForm;
+	if (registry === "Asthma") return AsthmDrugHistoryForm;
+};
+
+const InvestigationHistoryForm = () => {
+	const registry = localStorage.account
+		? JSON.parse(localStorage.account).Name
+		: null;
+	if (registry === "Oncology") return OncologyInvestigationHistoryForm;
+	if (registry === "Diabetes") return DiabetesInvestigationHistoryForm;
+	if (registry === "Asthma") return AsthmaInvestigationHistoryForm;
+};
+
+const TreatmentOutcome = () => {
+	const registry = localStorage.account
+		? JSON.parse(localStorage.account).Name
+		: null;
+	if (registry === "Oncology") return OncologyTreatmentOutcomeForm;
+	// if (registry === "Diabetes")
+	// 	return () =>
+	// 		import("./container/AddPatientData/Diabetes/");
+	// if (registry === "Asthma")
+	// 	return () =>
+	// 		import("./container/AddPatientData/Asthma/investigation_history");
 };
 
 const App = () => {
@@ -106,19 +151,19 @@ const App = () => {
 					/>
 					<Route
 						path="/add_patient_data/medical_history"
-						component={PatientMedicalHistory}
+						component={PatientMedicalHistory()}
 					/>
 					<Route
 						path="/add_patient_data/drug_history"
-						component={DrugHistory}
+						component={DrugHistory()}
 					/>
 					<Route
 						path="/add_patient_data/investigation_history"
-						component={InvestigationHistoryForm}
+						component={InvestigationHistoryForm()}
 					/>
 					<Route
 						path="/add_patient_data/treatment_outcome"
-						component={TreatmentOutcome}
+						component={TreatmentOutcome()}
 					/>
 					<Route
 						path="/search_folder_number"
