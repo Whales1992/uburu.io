@@ -213,6 +213,7 @@ class PatientBiodata extends Component {
 							family_history_of_cancer: ""
 						}
 					});
+					this.props.history.push("/");
 				})
 				.catch((err) => {
 					this.setState({ submitting: false });
@@ -251,7 +252,7 @@ class PatientBiodata extends Component {
 					headers: {
 						Accept: "application/json",
 						"Content-Type": "application/json",
-						Authorisation: `Bearer ${localStorage.accessToken}`
+						Authorization: `Bearer ${localStorage.token}`
 					},
 					body: JSON.stringify({
 						LastName: surname,
@@ -298,6 +299,7 @@ class PatientBiodata extends Component {
 				}
 				const data = await request.json();
 				console.log(data);
+				this.props.history.push("/");
 			} catch (err) {
 				console.log(err);
 				this.props.errorHandler(err);
@@ -484,45 +486,6 @@ class PatientBiodata extends Component {
 									<option>Divorced/Separated</option>
 								</select>
 							</div>
-							<div>
-								<label htmlFor="histopathology_diagnosis">
-									Histopathology Diagnosis
-								</label>
-								<select
-									id="histopathology_diagnosis"
-									name="histopathology_diagnosis"
-									value={histopathology_diagnosis}
-									onChange={(e) => this.handleChange(e)}
-									className={styles.input}
-									required
-								>
-									<option></option>
-									<option>Squamous cell carcinoma</option>
-									<option>Adenocarcinoma</option>
-									<option>Lymphoma</option>
-									<option>Sarcoma</option>
-									<option>Melanoma</option>
-									<option>Leukemia</option>
-									<option>Others</option>
-								</select>
-							</div>
-							{histopathology_diagnosis === "Others" ? (
-								<div>
-									<label htmlFor="other_histopathology_diagnosis">
-										Other Histopathology Diagnosis
-									</label>
-									<input
-										id="other_histopathology_diagnosis"
-										name="other_histopathology_diagnosis"
-										type="text"
-										onChange={(e) => this.handleChange(e)}
-										value={other_histopathology_diagnosis}
-										className={styles.input}
-										placeholder="Type in other histopathology diagnosis"
-										required
-									/>
-								</div>
-							) : null}
 							<div>
 								<label htmlFor="occupation">Occupation</label>
 								<select
