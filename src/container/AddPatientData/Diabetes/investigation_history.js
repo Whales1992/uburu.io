@@ -172,34 +172,18 @@ class InvestigationHistory extends Component {
 										? "Entry (unit: mV)"
 										: "Entry (unit: %)"}
 								</label>
-								{investigation === "Chest X-ray" ||
-								investigation === "Ultrasound" ||
-								investigation === "CT-Scan" ||
-								investigation === "" ? (
-									<textarea
-										id="report"
-										type="text"
-										name="report"
-										placeholder="Type in report"
-										className={styles.textarea}
-										value={report}
-										onChange={(e) =>
-											this.handleChange("report", e)
-										}
-										disabled={!investigation}
-									/>
-								) : (
-									<input
-										id="entry"
-										type="number"
-										name="entry"
-										className={styles.input}
-										value={entry}
-										onChange={(e) =>
-											this.handleChange("entry", e)
-										}
-										disabled={!investigation}
-									/>
+
+								<input
+									id="entry"
+									type="number"
+									name="entry"
+									className={styles.input}
+									value={entry}
+									onChange={(e) =>
+										this.handleChange("entry", e)
+									}
+									disabled={!investigation}
+								/>
 								)}
 							</div>
 							<div>
