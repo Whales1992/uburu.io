@@ -16,9 +16,10 @@ body {
 }
 
 :root {
-	--color-primary: #333f6b;
+	--color-primary: #242424;
 	--color-disabled: #cdced9;
 	--background-color-primary: #fbfbfb;
+	--accent-background: linear-gradient(180deg, #f7c300 0%, #fe1f00 100%);
 	--label-primary-color: #3b4346;
 
 	/* primary button */
