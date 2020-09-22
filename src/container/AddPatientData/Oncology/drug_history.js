@@ -11,13 +11,14 @@ import styles2 from "../CSS/medical_history.module.css";
 const DrugHistory = ({ history }) => {
 	const [inputValues, setInputValue] = useState({
 		drug: "",
+		Other: "",
 		dosage: "",
 		duration: "",
 		sideEffect: "",
 		date: ""
 	});
 
-	const { drug, dosage, duration, sideEffect, date } = inputValues;
+	const { drug, Other, dosage, duration, sideEffect, date } = inputValues;
 
 	function handleChange(name, e) {
 		let value;
@@ -34,6 +35,7 @@ const DrugHistory = ({ history }) => {
 	function resetRecord() {
 		setInputValue({
 			drug: "",
+			Other: "",
 			dosage: "",
 			duration: "",
 			sideEffect: "",
@@ -99,8 +101,29 @@ const DrugHistory = ({ history }) => {
 								<option>Docetaxel</option>
 								<option>Etoposide</option>
 								<option>5 Fluro-Uracil</option>
+								<option>Other</option>
 							</select>
 						</div>
+						{drug === "Others" && (
+							<div>
+								<label
+									className={!drug ? "disabled_label" : ""}
+									htmlFor="other"
+								>
+									Dosage (unit: mg)
+								</label>
+								<input
+									id="other"
+									type="text"
+									name="other"
+									className={styles.input}
+									value={Other}
+									onChange={(e) => handleChange("Other", e)}
+									disabled={!drug}
+									required
+								/>
+							</div>
+						)}
 						<div>
 							<label
 								className={!drug ? "disabled_label" : ""}
