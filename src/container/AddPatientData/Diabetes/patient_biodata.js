@@ -16,101 +16,100 @@ class PatientBiodata extends Component {
 
 		this.state = {
 			biodata: {
-				surname:
+				LastName:
 					(localStorage.bio_data &&
-						JSON.parse(localStorage.bio_data).surname) ||
+						JSON.parse(localStorage.bio_data).LastName) ||
 					"",
-				first_name:
+				FirstName:
 					(localStorage.bio_data &&
-						JSON.parse(localStorage.bio_data).first_name) ||
+						JSON.parse(localStorage.bio_data).FirstName) ||
 					"",
-				phone_number:
+				PhoneNumber:
 					(localStorage.bio_data &&
-						JSON.parse(localStorage.bio_data).phone_number) ||
+						JSON.parse(localStorage.bio_data).PhoneNumber) ||
 					"",
-				next_of_kin_phone_number:
+				KinsNumber:
+					(localStorage.bio_data &&
+						JSON.parse(localStorage.bio_data).KinsNumber) ||
+					"",
+				RelationshipToNextOfKin:
 					(localStorage.bio_data &&
 						JSON.parse(localStorage.bio_data)
-							.next_of_kin_phone_number) ||
+							.RelationshipToNextOfKin) ||
 					"",
-				relationship_to_next_of_kin:
+				FolderNo:
+					(localStorage.bio_data &&
+						JSON.parse(localStorage.bio_data).FolderNo) ||
+					"",
+				Gender:
+					(localStorage.bio_data &&
+						JSON.parse(localStorage.bio_data).Gender) ||
+					"",
+				Age:
+					(localStorage.bio_data &&
+						JSON.parse(localStorage.bio_data).Age) ||
+					"",
+				MaritalStatus:
+					(localStorage.bio_data &&
+						JSON.parse(localStorage.bio_data).MaritalStatus) ||
+					"",
+				DiabetesDiagnosis:
+					(localStorage.bio_data &&
+						JSON.parse(localStorage.bio_data).DiabetesDiagnosis) ||
+					"",
+				other_DiabetesDiagnosis:
 					(localStorage.bio_data &&
 						JSON.parse(localStorage.bio_data)
-							.relationship_to_next_of_kin) ||
+							.other_DiabetesDiagnosis) ||
 					"",
-				folder_number:
+				Occupation:
 					(localStorage.bio_data &&
-						JSON.parse(localStorage.bio_data).folder_number) ||
+						JSON.parse(localStorage.bio_data).Occupation) ||
 					"",
-				sex:
+				other_Occupation:
 					(localStorage.bio_data &&
-						JSON.parse(localStorage.bio_data).sex) ||
+						JSON.parse(localStorage.bio_data).other_Occupation) ||
 					"",
-				// age:
-				// 	(localStorage.bio_data &&
-				// 		JSON.parse(localStorage.bio_data).age) ||
-				// 	"",
-				marital_status:
+				EthnicGroup:
 					(localStorage.bio_data &&
-						JSON.parse(localStorage.bio_data).marital_status) ||
+						JSON.parse(localStorage.bio_data).EthnicGroup) ||
 					"",
-				diagnosis:
+				other_EthnicGroup:
 					(localStorage.bio_data &&
-						JSON.parse(localStorage.bio_data).diagnosis) ||
+						JSON.parse(localStorage.bio_data).other_EthnicGroup) ||
 					"",
-				other_diagnosis:
+				Religion:
 					(localStorage.bio_data &&
-						JSON.parse(localStorage.bio_data).other_diagnosis) ||
+						JSON.parse(localStorage.bio_data).Religion) ||
 					"",
-				occupation:
+				other_Religion:
 					(localStorage.bio_data &&
-						JSON.parse(localStorage.bio_data).occupation) ||
+						JSON.parse(localStorage.bio_data).other_Religion) ||
 					"",
-				other_occupation:
+				Residence:
 					(localStorage.bio_data &&
-						JSON.parse(localStorage.bio_data).other_occupation) ||
+						JSON.parse(localStorage.bio_data).Residence) ||
 					"",
-				ethnic_group:
+				HighestEducation:
 					(localStorage.bio_data &&
-						JSON.parse(localStorage.bio_data).ethnic_group) ||
+						JSON.parse(localStorage.bio_data).HighestEducation) ||
 					"",
-				other_ethnic_group:
+				AlcoholUse:
 					(localStorage.bio_data &&
-						JSON.parse(localStorage.bio_data).other_ethnic_group) ||
-					"",
-				religion:
-					(localStorage.bio_data &&
-						JSON.parse(localStorage.bio_data).religion) ||
-					"",
-				other_religion:
-					(localStorage.bio_data &&
-						JSON.parse(localStorage.bio_data).other_religion) ||
-					"",
-				residence:
-					(localStorage.bio_data &&
-						JSON.parse(localStorage.bio_data).residence) ||
-					"",
-				highest_education:
-					(localStorage.bio_data &&
-						JSON.parse(localStorage.bio_data).highest_education) ||
-					"",
-				alcohol_use:
-					(localStorage.bio_data &&
-						JSON.parse(localStorage.bio_data).alcohol_use) ||
+						JSON.parse(localStorage.bio_data).AlcoholUse) ||
 					"",
 				alcohol_frequency:
 					(localStorage.bio_data &&
 						JSON.parse(localStorage.bio_data).alcohol_frequency) ||
 					"",
-				family_history_of_diabetes:
+				DiabetesHistory:
 					(localStorage.bio_data &&
-						JSON.parse(localStorage.bio_data)
-							.family_history_of_diabetes) ||
+						JSON.parse(localStorage.bio_data).DiabetesHistory) ||
 					"",
-				self_glucose_monitoring:
+				SelfGlucoseMonitoring:
 					(localStorage.bio_data &&
 						JSON.parse(localStorage.bio_data)
-							.self_glucose_monitoring) ||
+							.SelfGlucoseMonitoring) ||
 					""
 			},
 			//end of parameters
@@ -140,25 +139,25 @@ class PatientBiodata extends Component {
 		this.setState({ submitting: true });
 		if (!window.navigator.onLine) {
 			localForage
-				.setItem(this.state.biodata.folder_number, {
+				.setItem(this.state.biodata.FolderNo, {
 					bioData: {
 						...this.state.biodata,
-						diagnosis:
-							this.state.bioData.diagnosis === "Others"
-								? this.state.bioData.other_diagnosis
-								: this.state.bioData.diagnosis,
-						occupation:
-							this.state.bioData.occupation === "Others"
-								? this.state.bioData.other_occupation
-								: this.state.bioData.occupation,
-						ethnic_group:
-							this.state.bioData.ethnic_group === "Others"
-								? this.state.bioData.other_ethnic_group
-								: this.state.bioData.ethnic_group,
-						religion:
-							this.state.bioData.religion === "Others"
-								? this.state.bioData.other_religion
-								: this.state.bioData.religion
+						DiabetesDiagnosis:
+							this.state.bioData.DiabetesDiagnosis === "Others"
+								? this.state.bioData.other_DiabetesDiagnosis
+								: this.state.bioData.DiabetesDiagnosis,
+						Occupation:
+							this.state.bioData.Occupation === "Others"
+								? this.state.bioData.other_Occupation
+								: this.state.bioData.Occupation,
+						EthnicGroup:
+							this.state.bioData.EthnicGroup === "Others"
+								? this.state.bioData.other_EthnicGroup
+								: this.state.bioData.EthnicGroup,
+						Religion:
+							this.state.bioData.Religion === "Others"
+								? this.state.bioData.other_Religion
+								: this.state.bioData.Religion
 					}
 				})
 				.then((value) => {
@@ -166,28 +165,28 @@ class PatientBiodata extends Component {
 					this.setState({
 						submitting: false,
 						biodata: {
-							surname: "",
-							first_name: "",
-							phone_number: "",
-							next_of_kin_phone_number: "",
-							relationship_to_next_of_kin: "",
-							folder_number: "",
-							sex: "",
-							// age: "",
-							marital_status: "",
-							diagnosis: "",
-							other_diagnosis: "",
-							occupation: "",
-							other_occupation: "",
-							ethnic_group: "",
-							other_ethnic_group: "",
-							religion: "",
-							other_religion: "",
-							residence: "",
-							highest_education: "",
-							alcohol_use: "",
+							LastName: "",
+							FirstName: "",
+							PhoneNumber: "",
+							KinsNumber: "",
+							RelationshipToNextOfKin: "",
+							FolderNo: "",
+							Gender: "",
+							Age: "",
+							MaritalStatus: "",
+							DiabetesDiagnosis: "",
+							other_DiabetesDiagnosis: "",
+							Occupation: "",
+							other_Occupation: "",
+							EthnicGroup: "",
+							other_EthnicGroup: "",
+							Religion: "",
+							other_Religion: "",
+							Residence: "",
+							HighestEducation: "",
+							AlcoholUse: "",
 							alcohol_frequency: "",
-							family_history_of_diabetes: ""
+							DiabetesHistory: ""
 						}
 					});
 				})
@@ -197,29 +196,29 @@ class PatientBiodata extends Component {
 				});
 		} else {
 			const {
-				surname,
-				first_name,
-				phone_number,
-				next_of_kin_phone_number,
-				relationship_to_next_of_kin,
-				folder_number,
-				sex,
-				// age,
-				marital_status,
-				diagnosis,
-				other_diagnosis,
-				occupation,
-				other_occupation,
-				ethnic_group,
-				other_ethnic_group,
-				religion,
-				other_religion,
-				residence,
-				highest_education,
+				LastName,
+				FirstName,
+				PhoneNumber,
+				KinsNumber,
+				RelationshipToNextOfKin,
+				FolderNo,
+				Gender,
+				Age,
+				MaritalStatus,
+				DiabetesDiagnosis,
+				other_DiabetesDiagnosis,
+				Occupation,
+				other_Occupation,
+				EthnicGroup,
+				other_EthnicGroup,
+				Religion,
+				other_Religion,
+				Residence,
+				HighestEducation,
 				alcohol_frequency,
-				alcohol_use,
-				family_history_of_diabetes,
-				self_glucose_monitoring
+				AlcoholUse,
+				DiabetesHistory,
+				SelfGlucoseMonitoring
 			} = this.state.biodata;
 			try {
 				const request = await fetch(`${url}/patient`, {
@@ -230,37 +229,37 @@ class PatientBiodata extends Component {
 						Authorisation: `Bearer ${localStorage.accessToken}`
 					},
 					body: JSON.stringify({
-						Surname: surname,
-						FirstName: first_name,
-						PhoneNumber: phone_number,
-						KinsNumber: next_of_kin_phone_number,
-						RelationshipToNextOfKin: relationship_to_next_of_kin,
-						Gender: sex,
-						// Age: age,
-						MaritalStatus: marital_status,
+						LastName,
+						FirstName,
+						PhoneNumber,
+						KinsNumber,
+						RelationshipToNextOfKin,
+						Gender,
+						Age,
+						MaritalStatus,
 						Occupation:
-							occupation === "Others"
-								? other_occupation
-								: occupation,
+							Occupation === "Others"
+								? other_Occupation
+								: Occupation,
 						EthnicGroup:
-							ethnic_group === "Others"
-								? other_ethnic_group
-								: ethnic_group,
+							EthnicGroup === "Others"
+								? other_EthnicGroup
+								: EthnicGroup,
 						Religion:
-							religion === "Others" ? other_religion : religion,
-						Residence: residence,
-						HighestEducation: highest_education,
-						FolderNumber: folder_number,
+							Religion === "Others" ? other_Religion : Religion,
+						Residence,
+						HighestEducation: HighestEducation,
+						FolderNumber: FolderNo,
 						DiabetesDiagnosis:
-							diagnosis === "Others"
-								? other_diagnosis
-								: diagnosis,
+							DiabetesDiagnosis === "Others"
+								? other_DiabetesDiagnosis
+								: DiabetesDiagnosis,
 						AlcoholUse:
-							alcohol_use === "Yes"
+							AlcoholUse === "Yes"
 								? alcohol_frequency
-								: alcohol_use,
-						DiabetesHistory: family_history_of_diabetes,
-						SelfGlucoseMonitoring: self_glucose_monitoring
+								: AlcoholUse,
+						DiabetesHistory,
+						SelfGlucoseMonitoring
 					})
 				});
 
@@ -280,29 +279,29 @@ class PatientBiodata extends Component {
 
 	render() {
 		const {
-			surname,
-			first_name,
-			phone_number,
-			next_of_kin_phone_number,
-			relationship_to_next_of_kin,
-			folder_number,
-			sex,
-			// age,
-			marital_status,
-			diagnosis,
-			other_diagnosis,
-			occupation,
-			other_occupation,
-			ethnic_group,
-			other_ethnic_group,
-			religion,
-			other_religion,
-			residence,
-			highest_education,
-			alcohol_use,
+			LastName,
+			FirstName,
+			PhoneNumber,
+			KinsNumber,
+			RelationshipToNextOfKin,
+			FolderNo,
+			Gender,
+			Age,
+			MaritalStatus,
+			DiabetesDiagnosis,
+			other_DiabetesDiagnosis,
+			Occupation,
+			other_Occupation,
+			EthnicGroup,
+			other_EthnicGroup,
+			Religion,
+			other_Religion,
+			Residence,
+			HighestEducation,
+			AlcoholUse,
 			alcohol_frequency,
-			family_history_of_diabetes,
-			self_glucose_monitoring
+			DiabetesHistory,
+			SelfGlucoseMonitoring
 		} = this.state.biodata;
 
 		return (
@@ -316,41 +315,41 @@ class PatientBiodata extends Component {
 						</h3>
 						<div className={styles.fields}>
 							<div>
-								<label htmlFor="surname">Surname</label>
+								<label htmlFor="LastName">Surname</label>
 								<input
-									id="surname"
+									id="LastName"
 									type="text"
-									name="surname"
+									name="LastName"
 									className={styles.input}
 									onChange={(e) => this.handleChange(e)}
-									value={surname}
-									placeholder="Enter patient's surname"
+									value={LastName}
+									placeholder="Enter patient's LastName"
 									required
 								/>
 							</div>
 							<div>
-								<label htmlFor="first_name">First Name</label>
+								<label htmlFor="FirstName">First Name</label>
 								<input
-									id="first_name"
+									id="FirstName"
 									type="text"
-									name="first_name"
+									name="FirstName"
 									className={styles.input}
 									onChange={(e) => this.handleChange(e)}
-									value={first_name}
+									value={FirstName}
 									placeholder="Enter patient's first name"
 									required
 								/>
 							</div>
 							<div>
-								<label htmlFor="phone_number">
+								<label htmlFor="PhoneNumber">
 									Phone Number
 								</label>
 								<input
-									id="phone_number"
-									name="phone_number"
+									id="PhoneNumber"
+									name="PhoneNumber"
 									type="tel"
 									onChange={(e) => this.handleChange(e)}
-									value={phone_number}
+									value={PhoneNumber}
 									className={styles.input}
 									placeholder="Enter phone number"
 									minLength="11"
@@ -358,15 +357,15 @@ class PatientBiodata extends Component {
 								/>
 							</div>
 							<div>
-								<label htmlFor="next_of_kin_phone_number">
+								<label htmlFor="KinsNumber">
 									Next of Kin's Phone Number
 								</label>
 								<input
-									id="next_of_kin_phone_number"
-									name="next_of_kin_phone_number"
+									id="KinsNumber"
+									name="KinsNumber"
 									type="tel"
 									onChange={(e) => this.handleChange(e)}
-									value={next_of_kin_phone_number}
+									value={KinsNumber}
 									className={styles.input}
 									placeholder="Enter next of kin's phone number"
 									minLength="11"
@@ -374,41 +373,39 @@ class PatientBiodata extends Component {
 								/>
 							</div>
 							<div>
-								<label htmlFor="relationship_to_next_of_kin">
+								<label htmlFor="RelationshipToNextOfKin">
 									First Name
 								</label>
 								<input
-									id="relationship_to_next_of_kin"
+									id="RelationshipToNextOfKin"
 									type="text"
-									name="relationship_to_next_of_kin"
+									name="RelationshipToNextOfKin"
 									className={styles.input}
 									onChange={(e) => this.handleChange(e)}
-									value={relationship_to_next_of_kin}
+									value={RelationshipToNextOfKin}
 									placeholder="Enter relationship to next of kin"
 									required
 								/>
 							</div>
 							<div>
-								<label htmlFor="folder_number">
-									Folder Number
-								</label>
+								<label htmlFor="FolderNo">Folder Number</label>
 								<input
-									id="folder_number"
-									name="folder_number"
+									id="FolderNo"
+									name="FolderNo"
 									type="number"
 									onChange={(e) => this.handleChange(e)}
-									value={folder_number}
+									value={FolderNo}
 									className={styles.input}
 									placeholder="Enter folder number"
 									required
 								/>
 							</div>
 							<div>
-								<label htmlFor="sex">Sex</label>
+								<label htmlFor="Gender">Sex</label>
 								<select
-									id="sex"
-									name="sex"
-									value={sex}
+									id="Gender"
+									name="Gender"
+									value={Gender}
 									onChange={(e) => this.handleChange(e)}
 									className={styles.input}
 									required
@@ -419,13 +416,13 @@ class PatientBiodata extends Component {
 								</select>
 							</div>
 							{/* <div>
-								<label htmlFor="age">Age</label>
+								<label htmlAge">Age</label>
 								<input
-									id="age"
-									name="age"
+								Age"
+									nAge"
 									type="number"
 									onChange={(e) => this.handleChange(e)}
-									value={age}
+									vaAge}
 									className={styles.input}
 									placeholder="Enter Age"
 									minLength="1"
@@ -434,13 +431,13 @@ class PatientBiodata extends Component {
 								/>
 							</div> */}
 							<div>
-								<label htmlFor="marital_status">
+								<label htmlFor="MaritalStatus">
 									Marital Status
 								</label>
 								<select
-									id="marital_status"
-									name="marital_status"
-									value={marital_status}
+									id="MaritalStatus"
+									name="MaritalStatus"
+									value={MaritalStatus}
 									onChange={(e) => this.handleChange(e)}
 									className={styles.input}
 									required
@@ -453,13 +450,13 @@ class PatientBiodata extends Component {
 								</select>
 							</div>
 							<div>
-								<label htmlFor="diagnosis">
+								<label htmlFor="DiabetesDiagnosis">
 									Diabetes Diagnosis
 								</label>
 								<select
-									id="diagnosis"
-									name="diagnosis"
-									value={diagnosis}
+									id="DiabetesDiagnosis"
+									name="DiabetesDiagnosis"
+									value={DiabetesDiagnosis}
 									onChange={(e) => this.handleChange(e)}
 									className={styles.input}
 									required
@@ -471,29 +468,29 @@ class PatientBiodata extends Component {
 									<option>Others</option>
 								</select>
 							</div>
-							{diagnosis === "Others" ? (
+							{DiabetesDiagnosis === "Others" ? (
 								<div>
-									<label htmlFor="other_diagnosis">
+									<label htmlFor="other_DiabetesDiagnosis">
 										Other Diagnosis
 									</label>
 									<input
-										id="other_diagnosis"
+										id="other_DiabetesDiagnosis"
 										type="text"
-										name="other_diagnosis"
+										name="other_DiabetesDiagnosis"
 										className={styles.input}
 										onChange={(e) => this.handleChange(e)}
-										value={other_diagnosis}
-										placeholder="Type in other diagnosis"
+										value={other_DiabetesDiagnosis}
+										placeholder="Type in other DiabetesDiagnosis"
 										required
 									/>
 								</div>
 							) : null}
 							<div>
-								<label htmlFor="occupation">Occupation</label>
+								<label htmlFor="Occupation">Occupation</label>
 								<select
-									id="occupation"
-									name="occupation"
-									value={occupation}
+									id="Occupation"
+									name="Occupation"
+									value={Occupation}
 									onChange={(e) => this.handleChange(e)}
 									className={styles.input}
 									required
@@ -508,31 +505,31 @@ class PatientBiodata extends Component {
 									<option>Others</option>
 								</select>
 							</div>
-							{occupation === "Others" ? (
+							{Occupation === "Others" ? (
 								<div>
-									<label htmlFor="other_occupation">
+									<label htmlFor="other_Occupation">
 										Other Occupation
 									</label>
 									<input
-										id="other_occupation"
-										name="other_occupation"
+										id="other_Occupation"
+										name="other_Occupation"
 										type="text"
 										onChange={(e) => this.handleChange(e)}
-										value={other_occupation}
+										value={other_Occupation}
 										className={styles.input}
-										placeholder="Type in other occupation"
+										placeholder="Type in other Occupation"
 										required
 									/>
 								</div>
 							) : null}
 							<div>
-								<label htmlFor="ethnic_group">
+								<label htmlFor="EthnicGroup">
 									Ethnic Group
 								</label>
 								<select
-									id="ethnic_group"
-									name="ethnic_group"
-									value={ethnic_group}
+									id="EthnicGroup"
+									name="EthnicGroup"
+									value={EthnicGroup}
 									onChange={(e) => this.handleChange(e)}
 									className={styles.input}
 									required
@@ -544,17 +541,17 @@ class PatientBiodata extends Component {
 									<option>Others</option>
 								</select>
 							</div>
-							{ethnic_group === "Others" ? (
+							{EthnicGroup === "Others" ? (
 								<div>
-									<label htmlFor="other_ethnic_group">
+									<label htmlFor="other_EthnicGroup">
 										Other Ethnic Group
 									</label>
 									<input
-										id="other_ethnic_group"
-										name="other_ethnic_group"
+										id="other_EthnicGroup"
+										name="other_EthnicGroup"
 										type="text"
 										onChange={(e) => this.handleChange(e)}
-										value={other_ethnic_group}
+										value={other_EthnicGroup}
 										className={styles.input}
 										placeholder="Type in other ethnic group"
 										required
@@ -562,11 +559,11 @@ class PatientBiodata extends Component {
 								</div>
 							) : null}
 							<div>
-								<label htmlFor="religion">Religion</label>
+								<label htmlFor="Religion">Religion</label>
 								<select
-									id="religion"
-									name="religion"
-									value={religion}
+									id="Religion"
+									name="Religion"
+									value={Religion}
 									onChange={(e) => this.handleChange(e)}
 									className={styles.input}
 									required
@@ -579,29 +576,29 @@ class PatientBiodata extends Component {
 									<option>Islam</option>
 								</select>
 							</div>
-							{religion === "Others" ? (
+							{Religion === "Others" ? (
 								<div>
-									<label htmlFor="other_religion">
+									<label htmlFor="other_Religion">
 										Other Religion
 									</label>
 									<input
-										id="other_religion"
-										name="other_religion"
+										id="other_Religion"
+										name="other_Religion"
 										type="text"
 										onChange={(e) => this.handleChange(e)}
-										value={other_religion}
+										value={other_Religion}
 										className={styles.input}
-										placeholder="Type in other religion"
+										placeholder="Type in other Religion"
 										required
 									/>
 								</div>
 							) : null}
 							<div>
-								<label htmlFor="residence">Residence</label>
+								<label htmlFor="Residence">Residence</label>
 								<select
-									id="residence"
-									name="residence"
-									value={residence}
+									id="Residence"
+									name="Residence"
+									value={Residence}
 									onChange={(e) => this.handleChange(e)}
 									className={styles.input}
 								>
@@ -612,13 +609,13 @@ class PatientBiodata extends Component {
 								</select>
 							</div>
 							<div>
-								<label htmlFor="highest_education">
+								<label htmlFor="HighestEducation">
 									Highest Education
 								</label>
 								<select
-									id="highest_education"
-									name="highest_education"
-									value={highest_education}
+									id="HighestEducation"
+									name="HighestEducation"
+									value={HighestEducation}
 									onChange={(e) => this.handleChange(e)}
 									className={styles.input}
 								>
@@ -630,11 +627,11 @@ class PatientBiodata extends Component {
 								</select>
 							</div>
 							<div>
-								<label htmlFor="alcohol_use">Alcohol Use</label>
+								<label htmlFor="AlcoholUse">Alcohol Use</label>
 								<select
-									id="alcohol_use"
-									name="alcohol_use"
-									value={alcohol_use}
+									id="AlcoholUse"
+									name="AlcoholUse"
+									value={AlcoholUse}
 									onChange={(e) => this.handleChange(e)}
 									className={styles.input}
 								>
@@ -643,7 +640,7 @@ class PatientBiodata extends Component {
 									<option>No</option>
 								</select>
 							</div>
-							{alcohol_use === "Yes" ? (
+							{AlcoholUse === "Yes" ? (
 								<div>
 									<label htmlFor="alcohol_frequency">
 										Alcohol Frequency (bottles per week)
@@ -660,13 +657,13 @@ class PatientBiodata extends Component {
 								</div>
 							) : null}
 							<div>
-								<label htmlFor="family_history_of_diabetes">
+								<label htmlFor="DiabetesHistory">
 									Family History of Diabetes
 								</label>
 								<select
-									id="family_history_of_diabetes"
-									name="family_history_of_diabetes"
-									value={family_history_of_diabetes}
+									id="DiabetesHistory"
+									name="DiabetesHistory"
+									value={DiabetesHistory}
 									onChange={(e) => this.handleChange(e)}
 									className={styles.input}
 								>
@@ -676,13 +673,13 @@ class PatientBiodata extends Component {
 								</select>
 							</div>
 							<div>
-								<label htmlFor="self_glucose_monitoring">
+								<label htmlFor="SelfGlucoseMonitoring">
 									Self Glucose Monitoring
 								</label>
 								<select
-									id="self_glucose_monitoring"
-									name="self_glucose_monitoring"
-									value={self_glucose_monitoring}
+									id="SelfGlucoseMonitoring"
+									name="SelfGlucoseMonitoring"
+									value={SelfGlucoseMonitoring}
 									onChange={(e) => this.handleChange(e)}
 									className={styles.input}
 								>
@@ -697,24 +694,24 @@ class PatientBiodata extends Component {
 								className="secondary_btn"
 								type="submit"
 								disabled={
-									!surname ||
-									!first_name ||
-									!sex ||
-									// !age ||
-									!relationship_to_next_of_kin ||
-									!folder_number ||
-									!marital_status ||
-									!diagnosis ||
-									(diagnosis === "Others" &&
-										!other_diagnosis) ||
-									!occupation ||
-									(occupation === "Others" &&
-										!other_occupation) ||
-									!ethnic_group ||
-									(ethnic_group === "Others" &&
-										!other_ethnic_group) ||
-									!religion ||
-									(religion === "Others" && !other_religion)
+									!LastName ||
+									!FirstName ||
+									!Gender ||
+									Age ||
+									!RelationshipToNextOfKin ||
+									!FolderNo ||
+									!MaritalStatus ||
+									!DiabetesDiagnosis ||
+									(DiabetesDiagnosis === "Others" &&
+										!other_DiabetesDiagnosis) ||
+									!Occupation ||
+									(Occupation === "Others" &&
+										!other_Occupation) ||
+									!EthnicGroup ||
+									(EthnicGroup === "Others" &&
+										!other_EthnicGroup) ||
+									!Religion ||
+									(Religion === "Others" && !other_Religion)
 										? true
 										: false
 								}
@@ -725,30 +722,29 @@ class PatientBiodata extends Component {
 								className="primary_btn"
 								type="button"
 								disabled={
-									!surname ||
-									!first_name ||
-									!sex ||
-									// !age ||
-									!folder_number ||
-									!marital_status ||
-									!diagnosis ||
-									(diagnosis === "Others" &&
-										!other_diagnosis) ||
-									!occupation ||
-									(occupation === "Others" &&
-										!other_occupation) ||
-									!ethnic_group ||
-									(ethnic_group === "Others" &&
-										!other_ethnic_group) ||
-									!religion ||
-									(religion === "Others" &&
-										!other_religion) ||
-									!residence ||
-									!highest_education ||
-									!alcohol_use ||
-									!family_history_of_diabetes ||
-									(alcohol_use === "Yes" &&
-										!alcohol_frequency)
+									!LastName ||
+									!FirstName ||
+									!Gender ||
+									Age ||
+									!FolderNo ||
+									!MaritalStatus ||
+									!DiabetesDiagnosis ||
+									(DiabetesDiagnosis === "Others" &&
+										!other_DiabetesDiagnosis) ||
+									!Occupation ||
+									(Occupation === "Others" &&
+										!other_Occupation) ||
+									!EthnicGroup ||
+									(EthnicGroup === "Others" &&
+										!other_EthnicGroup) ||
+									!Religion ||
+									(Religion === "Others" &&
+										!other_Religion) ||
+									!Residence ||
+									!HighestEducation ||
+									!AlcoholUse ||
+									!DiabetesHistory ||
+									(AlcoholUse === "Yes" && !alcohol_frequency)
 										? true
 										: false
 								}
