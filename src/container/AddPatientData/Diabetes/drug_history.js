@@ -60,8 +60,8 @@ const DrugHistory = ({ history }) => {
 			...inputValues,
 			drug: drug === "Others" ? other_drug : drug
 		};
-        
-        delete modifiedValues.other_drug;
+
+		delete modifiedValues.other_drug;
 
 		if (localStorageValue) {
 			localStorageValue.push(modifiedValues);
@@ -93,7 +93,7 @@ const DrugHistory = ({ history }) => {
 			<Shell>
 				<form
 					className={styles.form}
-					onSubmit={(e) => submitRecord(e, "drug_history")}
+					onSubmit={(e) => submitRecord(e, "Drugs")}
 				>
 					<div className={styles.fields}>
 						<div>

@@ -86,9 +86,7 @@ class InvestigationHistory extends Component {
 				<Shell>
 					<form
 						className={styles.form}
-						onSubmit={(e) =>
-							this.submitRecord(e, "investigation_history")
-						}
+						onSubmit={(e) => this.submitRecord(e, "Investigation")}
 					>
 						<div className={styles.fields}>
 							<div>

@@ -76,7 +76,7 @@ const DrugHistory = ({ history }) => {
 			<Shell>
 				<form
 					className={styles.form}
-					onSubmit={(e) => submitRecord(e, "drug_history")}
+					onSubmit={(e) => submitRecord(e, "Drugs")}
 				>
 					<div className={styles.fields}>
 						<div>
