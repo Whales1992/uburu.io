@@ -750,7 +750,8 @@ class PatientBiodata extends Component {
 								}
 								onClick={() =>
 									this.props.history.push(
-										"/add_patient_data/medical_history"
+										"/add_patient_data/medical_history",
+										FolderNo
 									)
 								}
 							>

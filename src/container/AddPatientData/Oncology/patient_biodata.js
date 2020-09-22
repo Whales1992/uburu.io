@@ -35,8 +35,7 @@ class PatientBiodata extends Component {
 					"",
 				KinsNumber:
 					(localStorage.bio_data &&
-						JSON.parse(localStorage.bio_data)
-							.KinsNumber) ||
+						JSON.parse(localStorage.bio_data).KinsNumber) ||
 					"",
 				RelationshipToNextOfKin:
 					(localStorage.bio_data &&
@@ -61,8 +60,7 @@ class PatientBiodata extends Component {
 					"",
 				HistoDiagnosis:
 					(localStorage.bio_data &&
-						JSON.parse(localStorage.bio_data)
-							.HistoDiagnosis) ||
+						JSON.parse(localStorage.bio_data).HistoDiagnosis) ||
 					"",
 				other_histopathology_diagnosis:
 					(localStorage.bio_data &&
@@ -95,8 +93,7 @@ class PatientBiodata extends Component {
 					"",
 				OrganDiagnosis:
 					(localStorage.bio_data &&
-						JSON.parse(localStorage.bio_data)
-							.OrganDiagnosis) ||
+						JSON.parse(localStorage.bio_data).OrganDiagnosis) ||
 					"",
 				other_primary_organ_affected:
 					(localStorage.bio_data &&
@@ -121,8 +118,7 @@ class PatientBiodata extends Component {
 					"",
 				FamilyHistory:
 					(localStorage.bio_data &&
-						JSON.parse(localStorage.bio_data)
-							.FamilyHistory) ||
+						JSON.parse(localStorage.bio_data).FamilyHistory) ||
 					""
 			},
 			//end of parameters
@@ -157,8 +153,7 @@ class PatientBiodata extends Component {
 					bioData: {
 						...this.state.biodata,
 						HistoDiagnosis:
-							this.state.biodata.HistoDiagnosis ===
-							"Others"
+							this.state.biodata.HistoDiagnosis === "Others"
 								? this.state.biodata
 										.other_histopathology_diagnosis
 								: this.state.biodata.HistoDiagnosis,
@@ -175,8 +170,7 @@ class PatientBiodata extends Component {
 								? this.state.biodata.other_religion
 								: this.state.biodata.Religion,
 						OrganDiagnosis:
-							this.state.biodata.OrganDiagnosis ===
-							"Others"
+							this.state.biodata.OrganDiagnosis === "Others"
 								? this.state.biodata
 										.other_primary_organ_affected
 								: this.state.biodata.OrganDiagnosis
@@ -423,9 +417,7 @@ class PatientBiodata extends Component {
 								/>
 							</div>
 							<div>
-								<label htmlFor="FolderNo">
-									Folder Number
-								</label>
+								<label htmlFor="FolderNo">Folder Number</label>
 								<input
 									id="FolderNo"
 									name="FolderNo"
@@ -809,12 +801,12 @@ class PatientBiodata extends Component {
 									!HighestEducation ||
 									!FamilyHistory ||
 									!AlcoholUse ||
-									(AlcoholUse === "Yes" &&
-										!alcohol_frequency)
+									(AlcoholUse === "Yes" && !alcohol_frequency)
 								}
 								onClick={() =>
 									this.props.history.push(
-										"/add_patient_data/medical_history"
+										"/add_patient_data/medical_history",
+										FolderNo
 									)
 								}
 							>
