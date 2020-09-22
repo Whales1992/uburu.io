@@ -79,9 +79,9 @@ class TreatmentOutcome extends Component {
 			localStorage.getItem("Treatment_Outcome")
 		);
 		const medicalHistory = {
-			assessment: JSON.parse(localStorage.getItem("Assessment")),
-			care: JSON.parse(localStorage.getItem("Care")),
-			complication: JSON.parse(localStorage.getItem("Complication"))
+			Assessment: JSON.parse(localStorage.getItem("Assessment")),
+			Care: JSON.parse(localStorage.getItem("Care")),
+			Complication: JSON.parse(localStorage.getItem("Complication"))
 		};
 
 		let dataObject = {};
@@ -165,7 +165,7 @@ class TreatmentOutcome extends Component {
 					<form
 						className={styles.form}
 						onSubmit={(e) =>
-							this.submitRecord(e, "Treatment_Outcome")
+							this.submitRecord(e, "Treatment")
 						}
 					>
 						<div className={styles.current_style}>
