@@ -10,20 +10,20 @@ import styles2 from "../CSS/medical_history.module.css";
 
 const DrugHistory = ({ history }) => {
 	const [inputValues, setInputValue] = useState({
-		drug: "",
+		Drug: "",
 		Other: "",
-		dosage: "",
-		duration: "",
-		sideEffect: "",
-		date: ""
+		Dosage: "",
+		Duration: "",
+		SideEffect: "",
+		Date: ""
 	});
 
-	const { drug, Other, dosage, duration, sideEffect, date } = inputValues;
+	const { Drug, Other, Dosage, Duration, SideEffect, Date } = inputValues;
 
 	function handleChange(name, e) {
 		let value;
 
-		if (name === "date") {
+		if (name === "Date") {
 			value = e;
 		} else {
 			value = e.target.value;
@@ -34,12 +34,12 @@ const DrugHistory = ({ history }) => {
 
 	function resetRecord() {
 		setInputValue({
-			drug: "",
+			Drug: "",
 			Other: "",
-			dosage: "",
-			duration: "",
-			sideEffect: "",
-			date: ""
+			Dosage: "",
+			Duration: "",
+			SideEffect: "",
+			Date: ""
 		});
 	}
 
@@ -63,7 +63,7 @@ const DrugHistory = ({ history }) => {
 	}
 
 	function next(recordName) {
-		if (drug && dosage && duration && date) {
+		if (Drug && Dosage && Duration && Date) {
 			submitRecord(null, recordName);
 			history.push("/add_patient_data/investigation_history");
 		} else {
@@ -82,13 +82,13 @@ const DrugHistory = ({ history }) => {
 				>
 					<div className={styles.fields}>
 						<div>
-							<label htmlFor="drug">Drug</label>
+							<label htmlFor="Drug">Drug</label>
 							<select
-								id="drug"
-								name="drug"
+								id="Drug"
+								name="Drug"
 								className={styles.input}
-								value={drug}
-								onChange={(e) => handleChange("drug", e)}
+								value={Drug}
+								onChange={(e) => handleChange("Drug", e)}
 								required
 							>
 								<option></option>
@@ -104,10 +104,10 @@ const DrugHistory = ({ history }) => {
 								<option>Other</option>
 							</select>
 						</div>
-						{drug === "Others" && (
+						{Drug === "Others" && (
 							<div>
 								<label
-									className={!drug ? "disabled_label" : ""}
+									className={!Drug ? "disabled_label" : ""}
 									htmlFor="other"
 								>
 									Dosage (unit: mg)
@@ -119,91 +119,91 @@ const DrugHistory = ({ history }) => {
 									className={styles.input}
 									value={Other}
 									onChange={(e) => handleChange("Other", e)}
-									disabled={!drug}
+									disabled={!Drug}
 									required
 								/>
 							</div>
 						)}
 						<div>
 							<label
-								className={!drug ? "disabled_label" : ""}
-								htmlFor="dosage"
+								className={!Drug ? "disabled_label" : ""}
+								htmlFor="Dosage"
 							>
 								Dosage (unit: mg)
 							</label>
 							<input
-								id="dosage"
+								id="Dosage"
 								type="number"
-								name="dosage"
+								name="Dosage"
 								className={styles.input}
-								value={dosage}
-								onChange={(e) => handleChange("dosage", e)}
-								disabled={!drug}
+								value={Dosage}
+								onChange={(e) => handleChange("Dosage", e)}
+								disabled={!Drug}
 								required
 							/>
 						</div>
 						<div>
 							<label
-								className={!dosage ? "disabled_label" : ""}
-								htmlFor="duration"
+								className={!Dosage ? "disabled_label" : ""}
+								htmlFor="Duration"
 							>
 								Duration
 							</label>
 							<input
-								id="duration"
+								id="Duration"
 								type="number"
-								name="duration"
+								name="Duration"
 								className={styles.input}
-								value={duration}
-								onChange={(e) => handleChange("duration", e)}
-								disabled={!dosage}
+								value={Duration}
+								onChange={(e) => handleChange("Duration", e)}
+								disabled={!Dosage}
 								required
 							/>
 						</div>
 						<div>
 							<label
-								className={!duration ? "disabled_label" : ""}
-								htmlFor="sideEffect"
+								className={!Duration ? "disabled_label" : ""}
+								htmlFor="SideEffect"
 							>
 								Side Effects
 							</label>
 							<textarea
-								id="sideEffect"
+								id="SideEffect"
 								type="text"
 								name="side effect"
 								placeholder="Type in side effects"
 								className={styles.textarea}
-								value={sideEffect}
-								onChange={(e) => handleChange("sideEffect", e)}
-								disabled={!dosage}
+								value={SideEffect}
+								onChange={(e) => handleChange("SideEffect", e)}
+								disabled={!Dosage}
 							/>
 						</div>
 						<div>
 							<label
-								className={!duration ? "disabled_label" : ""}
-								htmlFor="date"
+								className={!Duration ? "disabled_label" : ""}
+								htmlFor="Date"
 							>
 								Date of Record
 							</label>
 							<DatePicker
-								id="date"
-								name="date"
-								value={date}
+								id="Date"
+								name="Date"
+								value={Date}
 								className={styles.input}
-								onChange={(e) => handleChange("date", e)}
+								onChange={(e) => handleChange("Date", e)}
 								required
 								format="dd/MM/y"
-								disabled={!dosage}
+								disabled={!Dosage}
 							/>
 						</div>
 						<button
 							type="submit"
 							className={
-								!drug || !dosage || !date || !duration
+								!Drug || !Dosage || !Date || !Duration
 									? styles2.submit_btn_disabled
 									: styles2.submit_btn
 							}
-							disabled={!drug || !dosage || !date || !duration}
+							disabled={!Drug || !Dosage || !Date || !Duration}
 						>
 							Add New Record
 						</button>
