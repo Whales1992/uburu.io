@@ -172,6 +172,37 @@ class PatientBiodata extends Component {
 			if (recordArray) {
 				recordArray.push(modifiedData);
 				localForage.setItem("BioData", recordArray);
+
+				localStorage.removeItem("bio_data");
+				this.setState({
+					submitting: false,
+					biodata: {
+						LastName: "",
+						FirstName: "",
+						PhoneNumber: "",
+						KinsNumber: "",
+						RelationshipToNextOfKin: "",
+						FolderNo: "",
+						Gender: "",
+						Age: "",
+						MaritalStatus: "",
+						HistoDiagnosis: "",
+						other_histopathology_diagnosis: "",
+						Occupation: "",
+						other_occupation: "",
+						OrganDiagnosis: "",
+						other_primary_organ_affected: "",
+						EthnicGroup: "",
+						other_ethnic_group: "",
+						Religion: "",
+						other_religion: "",
+						Residence: "",
+						HighestEducation: "",
+						AlcoholUse: "",
+						alcohol_frequency: "",
+						FamilyHistory: ""
+					}
+				});
 			} else {
 				localForage
 					.setItem("BioData", [modifiedData])
