@@ -38,7 +38,7 @@ class MedicalHistoryData extends Component {
 			Description: "",
 			Other: "",
 			Value: "",
-			Date: ""
+			RecordDate: ""
 		};
 
 		this.handleChange = this.handleChange.bind(this);
@@ -62,7 +62,7 @@ class MedicalHistoryData extends Component {
 			Description: "",
 			Other: "",
 			Value: "",
-			Date: ""
+			RecordDate: ""
 		});
 	}
 
@@ -76,13 +76,13 @@ class MedicalHistoryData extends Component {
 
 	async submitRecord(e, recordName) {
 		if (e) e.preventDefault();
-		const { Nature, Description, Value, Date, Other } = this.state;
+		const { Nature, Description, Value, RecordDate, Other } = this.state;
 
 		const modifiedRecord = {
 			Nature,
 			Description: Description === "Other" ? Other : Description,
 			Duration: Value,
-			RecordDate: Date,
+			RecordDate: RecordDate,
 			FolderNo: this.props.location.state,
 			Type: recordName
 		};
@@ -125,9 +125,9 @@ class MedicalHistoryData extends Component {
 	}
 
 	continue(recordName) {
-		const { Nature, Description, Value, Date } = this.state;
+		const { Nature, Description, Value, RecordDate } = this.state;
 
-		if (Nature && Description && Value && Date) {
+		if (Nature && Description && Value && RecordDate) {
 			this.submitRecord(null, recordName);
 			this.props.history.push(
 				"/add_patient_data/drug_history",
@@ -142,7 +142,7 @@ class MedicalHistoryData extends Component {
 	}
 
 	render() {
-		const { Nature, Description, Value, Date, Other } = this.state;
+		const { Nature, Description, Value, RecordDate, Other } = this.state;
 		return (
 			<>
 				<TopBar hide_on_small_screens />
@@ -487,18 +487,18 @@ class MedicalHistoryData extends Component {
 														? "disabled_label"
 														: ""
 												}
-												htmlFor="Date"
+												htmlFor="RecordDate"
 											>
-												Date of Record
+												RecordDate of Record
 											</label>
 											<DatePicker
-												id="Date"
-												name="Date"
-												value={Date}
+												id="RecordDate"
+												name="RecordDate"
+												value={RecordDate}
 												className={styles.input}
 												onChange={(e) =>
 													this.handleDateChange(
-														"Date",
+														"RecordDate",
 														e
 													)
 												}
@@ -513,7 +513,7 @@ class MedicalHistoryData extends Component {
 												!Nature ||
 												!Description ||
 												!Value ||
-												!Date
+												!RecordDate
 													? styles2.submit_btn_disabled
 													: styles2.submit_btn
 											}
@@ -521,7 +521,7 @@ class MedicalHistoryData extends Component {
 												!Nature ||
 												!Description ||
 												!Value ||
-												!Date
+												!RecordDate
 											}
 										>
 											Add New Record
@@ -668,18 +668,18 @@ class MedicalHistoryData extends Component {
 														? "disabled_label"
 														: ""
 												}
-												htmlFor="Date"
+												htmlFor="RecordDate"
 											>
-												Date of Record
+												RecordDate of Record
 											</label>
 											<DatePicker
-												id="Date"
-												name="Date"
-												value={Date}
+												id="RecordDate"
+												name="RecordDate"
+												value={RecordDate}
 												className={styles.input}
 												onChange={(e) =>
 													this.handleDateChange(
-														"Date",
+														"RecordDate",
 														e
 													)
 												}
@@ -694,7 +694,7 @@ class MedicalHistoryData extends Component {
 												!Nature ||
 												!Description ||
 												!Value ||
-												!Date
+												!RecordDate
 													? styles2.submit_btn_disabled
 													: styles2.submit_btn
 											}
@@ -702,7 +702,7 @@ class MedicalHistoryData extends Component {
 												!Nature ||
 												!Description ||
 												!Value ||
-												!Date
+												!RecordDate
 											}
 										>
 											Add New Record
@@ -841,18 +841,18 @@ class MedicalHistoryData extends Component {
 														? "disabled_label"
 														: ""
 												}
-												htmlFor="Date"
+												htmlFor="RecordDate"
 											>
-												Date of Record
+												RecordDate of Record
 											</label>
 											<DatePicker
-												id="Date"
-												name="Date"
-												value={Date}
+												id="RecordDate"
+												name="RecordDate"
+												value={RecordDate}
 												className={styles.input}
 												onChange={(e) =>
 													this.handleDateChange(
-														"Date",
+														"RecordDate",
 														e
 													)
 												}
@@ -867,7 +867,7 @@ class MedicalHistoryData extends Component {
 												!Nature ||
 												!Description ||
 												!Value ||
-												!Date
+												!RecordDate
 													? styles2.submit_btn_disabled
 													: styles2.submit_btn
 											}
@@ -875,7 +875,7 @@ class MedicalHistoryData extends Component {
 												!Nature ||
 												!Description ||
 												!Value ||
-												!Date
+												!RecordDate
 											}
 										>
 											Add New Record
