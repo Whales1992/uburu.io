@@ -190,7 +190,7 @@ class PatientBiodata extends Component {
 				recordArray.push(modifiedData);
 				localForage.setItem("BioData", recordArray);
 				localStorage.removeItem("bio_data");
-				
+
 				this.setState({
 					submitting: false,
 					biodata: {
@@ -788,8 +788,8 @@ class PatientBiodata extends Component {
 									!AlcoholUse ||
 									(AlcoholUse === "Yes" && !alcohol_frequency)
 								}
-								onClick={() => {
-									this.skipCreate();
+								onClick={async () => {
+									await this.skipCreate();
 									this.props.history.push(
 										"/add_patient_data/medical_history",
 										FolderNo

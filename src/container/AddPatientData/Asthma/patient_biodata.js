@@ -738,8 +738,8 @@ class PatientBiodata extends Component {
 										? true
 										: false
 								}
-								onClick={() => {
-									this.skipCreate();
+								onClick={async () => {
+									await this.skipCreate();
 									this.props.history.push(
 										"/add_patient_data/medical_history",
 										FolderNo
