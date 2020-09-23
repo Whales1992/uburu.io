@@ -133,6 +133,38 @@ class PatientBiodata extends Component {
 		);
 	}
 
+	reset() {
+		this.setState({
+			submitting: false,
+			biodata: {
+				LastName: "",
+				FirstName: "",
+				PhoneNumber: "",
+				KinsNumber: "",
+				RelationshipToNextOfKin: "",
+				FolderNo: "",
+				Gender: "",
+				Age: "",
+				MaritalStatus: "",
+				HistoDiagnosis: "",
+				other_histopathology_diagnosis: "",
+				Occupation: "",
+				other_occupation: "",
+				OrganDiagnosis: "",
+				other_primary_organ_affected: "",
+				EthnicGroup: "",
+				other_ethnic_group: "",
+				Religion: "",
+				other_religion: "",
+				Residence: "",
+				HighestEducation: "",
+				AlcoholUse: "",
+				alcohol_frequency: "",
+				FamilyHistory: ""
+			}
+		});
+	}
+
 	async skipCreate(e) {
 		e.preventDefault();
 		this.setState({ submitting: true });
@@ -174,68 +206,15 @@ class PatientBiodata extends Component {
 				localForage.setItem("BioData", recordArray);
 
 				localStorage.removeItem("bio_data");
-				this.setState({
-					submitting: false,
-					biodata: {
-						LastName: "",
-						FirstName: "",
-						PhoneNumber: "",
-						KinsNumber: "",
-						RelationshipToNextOfKin: "",
-						FolderNo: "",
-						Gender: "",
-						Age: "",
-						MaritalStatus: "",
-						HistoDiagnosis: "",
-						other_histopathology_diagnosis: "",
-						Occupation: "",
-						other_occupation: "",
-						OrganDiagnosis: "",
-						other_primary_organ_affected: "",
-						EthnicGroup: "",
-						other_ethnic_group: "",
-						Religion: "",
-						other_religion: "",
-						Residence: "",
-						HighestEducation: "",
-						AlcoholUse: "",
-						alcohol_frequency: "",
-						FamilyHistory: ""
-					}
-				});
+
+				this.reset();
 			} else {
 				localForage
 					.setItem("BioData", [modifiedData])
 					.then((value) => {
 						localStorage.removeItem("bio_data");
-						this.setState({
-							submitting: false,
-							biodata: {
-								LastName: "",
-								FirstName: "",
-								PhoneNumber: "",
-								KinsNumber: "",
-								RelationshipToNextOfKin: "",
-								FolderNo: "",
-								Gender: "",
-								Age: "",
-								MaritalStatus: "",
-								Triggers: "",
-								other_triggers: "",
-								Occupation: "",
-								other_occupation: "",
-								EthnicGroup: "",
-								other_ethnic_group: "",
-								Religion: "",
-								other_religion: "",
-								Residence: "",
-								HighestEducation: "",
-								AlcoholUse: "",
-								alcohol_frequency: "",
-								AsthmaHistory: "",
-								AgeOfOnset: ""
-							}
-						});
+
+						this.reset();
 					})
 					.catch((err) => {
 						this.setState({ submitting: false });
@@ -254,14 +233,15 @@ class PatientBiodata extends Component {
 					body: JSON.stringify(modifiedData)
 				});
 
+				this.reset();
+
 				if (!request.ok) {
 					this.setState({ submitting: false });
 					const error = await request.json();
 					throw Error(error.Message);
 				}
 
-				const data = await request.json();
-				console.log(data);
+				localStorage.removeItem("bio_data");
 			} catch (err) {
 				console.log(err);
 				this.props.errorHandler(err);
