@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import DatePicker from "react-date-picker";
+import localForage from "localforage";
 import SecondaryBar from "../../../components/UI/JS/secondary_navbar";
 import TopBar from "../../../components/UI/JS/topbar";
 import Shell from "../../../components/AddPatientData/JS/shell";
@@ -25,6 +26,8 @@ const downArrow = (
 		/>
 	</svg>
 );
+
+const url = process.env.REACT_APP_BASE_URL;
 
 class MedicalHistoryData extends Component {
 	constructor(props) {
@@ -56,6 +59,7 @@ class MedicalHistoryData extends Component {
 		this.setState({
 			Nature: "",
 			Description: "",
+			Other: "",
 			Value: "",
 			Date: ""
 		});
@@ -69,19 +73,53 @@ class MedicalHistoryData extends Component {
 		this.setState({ [name]: value });
 	}
 
-	submitRecord(e, recordName) {
+	async submitRecord(e, recordName) {
 		if (e) e.preventDefault();
-		let localStorageValue =
-			localStorage.getItem(recordName) &&
-			JSON.parse(localStorage.getItem(recordName));
-		if (localStorageValue) {
-			localStorageValue.push(this.state);
-			const lSValueStringified = JSON.stringify(localStorageValue);
-			localStorage.setItem(recordName, lSValueStringified);
-			this.resetRecord();
+		const { Nature, Description, Value, Date, Other } = this.state;
+
+		const modifiedRecord = {
+			Nature,
+			Description: Description === "Other" ? Other : Description,
+			Duration: Value,
+			RecordDate: Date,
+			FolderNo: this.props.location.state,
+			Type: recordName
+		};
+
+		if (window.navigator.onLine) {
+			try {
+				this.resetRecord();
+				const request = await fetch(`${url}/records`, {
+					method: "POST",
+					headers: {
+						Accept: "application/json",
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${localStorage.token}`
+					},
+					body: JSON.stringify(modifiedRecord)
+				});
+
+				if (!request.ok) {
+					const error = await request.json();
+					throw Error(error.Message);
+				}
+			} catch (err) {
+				console.log(err);
+			}
 		} else {
-			localStorage.setItem(recordName, `${JSON.stringify([this.state])}`);
-			this.resetRecord();
+			try {
+				let recordArray = await localForage.getItem(recordName);
+
+				if (recordArray) {
+					recordArray.push(modifiedRecord);
+					localForage.setItem(recordName, recordArray);
+				} else {
+					localForage.setItem(recordName, [modifiedRecord]);
+				}
+				this.resetRecord();
+			} catch (error) {
+				console.log(error);
+			}
 		}
 	}
 
@@ -90,14 +128,20 @@ class MedicalHistoryData extends Component {
 
 		if (Nature && Description && Value && Date) {
 			this.submitRecord(null, recordName);
-			this.props.history.push("/add_patient_data/drug_history");
+			this.props.history.push(
+				"/add_patient_data/drug_history",
+				this.props.location.state
+			);
 		} else {
-			this.props.history.push("/add_patient_data/drug_history");
+			this.props.history.push(
+				"/add_patient_data/drug_history",
+				this.props.location.state
+			);
 		}
 	}
 
 	render() {
-		const { Nature, Description, Value, Date } = this.state;
+		const { Nature, Description, Other, Value, Date } = this.state;
 		return (
 			<>
 				<TopBar hide_on_small_screens />
@@ -225,10 +269,12 @@ class MedicalHistoryData extends Component {
 															Height (unit: m)
 														</option>
 														<option>
-															Pulse Rate
+															Pulse Rate (unit:
+															/min)
 														</option>
 														<option>
 															Respiratory Rate
+															(unit: bpm)
 														</option>
 														<option>Thrush</option>
 														<option>
@@ -470,6 +516,32 @@ class MedicalHistoryData extends Component {
 												)}
 											</select>
 										</div>
+										{Description === "Other" ? (
+											<div>
+												<label
+													className={
+														!Nature
+															? "disabled_label"
+															: ""
+													}
+													htmlFor="Other"
+												>
+													Other Surgery
+												</label>
+												<input
+													id="Other"
+													type="text"
+													name="Other"
+													placeholder="Type in other surgery"
+													className={styles.input}
+													value={Other}
+													onChange={(e) =>
+														this.handleChange(e)
+													}
+													disabled={!Nature}
+												/>
+											</div>
+										) : null}
 										<div>
 											<label
 												className={
@@ -706,11 +778,11 @@ class MedicalHistoryData extends Component {
 												}
 												htmlFor="Value"
 											>
-												Value
+												Entry
 											</label>
 											<input
 												id="Value"
-												type="number"
+												type="text"
 												name="Value"
 												className={styles.input}
 												value={Value}
@@ -718,6 +790,12 @@ class MedicalHistoryData extends Component {
 													this.handleChange(e)
 												}
 												disabled={!Description}
+												placeholder={
+													Nature ===
+													"Chemotherapy Complication"
+														? "Enter drug/combination"
+														: "Enter radiation dose"
+												}
 											/>
 										</div>
 										<div>

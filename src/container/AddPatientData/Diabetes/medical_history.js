@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import localForage from "localforage";
 import DatePicker from "react-date-picker";
 import SecondaryBar from "../../../components/UI/JS/secondary_navbar";
 import TopBar from "../../../components/UI/JS/topbar";
@@ -25,6 +26,8 @@ const downArrow = (
 		/>
 	</svg>
 );
+
+const url = process.env.REACT_APP_BASE_URL;
 
 class MedicalHistoryData extends Component {
 	constructor(props) {
@@ -69,19 +72,53 @@ class MedicalHistoryData extends Component {
 		this.setState({ [name]: value });
 	}
 
-	submitRecord(e, recordName) {
+	async submitRecord(e, recordName) {
 		if (e) e.preventDefault();
-		let localStorageValue =
-			localStorage.getItem(recordName) &&
-			JSON.parse(localStorage.getItem(recordName));
-		if (localStorageValue) {
-			localStorageValue.push(this.state);
-			const lSValueStringified = JSON.stringify(localStorageValue);
-			localStorage.setItem(recordName, lSValueStringified);
-			this.resetRecord();
+		const { Nature, Description, Value, Date } = this.state;
+
+		const modifiedRecord = {
+			Nature,
+			Description,
+			Duration: Value,
+			RecordDate: Date,
+			FolderNo: this.props.location.state,
+			Type: recordName
+		};
+
+		if (window.navigator.onLine) {
+			try {
+				this.resetRecord();
+				const request = await fetch(`${url}/records`, {
+					method: "POST",
+					headers: {
+						Accept: "application/json",
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${localStorage.token}`
+					},
+					body: JSON.stringify(modifiedRecord)
+				});
+
+				if (!request.ok) {
+					const error = await request.json();
+					throw Error(error.Message);
+				}
+			} catch (err) {
+				console.log(err);
+			}
 		} else {
-			localStorage.setItem(recordName, `${JSON.stringify([this.state])}`);
-			this.resetRecord();
+			try {
+				let recordArray = await localForage.getItem(recordName);
+
+				if (recordArray) {
+					recordArray.push(modifiedRecord);
+					localForage.setItem(recordName, recordArray);
+				} else {
+					localForage.setItem(recordName, [modifiedRecord]);
+				}
+				this.resetRecord();
+			} catch (error) {
+				console.log(error);
+			}
 		}
 	}
 
@@ -90,9 +127,15 @@ class MedicalHistoryData extends Component {
 
 		if (Nature && Description && Value && Date) {
 			this.submitRecord(null, recordName);
-			this.props.history.push("/add_patient_data/drug_history");
+			this.props.history.push(
+				"/add_patient_data/drug_history",
+				this.props.location.state
+			);
 		} else {
-			this.props.history.push("/add_patient_data/drug_history");
+			this.props.history.push(
+				"/add_patient_data/drug_history",
+				this.props.location.state
+			);
 		}
 	}
 
