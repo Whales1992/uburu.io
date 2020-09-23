@@ -135,91 +135,84 @@ class PatientBiodata extends Component {
 	}
 
 	async skipCreate(e) {
-		e.preventDefault();
+		if (e) e.preventDefault();
 		this.setState({ submitting: true });
+
+		let modifiedData = {
+			...this.state.biodata,
+			DiabetesDiagnosis:
+				this.state.bioData.DiabetesDiagnosis === "Others"
+					? this.state.bioData.other_DiabetesDiagnosis
+					: this.state.bioData.DiabetesDiagnosis,
+			Occupation:
+				this.state.bioData.Occupation === "Others"
+					? this.state.bioData.other_Occupation
+					: this.state.bioData.Occupation,
+			EthnicGroup:
+				this.state.bioData.EthnicGroup === "Others"
+					? this.state.bioData.other_EthnicGroup
+					: this.state.bioData.EthnicGroup,
+			Religion:
+				this.state.bioData.Religion === "Others"
+					? this.state.bioData.other_Religion
+					: this.state.bioData.Religion,
+			AlcoholUse:
+				this.state.biodata.AlcoholUse === "Yes"
+					? this.state.biodata.alcohol_frequency
+					: this.state.biodata.AlcoholUse
+		};
+
+		delete modifiedData.other_DiabetesDiagnosis;
+		delete modifiedData.other_Occupation;
+		delete modifiedData.other_EthnicGroup;
+		delete modifiedData.other_Religion;
+		delete modifiedData.alcohol_frequency;
+
 		if (!window.navigator.onLine) {
-			localForage
-				.setItem(this.state.biodata.FolderNo, {
-					bioData: {
-						...this.state.biodata,
-						DiabetesDiagnosis:
-							this.state.bioData.DiabetesDiagnosis === "Others"
-								? this.state.bioData.other_DiabetesDiagnosis
-								: this.state.bioData.DiabetesDiagnosis,
-						Occupation:
-							this.state.bioData.Occupation === "Others"
-								? this.state.bioData.other_Occupation
-								: this.state.bioData.Occupation,
-						EthnicGroup:
-							this.state.bioData.EthnicGroup === "Others"
-								? this.state.bioData.other_EthnicGroup
-								: this.state.bioData.EthnicGroup,
-						Religion:
-							this.state.bioData.Religion === "Others"
-								? this.state.bioData.other_Religion
-								: this.state.bioData.Religion
-					}
-				})
-				.then((value) => {
-					localStorage.removeItem("bio_data");
-					this.setState({
-						submitting: false,
-						biodata: {
-							LastName: "",
-							FirstName: "",
-							PhoneNumber: "",
-							KinsNumber: "",
-							RelationshipToNextOfKin: "",
-							FolderNo: "",
-							Gender: "",
-							Age: "",
-							MaritalStatus: "",
-							DiabetesDiagnosis: "",
-							other_DiabetesDiagnosis: "",
-							Occupation: "",
-							other_Occupation: "",
-							EthnicGroup: "",
-							other_EthnicGroup: "",
-							Religion: "",
-							other_Religion: "",
-							Residence: "",
-							HighestEducation: "",
-							AlcoholUse: "",
-							alcohol_frequency: "",
-							DiabetesHistory: ""
-						}
+			let recordArray = await localForage.getItem("BioData");
+
+			if (recordArray) {
+				recordArray.push(modifiedData);
+				localForage.setItem("BioData", recordArray);
+			} else {
+				localForage
+					.setItem("BioData", [modifiedData])
+					.then((value) => {
+						localStorage.removeItem("bio_data");
+						this.setState({
+							submitting: false,
+							biodata: {
+								LastName: "",
+								FirstName: "",
+								PhoneNumber: "",
+								KinsNumber: "",
+								RelationshipToNextOfKin: "",
+								FolderNo: "",
+								Gender: "",
+								Age: "",
+								MaritalStatus: "",
+								DiabetesDiagnosis: "",
+								other_DiabetesDiagnosis: "",
+								Occupation: "",
+								other_Occupation: "",
+								EthnicGroup: "",
+								other_EthnicGroup: "",
+								Religion: "",
+								other_Religion: "",
+								Residence: "",
+								HighestEducation: "",
+								AlcoholUse: "",
+								alcohol_frequency: "",
+								DiabetesHistory: ""
+							}
+						});
+					})
+					.catch((err) => {
+						this.setState({ submitting: false });
+						console.log(err);
 					});
-				})
-				.catch((err) => {
-					this.setState({ submitting: false });
-					console.log(err);
-				});
+			}
 		} else {
-			const {
-				LastName,
-				FirstName,
-				PhoneNumber,
-				KinsNumber,
-				RelationshipToNextOfKin,
-				FolderNo,
-				Gender,
-				Age,
-				MaritalStatus,
-				DiabetesDiagnosis,
-				other_DiabetesDiagnosis,
-				Occupation,
-				other_Occupation,
-				EthnicGroup,
-				other_EthnicGroup,
-				Religion,
-				other_Religion,
-				Residence,
-				HighestEducation,
-				alcohol_frequency,
-				AlcoholUse,
-				DiabetesHistory,
-				SelfGlucoseMonitoring
-			} = this.state.biodata;
 			try {
 				const request = await fetch(`${url}/patient`, {
 					method: "POST",
@@ -228,39 +221,7 @@ class PatientBiodata extends Component {
 						"Content-Type": "application/json",
 						Authorisation: `Bearer ${localStorage.accessToken}`
 					},
-					body: JSON.stringify({
-						LastName,
-						FirstName,
-						PhoneNumber,
-						KinsNumber,
-						RelationshipToNextOfKin,
-						Gender,
-						Age,
-						MaritalStatus,
-						Occupation:
-							Occupation === "Others"
-								? other_Occupation
-								: Occupation,
-						EthnicGroup:
-							EthnicGroup === "Others"
-								? other_EthnicGroup
-								: EthnicGroup,
-						Religion:
-							Religion === "Others" ? other_Religion : Religion,
-						Residence,
-						HighestEducation: HighestEducation,
-						FolderNumber: FolderNo,
-						DiabetesDiagnosis:
-							DiabetesDiagnosis === "Others"
-								? other_DiabetesDiagnosis
-								: DiabetesDiagnosis,
-						AlcoholUse:
-							AlcoholUse === "Yes"
-								? alcohol_frequency
-								: AlcoholUse,
-						DiabetesHistory,
-						SelfGlucoseMonitoring
-					})
+					body: JSON.stringify(modifiedData)
 				});
 
 				if (!request.ok) {
@@ -748,12 +709,13 @@ class PatientBiodata extends Component {
 										? true
 										: false
 								}
-								onClick={() =>
+								onClick={() => {
+									this.skipCreate();
 									this.props.history.push(
 										"/add_patient_data/medical_history",
 										FolderNo
-									)
-								}
+									);
+								}}
 							>
 								Continue Data Input
 							</button>

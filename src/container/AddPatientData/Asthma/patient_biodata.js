@@ -85,9 +85,9 @@ class PatientBiodata extends Component {
 					(localStorage.bio_data &&
 						JSON.parse(localStorage.bio_data).HighestEducation) ||
 					"",
-				alcohol_use:
+				AlcoholUse:
 					(localStorage.bio_data &&
-						JSON.parse(localStorage.bio_data).alcohol_use) ||
+						JSON.parse(localStorage.bio_data).AlcoholUse) ||
 					"",
 				alcohol_frequency:
 					(localStorage.bio_data &&
@@ -102,9 +102,9 @@ class PatientBiodata extends Component {
 					(localStorage.bio_data &&
 						JSON.parse(localStorage.bio_data).AgeOfOnset) ||
 					"",
-				triggers:
+				Triggers:
 					(localStorage.bio_data &&
-						JSON.parse(localStorage.bio_data).triggers) ||
+						JSON.parse(localStorage.bio_data).Triggers) ||
 					"",
 				other_triggers:
 					(localStorage.bio_data &&
@@ -136,90 +136,82 @@ class PatientBiodata extends Component {
 	async skipCreate(e) {
 		e.preventDefault();
 		this.setState({ submitting: true });
+
+		let modifiedData = {
+			...this.state.biodata,
+			Triggers:
+				this.state.biodata.Triggers === "Others"
+					? this.state.biodata.other_triggers
+					: this.state.biodata.Triggers,
+			Occupation:
+				this.state.biodata.Occupation === "Others"
+					? this.state.biodata.other_occupation
+					: this.state.biodata.Occupation,
+			EthnicGroup:
+				this.state.biodata.EthnicGroup === "Others"
+					? this.state.biodata.other_ethnic_group
+					: this.state.biodata.EthnicGroup,
+			Religion:
+				this.state.biodata.Religion === "Others"
+					? this.state.biodata.other_religion
+					: this.state.biodata.Religion,
+			AlcoholUse:
+				this.state.biodata.AlcoholUse === "Yes"
+					? this.state.biodata.alcohol_frequency
+					: this.state.biodata.AlcoholUse
+		};
+
+		delete modifiedData.other_triggers;
+		delete modifiedData.other_occupation;
+		delete modifiedData.other_ethnic_group;
+		delete modifiedData.other_religion;
+
 		if (!window.navigator.onLine) {
-			localForage
-				.setItem(this.state.biodata.FolderNo, {
-					bioData: {
-						...this.state.biodata,
-						triggers:
-							this.state.biodata.triggers === "Others"
-								? this.state.biodata.other_triggers
-								: this.state.biodata.triggers,
-						Occupation:
-							this.state.biodata.Occupation === "Others"
-								? this.state.biodata.other_occupation
-								: this.state.biodata.Occupation,
-						EthnicGroup:
-							this.state.biodata.EthnicGroup === "Others"
-								? this.state.biodata.other_ethnic_group
-								: this.state.biodata.EthnicGroup,
-						Religion:
-							this.state.biodata.Religion === "Others"
-								? this.state.biodata.other_religion
-								: this.state.biodata.Religion
-					}
-				})
-				.then((value) => {
-					localStorage.removeItem("bio_data");
-					this.setState({
-						submitting: false,
-						biodata: {
-							LastName: "",
-							FirstName: "",
-							PhoneNumber: "",
-							KinsNumber: "",
-							RelationshipToNextOfKin: "",
-							FolderNo: "",
-							Gender: "",
-							Age: "",
-							MaritalStatus: "",
-							triggers: "",
-							other_triggers: "",
-							Occupation: "",
-							other_occupation: "",
-							EthnicGroup: "",
-							other_ethnic_group: "",
-							Religion: "",
-							other_religion: "",
-							Residence: "",
-							HighestEducation: "",
-							alcohol_use: "",
-							alcohol_frequency: "",
-							AsthmaHistory: "",
-							AgeOfOnset: ""
-						}
+			let recordArray = await localForage.getItem("BioData");
+
+			if (recordArray) {
+				recordArray.push(modifiedData);
+				localForage.setItem("BioData", recordArray);
+			} else {
+				localForage
+					.setItem("BioData", [modifiedData])
+					.then((value) => {
+						localStorage.removeItem("bio_data");
+						this.setState({
+							submitting: false,
+							biodata: {
+								LastName: "",
+								FirstName: "",
+								PhoneNumber: "",
+								KinsNumber: "",
+								RelationshipToNextOfKin: "",
+								FolderNo: "",
+								Gender: "",
+								Age: "",
+								MaritalStatus: "",
+								Triggers: "",
+								other_triggers: "",
+								Occupation: "",
+								other_occupation: "",
+								EthnicGroup: "",
+								other_ethnic_group: "",
+								Religion: "",
+								other_religion: "",
+								Residence: "",
+								HighestEducation: "",
+								AlcoholUse: "",
+								alcohol_frequency: "",
+								AsthmaHistory: "",
+								AgeOfOnset: ""
+							}
+						});
+					})
+					.catch((err) => {
+						this.setState({ submitting: false });
+						console.log(err);
 					});
-				})
-				.catch((err) => {
-					this.setState({ submitting: false });
-					console.log(err);
-				});
+			}
 		} else {
-			const {
-				LastName,
-				FirstName,
-				PhoneNumber,
-				KinsNumber,
-				RelationshipToNextOfKin,
-				FolderNo,
-				Gender,
-				Age,
-				MaritalStatus,
-				triggers,
-				other_triggers,
-				Occupation,
-				other_occupation,
-				EthnicGroup,
-				other_ethnic_group,
-				Religion,
-				other_religion,
-				Residence,
-				HighestEducation,
-				alcohol_frequency,
-				alcohol_use,
-				AsthmaHistory,
-				AgeOfOnset
-			} = this.state.biodata;
 			try {
 				const request = await fetch(`${url}/patient`, {
 					method: "POST",
@@ -228,37 +220,7 @@ class PatientBiodata extends Component {
 						"Content-Type": "application/json",
 						Authorisation: `Bearer ${localStorage.token}`
 					},
-					body: JSON.stringify({
-						LastName,
-						FirstName: FirstName,
-						PhoneNumber: PhoneNumber,
-						KinsNumber: KinsNumber,
-						RelationshipToNextOfKin: RelationshipToNextOfKin,
-						Gender,
-						Age,
-						MaritalStatus,
-						Occupation:
-							Occupation === "Others"
-								? other_occupation
-								: Occupation,
-						EthnicGroup:
-							EthnicGroup === "Others"
-								? other_ethnic_group
-								: EthnicGroup,
-						Religion:
-							Religion === "Others" ? other_religion : Religion,
-						Residence,
-						HighestEducation,
-						FolderNo,
-						Triggers:
-							triggers === "Others" ? other_triggers : triggers,
-						AlcoholUse:
-							alcohol_use === "Yes"
-								? alcohol_frequency
-								: alcohol_use,
-						AsthmaHistory: AsthmaHistory,
-						AgeOfOnset
-					})
+					body: JSON.stringify(modifiedData)
 				});
 
 				if (!request.ok) {
@@ -270,6 +232,7 @@ class PatientBiodata extends Component {
 				const data = await request.json();
 				console.log(data);
 			} catch (err) {
+				console.log(err);
 				this.props.errorHandler(err);
 			}
 		}
@@ -286,7 +249,7 @@ class PatientBiodata extends Component {
 			Gender,
 			Age,
 			MaritalStatus,
-			triggers,
+			Triggers,
 			other_triggers,
 			Occupation,
 			other_occupation,
@@ -296,7 +259,7 @@ class PatientBiodata extends Component {
 			other_religion,
 			Residence,
 			HighestEducation,
-			alcohol_use,
+			AlcoholUse,
 			alcohol_frequency,
 			AsthmaHistory,
 			AgeOfOnset
@@ -589,11 +552,11 @@ class PatientBiodata extends Component {
 								</select>
 							</div>
 							<div>
-								<label htmlFor="alcohol_use">Alcohol Use</label>
+								<label htmlFor="AlcoholUse">Alcohol Use</label>
 								<select
-									id="alcohol_use"
-									name="alcohol_use"
-									value={alcohol_use}
+									id="AlcoholUse"
+									name="AlcoholUse"
+									value={AlcoholUse}
 									onChange={(e) => this.handleChange(e)}
 									className={styles.input}
 								>
@@ -602,7 +565,7 @@ class PatientBiodata extends Component {
 									<option>No</option>
 								</select>
 							</div>
-							{alcohol_use === "Yes" ? (
+							{AlcoholUse === "Yes" ? (
 								<div>
 									<label htmlFor="alcohol_frequency">
 										Alcohol Frequency (bottles per week)
@@ -649,11 +612,11 @@ class PatientBiodata extends Component {
 								/>
 							</div>
 							<div>
-								<label htmlFor="triggers">Triggers</label>
+								<label htmlFor="Triggers">Triggers</label>
 								<select
-									id="triggers"
-									name="triggers"
-									value={triggers}
+									id="Triggers"
+									name="Triggers"
+									value={Triggers}
 									onChange={(e) => this.handleChange(e)}
 									className={styles.input}
 									required
@@ -670,7 +633,7 @@ class PatientBiodata extends Component {
 									<option>Others</option>
 								</select>
 							</div>
-							{triggers === "Others" ? (
+							{Triggers === "Others" ? (
 								<div>
 									<label htmlFor="other_triggers">
 										Other Triggers
@@ -682,7 +645,7 @@ class PatientBiodata extends Component {
 										className={styles.input}
 										onChange={(e) => this.handleChange(e)}
 										value={other_triggers}
-										placeholder="Type in other triggers"
+										placeholder="Type in other Triggers"
 										required
 									/>
 								</div>
@@ -724,8 +687,8 @@ class PatientBiodata extends Component {
 									!Age ||
 									!FolderNo ||
 									!MaritalStatus ||
-									!triggers ||
-									(triggers === "Others" &&
+									!Triggers ||
+									(Triggers === "Others" &&
 										!other_triggers) ||
 									!Occupation ||
 									(Occupation === "Others" &&
@@ -738,19 +701,19 @@ class PatientBiodata extends Component {
 										!other_religion) ||
 									!Residence ||
 									!HighestEducation ||
-									!alcohol_use ||
+									!AlcoholUse ||
 									!AsthmaHistory ||
-									(alcohol_use === "Yes" &&
-										!alcohol_frequency)
+									(AlcoholUse === "Yes" && !alcohol_frequency)
 										? true
 										: false
 								}
-								onClick={() =>
+								onClick={() => {
+									this.skipCreate();
 									this.props.history.push(
 										"/add_patient_data/medical_history",
 										FolderNo
-									)
-								}
+									);
+								}}
 							>
 								Continue Data Input
 							</button>

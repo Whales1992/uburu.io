@@ -145,101 +145,91 @@ class PatientBiodata extends Component {
 	}
 
 	async skipCreate(e) {
-		e.preventDefault();
+		if (e) e.preventDefault();
 		this.setState({ submitting: true });
+
+		let modifiedData = {
+			...this.state.biodata,
+			HistoDiagnosis:
+				this.state.biodata.HistoDiagnosis === "Others"
+					? this.state.biodata.other_histopathology_diagnosis
+					: this.state.biodata.HistoDiagnosis,
+			Occupation:
+				this.state.biodata.Occupation === "Others"
+					? this.state.biodata.other_occupation
+					: this.state.biodata.Occupation,
+			EthnicGroup:
+				this.state.biodata.EthnicGroup === "Others"
+					? this.state.biodata.other_ethnic_group
+					: this.state.biodata.EthnicGroup,
+			Religion:
+				this.state.biodata.Religion === "Others"
+					? this.state.biodata.other_religion
+					: this.state.biodata.Religion,
+			OrganDiagnosis:
+				this.state.biodata.OrganDiagnosis === "Others"
+					? this.state.biodata.other_primary_organ_affected
+					: this.state.biodata.OrganDiagnosis,
+			AlcoholUse:
+				this.state.biodata.AlcoholUse === "Yes"
+					? this.state.biodata.alcohol_frequency
+					: this.state.biodata.AlcoholUse
+		};
+
+		delete modifiedData.other_histopathology_diagnosis;
+		delete modifiedData.other_occupation;
+		delete modifiedData.other_ethnic_group;
+		delete modifiedData.other_religion;
+		delete modifiedData.other_primary_organ_affected;
+		delete modifiedData.alcohol_frequency;
+
 		if (!window.navigator.onLine) {
-			localForage
-				.setItem(this.state.biodata.FolderNo, {
-					bioData: {
-						...this.state.biodata,
-						HistoDiagnosis:
-							this.state.biodata.HistoDiagnosis === "Others"
-								? this.state.biodata
-										.other_histopathology_diagnosis
-								: this.state.biodata.HistoDiagnosis,
-						Occupation:
-							this.state.biodata.Occupation === "Others"
-								? this.state.biodata.other_occupation
-								: this.state.biodata.Occupation,
-						EthnicGroup:
-							this.state.biodata.EthnicGroup === "Others"
-								? this.state.biodata.other_ethnic_group
-								: this.state.biodata.EthnicGroup,
-						Religion:
-							this.state.biodata.Religion === "Others"
-								? this.state.biodata.other_religion
-								: this.state.biodata.Religion,
-						OrganDiagnosis:
-							this.state.biodata.OrganDiagnosis === "Others"
-								? this.state.biodata
-										.other_primary_organ_affected
-								: this.state.biodata.OrganDiagnosis
-					}
-				})
-				.then((value) => {
-					localStorage.removeItem("bio_data");
-					this.setState({
-						submitting: false,
-						biodata: {
-							LastName: "",
-							FirstName: "",
-							PhoneNumber: "",
-							KinsNumber: "",
-							RelationshipToNextOfKin: "",
-							FolderNo: "",
-							Gender: "",
-							Age: "",
-							MaritalStatus: "",
-							HistoDiagnosis: "",
-							other_histopathology_diagnosis: "",
-							Occupation: "",
-							other_occupation: "",
-							OrganDiagnosis: "",
-							other_primary_organ_affected: "",
-							EthnicGroup: "",
-							other_ethnic_group: "",
-							Religion: "",
-							other_religion: "",
-							Residence: "",
-							HighestEducation: "",
-							AlcoholUse: "",
-							alcohol_frequency: "",
-							FamilyHistory: ""
-						}
+			let recordArray = await localForage.getItem("BioData");
+
+			if (recordArray) {
+				recordArray.push(modifiedData);
+				localForage.setItem("BioData", recordArray);
+			} else {
+				localForage
+					.setItem("BioData", [modifiedData])
+					.then((value) => {
+						localStorage.removeItem("bio_data");
+						this.setState({
+							submitting: false,
+							biodata: {
+								LastName: "",
+								FirstName: "",
+								PhoneNumber: "",
+								KinsNumber: "",
+								RelationshipToNextOfKin: "",
+								FolderNo: "",
+								Gender: "",
+								Age: "",
+								MaritalStatus: "",
+								HistoDiagnosis: "",
+								other_histopathology_diagnosis: "",
+								Occupation: "",
+								other_occupation: "",
+								OrganDiagnosis: "",
+								other_primary_organ_affected: "",
+								EthnicGroup: "",
+								other_ethnic_group: "",
+								Religion: "",
+								other_religion: "",
+								Residence: "",
+								HighestEducation: "",
+								AlcoholUse: "",
+								alcohol_frequency: "",
+								FamilyHistory: ""
+							}
+						});
+					})
+					.catch((err) => {
+						this.setState({ submitting: false });
+						console.log(err);
 					});
-					this.props.history.push("/");
-				})
-				.catch((err) => {
-					this.setState({ submitting: false });
-					console.log(err);
-				});
+			}
 		} else {
-			const {
-				LastName,
-				FirstName,
-				PhoneNumber,
-				KinsNumber,
-				RelationshipToNextOfKin,
-				FolderNo,
-				Gender,
-				Age,
-				MaritalStatus,
-				HistoDiagnosis,
-				other_histopathology_diagnosis,
-				Occupation,
-				other_occupation,
-				OrganDiagnosis,
-				other_primary_organ_affected,
-				EthnicGroup,
-				other_ethnic_group,
-				Religion,
-				other_religion,
-				Residence,
-				HighestEducation,
-				alcohol_frequency,
-				AlcoholUse,
-				FamilyHistory
-			} = this.state.biodata;
 			try {
 				const request = await fetch(`${url}/patient`, {
 					method: "POST",
@@ -248,42 +238,7 @@ class PatientBiodata extends Component {
 						"Content-Type": "application/json",
 						Authorization: `Bearer ${localStorage.token}`
 					},
-					body: JSON.stringify({
-						LastName,
-						FirstName,
-						PhoneNumber,
-						KinsNumber,
-						RelationshipToNextOfKin,
-						Gender,
-						Age,
-						MaritalStatus,
-						Occupation:
-							Occupation === "Others"
-								? other_occupation
-								: Occupation,
-						EthnicGroup:
-							EthnicGroup === "Others"
-								? other_ethnic_group
-								: EthnicGroup,
-						Religion:
-							Religion === "Others" ? other_religion : Religion,
-						OrganDiagnosis:
-							OrganDiagnosis === "Others"
-								? other_primary_organ_affected
-								: OrganDiagnosis,
-						Residence,
-						HighestEducation,
-						FolderNo,
-						HistoDiagnosis:
-							HistoDiagnosis === "Others"
-								? other_histopathology_diagnosis
-								: HistoDiagnosis,
-						AlcoholUse:
-							AlcoholUse === "Yes"
-								? alcohol_frequency
-								: AlcoholUse,
-						FamilyHistory
-					})
+					body: JSON.stringify(modifiedData)
 				});
 
 				if (!request.ok) {
@@ -293,7 +248,6 @@ class PatientBiodata extends Component {
 				}
 				const data = await request.json();
 				console.log(data);
-				this.props.history.push("/");
 			} catch (err) {
 				console.log(err);
 				this.props.errorHandler(err);
@@ -803,12 +757,13 @@ class PatientBiodata extends Component {
 									!AlcoholUse ||
 									(AlcoholUse === "Yes" && !alcohol_frequency)
 								}
-								onClick={() =>
+								onClick={() => {
+									this.skipCreate();
 									this.props.history.push(
 										"/add_patient_data/medical_history",
 										FolderNo
-									)
-								}
+									);
+								}}
 							>
 								Continue to Medical Information
 							</button>
