@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
+import localForage from "localforage";
 import DatePicker from "react-date-picker";
 import SecondaryBar from "../../../components/UI/JS/secondary_navbar";
 import TopBar from "../../../components/UI/JS/topbar";
@@ -8,6 +10,8 @@ import Shell from "../../../components/AddPatientData/JS/shell";
 import styles from "../CSS/add_patient_data.module.css";
 import styles2 from "../CSS/medical_history.module.css";
 
+const url = process.env.REACT_APP_BASE_URL;
+
 const DrugHistory = ({ history }) => {
 	const [inputValues, setInputValue] = useState({
 		Drug: "",
@@ -15,15 +19,23 @@ const DrugHistory = ({ history }) => {
 		Dosage: "",
 		Duration: "",
 		SideEffect: "",
-		Date: ""
+		RecordDate: ""
 	});
 
-	const { Drug, Other, Dosage, Duration, SideEffect, Date } = inputValues;
+	const {
+		Drug,
+		Other,
+		Dosage,
+		Duration,
+		SideEffect,
+		RecordDate
+	} = inputValues;
+	const FolderNo = useLocation().state;
 
 	function handleChange(name, e) {
 		let value;
 
-		if (name === "Date") {
+		if (name === "RecordDate") {
 			value = e;
 		} else {
 			value = e.target.value;
@@ -39,35 +51,66 @@ const DrugHistory = ({ history }) => {
 			Dosage: "",
 			Duration: "",
 			SideEffect: "",
-			Date: ""
+			RecordDate: ""
 		});
 	}
 
-	function submitRecord(e, recordName) {
+	async function submitRecord(e, recordName) {
 		if (e) e.preventDefault();
-		let localStorageValue =
-			localStorage.getItem(recordName) &&
-			JSON.parse(localStorage.getItem(recordName));
-		if (localStorageValue) {
-			localStorageValue.push(inputValues);
-			const lSValueStringified = JSON.stringify(localStorageValue);
-			localStorage.setItem(recordName, lSValueStringified);
-			resetRecord();
+
+		const modifiedRecord = {
+			Drug: Drug === "Other" ? Other : Drug,
+			Dosage,
+			Duration,
+			SideEffect,
+			RecordDate,
+			FolderNo,
+			Type: recordName
+		};
+
+		if (window.navigator.onLine) {
+			try {
+				resetRecord();
+				const request = await fetch(`${url}/records`, {
+					method: "POST",
+					headers: {
+						Accept: "application/json",
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${localStorage.token}`
+					},
+					body: JSON.stringify(modifiedRecord)
+				});
+
+				if (!request.ok) {
+					const error = await request.json();
+					throw Error(error.Message);
+				}
+			} catch (err) {
+				console.log(err);
+			}
 		} else {
-			localStorage.setItem(
-				recordName,
-				`${JSON.stringify([inputValues])}`
-			);
-			resetRecord();
+			try {
+				let recordArray = await localForage.getItem(recordName);
+
+				if (recordArray) {
+					recordArray.push(modifiedRecord);
+					localForage.setItem(recordName, recordArray);
+				} else {
+					localForage.setItem(recordName, [modifiedRecord]);
+				}
+				resetRecord();
+			} catch (error) {
+				console.log(error);
+			}
 		}
 	}
 
-	function next(recordName) {
-		if (Drug && Dosage && Duration && Date) {
-			submitRecord(null, recordName);
-			history.push("/add_patient_data/investigation_history");
+	async function next(recordName) {
+		if (Drug && Dosage && Duration && RecordDate) {
+			await submitRecord(null, recordName);
+			history.push("/add_patient_data/investigation_history", FolderNo);
 		} else {
-			history.push("/add_patient_data/investigation_history");
+			history.push("/add_patient_data/investigation_history", FolderNo);
 		}
 	}
 
@@ -104,13 +147,13 @@ const DrugHistory = ({ history }) => {
 								<option>Other</option>
 							</select>
 						</div>
-						{Drug === "Others" && (
+						{Drug === "Other" && (
 							<div>
 								<label
 									className={!Drug ? "disabled_label" : ""}
 									htmlFor="other"
 								>
-									Dosage (unit: mg)
+									Other Drug
 								</label>
 								<input
 									id="other"
@@ -119,6 +162,7 @@ const DrugHistory = ({ history }) => {
 									className={styles.input}
 									value={Other}
 									onChange={(e) => handleChange("Other", e)}
+									placeholder="Type in another drug"
 									disabled={!Drug}
 									required
 								/>
@@ -181,16 +225,16 @@ const DrugHistory = ({ history }) => {
 						<div>
 							<label
 								className={!Duration ? "disabled_label" : ""}
-								htmlFor="Date"
+								htmlFor="RecordDate"
 							>
 								Date of Record
 							</label>
 							<DatePicker
-								id="Date"
-								name="Date"
-								value={Date}
+								id="RecordDate"
+								name="RecordDate"
+								value={RecordDate}
 								className={styles.input}
-								onChange={(e) => handleChange("Date", e)}
+								onChange={(e) => handleChange("RecordDate", e)}
 								required
 								format="dd/MM/y"
 								disabled={!Dosage}
@@ -199,11 +243,13 @@ const DrugHistory = ({ history }) => {
 						<button
 							type="submit"
 							className={
-								!Drug || !Dosage || !Date || !Duration
+								!Drug || !Dosage || !RecordDate || !Duration
 									? styles2.submit_btn_disabled
 									: styles2.submit_btn
 							}
-							disabled={!Drug || !Dosage || !Date || !Duration}
+							disabled={
+								!Drug || !Dosage || !RecordDate || !Duration
+							}
 						>
 							Add New Record
 						</button>
@@ -219,7 +265,7 @@ const DrugHistory = ({ history }) => {
 						<button
 							className="primary_btn"
 							type="button"
-							onClick={() => next("drug_history")}
+							onClick={() => next("Drugs")}
 						>
 							Continue to Investigation History
 						</button>
