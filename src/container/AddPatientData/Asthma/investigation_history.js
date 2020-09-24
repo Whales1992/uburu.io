@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import localForage from "localforage";
-import DatePicker from "react-RecordDate-picker";
+import DatePicker from "react-date-picker";
 import SecondaryBar from "../../../components/UI/JS/secondary_navbar";
 import TopBar from "../../../components/UI/JS/topbar";
 import Shell from "../../../components/AddPatientData/JS/shell";
