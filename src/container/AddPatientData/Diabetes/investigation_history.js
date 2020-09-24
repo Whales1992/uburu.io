@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import localForage from "localforage";
 import DatePicker from "react-date-picker";
 import SecondaryBar from "../../../components/UI/JS/secondary_navbar";
 import TopBar from "../../../components/UI/JS/topbar";
@@ -8,15 +9,16 @@ import Shell from "../../../components/AddPatientData/JS/shell";
 import styles from "../CSS/add_patient_data.module.css";
 import styles2 from "../CSS/medical_history.module.css";
 
+const url = process.env.REACT_APP_BASE_URL;
+
 class InvestigationHistory extends Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			investigation: "",
-			report: "",
-			date: "",
-			entry: ""
+			Investigation: "",
+			RecordDate: "",
+			Entry: ""
 		};
 
 		this.handleChange = this.handleChange.bind(this);
@@ -32,7 +34,7 @@ class InvestigationHistory extends Component {
 	handleChange(name, e) {
 		let value;
 
-		if (name === "date") {
+		if (name === "RecordDate") {
 			value = e;
 		} else {
 			value = e.target.value;
@@ -43,42 +45,80 @@ class InvestigationHistory extends Component {
 
 	resetRecord() {
 		this.setState({
-			investigation: "",
-			report: "",
-			date: "",
-			entry: ""
+			Investigation: "",
+			RecordDate: "",
+			Entry: ""
 		});
 	}
 
-	submitRecord(e, recordName) {
+	async submitRecord(e, recordName) {
 		if (e) e.preventDefault();
-		let localStorageValue =
-			localStorage.getItem(recordName) &&
-			JSON.parse(localStorage.getItem(recordName));
-		if (localStorageValue) {
-			localStorageValue.push(this.state);
-			const lSValueStringified = JSON.stringify(localStorageValue);
-			localStorage.setItem(recordName, lSValueStringified);
-			this.resetRecord();
+		const { Investigation, RecordDate, Entry } = this.state;
+
+		const modifiedRecord = {
+			Investigation,
+			Entry,
+			RecordDate,
+			FolderNo: this.props.location.state,
+			Type: recordName
+		};
+
+		if (window.navigator.onLine) {
+			try {
+				this.resetRecord();
+				const request = await fetch(`${url}/records`, {
+					method: "POST",
+					headers: {
+						Accept: "application/json",
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${localStorage.token}`
+					},
+					body: JSON.stringify(modifiedRecord)
+				});
+
+				if (!request.ok) {
+					const error = await request.json();
+					throw Error(error.Message);
+				}
+			} catch (err) {
+				console.log(err);
+			}
 		} else {
-			localStorage.setItem(recordName, `${JSON.stringify([this.state])}`);
-			this.resetRecord();
+			try {
+				let recordArray = await localForage.getItem(recordName);
+
+				if (recordArray) {
+					recordArray.push(modifiedRecord);
+					localForage.setItem(recordName, recordArray);
+				} else {
+					localForage.setItem(recordName, [modifiedRecord]);
+				}
+				this.resetRecord();
+			} catch (error) {
+				console.log(error);
+			}
 		}
 	}
 
 	continue(recordName) {
-		const { investigation, report, date, entry } = this.state;
+		const { Investigation, RecordDate, Entry } = this.state;
 
-		if (investigation && (report || entry) && date) {
+		if (Investigation && Entry && RecordDate) {
 			this.submitRecord(null, recordName);
-			this.props.history.push("/add_patient_data/treatment_outcome");
+			this.props.history.push(
+				"/add_patient_data/treatment_outcome",
+				this.props.location.state
+			);
 		} else {
-			this.props.history.push("/add_patient_data/treatment_outcome");
+			this.props.history.push(
+				"/add_patient_data/treatment_outcome",
+				this.props.location.state
+			);
 		}
 	}
 
 	render() {
-		const { investigation, report, date, entry } = this.state;
+		const { Investigation, RecordDate, Entry } = this.state;
 		return (
 			<>
 				<TopBar hide_on_small_screens />
@@ -90,16 +130,16 @@ class InvestigationHistory extends Component {
 					>
 						<div className={styles.fields}>
 							<div>
-								<label htmlFor="investigation">
+								<label htmlFor="Investigation">
 									Investigation
 								</label>
 								<select
-									id="investigation"
-									name="investigation"
+									id="Investigation"
+									name="Investigation"
 									className={styles.input}
-									value={investigation}
+									value={Investigation}
 									onChange={(e) =>
-										this.handleChange("investigation", e)
+										this.handleChange("Investigation", e)
 									}
 									required
 								>
@@ -133,87 +173,83 @@ class InvestigationHistory extends Component {
 							<div>
 								<label
 									className={
-										!investigation ? "disabled_label" : ""
+										!Investigation ? "disabled_label" : ""
 									}
-									htmlFor="entry"
+									htmlFor="Entry"
 								>
-									{investigation === ""
+									{Investigation === ""
 										? "Entry"
-										: investigation === "FBS" ||
-										  investigation === "RBS"
+										: Investigation === "FBS" ||
+										  Investigation === "RBS"
 										? "Entry (unit: mg/dl)"
-										: investigation ===
+										: Investigation ===
 												"Total Cholesterol" ||
-										  investigation ===
+										  Investigation ===
 												"Triglyceride Level" ||
-										  investigation === "HDL-C" ||
-										  investigation === "LDL-C"
+										  Investigation === "HDL-C" ||
+										  Investigation === "LDL-C"
 										? "Entry (unit: mmol/L)"
-										: investigation === "Serum Creatinine"
+										: Investigation === "Serum Creatinine"
 										? "Entry (unit: um/L)"
-										: investigation === "eGFR"
+										: Investigation === "eGFR"
 										? "Entry (unit: mL/min/1.73m2)"
-										: investigation ===
+										: Investigation ===
 										  "Total white blood cell count"
 										? "Entry (unit: 109/L)"
-										: investigation ===
+										: Investigation ===
 										  "Red blood cell count"
 										? "Entry (unit: M/µL)"
-										: investigation === "Haemoglobin"
+										: Investigation === "Haemoglobin"
 										? "Entry (unit: g/dl)"
-										: investigation === "Platelet count"
+										: Investigation === "Platelet count"
 										? "Entry  (unit: 109/L)"
-										: investigation === "Urine Protein"
+										: Investigation === "Urine Protein"
 										? "Entry (unit: +)"
-										: investigation ===
+										: Investigation ===
 										  "Vibration Perception Threshold (VPT)"
 										? "Entry (unit: mV)"
 										: "Entry (unit: %)"}
 								</label>
 
 								<input
-									id="entry"
+									id="Entry"
 									type="number"
-									name="entry"
+									name="Entry"
 									className={styles.input}
-									value={entry}
+									value={Entry}
 									onChange={(e) =>
-										this.handleChange("entry", e)
+										this.handleChange("Entry", e)
 									}
-									disabled={!investigation}
+									disabled={!Investigation}
 								/>
 							</div>
 							<div>
 								<label
-									className={!report ? "disabled_label" : ""}
+									className={!Entry ? "disabled_label" : ""}
 								>
-									Date of Record
+									RecordDate of Record
 								</label>
 								<DatePicker
-									name="date"
+									name="RecordDate"
 									className={styles.input}
 									onChange={(e) =>
-										this.handleChange("date", e)
+										this.handleChange("RecordDate", e)
 									}
-									value={date}
+									value={RecordDate}
 									format="dd/MM/y"
 									required
-									disabled={!report && !entry}
+									disabled={!Entry}
 								/>
 							</div>
 							<button
 								type="submit"
 								className={
-									!investigation ||
-									(!report && !entry) ||
-									!date
+									!Investigation || !Entry || !RecordDate
 										? styles2.submit_btn_disabled
 										: styles2.submit_btn
 								}
 								disabled={
-									!investigation ||
-									(!report && !entry) ||
-									!date
+									!Investigation || !Entry || !RecordDate
 								}
 							>
 								Add New Record
@@ -230,9 +266,7 @@ class InvestigationHistory extends Component {
 							<button
 								className="primary_btn"
 								type="button"
-								onClick={() =>
-									this.continue("investigation_history")
-								}
+								onClick={() => this.continue("Investigation")}
 							>
 								Continue to Treatment Outcome
 							</button>

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import localForage from "localforage";
 import DatePicker from "react-date-picker";
 import SecondaryBar from "../../../components/UI/JS/secondary_navbar";
 import TopBar from "../../../components/UI/JS/topbar";
@@ -8,15 +9,17 @@ import Shell from "../../../components/AddPatientData/JS/shell";
 import styles from "../CSS/add_patient_data.module.css";
 import styles2 from "../CSS/medical_history.module.css";
 
+const url = process.env.REACT_APP_BASE_URL;
+
 class InvestigationHistory extends Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			investigation: "",
-			report: "",
-			date: "",
-			entry: ""
+			Investigation: "",
+			Report: "",
+			RecordDate: "",
+			Entry: ""
 		};
 
 		this.handleChange = this.handleChange.bind(this);
@@ -32,7 +35,7 @@ class InvestigationHistory extends Component {
 	handleChange(name, e) {
 		let value;
 
-		if (name === "date") {
+		if (name === "RecordDate") {
 			value = e;
 		} else {
 			value = e.target.value;
@@ -43,42 +46,82 @@ class InvestigationHistory extends Component {
 
 	resetRecord() {
 		this.setState({
-			investigation: "",
-			report: "",
-			date: "",
-			entry: ""
+			Investigation: "",
+			Report: "",
+			RecordDate: "",
+			Entry: ""
 		});
 	}
 
-	submitRecord(e, recordName) {
+	async submitRecord(e, recordName) {
 		if (e) e.preventDefault();
-		let localStorageValue =
-			localStorage.getItem(recordName) &&
-			JSON.parse(localStorage.getItem(recordName));
-		if (localStorageValue) {
-			localStorageValue.push(this.state);
-			const lSValueStringified = JSON.stringify(localStorageValue);
-			localStorage.setItem(recordName, lSValueStringified);
-			this.resetRecord();
+		const { Investigation, Report, Entry, RecordDate } = this.state;
+
+		const modifiedRecord = {
+			Investigation,
+			Report,
+			Entry,
+			RecordDate,
+			FolderNo: this.props.location.state,
+			Type: recordName
+		};
+
+		if (window.navigator.onLine) {
+			try {
+				this.resetRecord();
+				const request = await fetch(`${url}/records`, {
+					method: "POST",
+					headers: {
+						Accept: "application/json",
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${localStorage.token}`
+					},
+					body: JSON.stringify(modifiedRecord)
+				});
+
+				if (!request.ok) {
+					const error = await request.json();
+					throw Error(error.Message);
+				}
+			} catch (err) {
+				console.log(err);
+			}
 		} else {
-			localStorage.setItem(recordName, `${JSON.stringify([this.state])}`);
-			this.resetRecord();
+			try {
+				let recordArray = await localForage.getItem(recordName);
+
+				if (recordArray) {
+					recordArray.push(modifiedRecord);
+					localForage.setItem(recordName, recordArray);
+				} else {
+					localForage.setItem(recordName, [modifiedRecord]);
+				}
+				this.resetRecord();
+			} catch (error) {
+				console.log(error);
+			}
 		}
 	}
 
 	continue(recordName) {
-		const { investigation, report, date, entry } = this.state;
+		const { Investigation, Report, RecordDate, Entry } = this.state;
 
-		if (investigation && (report || entry) && date) {
+		if (Investigation && (Report || Entry) && RecordDate) {
 			this.submitRecord(null, recordName);
-			this.props.history.push("/add_patient_data/treatment_outcome");
+			this.props.history.push(
+				"/add_patient_data/treatment_outcome",
+				this.props.location.state
+			);
 		} else {
-			this.props.history.push("/add_patient_data/treatment_outcome");
+			this.props.history.push(
+				"/add_patient_data/treatment_outcome",
+				this.props.location.state
+			);
 		}
 	}
 
 	render() {
-		const { investigation, report, date, entry } = this.state;
+		const { Investigation, Report, RecordDate, Entry } = this.state;
 		return (
 			<>
 				<TopBar hide_on_small_screens />
@@ -90,16 +133,16 @@ class InvestigationHistory extends Component {
 					>
 						<div className={styles.fields}>
 							<div>
-								<label htmlFor="investigation">
+								<label htmlFor="Investigation">
 									Investigation
 								</label>
 								<select
-									id="investigation"
-									name="investigation"
+									id="Investigation"
+									name="Investigation"
 									className={styles.input}
-									value={investigation}
+									value={Investigation}
 									onChange={(e) =>
-										this.handleChange("investigation", e)
+										this.handleChange("Investigation", e)
 									}
 									required
 								>
@@ -107,104 +150,158 @@ class InvestigationHistory extends Component {
 									<option>Chest X-ray</option>
 									<option>Ultrasound</option>
 									<option>CT-Scan</option>
-									<option>Full Blood Count</option>
+									<option>
+										Total white blood cell count
+									</option>
+									<option>Lymphocyte count</option>
+									<option>Monocyte count</option>
+									<option>Basophil count</option>
+									<option>Red blood cell count</option>
+									<option>Haemoglobin</option>
+									<option>Platelet count</option>
 									<option>CA 15-3</option>
 									<option>CA 125</option>
+									<option>CA 19-9</option>
 									<option>CA 27-29</option>
 									<option>CEA</option>
 									<option>PSA</option>
+									<option>
+										ER Status (Immunohistochemistry)
+									</option>
+									<option>
+										PR Status (Immunohistochemistry)
+									</option>
+									<option>
+										HER 2 Status (Immunohistochemistry)
+									</option>
 								</select>
 							</div>
 							<div>
 								<label
 									className={
-										!investigation ? "disabled_label" : ""
+										!Investigation ? "disabled_label" : ""
 									}
 									htmlFor={
-										investigation === "Chest X-ray" ||
-										investigation === "Ultrasound" ||
-										investigation === "CT-Scan" ||
-										investigation === ""
-											? "report"
-											: "entry"
+										Investigation === "Chest X-ray" ||
+										Investigation === "Ultrasound" ||
+										Investigation === "CT-Scan" ||
+										Investigation === ""
+											? "Report"
+											: "Entry"
 									}
 								>
-									{investigation === "Chest X-ray" ||
-									investigation === "Ultrasound" ||
-									investigation === "CT-Scan" ||
-									investigation === ""
+									{Investigation === "Chest X-ray" ||
+									Investigation === "Ultrasound" ||
+									Investigation === "CT-Scan" ||
+									Investigation === ""
 										? "Report"
 										: `Entry (unit: ${
-												investigation ===
-												"Full Blood Count"
-													? "mls"
-													: investigation === "CEA" ||
-													  investigation === "PSA"
+												Investigation ===
+													"Total white blood cell count" ||
+												Investigation ===
+													"Platelet count"
+													? "10^9/L"
+													: Investigation ===
+													  "Haemoglobin"
+													? "g/dl"
+													: Investigation ===
+													  "Red blood cell count"
+													? "M/µL"
+													: Investigation ===
+															"Lymphocyte count" ||
+													  Investigation ===
+															"Monocyte count" ||
+													  Investigation ===
+															"Basophil count"
+													? "%"
+													: Investigation === "CEA" ||
+													  Investigation === "PSA"
 													? "ng/mL"
 													: "U/mL"
 										  })`}
 								</label>
-								{investigation === "Chest X-ray" ||
-								investigation === "Ultrasound" ||
-								investigation === "CT-Scan" ||
-								investigation === "" ? (
+								{Investigation === "Chest X-ray" ||
+								Investigation === "Ultrasound" ||
+								Investigation === "CT-Scan" ||
+								Investigation === "" ? (
 									<textarea
-										id="report"
+										id="Report"
 										type="text"
-										name="report"
-										placeholder="Type in report"
+										name="Report"
+										placeholder="Type in Report"
 										className={styles.textarea}
-										value={report}
+										value={Report}
 										onChange={(e) =>
-											this.handleChange("report", e)
+											this.handleChange("Report", e)
 										}
-										disabled={!investigation}
+										disabled={!Investigation}
 									/>
+								) : Investigation ===
+										"ER Status (Immunohistochemistry)" ||
+								  Investigation ===
+										"PR Status (Immunohistochemistry)" ||
+								  Investigation ===
+										"HER 2 Status (Immunohistochemistry)" ? (
+									<select
+										id="Entry"
+										name="Entry"
+										className={styles.input}
+										value={Entry}
+										onChange={(e) =>
+											this.handleChange("Entry", e)
+										}
+										required
+									>
+										<option></option>
+										<option>+ve</option>
+										<option>-ve</option>
+										<option>Equivocal</option>
+									</select>
 								) : (
 									<input
-										id="entry"
+										id="Entry"
 										type="number"
-										name="entry"
+										name="Entry"
 										className={styles.input}
-										value={entry}
+										value={Entry}
 										onChange={(e) =>
-											this.handleChange("entry", e)
+											this.handleChange("Entry", e)
 										}
-										disabled={!investigation}
+										disabled={!Investigation}
 									/>
 								)}
 							</div>
 							<div>
 								<label
-									className={!report ? "disabled_label" : ""}
+									className={!Report ? "disabled_label" : ""}
 								>
-									Date of Record
+									RecordDate of Record
 								</label>
 								<DatePicker
-									name="date"
+									name="RecordDate"
 									className={styles.input}
 									onChange={(e) =>
-										this.handleChange("date", e)
+										this.handleChange("RecordDate", e)
 									}
-									value={date}
+									value={RecordDate}
 									format="dd/MM/y"
 									required
-									disabled={!report && !entry}
+									disabled={!Report && !Entry}
 								/>
 							</div>
 							<button
 								type="submit"
 								className={
-									!investigation ||
-									(!report && !entry) ||
-									!date
+									!Investigation ||
+									(!Report && !Entry) ||
+									!RecordDate
 										? styles2.submit_btn_disabled
 										: styles2.submit_btn
 								}
 								disabled={
-									!investigation ||
-									(!report && !entry) ||
-									!date
+									!Investigation ||
+									(!Report && !Entry) ||
+									!RecordDate
 								}
 							>
 								Add New Record
@@ -221,9 +318,7 @@ class InvestigationHistory extends Component {
 							<button
 								className="primary_btn"
 								type="button"
-								onClick={() =>
-									this.continue("investigation_history")
-								}
+								onClick={() => this.continue("Investigation")}
 							>
 								Continue to Treatment Outcome
 							</button>
