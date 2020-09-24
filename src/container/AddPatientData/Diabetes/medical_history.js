@@ -36,7 +36,8 @@ class MedicalHistoryData extends Component {
 		this.state = {
 			Nature: "",
 			Description: "",
-			Value: "",
+			Duration: "",
+			Entry: "",
 			RecordDate: ""
 		};
 
@@ -59,7 +60,8 @@ class MedicalHistoryData extends Component {
 		this.setState({
 			Nature: "",
 			Description: "",
-			Value: "",
+			Duration: "",
+			Entry: "",
 			RecordDate: ""
 		});
 	}
@@ -74,12 +76,13 @@ class MedicalHistoryData extends Component {
 
 	async submitRecord(e, recordName) {
 		if (e) e.preventDefault();
-		const { Nature, Description, Value, RecordDate } = this.state;
+		const { Nature, Description, Duration, Entry, RecordDate } = this.state;
 
 		const modifiedRecord = {
 			Nature,
 			Description,
-			Duration: Value,
+			Duration,
+			Entry,
 			RecordDate: RecordDate,
 			FolderNo: this.props.location.state,
 			Type: recordName
@@ -123,9 +126,9 @@ class MedicalHistoryData extends Component {
 	}
 
 	continue(recordName) {
-		const { Nature, Description, Value, RecordDate } = this.state;
+		const { Nature, Description, Duration, Entry, RecordDate } = this.state;
 
-		if (Nature && Description && Value && RecordDate) {
+		if (Nature && Description && (Duration || Entry) && RecordDate) {
 			this.submitRecord(null, recordName);
 			this.props.history.push(
 				"/add_patient_data/drug_history",
@@ -140,7 +143,7 @@ class MedicalHistoryData extends Component {
 	}
 
 	render() {
-		const { Nature, Description, Value, RecordDate } = this.state;
+		const { Nature, Description, Duration, Entry, RecordDate } = this.state;
 		return (
 			<>
 				<TopBar hide_on_small_screens />
@@ -317,7 +320,11 @@ class MedicalHistoryData extends Component {
 														? "disabled_label"
 														: ""
 												}
-												htmlFor="Value"
+												htmlFor={
+													Nature === "Examination"
+														? "Entry"
+														: "Duration"
+												}
 											>
 												{Nature === "Examination"
 													? "Entry"
@@ -328,10 +335,10 @@ class MedicalHistoryData extends Component {
 											Description ===
 												"Eye Examination" ? (
 												<select
-													id="Value"
-													name="Value"
+													id="Entry"
+													name="Entry"
 													className={styles.input}
-													value={Value}
+													value={Entry}
 													onChange={(e) =>
 														this.handleChange(e)
 													}
@@ -344,11 +351,23 @@ class MedicalHistoryData extends Component {
 												</select>
 											) : (
 												<input
-													id="Value"
+													id={
+														Nature === "Examination"
+															? "Entry"
+															: "Duration"
+													}
 													type="number"
-													name="Value"
+													name={
+														Nature === "Examination"
+															? "Entry"
+															: "Duration"
+													}
 													className={styles.input}
-													value={Value}
+													value={
+														Nature === "Examination"
+															? Entry
+															: Duration
+													}
 													onChange={(e) =>
 														this.handleChange(e)
 													}
@@ -359,7 +378,7 @@ class MedicalHistoryData extends Component {
 										<div>
 											<label
 												className={
-													!Value
+													!Duration && !Entry
 														? "disabled_label"
 														: ""
 												}
@@ -380,7 +399,7 @@ class MedicalHistoryData extends Component {
 												}
 												required
 												format="dd/MM/y"
-												disabled={!Value}
+												disabled={!Duration && !Entry}
 											/>
 										</div>
 										<button
@@ -388,7 +407,7 @@ class MedicalHistoryData extends Component {
 											className={
 												!Nature ||
 												!Description ||
-												!Value ||
+												(!Duration && !Entry) ||
 												!RecordDate
 													? styles2.submit_btn_disabled
 													: styles2.submit_btn
@@ -396,7 +415,7 @@ class MedicalHistoryData extends Component {
 											disabled={
 												!Nature ||
 												!Description ||
-												!Value ||
+												(!Duration && !Entry) ||
 												!RecordDate
 											}
 										>
@@ -534,10 +553,10 @@ class MedicalHistoryData extends Component {
 											</label>
 											{Description === "Amputation" ? (
 												<select
-													id="Value"
-													name="Value"
+													id="Entry"
+													name="Entry"
 													className={styles.input}
-													value={Value}
+													value={Entry}
 													onChange={(e) =>
 														this.handleChange(e)
 													}
@@ -569,11 +588,26 @@ class MedicalHistoryData extends Component {
 												</select>
 											) : (
 												<input
-													id="Value"
+													id={
+														Nature ===
+														"Hospitalization"
+															? "Duration"
+															: "Entry"
+													}
 													type="number"
-													name="Value"
+													name={
+														Nature ===
+														"Hospitalization"
+															? "Duration"
+															: "Entry"
+													}
 													className={styles.input}
-													value={Value}
+													value={
+														Nature ===
+														"Hospitalization"
+															? Duration
+															: Entry
+													}
 													onChange={(e) =>
 														this.handleChange(e)
 													}
@@ -590,7 +624,7 @@ class MedicalHistoryData extends Component {
 										<div>
 											<label
 												className={
-													!Value
+													!Entry && !Duration
 														? "disabled_label"
 														: ""
 												}
@@ -611,7 +645,7 @@ class MedicalHistoryData extends Component {
 												}
 												required
 												format="dd/MM/y"
-												disabled={!Value}
+												disabled={!Entry && !Duration}
 											/>
 										</div>
 										<button
@@ -619,7 +653,7 @@ class MedicalHistoryData extends Component {
 											className={
 												!Nature ||
 												!Description ||
-												!Value ||
+												(!Entry && !Duration) ||
 												!RecordDate
 													? styles2.submit_btn_disabled
 													: styles2.submit_btn
@@ -627,7 +661,7 @@ class MedicalHistoryData extends Component {
 											disabled={
 												!Nature ||
 												!Description ||
-												!Value ||
+												(!Entry && !Duration) ||
 												!RecordDate
 											}
 										>
@@ -775,16 +809,16 @@ class MedicalHistoryData extends Component {
 														? "disabled_label"
 														: ""
 												}
-												htmlFor="Value"
+												htmlFor="Entry"
 											>
 												Entry
 											</label>
 											<input
-												id="Value"
+												id="Entry"
 												type="text"
-												name="Value"
+												name="Entry"
 												className={styles.input}
-												value={Value}
+												value={Entry}
 												onChange={(e) =>
 													this.handleChange(e)
 												}
@@ -794,7 +828,7 @@ class MedicalHistoryData extends Component {
 										<div>
 											<label
 												className={
-													!Value
+													!Entry
 														? "disabled_label"
 														: ""
 												}
@@ -822,7 +856,7 @@ class MedicalHistoryData extends Component {
 											className={
 												!Nature ||
 												!Description ||
-												!Value ||
+												!Entry ||
 												!RecordDate
 													? styles2.submit_btn_disabled
 													: styles2.submit_btn
@@ -830,7 +864,7 @@ class MedicalHistoryData extends Component {
 											disabled={
 												!Nature ||
 												!Description ||
-												!Value ||
+												!Entry ||
 												!RecordDate
 											}
 										>
