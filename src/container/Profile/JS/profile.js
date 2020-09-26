@@ -67,22 +67,16 @@ class ProfilePage extends Component {
 									{account.FirstName + " " + account.LastName}
 								</span>
 							</div>
-							<div className={pageStyles.indiv_info}>
-								<span className={pageStyles.field}>
-									Account Role
-								</span>
-								<span className={pageStyles.value}>
-									{account.Role}
-								</span>
-							</div>
-							<div className={pageStyles.indiv_info}>
-								<span className={pageStyles.field}>
-									Specialty
-								</span>
-								<span className={pageStyles.value}>
-									Terminal Illness
-								</span>
-							</div>
+							{account.Admin ? (
+								<div className={pageStyles.indiv_info}>
+									<span className={pageStyles.field}>
+										Account Role
+									</span>
+									<span className={pageStyles.value}>
+										Admin
+									</span>
+								</div>
+							) : null}
 							<div className={pageStyles.indiv_info}>
 								<span className={pageStyles.field}>
 									Work Phone
@@ -94,7 +88,7 @@ class ProfilePage extends Component {
 							<div className={pageStyles.indiv_info}>
 								<span className={pageStyles.field}>Email</span>
 								<span className={pageStyles.value}>
-									{account.EmailAddress}
+									{account.Email}
 								</span>
 							</div>
 						</div>
@@ -109,7 +103,7 @@ class ProfilePage extends Component {
 								<span>Change Password</span>
 								<span>**********</span>
 							</div>
-							<div className={pageStyles.indiv_info}>
+							{/* <div className={pageStyles.indiv_info}>
 								<span>Use Biometrics</span>
 								<span>
 									<img
@@ -118,7 +112,7 @@ class ProfilePage extends Component {
 										alt="use biometric switch"
 									/>
 								</span>
-							</div>
+							</div> */}
 						</div>
 						<button type="button" className="primary_btn">
 							Update Profile
