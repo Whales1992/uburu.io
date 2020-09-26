@@ -47,6 +47,8 @@ import AsthmaMedicalHistoryForm from "./container/AddPatientData/Asthma/medical_
 import AsthmDrugHistoryForm from "./container/AddPatientData/Asthma/drug_history";
 import AsthmaInvestigationHistoryForm from "./container/AddPatientData/Asthma/investigation_history";
 
+import CreateUserPage from "./components/CreateUser/create_user";
+
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = composeEnhancers()(createStore);
 
@@ -170,6 +172,7 @@ const App = () => {
 						component={SearchFolderNoPage}
 					/>
 					<Route path="/profile" component={ProfilePage} />
+					<Route path="/create_user" component={CreateUserPage} />
 					<Route
 						exact
 						path="/appointments"
