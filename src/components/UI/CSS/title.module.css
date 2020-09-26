@@ -15,7 +15,7 @@
 		height: 48px;
 		width: 80%;
 		max-width: 774px;
-		color: #333f6b;
+		color: var(--color-primary);
 		text-align: left;
 		padding-left: 20px;
 		border: 1px solid #e7e7ed;
