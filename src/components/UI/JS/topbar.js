@@ -122,9 +122,9 @@ class Topbar extends Component {
 						<img src={TopBarAvatar} alt="avatar" />
 						<Link to="/profile">
 							Dr. {JSON.parse(localStorage.account).LastName}{" "}
-							<span>
-								({JSON.parse(localStorage.account).Role})
-							</span>
+							{JSON.parse(localStorage.account).Admin ? (
+								<span>(Admin)</span>
+							) : null}
 						</Link>
 					</div>
 				</>
