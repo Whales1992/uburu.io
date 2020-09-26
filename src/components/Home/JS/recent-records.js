@@ -3,26 +3,21 @@ import { Link } from "react-router-dom";
 import styles from "../CSS/recent_records.module.css";
 
 const EachRecentRecord = ({ record }) => {
-	const {
-		surname,
-		first_name,
-		organ_diagnosis,
-		folder_number
-	} = record.bioData;
+	const { LastName, FirstName, OrganDiagnosis, FolderNo } = record[0];
 	return (
 		<Link
 			to={{
 				pathname:
 					window.innerWidth > 600
-						? `/patients/${folder_number}`
-						: `/patients/${folder_number}/record_list`,
+						? `/patients/${FolderNo}`
+						: `/patients/${FolderNo}/record_list`,
 				state: record
 			}}
 			className={styles.each_record}
 		>
-			<div className={styles.name}>{`${surname} ${first_name}`}</div>
+			<div className={styles.name}>{`${LastName} ${FirstName}`}</div>
 			<div className={styles.details}>
-				<small>{organ_diagnosis}</small>
+				<small>{OrganDiagnosis}</small>
 				<small>{}</small>
 			</div>
 			<hr />
@@ -41,7 +36,7 @@ const recentRecords = ({ recents }) => {
 					<p>No recent records yet.</p>
 				) : (
 					recents.map((eachRecord) => (
-						<Fragment key={eachRecord.bioData.folder_number}>
+						<Fragment key={eachRecord[0].FolderNo}>
 							<EachRecentRecord record={eachRecord} />
 						</Fragment>
 					))
