@@ -30,7 +30,7 @@ const moreMenu = () => (
 				Message Center
 			</NavLink>
 		</div>
-		<div className={styles.link_div}>
+		{/* <div className={styles.link_div}>
 			<NavLink
 				to="/pharmacy_db"
 				className={styles.link}
@@ -39,7 +39,7 @@ const moreMenu = () => (
 				<img src={PharmDBIcon} alt="friends icon" />
 				Pharmacy DB
 			</NavLink>
-		</div>
+		</div> */}
 		<div className={styles.link_div}>
 			<NavLink
 				to="/support"
@@ -60,7 +60,7 @@ const moreMenu = () => (
 				Settings
 			</NavLink>
 		</div>
-		<div className={styles.link_div}>
+		{/* <div className={styles.link_div}>
 			<NavLink
 				to="/about"
 				className={styles.link}
@@ -69,7 +69,7 @@ const moreMenu = () => (
 				<img src={AboutIcon} alt="alert icon" />
 				About BlueCircle
 			</NavLink>
-		</div>
+		</div> */}
 	</div>
 );
 

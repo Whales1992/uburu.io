@@ -6,7 +6,7 @@
 	box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1);
 	border-radius: 16px;
 	width: 280px;
-	height: 315px;
+	height: fit-content;
 }
 
 .link_div {
