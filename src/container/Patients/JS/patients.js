@@ -78,7 +78,7 @@ class Patients extends Component {
 		return (
 			<Layout pageTitle="Your Patients">
 				<InstitutionBanner />
-				<Title title="Your Patients" />
+				<Title banner title="Your Patients" />
 				<form className={styles.form} onSubmit={(e) => this.search(e)}>
 					<input
 						className={styles.input}

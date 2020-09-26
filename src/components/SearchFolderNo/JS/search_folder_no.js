@@ -37,7 +37,7 @@ const SearchFolderNoPage = () => {
 		<>
 			<Topbar />
 			<InstitutionBanner />
-			<Title title="Search Patient Folder" />
+			<Title banner title="Search Patient Folder" />
 			<SecondaryBar page_title="Search Patient folder" shadow />
 			{/* {modalShowing ? (
 				<>
