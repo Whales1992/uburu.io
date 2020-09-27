@@ -10,6 +10,8 @@ import InstitutionBanner from "../../../components/UI/JS/institution_banner";
 //style
 import styles from "../../Patients/CSS/patients.module.css";
 
+const url = process.env.REACT_APP_BASE_URL;
+
 class Patients extends Component {
 	constructor(props) {
 		super(props);
@@ -17,64 +19,154 @@ class Patients extends Component {
 		this.state = {
 			patients: null,
 			loading: false,
-			searchValue: ""
+			searchValue: "",
+			error: {
+				error: false,
+				message: ""
+			}
 		};
 
 		this.onChange = this.onChange.bind(this);
 		this.search = this.search.bind(this);
+		this.getPatients = this.getPatients.bind(this);
 	}
 
-	async componentDidMount() {
+	async getPatients() {
 		try {
-			let patients = [];
+			this.setState({ loading: true });
+			if (window.navigator.onLine) {
+				const request = await fetch(`${url}/GetRecentPatient`, {
+					method: "POST",
+					headers: {
+						Accept: "application/json",
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${localStorage.token}`
+					}
+				});
 
-			await localForage.iterate((value) => {
-				patients.push(value);
-			});
-			this.setState({ patients });
-		} catch (error) {
-			console.log(error);
-		}
-	}
+				if (!request.ok) {
+					this.setState({ loading: false });
+					const error = await request.json();
+					throw Error(error.error);
+				}
 
-	async onChange(e) {
-		e.preventDefault();
-		const val = e.target.value;
-		if (val === "") {
-			try {
+				const data = await request.json();
+				this.setState({ patients: data.Patients });
+			} else {
 				let patients = [];
 
 				await localForage.iterate((value) => {
 					patients.push(value);
 				});
 				this.setState({ patients });
-			} catch (error) {
-				console.log(error);
+			}
+		} catch (error) {
+			this.setState({
+				error: {
+					error: true,
+					message: error.message
+				}
+			});
+
+			setTimeout(
+				() =>
+					this.setState({
+						error: {
+							error: false,
+							message: ""
+						}
+					}),
+				3000
+			);
+		}
+	}
+
+	componentDidMount() {
+		this.getPatients();
+	}
+
+	async onChange(e) {
+		e.preventDefault();
+		const val = e.target.value;
+		if (val === "") {
+			if (window.navigator.onLine) {
+				this.getPatients();
+			} else {
+				try {
+					let patients = [];
+
+					await localForage.iterate((value) => {
+						patients.push(value);
+					});
+					this.setState({ patients });
+				} catch (error) {
+					console.log(error);
+				}
 			}
 		}
 		this.setState({ searchValue: val });
 	}
 
 	async search(e) {
-		e.preventDefault();
-		const value = e.target.value;
+		if (e) e.preventDefault();
+		const value = e && e.target.value;
+		const { searchValue } = this.state;
 		try {
-			let patients = [];
+			this.setState({ loading: true });
+			if (window.navigator.onLine) {
+				const request = await fetch(`${url}/GetOnePatient`, {
+					method: "POST",
+					headers: {
+						Accept: "application/json",
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${localStorage.token}`
+					},
+					body: JSON.stringify({ FolderNo: searchValue })
+				});
 
-			const foundPatient = await localForage.getItem(value);
-			patients.push(foundPatient);
+				if (!request.ok) {
+					this.setState({ loading: false });
+					const error = await request.json();
+					throw Error(error.error);
+				}
 
-			if (foundPatient === null) {
-				return this.setState({ patients: [] });
+				const data = await request.json();
+				this.setState({ patients: data.Patients });
+			} else {
+				let patients = [];
+
+				const foundPatient = await localForage.getItem(value);
+				patients.push(foundPatient);
+
+				if (foundPatient === null) {
+					return this.setState({ patients: [] });
+				}
+				this.setState({ patients });
 			}
-			this.setState({ patients });
 		} catch (error) {
-			console.log(error);
+			this.setState({
+				error: {
+					error: true,
+					message: error.message
+				}
+			});
+
+			setTimeout(
+				() =>
+					this.setState({
+						searchValue: "",
+						error: {
+							error: false,
+							message: ""
+						}
+					}),
+				3000
+			);
 		}
 	}
 
 	render() {
-		const { patients, searchValue } = this.state;
+		const { patients, searchValue, error } = this.state;
 		return (
 			<Layout pageTitle="Your Patients">
 				<InstitutionBanner />
@@ -85,7 +177,7 @@ class Patients extends Component {
 						type="number"
 						name="search"
 						value={searchValue}
-						placeholder="Search"
+						placeholder="Search by folder number"
 						onChange={(e) => this.onChange(e)}
 					/>
 					<button
@@ -106,7 +198,7 @@ class Patients extends Component {
 						</svg>
 					</button>
 				</form>
-				<Records recents={patients} />
+				<Records recents={patients} error={error} />
 			</Layout>
 		);
 	}

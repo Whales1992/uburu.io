@@ -1,29 +1,24 @@
-import React, { memo } from "react";
+import React, { Fragment, memo } from "react";
 import { Link } from "react-router-dom";
 import styles from "../CSS/records.module.css";
 
 export const EachRecentRecord = ({ record }) => {
-	const {
-		surname,
-		first_name,
-		organ_diagnosis,
-		folder_number
-	} = record.bioData;
+	const { LastName, FirstName, OrganDiagnosis, FolderNo } = record;
 
 	return (
 		<Link
 			to={{
 				pathname:
 					window.innerWidth > 600
-						? `/patients/${folder_number}`
-						: `/patients/${folder_number}/record_list`,
+						? `/patients/${FolderNo}/bio-data`
+						: `/patients/${FolderNo}/record_list`,
 				state: record
 			}}
 			className={styles.each_record}
 		>
-			<div className={styles.name}>{`${surname} ${first_name}`}</div>
+			<div className={styles.name}>{`${LastName} ${FirstName}`}</div>
 			<div className={styles.details}>
-				<small>{organ_diagnosis}</small>
+				<small>{OrganDiagnosis}</small>
 				<small>{}</small>
 			</div>
 			<hr />
@@ -31,21 +26,27 @@ export const EachRecentRecord = ({ record }) => {
 	);
 };
 
-const RecentRecords = ({ recents }) => {
+const RecentRecords = ({ recents, error }) => {
 	return (
 		<div className={styles.container}>
 			<div className={styles.records_div}>
-				{recents === null ? (
+				{recents === null && !error.error ? (
 					<p>loading...</p>
+				) : error.error ? (
+					<p style={{ textAlign: "center", color: "red" }}>
+						{error.message}
+					</p>
 				) : recents.length === 0 ? (
 					<p style={{ textAlign: "center" }}>No records.</p>
 				) : (
 					<>
 						{recents.map((eachRecord) => (
-							<EachRecentRecord
-								key={eachRecord.folder_number}
-								record={eachRecord}
-							/>
+							<Fragment key={eachRecord.FolderNo}>
+								<EachRecentRecord
+									key={eachRecord.folder_number}
+									record={eachRecord}
+								/>
+							</Fragment>
 						))}
 					</>
 				)}
