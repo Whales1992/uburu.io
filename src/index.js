@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { createStore, compose } from "redux";
 import rootReducer from "./reducers/index";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
 
@@ -190,7 +190,11 @@ const App = () => {
 					/>
 					<Route exact path="/patients" component={Patients} />
 					<Route path="/sign_in" component={SignIn} />
-					<Route exact path="/" component={Home} />
+					{localStorage.token ? (
+						<Route exact path="/" component={Home} />
+					) : (
+						<Redirect to="/sign_in" />
+					)}
 				</Suspense>
 			</Switch>
 		</BrowserRouter>
