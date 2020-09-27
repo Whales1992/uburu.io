@@ -104,7 +104,7 @@ class SignIn extends Component {
 						required
 					/>
 					<button
-						className={"primary_btn"}
+						className="primary_btn"
 						type="submit"
 						disabled={
 							email === "" ||
