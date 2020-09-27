@@ -1,12 +1,12 @@
 import React from "react";
 import styles from "../CSS/each_drug_history_record.module.css";
 
-const EachMedHistoryRecord = ({ record, type }) => {
-	const { drug, duration, dosage, sideEffect, date } = record;
+const EachMedHistoryRecord = ({ record }) => {
+	const { Drug, Duration, Dosage, SideEffect } = record;
 	return (
 		<div className={styles.record}>
 			<div className={styles.drug}>
-				<span>{drug}</span>
+				<span>{Drug}</span>
 				<div>
 					<svg
 						width="12"
@@ -36,10 +36,10 @@ const EachMedHistoryRecord = ({ record, type }) => {
 				</div>
 			</div>
 			<span className={styles.dosage}>
-				<b>DOSAGE:</b> {dosage}
+				<b>DOSAGE:</b> {Dosage}
 			</span>
 			<span className={styles.duration}>
-				<b>DURATION:</b> {duration}
+				<b>DURATION:</b> {Duration}
 			</span>
 			<span className={styles.side_effect}>
 				<svg
@@ -55,7 +55,7 @@ const EachMedHistoryRecord = ({ record, type }) => {
 						fill="#89A7E0"
 					/>
 				</svg>
-				SIDE EFFECT: {sideEffect}
+				SIDE EFFECT: {SideEffect}
 			</span>
 		</div>
 	);

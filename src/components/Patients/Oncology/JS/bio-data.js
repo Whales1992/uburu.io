@@ -7,35 +7,28 @@ import SecondaryBar from "../../../UI/JS/secondary_navbar";
 import styles from "../../../../container/AddPatientData/CSS/add_patient_data.module.css";
 
 const BioData = (props) => {
-	const record = useLocation().state;
+	const bioData = useLocation().state;
+	
 	const [value, changeValue] = useState({
-		surname: record ? record.bioData.surname : "",
-		first_name: record ? record.bioData.first_name : "",
-		phone_number: record ? record.bioData.phone_number : "",
-		next_of_kin_phone_number: record
-			? record.bioData.next_of_kin_phone_number
-			: "",
-		folder_number: record ? record.bioData.folder_number : "",
-		sex: record ? record.bioData.sex : "",
-		age: record ? record.bioData.age : "",
-		marital_status: record ? record.bioData.marital_status : "",
-		organ_diagnosis: record ? record.bioData.organ_diagnosis : "",
-		hispathology_diagnosis: record
-			? record.bioData.hispathology_diagnosis
-			: "",
-		occupation: record ? record.bioData.occupation : "",
-		ethnic_group: record ? record.bioData.ethnic_group : "",
-		religion: record ? record.bioData.religion : "",
-		residence: record ? record.bioData.residence : "",
-		highest_education: record ? record.bioData.highest_education : "",
-		alcohol_use: record ? record.bioData.alcohol_use : "",
-		alcohol_frequency:
-			record && record.bioData.alcohol_frequency
-				? record.bioData.alcohol_frequency
-				: "",
-		family_history_of_cancer: record
-			? record.bioData.family_history_of_cancer
-			: ""
+		LastName: bioData ? bioData.LastName : "",
+		FirstName: bioData ? bioData.FirstName : "",
+		PhoneNo: bioData ? bioData.PhoneNo : "",
+		KinsNumber: bioData ? bioData.KinsNumber : "",
+		FolderNo: bioData ? bioData.FolderNo : "",
+		Gender: bioData ? bioData.Gender : "",
+		Age: bioData ? bioData.Age : "",
+		MaritalStatus: bioData ? bioData.MaritalStatus : "",
+		OrganDiagnosis: bioData ? bioData.OrganDiagnosis : "",
+		HistoDiagnosis: bioData ? bioData.HistoDiagnosis : "",
+		Occupation: bioData ? bioData.Occupation : "",
+		EthnicGroup: bioData ? bioData.EthnicGroup : "",
+		Religion: bioData ? bioData.Religion : "",
+		Residence: bioData ? bioData.Residence : "",
+		HighestEducation: bioData ? bioData.HighestEducation : "",
+		AlcoholUse: bioData ? bioData.AlcoholUse : "",
+		AlcoholFrequency:
+			bioData && bioData.AlcoholFrequency ? bioData.AlcoholFrequency : "",
+		FamilyHistory: bioData ? bioData.FamilyHistory : ""
 	});
 
 	function handleChange(name, e) {
@@ -47,8 +40,8 @@ const BioData = (props) => {
 		e.preventDefault();
 
 		localForage
-			.setItem(record.bioData.folder_number, {
-				...record,
+			.setItem(bioData.FolderNo, {
+				...bioData,
 				bioData: { ...value }
 			})
 			.then(() => props.history.goBack());
@@ -58,47 +51,43 @@ const BioData = (props) => {
 		<>
 			<TopBar hide_on_small_screens />
 			<SecondaryBar page_title="Bio-Data" shadow />
-			<Shell
-				name={`${record.bioData.surname} ${record.bioData.first_name}`}
-			>
+			<Shell name={`${bioData.LastName} ${bioData.FirstName}`}>
 				<form className={styles.form} onSubmit={(e) => update(e)}>
 					<div className={styles.fields}>
 						<div>
-							<label htmlFor="surname">Surname</label>
+							<label htmlFor="LastName">Surname</label>
 							<input
-								id="surname"
+								id="LastName"
 								type="text"
-								name="surname"
+								name="LastName"
 								className={styles.input}
-								onChange={(e) => handleChange("surname", e)}
-								value={value.surname}
-								placeholder="Enter patient's surname"
+								onChange={(e) => handleChange("LastName", e)}
+								value={value.LastName}
+								placeholder="Enter patient's LastName"
 								required
 							/>
 						</div>
 						<div>
-							<label htmlFor="first_name">First Name</label>
+							<label htmlFor="FirstName">First Name</label>
 							<input
-								id="first_name"
+								id="FirstName"
 								type="text"
-								name="first_name"
+								name="FirstName"
 								className={styles.input}
-								onChange={(e) => handleChange("first_name", e)}
-								value={value.first_name}
+								onChange={(e) => handleChange("FirstName", e)}
+								value={value.FirstName}
 								placeholder="Enter patient's first name"
 								required
 							/>
 						</div>
 						<div>
-							<label htmlFor="phone_number">Phone Number</label>
+							<label htmlFor="PhoneNo">Phone Number</label>
 							<input
-								id="phone_number"
-								name="phone_number"
+								id="PhoneNo"
+								name="PhoneNo"
 								type="tel"
-								onChange={(e) =>
-									handleChange("phone_number", e)
-								}
-								value={value.phone_number}
+								onChange={(e) => handleChange("PhoneNo", e)}
+								value={value.PhoneNo}
 								className={styles.input}
 								placeholder="Enter phone number"
 								minLength="11"
@@ -107,17 +96,15 @@ const BioData = (props) => {
 							/>
 						</div>
 						<div>
-							<label htmlFor="next_of_kin_phone_number">
+							<label htmlFor="KinsNumber">
 								Next of Kin's Phone Number
 							</label>
 							<input
-								id="next_of_kin_phone_number"
-								name="next_of_kin_phone_number"
+								id="KinsNumber"
+								name="KinsNumber"
 								type="tel"
-								onChange={(e) =>
-									handleChange("next_of_kin_phone_number", e)
-								}
-								value={value.next_of_kin_phone_number}
+								onChange={(e) => handleChange("KinsNumber", e)}
+								value={value.KinsNumber}
 								className={styles.input}
 								placeholder="Enter next of kin's phone number"
 								minLength="11"
@@ -126,27 +113,25 @@ const BioData = (props) => {
 							/>
 						</div>
 						<div>
-							<label htmlFor="folder_number">Folder Number</label>
+							<label htmlFor="FolderNo">Folder Number</label>
 							<input
-								id="folder_number"
-								name="folder_number"
+								id="FolderNo"
+								name="FolderNo"
 								type="number"
-								onChange={(e) =>
-									handleChange("folder_number", e)
-								}
-								value={value.folder_number}
+								onChange={(e) => handleChange("FolderNo", e)}
+								value={value.FolderNo}
 								className={styles.input}
 								placeholder="Enter folder number"
 								required
 							/>
 						</div>
 						<div>
-							<label htmlFor="sex">Sex</label>
+							<label htmlFor="Gender">Sex</label>
 							<select
-								id="sex"
-								name="sex"
-								value={value.sex}
-								onChange={(e) => handleChange("sex", e)}
+								id="Gender"
+								name="Gender"
+								value={value.Gender}
+								onChange={(e) => handleChange("Gender", e)}
 								className={styles.input}
 								required
 							>
@@ -156,30 +141,30 @@ const BioData = (props) => {
 							</select>
 						</div>
 						<div>
-							<label htmlFor="age">Age</label>
+							<label htmlFor="Age">Age</label>
 							<input
-								id="age"
-								name="age"
+								id="Age"
+								name="Age"
 								type="number"
-								onChange={(e) => handleChange("age", e)}
-								value={value.age}
+								onChange={(e) => handleChange("Age", e)}
+								value={value.Age}
 								className={styles.input}
-								placeholder="Enter age"
+								placeholder="Enter Age"
 								minLength="1"
 								maxLength="3"
 								required
 							/>
 						</div>
 						<div>
-							<label htmlFor="marital_status">
+							<label htmlFor="MaritalStatus">
 								Marital Status
 							</label>
 							<select
-								id="marital_status"
-								name="marital_status"
-								value={value.marital_status}
+								id="MaritalStatus"
+								name="MaritalStatus"
+								value={value.MaritalStatus}
 								onChange={(e) =>
-									handleChange("marital_status", e)
+									handleChange("MaritalStatus", e)
 								}
 								className={styles.input}
 								required
@@ -192,15 +177,15 @@ const BioData = (props) => {
 							</select>
 						</div>
 						<div>
-							<label htmlFor="organ_diagnosis">
+							<label htmlFor="OrganDiagnosis">
 								Organ Diagnosis
 							</label>
 							<select
-								id="organ_diagnosis"
-								name="organ_diagnosis"
-								value={value.organ_diagnosis}
+								id="OrganDiagnosis"
+								name="OrganDiagnosis"
+								value={value.OrganDiagnosis}
 								onChange={(e) =>
-									handleChange("organ_diagnosis", e)
+									handleChange("OrganDiagnosis", e)
 								}
 								className={styles.input}
 								required
@@ -214,29 +199,29 @@ const BioData = (props) => {
 							</select>
 						</div>
 						<div>
-							<label htmlFor="hispathology_diagnosis">
+							<label htmlFor="HistoDiagnosis">
 								Hispathology Diagnosis
 							</label>
 							<input
-								id="hispathology_diagnosis"
-								name="hispathology_diagnosis"
+								id="HistoDiagnosis"
+								name="HistoDiagnosis"
 								type="text"
 								onChange={(e) =>
-									handleChange("hispathology_diagnosis", e)
+									handleChange("HistoDiagnosis", e)
 								}
-								value={value.hispathology_diagnosis}
+								value={value.HistoDiagnosis}
 								className={styles.input}
 								placeholder="Enter hispathology diagnosis"
 								required
 							/>
 						</div>
 						<div>
-							<label htmlFor="occupation">Occupation</label>
+							<label htmlFor="Occupation">Occupation</label>
 							<select
-								id="occupation"
-								name="occupation"
-								value={value.occupation}
-								onChange={(e) => handleChange("occupation", e)}
+								id="Occupation"
+								name="Occupation"
+								value={value.Occupation}
+								onChange={(e) => handleChange("Occupation", e)}
 								className={styles.input}
 								required
 							>
@@ -247,14 +232,12 @@ const BioData = (props) => {
 							</select>
 						</div>
 						<div>
-							<label htmlFor="ethnic_group">Ethnic Group</label>
+							<label htmlFor="EthnicGroup">Ethnic Group</label>
 							<select
-								id="ethnic_group"
-								name="ethnic_group"
-								value={value.ethnic_group}
-								onChange={(e) =>
-									handleChange("ethnic_group", e)
-								}
+								id="EthnicGroup"
+								name="EthnicGroup"
+								value={value.EthnicGroup}
+								onChange={(e) => handleChange("EthnicGroup", e)}
 								className={styles.input}
 								required
 							>
@@ -265,12 +248,12 @@ const BioData = (props) => {
 							</select>
 						</div>
 						<div>
-							<label htmlFor="religion">Religion</label>
+							<label htmlFor="Religion">Religion</label>
 							<select
-								id="religion"
-								name="religion"
-								value={value.religion}
-								onChange={(e) => handleChange("religion", e)}
+								id="Religion"
+								name="Religion"
+								value={value.Religion}
+								onChange={(e) => handleChange("Religion", e)}
 								className={styles.input}
 								required
 							>
@@ -283,12 +266,12 @@ const BioData = (props) => {
 							</select>
 						</div>
 						<div>
-							<label htmlFor="residence">Residence</label>
+							<label htmlFor="Residence">Residence</label>
 							<select
-								id="residence"
-								name="residence"
-								value={value.residence}
-								onChange={(e) => handleChange("residence", e)}
+								id="Residence"
+								name="Residence"
+								value={value.Residence}
+								onChange={(e) => handleChange("Residence", e)}
 								className={styles.input}
 							>
 								<option></option>
@@ -297,15 +280,15 @@ const BioData = (props) => {
 							</select>
 						</div>
 						<div>
-							<label htmlFor="highest_education">
+							<label htmlFor="HighestEducation">
 								Highest Education
 							</label>
 							<select
-								id="highest_education"
-								name="highest_education"
-								value={value.highest_education}
+								id="HighestEducation"
+								name="HighestEducation"
+								value={value.HighestEducation}
 								onChange={(e) =>
-									handleChange("highest_education", e)
+									handleChange("HighestEducation", e)
 								}
 								className={styles.input}
 							>
@@ -317,12 +300,12 @@ const BioData = (props) => {
 							</select>
 						</div>
 						<div>
-							<label htmlFor="alcohol_use">Alcohol Use</label>
+							<label htmlFor="AlcoholUse">Alcohol Use</label>
 							<select
-								id="alcohol_use"
-								name="alcohol_use"
-								value={value.alcohol_use}
-								onChange={(e) => handleChange("alcohol_use", e)}
+								id="AlcoholUse"
+								name="AlcoholUse"
+								value={value.AlcoholUse}
+								onChange={(e) => handleChange("AlcoholUse", e)}
 								className={styles.input}
 							>
 								<option></option>
@@ -330,34 +313,34 @@ const BioData = (props) => {
 								<option>No</option>
 							</select>
 						</div>
-						{value.alcohol_use === "Yes" ? (
+						{value.AlcoholUse === "Yes" ? (
 							<div>
-								<label htmlFor="alcohol_frequency">
+								<label htmlFor="AlcoholFrequency">
 									Alcohol Frequency (bottles per week)
 								</label>
 								<input
-									id="alcohol_frequency"
+									id="AlcoholFrequency"
 									type="number"
-									name="alcohol_frequency"
+									name="AlcoholFrequency"
 									className={styles.input}
 									onChange={(e) =>
-										handleChange("alcohol_frequency", e)
+										handleChange("AlcoholFrequency", e)
 									}
-									value={value.alcohol_frequency}
+									value={value.AlcoholFrequency}
 									placeholder="Bottles per week"
 								/>
 							</div>
 						) : null}
 						<div>
-							<label htmlFor="family_history_of_cancer">
+							<label htmlFor="FamilyHistory">
 								Family History of Cancer
 							</label>
 							<select
-								id="family_history_of_cancer"
-								name="family_history_of_cancer"
-								value={value.family_history_of_cancer}
+								id="FamilyHistory"
+								name="FamilyHistory"
+								value={value.FamilyHistory}
 								onChange={(e) =>
-									handleChange("family_history_of_cancer", e)
+									handleChange("FamilyHistory", e)
 								}
 								className={styles.input}
 							>
@@ -372,25 +355,25 @@ const BioData = (props) => {
 							className="primary_btn"
 							type="submit"
 							disabled={
-								!value.surname ||
-								!value.first_name ||
-								!value.phone_number ||
-								!value.sex ||
-								!value.age ||
-								!value.next_of_kin_phone_number ||
-								!value.folder_number ||
-								!value.marital_status ||
-								!value.organ_diagnosis ||
-								!value.hispathology_diagnosis ||
-								!value.occupation ||
-								!value.ethnic_group ||
-								!value.religion ||
-								!value.residence ||
-								!value.highest_education ||
-								!value.alcohol_use ||
-								!value.family_history_of_cancer ||
-								(value.alcohol_use === "Yes" &&
-									!value.alcohol_frequency)
+								!value.LastName ||
+								!value.FirstName ||
+								!value.PhoneNo ||
+								!value.Gender ||
+								!value.Age ||
+								!value.KinsNumber ||
+								!value.FolderNo ||
+								!value.MaritalStatus ||
+								!value.OrganDiagnosis ||
+								!value.HistoDiagnosis ||
+								!value.Occupation ||
+								!value.EthnicGroup ||
+								!value.Religion ||
+								!value.Residence ||
+								!value.HighestEducation ||
+								!value.AlcoholUse ||
+								!value.FamilyHistory ||
+								(value.AlcoholUse === "Yes" &&
+									!value.AlcoholFrequency)
 									? true
 									: false
 							}

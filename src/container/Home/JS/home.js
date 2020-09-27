@@ -38,14 +38,11 @@ class Home extends Component {
 				}
 
 				const data = await request.json();
-				this.setState({ recentRecords: data.records });
+				this.setState({ recentRecords: data.Patients });
 			} else {
-				let patients = [];
-				await localForage.iterate((value, key) => {
-					patients.push(value);
-				});
+				const patientBios = await localForage.getItem("BioData")
 
-				this.setState({ recentRecords: patients });
+				this.setState({ recentRecords: patientBios });
 			}
 		} catch (error) {
 			console.log(error.message);

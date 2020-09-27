@@ -11,7 +11,7 @@ import styles2 from "../CSS/medical_history_data.module.css";
 
 const DrugHistory = () => {
 	const record = useLocation().state;
-	const { drugHistory, bioData } = record;
+	const { drugHistory, patient } = record;
 
 	const [value, changeValue] = useState("");
 	// const [searchResult, setSearchResult] = useState("");
@@ -32,9 +32,9 @@ const DrugHistory = () => {
 		<>
 			<TopBar />
 			<SecondaryBar page_title="Drug History" shadow />
-			<Shell name={`${bioData.surname} ${bioData.first_name}`}>
+			<Shell name={`${patient.LastName} ${patient.FirstName}`}>
 				<div className={styles2.container}>
-					<form className={styles.form} onSubmit={(e) => search(e)}>
+					<form className={styles.form}>
 						<input
 							className={styles.input}
 							name="search_folder_no"
@@ -63,10 +63,8 @@ const DrugHistory = () => {
 					</form>
 					{drugHistory ? (
 						drugHistory.map((record) => (
-							<Fragment
-								key={`${drugHistory.Nature}_${drugHistory.Description}`}
-							>
-								<EachRecord record={record} type="Assessment" />
+							<Fragment key={`${record.Drug}_${record.Dosage}`}>
+								<EachRecord record={record} />
 							</Fragment>
 						))
 					) : (

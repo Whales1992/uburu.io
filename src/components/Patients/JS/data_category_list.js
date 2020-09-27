@@ -11,11 +11,31 @@ const DataCategoryList = (props) => {
 	const [value, changeValue] = useState("");
 	// const [searchResult, setSearchResult] = useState("");
 	
+	const patient = useLocation().state;
+	const assessmentRecords = patient.records.filter(
+		(patient) => patient.Type === "Assessment"
+	);
+	const careRecords = patient.records.filter(
+		(patient) => patient.Type === "Care"
+	);
+	const complicationRecords = patient.records.filter(
+		(patient) => patient.Type === "Complication"
+	);
+	const drugHistory = patient.records.filter(
+		(patient) => patient.Type === "Drugs"
+	);
+	const investigationHistory = patient.records.filter(
+		(patient) => patient.Type === "Investigation"
+	);
+	const treatmentOutcome = patient.records.filter(
+		(patient) => patient.Type === "Complication"
+	);
+
 	useEffect(() => {
 		if (window.innerWidth > 600)
 			props.history.push(
-				`/patient_detail/${location.state.bioData.folder_number}`,
-				location.state
+				`/patients/${patient.FolderNo}/bio-data`,
+				patient
 			);
 	});
 
@@ -34,10 +54,10 @@ const DataCategoryList = (props) => {
 	return (
 		<>
 			<SecondaryBar
-				page_title={`${location.state.bioData.surname} ${location.state.bioData.first_name}`}
+				page_title={`${patient.LastName} ${patient.FirstName}`}
 				shadow
 			/>
-			<form className={formStyle.form} onSubmit={(e) => search(e)}>
+			<form className={formStyle.form}>
 				<input
 					className={formStyle.input}
 					name="search_folder_no"
@@ -58,8 +78,8 @@ const DataCategoryList = (props) => {
 			<ul className={styles.ul}>
 				<Link
 					to={{
-						pathname: `/patients/${location.state.bioData.folder_number}/bio-data`,
-						state: location.state
+						pathname: `/patients/${patient.FolderNo}/bio-data`,
+						state: patient
 					}}
 					className={styles.record_link}
 				>
@@ -68,8 +88,13 @@ const DataCategoryList = (props) => {
 				</Link>
 				<Link
 					to={{
-						pathname: `/patients/${location.state.bioData.folder_number}/medical_history`,
-						state: location.state
+						pathname: `/patients/${patient.FolderNo}/medical_history`,
+						state: {
+							patient,
+							assessmentRecords,
+							careRecords,
+							complicationRecords
+						}
 					}}
 					className={styles.record_link}
 				>
@@ -78,8 +103,8 @@ const DataCategoryList = (props) => {
 				</Link>
 				<Link
 					to={{
-						pathname: `/patients/${location.state.bioData.folder_number}/drug_history`,
-						state: location.state
+						pathname: `/patients/${patient.FolderNo}/drug_history`,
+						state: { patient, drugHistory }
 					}}
 					className={styles.record_link}
 				>
@@ -88,8 +113,8 @@ const DataCategoryList = (props) => {
 				</Link>
 				<Link
 					to={{
-						pathname: `/patients/${location.state.bioData.folder_number}/investigation_history`,
-						state: location.state
+						pathname: `/patients/${patient.FolderNo}/investigation_history`,
+						state: { patient, investigationHistory }
 					}}
 					className={styles.record_link}
 				>
@@ -98,8 +123,8 @@ const DataCategoryList = (props) => {
 				</Link>
 				<Link
 					to={{
-						pathname: `/patients/${location.state.bioData.folder_number}/treatment_outcome`,
-						state: location.state
+						pathname: `/patients/${patient.FolderNo}/treatment_outcome`,
+						state: { patient, treatmentOutcome }
 					}}
 					className={styles.record_link}
 				>

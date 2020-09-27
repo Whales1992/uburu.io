@@ -2,16 +2,17 @@ import React, { memo, Fragment } from "react";
 import { Link } from "react-router-dom";
 import styles from "../CSS/recent_records.module.css";
 
-const EachRecentRecord = ({ record }) => {
-	const { LastName, FirstName, OrganDiagnosis, FolderNo } = record[0];
+const EachRecentRecord = ({ patient }) => {
+	const { LastName, FirstName, OrganDiagnosis, FolderNo } = patient;
+
 	return (
 		<Link
 			to={{
 				pathname:
 					window.innerWidth > 600
-						? `/patients/${FolderNo}`
+						? `/patients/${FolderNo}/bio-data`
 						: `/patients/${FolderNo}/record_list`,
-				state: record
+				state: patient
 			}}
 			className={styles.each_record}
 		>
@@ -36,8 +37,8 @@ const recentRecords = ({ recents }) => {
 					<p>No recent records yet.</p>
 				) : (
 					recents.map((eachRecord) => (
-						<Fragment key={eachRecord[0].FolderNo}>
-							<EachRecentRecord record={eachRecord} />
+						<Fragment key={eachRecord.FolderNo}>
+							<EachRecentRecord patient={eachRecord} />
 						</Fragment>
 					))
 				)}

@@ -6,6 +6,40 @@ import styles2 from "../CSS/detail_shell.module.css";
 const Shell = ({ render, children, name }) => {
 	const location = useLocation();
 
+	const bioData = location.state;
+
+	const assessmentRecords =
+		location.state.records &&
+		location.state.records.filter(
+			(patient) => patient.Type === "Assessment"
+		);
+
+	const careRecords =
+		location.state.records &&
+		location.state.records.filter((patient) => patient.Type === "Care");
+
+	const complicationRecords =
+		location.state.records &&
+		location.state.records.filter(
+			(patient) => patient.Type === "Complication"
+		);
+
+	const drugHistory =
+		location.state.records &&
+		location.state.records.filter((patient) => patient.Type === "Drugs");
+
+	const investigationHistory =
+		location.state.records &&
+		location.state.records.filter(
+			(patient) => patient.Type === "Investigation"
+		);
+
+	const treatmentOutcome =
+		location.state.records &&
+		location.state.records.filter(
+			(patient) => patient.Type === "Complication"
+		);
+
 	const [activeRecord, setActiveRecord] = useState(
 		window.location.pathname.split("/")[2] === "medical_history"
 			? "Assessment"
@@ -35,8 +69,8 @@ const Shell = ({ render, children, name }) => {
 						>
 							<Link
 								to={{
-									pathname: `/patients/${location.state.bioData.folder_number}/bio-data`,
-									state: location.state
+									pathname: `/patients/${bioData.FolderNo}/bio-data`,
+									state: bioData
 								}}
 							>
 								Bio-data
@@ -52,8 +86,13 @@ const Shell = ({ render, children, name }) => {
 						>
 							<Link
 								to={{
-									pathname: `/patients/${location.state.bioData.folder_number}/medical_history`,
-									state: location.state
+									pathname: `/patients/${bioData.FolderNo}/medical_history`,
+									state: {
+										patient: bioData,
+										assessmentRecords,
+										careRecords,
+										complicationRecords
+									}
 								}}
 							>
 								Medical History
@@ -69,8 +108,8 @@ const Shell = ({ render, children, name }) => {
 						>
 							<Link
 								to={{
-									pathname: `/patients/${location.state.bioData.folder_number}/drug_history`,
-									state: location.state
+									pathname: `/patients/${bioData.FolderNo}/drug_history`,
+									state: { patient: bioData, drugHistory }
 								}}
 							>
 								Drug History
@@ -86,8 +125,11 @@ const Shell = ({ render, children, name }) => {
 						>
 							<Link
 								to={{
-									pathname: `/patients/${location.state.bioData.folder_number}/investigation_history`,
-									state: location.state
+									pathname: `/patients/${bioData.FolderNo}/investigation_history`,
+									state: {
+										patient: bioData,
+										investigationHistory
+									}
 								}}
 							>
 								Investigation History
@@ -103,8 +145,11 @@ const Shell = ({ render, children, name }) => {
 						>
 							<Link
 								to={{
-									pathname: `/patients/${location.state.bioData.folder_number}/treatment_outcome`,
-									state: location.state
+									pathname: `/patients/${bioData.FolderNo}/treatment_outcome`,
+									state: {
+										patient: bioData,
+										treatmentOutcome
+									}
 								}}
 							>
 								Treatment Outcome

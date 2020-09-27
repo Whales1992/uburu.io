@@ -8,8 +8,12 @@ import EachRecord from "./each_med_history_record";
 import styles from "../CSS/medical_history_data.module.css";
 
 const MedicalHistory = () => {
-	const record = useLocation().state;
-	const { bioData, MedicalHistory } = record;
+	const {
+		patient,
+		assessmentRecords,
+		careRecords,
+		complicationRecords
+	} = useLocation().state;
 
 	const [showing, switchShowing] = useState("Assessment");
 
@@ -17,7 +21,7 @@ const MedicalHistory = () => {
 		<>
 			<TopBar />
 			<SecondaryBar page_title="Medical History" shadow />
-			<Shell name={`${bioData.surname} ${bioData.first_name}`}>
+			<Shell name={`${patient.LastName} ${patient.FirstName}`}>
 				<div className={styles.container}>
 					<select
 						name="record"
@@ -30,10 +34,10 @@ const MedicalHistory = () => {
 						<option>Complication</option>
 					</select>
 					{showing === "Assessment" ? (
-						MedicalHistory.assessment ? (
-							MedicalHistory.assessment.map((record) => (
+						assessmentRecords ? (
+							assessmentRecords.map((record) => (
 								<Fragment
-									key={`${MedicalHistory.assessment.Nature}_${MedicalHistory.assessment.Description}`}
+									key={`${record.Nature}_${record.Description}`}
 								>
 									<EachRecord
 										record={record}
@@ -48,10 +52,10 @@ const MedicalHistory = () => {
 						)
 					) : null}
 					{showing === "Care" ? (
-						MedicalHistory.care ? (
-							MedicalHistory.care.map((record) => (
+						careRecords ? (
+							careRecords.map((record) => (
 								<Fragment
-									key={`${MedicalHistory.care.Nature}_${MedicalHistory.care.Description}`}
+									key={`${record.Nature}_${record.Description}`}
 								>
 									<EachRecord record={record} type="Care" />
 								</Fragment>
@@ -61,10 +65,10 @@ const MedicalHistory = () => {
 						)
 					) : null}
 					{showing === "Complication" ? (
-						MedicalHistory.complication ? (
-							MedicalHistory.complication.map((record) => (
+						complicationRecords ? (
+							complicationRecords.map((record) => (
 								<Fragment
-									key={`${MedicalHistory.complication.Nature}_${MedicalHistory.complication.Description}`}
+									key={`${record.Nature}_${record.Description}`}
 								>
 									<EachRecord
 										record={record}

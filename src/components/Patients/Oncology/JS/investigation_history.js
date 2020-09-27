@@ -48,7 +48,7 @@ const InvestigationHistory = () => {
 					{investigationHistory ? (
 						investigationHistory.map((record) => (
 							<Fragment
-								key={`${investigationHistory.investigation}_${investigationHistory.report}`}
+								key={`${record.investigation}_${record.report}`}
 							>
 								<EachRecord record={record} type="Assessment" />
 							</Fragment>
