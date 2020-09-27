@@ -41,14 +41,16 @@ const moreMenu = () => (
 			</NavLink>
 		</div> */}
 		<div className={styles.link_div}>
-			<NavLink
-				to="/support"
+			<a
+				rel="noopener noreferrer"
+				target="_blank"
+				href="mailto:support@uburu.ai"
 				className={styles.link}
 				activeClassName={styles.active}
 			>
 				<img src={ContactSupportIcon} alt="person profile icon" />
 				Contact Support
-			</NavLink>
+			</a>
 		</div>
 		<div className={styles.link_div}>
 			<NavLink
