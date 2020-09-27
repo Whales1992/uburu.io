@@ -84,7 +84,7 @@ class PatientDetail extends Component {
 								{appointment.age}
 							</span>
 						</div>
-						<div className={detailStyles.indiv_info}>
+						{/* <div className={detailStyles.indiv_info}>
 							<span className={detailStyles.field_name}>
 								Severity
 							</span>
@@ -99,25 +99,29 @@ class PatientDetail extends Component {
 							<span className={detailStyles.value}>
 								{appointment.date}
 							</span>
-						</div>
+						</div> */}
 					</div>
 					<h6>MEDICAL INFORMATION</h6>
 					<div>
-						<div className={detailStyles.indiv_info}>
+						{/* <div className={detailStyles.indiv_info}>
 							<span className={detailStyles.field_name}>BMI</span>
 							<span className={detailStyles.value}>
 								{appointment.name}
 							</span>
-						</div>
-						<div className={detailStyles.indiv_info}>
-							<span className={detailStyles.field_name}>
-								Diagnosis
-							</span>
-							<span className={detailStyles.value}>
+						</div> */}
+						
+						{JSON.parse(localStorage.account).Name === "Oncology" ||
+						JSON.parse(localStorage.account).Name === "Diabetes" ? (
+							<div className={detailStyles.indiv_info}>
+								<span className={detailStyles.field_name}>
+									Diagnosis
+								</span>
+								<span className={detailStyles.value}>
 								{appointment.serial_number}
 							</span>
 						</div>
-						<div className={detailStyles.indiv_info}>
+						) : null}
+						{/* <div className={detailStyles.indiv_info}>
 							<span className={detailStyles.field_name}>
 								Registration Date
 							</span>
@@ -132,7 +136,7 @@ class PatientDetail extends Component {
 							<span className={detailStyles.value}>
 								{appointment.age}
 							</span>
-						</div>
+						</div> */}
 					</div>
 				</div>
 			</>

@@ -1,5 +1,5 @@
 import React, { useState, Fragment } from "react";
-import localForage from "localforage";
+// import localForage from "localforage";
 import { useLocation } from "react-router-dom";
 import TopBar from "../../../UI/JS/topbar";
 import SecondaryBar from "../../../UI/JS/secondary_navbar";
@@ -14,19 +14,19 @@ const DrugHistory = () => {
 	const { drugHistory, bioData } = record;
 
 	const [value, changeValue] = useState("");
-	const [searchResult, setSearchResult] = useState("");
+	// const [searchResult, setSearchResult] = useState("");
 
 	function handleChange(e) {
 		changeValue(e);
 	}
 
-	function search(e) {
-		e.preventDefault();
-		localForage.getItem(value).then((patient) => {
-			if (!patient) return setSearchResult(null);
-			setSearchResult(patient);
-		});
-	}
+	// function search(e) {
+	// 	e.preventDefault();
+	// 	localForage.getItem(value).then((patient) => {
+	// 		if (!patient) return setSearchResult(null);
+	// 		setSearchResult(patient);
+	// 	});
+	// }
 
 	return (
 		<>

@@ -3,10 +3,10 @@ import { NavLink } from "react-router-dom";
 import styles from "../CSS/more_menu.module.css";
 import MedAnalyticsIcon from "../../../images/MoreMenu/med_analytics.svg";
 import MessageCenterIcon from "../../../images/MoreMenu/message_center.svg";
-import PharmDBIcon from "../../../images/MoreMenu/pharm_DB.svg";
+// import PharmDBIcon from "../../../images/MoreMenu/pharm_DB.svg";
 import ContactSupportIcon from "../../../images/MoreMenu/contact_support.svg";
 import SettingsIcon from "../../../images/MoreMenu/settings.svg";
-import AboutIcon from "../../../images/MoreMenu/about.svg";
+// import AboutIcon from "../../../images/MoreMenu/about.svg";
 
 const moreMenu = () => (
 	<div className={styles.container}>

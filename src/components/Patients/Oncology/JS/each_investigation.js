@@ -2,7 +2,7 @@ import React from "react";
 import styles from "../CSS/each_investigation.module.css";
 
 const EachInvestigationRecord = ({ record }) => {
-	const { investigation, entry, report, date } = record;
+	const { investigation, report, date } = record;
 	return (
 		<div className={styles.record}>
 			<div className={styles.investigation}>

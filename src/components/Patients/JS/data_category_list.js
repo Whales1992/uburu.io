@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
-import localForage from "localforage";
+// import localForage from "localforage";
 import SecondaryBar from "../../UI/JS/secondary_navbar";
 import BottomToolbar from "../../UI/JS/bottom_toolbar";
 import ArrowHead from "../../../images/Patient/arrow-head-right.svg";
@@ -9,9 +9,8 @@ import formStyle from "../../../container/Patients/CSS/patients.module.css";
 
 const DataCategoryList = (props) => {
 	const [value, changeValue] = useState("");
-	const [searchResult, setSearchResult] = useState("");
-	const location = useLocation();
-
+	// const [searchResult, setSearchResult] = useState("");
+	
 	useEffect(() => {
 		if (window.innerWidth > 600)
 			props.history.push(
@@ -24,13 +23,13 @@ const DataCategoryList = (props) => {
 		changeValue(e);
 	}
 
-	function search(e) {
-		e.preventDefault();
-		localForage.getItem(value).then((patient) => {
-			if (!patient) return setSearchResult(null);
-			setSearchResult(patient);
-		});
-	}
+	// function search(e) {
+	// 	e.preventDefault();
+	// 	localForage.getItem(value).then((patient) => {
+	// 		if (!patient) return setSearchResult(null);
+	// 		setSearchResult(patient);
+	// 	});
+	// }
 
 	return (
 		<>

@@ -4,7 +4,7 @@ import Tab from "../../../components/UI/JS/tab";
 import styles from "../../Patients/CSS/patients.module.css";
 import pageStyles from "../../Profile/CSS/profile.module.css";
 import Avatar from "../../../images/Profile/avatar.svg";
-import Switch from "../../../images/Profile/switch.svg";
+// import Switch from "../../../images/Profile/switch.svg";
 
 const account = localStorage.account && JSON.parse(localStorage.account);
 

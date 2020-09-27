@@ -7,7 +7,7 @@ import Shell from "../../JS/detail_shell";
 
 //style
 import styles from "../../../../container/AddPatientData/CSS/add_patient_data.module.css";
-import styles2 from "../../../../container/AddPatientData/CSS/medical_history.module.css";
+// import styles2 from "../../../../container/AddPatientData/CSS/medical_history.module.css";
 
 class TreatmentOutcome extends Component {
 	constructor(props) {

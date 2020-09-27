@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { Fragment } from "react";
 import { useLocation } from "react-router-dom";
 import TopBar from "../../../UI/JS/topbar";
 import SecondaryBar from "../../../UI/JS/secondary_navbar";
@@ -11,7 +11,7 @@ const InvestigationHistory = () => {
 	const record = useLocation().state;
 	const { bioData, investigationHistory } = record;
 
-	const [showing, switchShowing] = useState("Chest X-ray");
+	// const [showing, switchShowing] = useState("Chest X-ray");
 
 	return (
 		<>

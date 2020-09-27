@@ -13,7 +13,7 @@ import Patients from "./container/Patients/JS/patients";
 import AppointmentsPage from "./container/Appointments/JS/appointments";
 import AppointmentDetailPage from "./components/Appointments/JS/appointment_detail";
 
-import PatientDetail from "./container/Patients/JS/patient_detail";
+// import PatientDetail from "./container/Patients/JS/patient_detail";
 import BookAppointment from "./container/Appointments/JS/book_appointment";
 import MessageCenter from "./container/Message_Center/JS/message_center";
 import SettingsPage from "./components/Settings/JS/settings";
@@ -142,11 +142,11 @@ const App = () => {
 						path="/patients/:id/record_list"
 						component={RecordList}
 					/>
-					<Route
+					{/* <Route
 						exact
 						path="/patients/:id"
 						component={PatientDetail}
-					/>
+					/> */}
 					<Route
 						path="/add_patient_data/patient_biodata"
 						component={PatientBiodata()}
