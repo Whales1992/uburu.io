@@ -14,7 +14,11 @@ class Home extends Component {
 
 		this.state = {
 			loading: false,
-			recentRecords: null
+			recentRecords: null,
+			error: {
+				error: false,
+				message: ""
+			}
 		};
 	}
 
@@ -40,17 +44,22 @@ class Home extends Component {
 				const data = await request.json();
 				this.setState({ recentRecords: data.Patients });
 			} else {
-				const patientBios = await localForage.getItem("BioData")
+				const patientBios = await localForage.getItem("BioData");
 
 				this.setState({ recentRecords: patientBios });
 			}
 		} catch (error) {
-			console.log(error.message);
+			this.setState({
+				error: {
+					error: true,
+					message: error.message
+				}
+			});
 		}
 	}
 
 	render() {
-		const { recentRecords, loading } = this.state;
+		const { recentRecords, error } = this.state;
 		return (
 			<Layout
 				pageTitle={`Welcome, Dr. ${
@@ -60,9 +69,7 @@ class Home extends Component {
 				<InstitutionBanner />
 				<BlackBackdrop />
 				<QuickActions />
-				{recentRecords && (
-					<RecentRecords recents={recentRecords} loading={loading} />
-				)}
+				<RecentRecords recents={recentRecords} error={error} />
 			</Layout>
 		);
 	}

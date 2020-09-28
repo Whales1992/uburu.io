@@ -26,13 +26,17 @@ const EachRecentRecord = ({ patient }) => {
 	);
 };
 
-const recentRecords = ({ recents }) => {
+const recentRecords = ({ recents, error }) => {
 	return (
 		<div className={styles.container}>
 			<div className={styles.container_title}>Recent Records</div>
 			<div className={styles.records_div}>
-				{recents === null ? (
-					<p>loading...</p>
+				{recents === null && !error.error ? (
+					<p style={{ textAlign: "center" }}>loading...</p>
+				) : error.error ? (
+					<p style={{ textAlign: "center", color: "red" }}>
+						{error.message}
+					</p>
 				) : recents.length === 0 ? (
 					<p>No recent records yet.</p>
 				) : (
