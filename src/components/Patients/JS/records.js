@@ -31,7 +31,7 @@ const RecentRecords = ({ recents, error }) => {
 		<div className={styles.container}>
 			<div className={styles.records_div}>
 				{recents === null && !error.error ? (
-					<p>loading...</p>
+					<p style={{ textAlign: "center" }}>loading...</p>
 				) : error.error ? (
 					<p style={{ textAlign: "center", color: "red" }}>
 						{error.message}
