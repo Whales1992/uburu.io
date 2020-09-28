@@ -42,10 +42,7 @@ const RecentRecords = ({ recents, error }) => {
 					<>
 						{recents.map((eachRecord) => (
 							<Fragment key={eachRecord.FolderNo}>
-								<EachRecentRecord
-									key={eachRecord.folder_number}
-									record={eachRecord}
-								/>
+								<EachRecentRecord record={eachRecord} />
 							</Fragment>
 						))}
 					</>
