@@ -107,8 +107,8 @@ class SignIn extends Component {
 						className="primary_btn"
 						type="submit"
 						disabled={
-							email === "" ||
-							password === "" ||
+							!email ||
+							!password ||
 							// password.length < 6 ||
 							submitting
 								? true
