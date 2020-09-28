@@ -27,17 +27,22 @@ class MessageCenter extends Component {
 			<>
 				<Topbar />
 				<SecondaryBar page_title="Send Patients Message" shadow />
-				<Title title="Message Center" />
+				<Title title="Patient Engagement" />
 				<form className={styles.form}>
 					<label>Send To</label>
-					<input
+					<select
 						name="send_to"
 						className={styles.input}
 						value={send_to}
 						type="text"
 						onChange={(e) => this.handleChange(e)}
 						placeholder="Search Patients"
-					/>
+					>
+						<option></option>
+						<option>All Patients</option>
+						<option>All Males</option>
+						<option>All Females</option>
+					</select>
 					<label>Message</label>
 					<textarea
 						name="message"
