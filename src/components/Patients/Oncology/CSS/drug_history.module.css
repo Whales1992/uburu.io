@@ -33,6 +33,10 @@
 	color: #a7a9bc;
 }
 
+.no_record {
+	text-align: center;
+}
+
 @media (min-width: 760px) {
 	.form {
 		width: calc(100% - 60px);
