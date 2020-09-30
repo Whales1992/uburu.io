@@ -226,9 +226,12 @@ const BioData = (props) => {
 								required
 							>
 								<option></option>
-								<option>Professional</option>
-								<option>Skilled Manual Labour</option>
-								<option>Unskilled</option>
+								<option>Government employed</option>
+								<option>Private sector employed</option>
+								<option>Student</option>
+								<option>Retired</option>
+								<option>Unemployed (able to work)</option>
+								<option>Unemployed (Unable to work)</option>
 							</select>
 						</div>
 						<div>
