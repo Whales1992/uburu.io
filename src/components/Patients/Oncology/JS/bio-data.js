@@ -8,11 +8,11 @@ import styles from "../../../../container/AddPatientData/CSS/add_patient_data.mo
 
 const BioData = (props) => {
 	const bioData = useLocation().state;
-	
+
 	const [value, changeValue] = useState({
 		LastName: bioData ? bioData.LastName : "",
 		FirstName: bioData ? bioData.FirstName : "",
-		PhoneNo: bioData ? bioData.PhoneNo : "",
+		PhoneNumber: bioData ? bioData.PhoneNumber : "",
 		KinsNumber: bioData ? bioData.KinsNumber : "",
 		FolderNo: bioData ? bioData.FolderNo : "",
 		Gender: bioData ? bioData.Gender : "",
@@ -81,13 +81,13 @@ const BioData = (props) => {
 							/>
 						</div>
 						<div>
-							<label htmlFor="PhoneNo">Phone Number</label>
+							<label htmlFor="PhoneNumber">Phone Number</label>
 							<input
-								id="PhoneNo"
-								name="PhoneNo"
+								id="PhoneNumber"
+								name="PhoneNumber"
 								type="tel"
-								onChange={(e) => handleChange("PhoneNo", e)}
-								value={value.PhoneNo}
+								onChange={(e) => handleChange("PhoneNumber", e)}
+								value={value.PhoneNumber}
 								className={styles.input}
 								placeholder="Enter phone number"
 								minLength="11"
@@ -357,7 +357,7 @@ const BioData = (props) => {
 							disabled={
 								!value.LastName ||
 								!value.FirstName ||
-								!value.PhoneNo ||
+								!value.PhoneNumber ||
 								!value.Gender ||
 								!value.Age ||
 								!value.KinsNumber ||
