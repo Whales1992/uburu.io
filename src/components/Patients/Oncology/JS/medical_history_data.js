@@ -8,12 +8,19 @@ import EachRecord from "./each_med_history_record";
 import styles from "../CSS/medical_history_data.module.css";
 
 const MedicalHistory = () => {
-	const {
-		patient,
-		assessmentRecords,
-		careRecords,
-		complicationRecords
-	} = useLocation().state;
+	const patient = useLocation().state;
+
+	const assessmentRecords =
+		patient.records &&
+		patient.records.filter((patient) => patient.Type === "Assessment");
+
+	const careRecords =
+		patient.records &&
+		patient.records.filter((patient) => patient.Type === "Care");
+
+	const complicationRecords =
+		patient.records &&
+		patient.records.filter((patient) => patient.Type === "Complication");
 
 	const [showing, switchShowing] = useState("Assessment");
 

@@ -10,8 +10,7 @@ import styles from "../CSS/drug_history.module.css";
 import styles2 from "../CSS/medical_history_data.module.css";
 
 const DrugHistory = () => {
-	const record = useLocation().state;
-	const { drugHistory, patient } = record;
+	const patient = useLocation().state;
 
 	const [value, changeValue] = useState("");
 	// const [searchResult, setSearchResult] = useState("");
@@ -19,6 +18,10 @@ const DrugHistory = () => {
 	function handleChange(e) {
 		changeValue(e);
 	}
+
+	const drugHistory =
+		patient.records &&
+		patient.records.filter((patient) => patient.Type === "Drugs");
 
 	// function search(e) {
 	// 	e.preventDefault();
