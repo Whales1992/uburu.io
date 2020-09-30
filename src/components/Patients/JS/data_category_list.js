@@ -10,26 +10,8 @@ import formStyle from "../../../container/Patients/CSS/patients.module.css";
 const DataCategoryList = (props) => {
 	const [value, changeValue] = useState("");
 	// const [searchResult, setSearchResult] = useState("");
-	
+
 	const patient = useLocation().state;
-	const assessmentRecords = patient.records.filter(
-		(patient) => patient.Type === "Assessment"
-	);
-	const careRecords = patient.records.filter(
-		(patient) => patient.Type === "Care"
-	);
-	const complicationRecords = patient.records.filter(
-		(patient) => patient.Type === "Complication"
-	);
-	const drugHistory = patient.records.filter(
-		(patient) => patient.Type === "Drugs"
-	);
-	const investigationHistory = patient.records.filter(
-		(patient) => patient.Type === "Investigation"
-	);
-	const treatmentOutcome = patient.records.filter(
-		(patient) => patient.Type === "Complication"
-	);
 
 	useEffect(() => {
 		if (window.innerWidth > 600)
@@ -89,12 +71,7 @@ const DataCategoryList = (props) => {
 				<Link
 					to={{
 						pathname: `/patients/${patient.FolderNo}/medical_history`,
-						state: {
-							patient,
-							assessmentRecords,
-							careRecords,
-							complicationRecords
-						}
+						state: patient
 					}}
 					className={styles.record_link}
 				>
@@ -104,7 +81,7 @@ const DataCategoryList = (props) => {
 				<Link
 					to={{
 						pathname: `/patients/${patient.FolderNo}/drug_history`,
-						state: { patient, drugHistory }
+						state: patient
 					}}
 					className={styles.record_link}
 				>
@@ -114,7 +91,7 @@ const DataCategoryList = (props) => {
 				<Link
 					to={{
 						pathname: `/patients/${patient.FolderNo}/investigation_history`,
-						state: { patient, investigationHistory }
+						state: patient
 					}}
 					className={styles.record_link}
 				>
@@ -124,7 +101,7 @@ const DataCategoryList = (props) => {
 				<Link
 					to={{
 						pathname: `/patients/${patient.FolderNo}/treatment_outcome`,
-						state: { patient, treatmentOutcome }
+						state: patient
 					}}
 					className={styles.record_link}
 				>

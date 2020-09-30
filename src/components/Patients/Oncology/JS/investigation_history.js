@@ -8,16 +8,19 @@ import EachRecord from "./each_investigation";
 import styles from "../CSS/investigation_history.module.css";
 
 const InvestigationHistory = () => {
-	const record = useLocation().state;
-	const { bioData, investigationHistory } = record;
+	const patient = useLocation().state;
 
-	// const [showing, switchShowing] = useState("Chest X-ray");
+	const investigationHistory =
+		patient.records &&
+		patient.records.filter((patient) => patient.Type === "Investigation");
+
+	// const [showing, switchShowing] = useState("Chest X-ray")
 
 	return (
 		<>
 			<TopBar />
 			<SecondaryBar page_title="Investigation History" shadow />
-			<Shell name={`${bioData.surname} ${bioData.first_name}`}>
+			<Shell name={`${patient.LastName} ${patient.FirstName}`}>
 				<div className={styles.container}>
 					{/* <select
 						name="record"
@@ -48,14 +51,14 @@ const InvestigationHistory = () => {
 					{investigationHistory ? (
 						investigationHistory.map((record) => (
 							<Fragment
-								key={`${record.investigation}_${record.report}`}
+								key={`${record.Investigation}_${record.Report}`}
 							>
-								<EachRecord record={record} type="Assessment" />
+								<EachRecord record={record} />
 							</Fragment>
 						))
 					) : (
 						<p className={styles.no_record}>
-							No Assessment Record.
+							No Investigation Record.
 						</p>
 					)}
 				</div>

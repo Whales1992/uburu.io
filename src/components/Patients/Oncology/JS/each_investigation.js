@@ -2,11 +2,11 @@ import React from "react";
 import styles from "../CSS/each_investigation.module.css";
 
 const EachInvestigationRecord = ({ record }) => {
-	const { investigation, report, date } = record;
+	const { Investigation, Report, RecordDate } = record;
 	return (
 		<div className={styles.record}>
 			<div className={styles.investigation}>
-				<span>{investigation}</span>
+				<span>{Investigation}</span>
 				<div>
 					<svg
 						width="12"
@@ -36,10 +36,10 @@ const EachInvestigationRecord = ({ record }) => {
 				</div>
 			</div>
 			<span className={styles.report}>
-				<b>REPORT:</b> {report}
+				<b>REPORT:</b> {Report}
 			</span>
 			<span className={styles.date}>
-				<b>DATE:</b> {date}
+				<b>DATE:</b> {RecordDate}
 			</span>
 		</div>
 	);
