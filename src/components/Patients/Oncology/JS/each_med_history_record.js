@@ -2,7 +2,7 @@ import React from "react";
 import styles from "../CSS/each_med_history_record.module.css";
 
 const EachMedHistoryRecord = ({ record, type }) => {
-	const { Nature, Description, Value } = record;
+	const { Nature, Description, Duration, Entry } = record;
 	return (
 		<div className={styles.record}>
 			<div className={styles.description}>
@@ -39,11 +39,19 @@ const EachMedHistoryRecord = ({ record, type }) => {
 				<b>Nature:</b> {Nature}
 			</span>
 			<span className={styles.value}>
-				<b>value:</b> {Value}
+				{Duration ? (
+					<>
+						<b>Duration:</b> {Duration}
+					</>
+				) : (
+					<>
+						<b>Entry:</b> {Entry}
+					</>
+				)}
 			</span>
 			<span className={styles.record_type}>
 				<svg
-                className={styles.type_icon}
+					className={styles.type_icon}
 					width="10"
 					height="10"
 					viewBox="0 0 10 10"
