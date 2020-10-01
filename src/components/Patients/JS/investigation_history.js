@@ -1,9 +1,9 @@
 import React, { Fragment } from "react";
 import { useLocation } from "react-router-dom";
-import TopBar from "../../../UI/JS/topbar";
-import SecondaryBar from "../../../UI/JS/secondary_navbar";
-import BottomBar from "../../../UI/JS/bottom_toolbar";
-import Shell from "../../JS/detail_shell";
+import TopBar from "../../UI/JS/topbar";
+import SecondaryBar from "../../UI/JS/secondary_navbar";
+import BottomBar from "../../UI/JS/bottom_toolbar";
+import Shell from "./detail_shell";
 import EachRecord from "./each_investigation";
 import styles from "../CSS/investigation_history.module.css";
 
