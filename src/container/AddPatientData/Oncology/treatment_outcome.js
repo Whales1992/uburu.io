@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import DatePicker from "react-date-picker";
-import localforage from "localforage";
+// import localforage from "localforage";
 import SecondaryBar from "../../../components/UI/JS/secondary_navbar";
 import TopBar from "../../../components/UI/JS/topbar";
 import Shell from "../../../components/AddPatientData/JS/shell";
@@ -9,13 +9,15 @@ import Shell from "../../../components/AddPatientData/JS/shell";
 import styles from "../CSS/add_patient_data.module.css";
 import styles2 from "../CSS/medical_history.module.css";
 
+const url = process.env.REACT_APP_BASE_URL;
+
 class TreatmentOutcome extends Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			treatmentOutcome: "",
-			date: ""
+			Outcome: "",
+			RecordDate: ""
 		};
 
 		this.handleChange = this.handleChange.bind(this);
@@ -31,7 +33,7 @@ class TreatmentOutcome extends Component {
 	handleChange(name, e) {
 		let value;
 
-		if (name === "date") {
+		if (name === "RecordDate") {
 			value = e;
 		} else {
 			value = e.target.value;
@@ -42,147 +44,85 @@ class TreatmentOutcome extends Component {
 
 	resetRecord() {
 		this.setState({
-			treatmentOutcome: "",
-			date: ""
+			Outcome: "",
+			RecordDate: ""
 		});
 	}
 
-	submitRecord(e, recordName) {
+	async submitRecord(e, recordName) {
 		if (e) e.preventDefault();
-		let localStorageValue =
-			localStorage.getItem(recordName) &&
-			JSON.parse(localStorage.getItem(recordName));
-		if (localStorageValue) {
-			localStorageValue.push(this.state);
-			const lSValueStringified = JSON.stringify(localStorageValue);
-			localStorage.setItem(recordName, lSValueStringified);
-			this.resetRecord();
-		} else {
-			localStorage.setItem(recordName, `${JSON.stringify([this.state])}`);
-			this.resetRecord();
-		}
-	}
 
-	createPatient(recordName) {
-		const { treatmentOutcome } = this.state;
-
-		if (treatmentOutcome) {
-			this.submitRecord(null, recordName);
-		}
-
-		const bioData = JSON.parse(localStorage.getItem("bio_data"));
-		const drugHistory = JSON.parse(localStorage.getItem("drug_history"));
-		const investigationHistory = JSON.parse(
-			localStorage.getItem("investigation_history")
-		);
-		const TreatmentOutcome = JSON.parse(
-			localStorage.getItem("Treatment_Outcome")
-		);
-		const medicalHistory = {
-			Assessment: JSON.parse(localStorage.getItem("Assessment")),
-			Care: JSON.parse(localStorage.getItem("Care")),
-			Complication: JSON.parse(localStorage.getItem("Complication"))
+		const modifiedRecord = {
+			...this.state,
+			Type: recordName
 		};
 
-		let dataObject = {};
+		if (window.navigator.onLine) {
+			try {
+				this.resetRecord();
+				const request = await fetch(`${url}/records`, {
+					method: "POST",
+					headers: {
+						Accept: "application/json",
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${localStorage.token}`
+					},
+					body: JSON.stringify(modifiedRecord)
+				});
 
-		function buildObject() {
-			for (let i = 0; i < arguments.length; i++) {
-				if (arguments[i] === medicalHistory && medicalHistory) {
-					for (const record in medicalHistory) {
-						if (record) {
-							dataObject = {
-								...dataObject,
-								MedicalHistory: {
-									...dataObject.MedicalHistory,
-									[record]: medicalHistory[record]
-								}
-							};
-						} else continue;
-					}
+				if (!request.ok) {
+					const error = await request.json();
+					throw Error(error.Message);
 				}
-				if (arguments[i] === bioData && bioData) {
-					dataObject = {
-						...dataObject,
-						bioData
-					};
-				} else if (arguments[i] === drugHistory && drugHistory) {
-					dataObject = {
-						...dataObject,
-						drugHistory
-					};
-				} else if (
-					arguments[i] === investigationHistory &&
-					investigationHistory
-				) {
-					dataObject = {
-						...dataObject,
-						investigationHistory
-					};
-				} else if (
-					arguments[i] === TreatmentOutcome &&
-					TreatmentOutcome
-				) {
-					dataObject = {
-						...dataObject,
-						TreatmentOutcome
-					};
-				}
+				this.props.history.push("/add_patient_data/patient_biodata");
+			} catch (err) {
+				console.log(err.Message);
+			}
+		} else {
+			let localStorageValue =
+				localStorage.getItem(recordName) &&
+				JSON.parse(localStorage.getItem(recordName));
+			if (localStorageValue) {
+				localStorageValue.push(this.state);
+				const lSValueStringified = JSON.stringify(localStorageValue);
+				localStorage.setItem(recordName, lSValueStringified);
+				this.resetRecord();
+				this.props.history.push("/add_patient_data/patient_biodata");
+			} else {
+				localStorage.setItem(
+					recordName,
+					`${JSON.stringify([this.state])}`
+				);
+				this.resetRecord();
+				this.props.history.push("/add_patient_data/patient_biodata");
 			}
 		}
-
-		buildObject(
-			bioData,
-			drugHistory,
-			investigationHistory,
-			TreatmentOutcome,
-			medicalHistory
-		);
-
-		localforage
-			.setItem(bioData.folder_number, dataObject)
-			.then((value) => {
-				localStorage.removeItem("bio_data");
-				localStorage.removeItem("drug_history");
-				localStorage.removeItem("investigation_history");
-				localStorage.removeItem("Treatment_Outcome");
-				localStorage.removeItem("Assessment");
-				localStorage.removeItem("Care");
-				localStorage.removeItem("Complication");
-				console.log("Successful!");
-				this.props.history.push("/add_patient_data/patient_biodata");
-			})
-			.catch((err) => err);
 	}
 
 	render() {
-		const { treatmentOutcome, date } = this.state;
+		const { Outcome, RecordDate } = this.state;
 		return (
 			<>
 				<TopBar hide_on_small_screens />
-				<SecondaryBar page_title="Treatment Outcome" shadow />
+				<SecondaryBar page_title="Outcome Outcome" shadow />
 				<Shell>
 					<form
 						className={styles.form}
-						onSubmit={(e) =>
-							this.submitRecord(e, "Treatment")
-						}
+						onSubmit={(e) => this.submitRecord(e, "Outcome")}
 					>
 						<div className={styles.current_style}>
-							Treatment Outcome
+							Outcome Outcome
 						</div>
 						<div className={styles.fields}>
 							<div>
-								<label htmlFor="outcome">
-									Treatment Outcome
-								</label>
+								<label htmlFor="outcome">Outcome Outcome</label>
 								<select
 									id="outcome"
 									name="treatment outcome"
 									className={styles.input}
-									value={treatmentOutcome}
+									value={Outcome}
 									onChange={(e) =>
-										this.handleChange("treatmentOutcome", e)
+										this.handleChange("Outcome", e)
 									}
 									required
 								>
@@ -192,41 +132,37 @@ class TreatmentOutcome extends Component {
 									<option>Complete Remission</option>
 									<option>Disease Progression</option>
 									<option>Alive and Stable</option>
-									<option>Died on Treatment</option>
-									<option>Died after Treatment</option>
+									<option>Died on Outcome</option>
+									<option>Died after Outcome</option>
 								</select>
 							</div>
 							<div>
 								<label
-									className={
-										!treatmentOutcome
-											? "disabled_label"
-											: ""
-									}
+									className={!Outcome ? "disabled_label" : ""}
 								>
 									Date of Record
 								</label>
 								<DatePicker
-									name="date"
+									name="RecordDate"
 									className={styles.input}
 									onChange={(e) =>
-										this.handleChange("date", e)
+										this.handleChange("RecordDate", e)
 									}
-									value={date}
+									value={RecordDate}
 									format="dd/MM/y"
 									required
-									disabled={!treatmentOutcome}
+									disabled={!Outcome}
 								/>
 							</div>
 						</div>
 						<button
 							type="submit"
 							className={
-								!treatmentOutcome || !date
+								!Outcome || !RecordDate
 									? styles2.submit_btn_disabled
 									: styles2.submit_btn
 							}
-							disabled={!treatmentOutcome || !date}
+							disabled={!Outcome || !RecordDate}
 						>
 							Add New Record
 						</button>
@@ -241,10 +177,8 @@ class TreatmentOutcome extends Component {
 							<button
 								className="primary_btn"
 								type="button"
-								disabled={treatmentOutcome && !date}
-								onClick={() =>
-									this.createPatient("Treatment_Outcome")
-								}
+								disabled={Outcome && !RecordDate}
+								onClick={() => this.createPatient("Treatment")}
 							>
 								Submit
 							</button>
