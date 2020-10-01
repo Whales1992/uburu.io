@@ -215,7 +215,7 @@ class PatientBiodata extends Component {
 					.setItem("BioData", [modifiedData])
 					.then((value) => {
 						localStorage.removeItem("bio_data");
-						this.reset()
+						this.reset();
 					})
 					.catch((err) => {
 						this.setState({ submitting: false });
@@ -546,6 +546,7 @@ class PatientBiodata extends Component {
 									<option>Anglican</option>
 									<option>Jehovah Witness</option>
 									<option>Islam</option>
+									<option>Others</option>
 								</select>
 							</div>
 							{Religion === "Others" ? (
