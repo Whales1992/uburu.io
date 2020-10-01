@@ -13,7 +13,6 @@ import Patients from "./container/Patients/JS/patients";
 import AppointmentsPage from "./container/Appointments/JS/appointments";
 import AppointmentDetailPage from "./components/Appointments/JS/appointment_detail";
 
-// import PatientDetail from "./container/Patients/JS/patient_detail";
 import BookAppointment from "./container/Appointments/JS/book_appointment";
 import MessageCenter from "./container/Message_Center/JS/message_center";
 import SettingsPage from "./components/Settings/JS/settings";
@@ -22,10 +21,12 @@ import ProfilePage from "./container/Profile/JS/profile";
 
 //Patient Detail
 import RecordList from "./components/Patients/JS/data_category_list";
-import BioData from "./components/Patients/Oncology/JS/bio-data";
-import MedicalHistory from "./components/Patients/Oncology/JS/medical_history_data";
-import PatientDrugHistory from "./components/Patients/Oncology/JS/drug_history";
-import InvestigationHistory from "./components/Patients/Oncology/JS/investigation_history";
+import OncologyPatientBioData from "./components/Patients/Oncology/JS/bio-data";
+import DiabetesPatientBioData from "./components/Patients/Diabetes/JS/bio-data";
+import AsthmaPatientBioData from "./components/Patients/Asthma/JS/bio-data";
+import MedicalHistory from "./components/Patients/JS/medical_history_data";
+import PatientDrugHistory from "./components/Patients/JS/drug_history";
+import InvestigationHistory from "./components/Patients/JS/investigation_history";
 import PatientTreatmentOutcome from "./components/Patients/Oncology/JS/treatment_outcome";
 
 //Oncology data forms
@@ -102,6 +103,15 @@ const TreatmentOutcomeForm = () => {
 	// 		import("./container/AddPatientData/Asthma/investigation_history");
 };
 
+const PatientBioData = () => {
+	const registry = localStorage.account
+		? JSON.parse(localStorage.account).Name
+		: null;
+	if (registry === "Oncology") return OncologyPatientBioData;
+	if (registry === "Diabetes") return DiabetesPatientBioData;
+	if (registry === "Asthma") return AsthmaPatientBioData;
+};
+
 const App = () => {
 	return (
 		<BrowserRouter>
@@ -135,7 +145,7 @@ const App = () => {
 					<Route
 						exact
 						path="/patients/:id/bio-data"
-						component={BioData}
+						component={PatientBioData()}
 					/>
 					<Route
 						exact
