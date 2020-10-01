@@ -53,7 +53,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = composeEnhancers()(createStore);
 
 //conditionally import forms
-const PatientBiodata = () => {
+const PatientBiodataForm = () => {
 	const registry = localStorage.account
 		? JSON.parse(localStorage.account).Name
 		: null;
@@ -62,7 +62,7 @@ const PatientBiodata = () => {
 	if (registry === "Asthma") return AsthmaPatientBiodataForm;
 };
 
-const PatientMedicalHistory = () => {
+const PatientMedicalHistoryForm = () => {
 	const registry = localStorage.account
 		? JSON.parse(localStorage.account).Name
 		: null;
@@ -71,7 +71,7 @@ const PatientMedicalHistory = () => {
 	if (registry === "Asthma") return AsthmaMedicalHistoryForm;
 };
 
-const DrugHistory = () => {
+const DrugHistoryForm = () => {
 	const registry = localStorage.account
 		? JSON.parse(localStorage.account).Name
 		: null;
@@ -89,7 +89,7 @@ const InvestigationHistoryForm = () => {
 	if (registry === "Asthma") return AsthmaInvestigationHistoryForm;
 };
 
-const TreatmentOutcome = () => {
+const TreatmentOutcomeForm = () => {
 	const registry = localStorage.account
 		? JSON.parse(localStorage.account).Name
 		: null;
@@ -149,15 +149,15 @@ const App = () => {
 					/> */}
 					<Route
 						path="/add_patient_data/patient_biodata"
-						component={PatientBiodata()}
+						component={PatientBiodataForm()}
 					/>
 					<Route
 						path="/add_patient_data/medical_history"
-						component={PatientMedicalHistory()}
+						component={PatientMedicalHistoryForm()}
 					/>
 					<Route
 						path="/add_patient_data/drug_history"
-						component={DrugHistory()}
+						component={DrugHistoryForm()}
 					/>
 					<Route
 						path="/add_patient_data/investigation_history"
@@ -165,7 +165,7 @@ const App = () => {
 					/>
 					<Route
 						path="/add_patient_data/treatment_outcome"
-						component={TreatmentOutcome()}
+						component={TreatmentOutcomeForm()}
 					/>
 					<Route
 						path="/search_folder_number"
