@@ -346,7 +346,7 @@ class PatientBiodata extends Component {
 							</div>
 							<div>
 								<label htmlFor="RelationshipToNextOfKin">
-									First Name
+									Relationship To Next of Kin
 								</label>
 								<input
 									id="RelationshipToNextOfKin"
