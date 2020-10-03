@@ -39,6 +39,8 @@
 }
 
 .log_out {
+	border: none;
+	background-color: transparent;
 	display: flex;
 	padding-top: 33px;
 	cursor: pointer;
