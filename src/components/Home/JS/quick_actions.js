@@ -13,7 +13,7 @@ const quickActions = () => (
 			<div>
 				<Link className={styles.link} to="/search_folder_number">
 					<img src={AddPatientDataIcon} alt="add patient icon" />
-					Search <br /> Folder No
+					Enter <br /> Folder No
 				</Link>
 			</div>
 			<div className={styles.non_link}>
