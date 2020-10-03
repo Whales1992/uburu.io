@@ -33,12 +33,12 @@ const leftDrawer = props => (
 		</div>
 		<div className={styles.link_div}>
 			<NavLink
-				to="/message_center"
+				to="/patient_engagement"
 				className={styles.nav_link}
 				activeClassName={styles.nav_link_active}
 			>
 				<img src={Chat} alt="chat" />
-				Message Center
+				Patient Engagement
 			</NavLink>
 		</div>
 		<div className={styles.link_div}>

@@ -22,12 +22,12 @@ const moreMenu = () => (
 		</div>
 		<div className={styles.link_div}>
 			<NavLink
-				to="/message_center"
+				to="/patient_engagement"
 				className={styles.link}
 				activeClassName={styles.active}
 			>
 				<img src={MessageCenterIcon} alt="chat icon" />
-				Message Center
+				Patient Engagement
 			</NavLink>
 		</div>
 		{/* <div className={styles.link_div}>

@@ -14,7 +14,7 @@ import AppointmentsPage from "./container/Appointments/JS/appointments";
 import AppointmentDetailPage from "./components/Appointments/JS/appointment_detail";
 
 import BookAppointment from "./container/Appointments/JS/book_appointment";
-import MessageCenter from "./container/Message_Center/JS/message_center";
+import PatientEngagement from "./container/Message_Center/JS/message_center";
 import SettingsPage from "./components/Settings/JS/settings";
 import SearchFolderNoPage from "./components/SearchFolderNo/JS/search_folder_no";
 import ProfilePage from "./container/Profile/JS/profile";
@@ -208,8 +208,8 @@ const App = () => {
 						<SettingsPage />
 					</AuthRoute>
 
-					<AuthRoute exact path="/message_center">
-						<MessageCenter />
+					<AuthRoute exact path="/patient_engagement">
+						<PatientEngagement />
 					</AuthRoute>
 
 					<AuthRoute path="/book_appointment">
@@ -219,7 +219,7 @@ const App = () => {
 					<AuthRoute exact path="/patients" component={Patients}>
 						<Patients />
 					</AuthRoute>
-					
+
 					<Route path="/sign_in" component={SignIn} />
 
 					<AuthRoute exact path="/">
