@@ -46,7 +46,9 @@ const recentRecords = ({ recents, error }) => {
 						{error.message}
 					</p>
 				) : recents.length === 0 ? (
-					<p>No recent records yet.</p>
+					<p style={{ textAlign: "center" }}>
+						No recent records yet.
+					</p>
 				) : (
 					recents.map((eachRecord) => (
 						<Fragment key={eachRecord.FolderNo}>
