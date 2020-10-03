@@ -54,47 +54,55 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = composeEnhancers()(createStore);
 
 //conditionally import forms
-const PatientBiodataForm = () => {
+const PatientBiodataForm = (props) => {
 	const registry = localStorage.account
 		? JSON.parse(localStorage.account).Name
 		: null;
-	if (registry === "Oncology") return <OncologyPatientBiodataForm />;
-	if (registry === "Diabetes") return <DiabetesPatientBiodataForm />;
-	if (registry === "Asthma") return <AsthmaPatientBiodataForm />;
+	if (registry === "Oncology")
+		return <OncologyPatientBiodataForm {...props} />;
+	if (registry === "Diabetes")
+		return <DiabetesPatientBiodataForm {...props} />;
+	if (registry === "Asthma") return <AsthmaPatientBiodataForm {...props} />;
 };
 
-const PatientMedicalHistoryForm = () => {
+const PatientMedicalHistoryForm = (props) => {
 	const registry = localStorage.account
 		? JSON.parse(localStorage.account).Name
 		: null;
-	if (registry === "Oncology") return <OncologyMedicalHistoryForm />;
-	if (registry === "Diabetes") return <DiabetesMedicalHistoryForm />;
-	if (registry === "Asthma") return <AsthmaMedicalHistoryForm />;
+	if (registry === "Oncology")
+		return <OncologyMedicalHistoryForm {...props} />;
+	if (registry === "Diabetes")
+		return <DiabetesMedicalHistoryForm {...props} />;
+	if (registry === "Asthma") return <AsthmaMedicalHistoryForm {...props} />;
 };
 
-const DrugHistoryForm = () => {
+const DrugHistoryForm = (props) => {
 	const registry = localStorage.account
 		? JSON.parse(localStorage.account).Name
 		: null;
-	if (registry === "Oncology") return <OncologyDrugHistoryForm />;
-	if (registry === "Diabetes") return <DiabetesDrugHistoryForm />;
-	if (registry === "Asthma") return <AsthmDrugHistoryForm />;
+	if (registry === "Oncology") return <OncologyDrugHistoryForm {...props} />;
+	if (registry === "Diabetes") return <DiabetesDrugHistoryForm {...props} />;
+	if (registry === "Asthma") return <AsthmDrugHistoryForm {...props} />;
 };
 
-const InvestigationHistoryForm = () => {
+const InvestigationHistoryForm = (props) => {
 	const registry = localStorage.account
 		? JSON.parse(localStorage.account).Name
 		: null;
-	if (registry === "Oncology") return <OncologyInvestigationHistoryForm />;
-	if (registry === "Diabetes") return <DiabetesInvestigationHistoryForm />;
-	if (registry === "Asthma") return <AsthmaInvestigationHistoryForm />;
+	if (registry === "Oncology")
+		return <OncologyInvestigationHistoryForm {...props} />;
+	if (registry === "Diabetes")
+		return <DiabetesInvestigationHistoryForm {...props} />;
+	if (registry === "Asthma")
+		return <AsthmaInvestigationHistoryForm {...props} />;
 };
 
-const TreatmentOutcomeForm = () => {
+const TreatmentOutcomeForm = (props) => {
 	const registry = localStorage.account
 		? JSON.parse(localStorage.account).Name
 		: null;
-	if (registry === "Oncology") return <OncologyTreatmentOutcomeForm />;
+	if (registry === "Oncology")
+		return <OncologyTreatmentOutcomeForm {...props} />;
 	// if (registry === "Diabetes")
 	// 	return () =>
 	// 		import("./container/AddPatientData/Diabetes/");
@@ -103,25 +111,28 @@ const TreatmentOutcomeForm = () => {
 	// 		import("./container/AddPatientData/Asthma/investigation_history");
 };
 
-const PatientBioData = () => {
+const PatientBioData = (props) => {
 	const registry = localStorage.account
 		? JSON.parse(localStorage.account).Name
 		: null;
-	if (registry === "Oncology") return <OncologyPatientBioData />;
-	if (registry === "Diabetes") return <DiabetesPatientBioData />;
-	if (registry === "Asthma") return <AsthmaPatientBioData />;
+	if (registry === "Oncology") return <OncologyPatientBioData {...props} />;
+	if (registry === "Diabetes") return <DiabetesPatientBioData {...props} />;
+	if (registry === "Asthma") return <AsthmaPatientBioData {...props} />;
 };
 
-function AuthRoute({ children, ...rest }) {
+function AuthRoute({ component: Component, ...rest }) {
 	return (
 		<Route
 			{...rest}
-			render={({ location }) =>
+			render={(routeProps) =>
 				localStorage.token ? (
-					children
+					<Component {...routeProps} />
 				) : (
 					<Redirect
-						to={{ pathname: "/sign_in", state: { from: location } }}
+						to={{
+							pathname: "/sign_in",
+							state: { from: routeProps.location }
+						}}
 					/>
 				)
 			}
@@ -134,33 +145,47 @@ const App = () => {
 		<BrowserRouter>
 			<Switch>
 				<Suspense fallback={<p>Loading</p>}>
-					<AuthRoute path="/appointment_detail/:id" exact>
-						<AppointmentDetailPage />
-					</AuthRoute>
+					<AuthRoute
+						path="/appointment_detail/:id"
+						exact
+						component={AppointmentDetailPage}
+					/>
 
-					<AuthRoute exact path="/patients/:id/treatment_outcome">
-						<PatientTreatmentOutcome />
-					</AuthRoute>
+					<AuthRoute
+						exact
+						path="/patients/:id/treatment_outcome"
+						component={PatientTreatmentOutcome}
+					/>
 
-					<AuthRoute exact path="/patients/:id/investigation_history">
-						<InvestigationHistory />
-					</AuthRoute>
+					<AuthRoute
+						exact
+						path="/patients/:id/investigation_history"
+						component={InvestigationHistory}
+					/>
 
-					<AuthRoute exact path="/patients/:id/drug_history">
-						<PatientDrugHistory />
-					</AuthRoute>
+					<AuthRoute
+						exact
+						path="/patients/:id/drug_history"
+						component={PatientDrugHistory}
+					/>
 
-					<AuthRoute exact path="/patients/:id/medical_history">
-						<MedicalHistory />
-					</AuthRoute>
+					<AuthRoute
+						exact
+						path="/patients/:id/medical_history"
+						component={MedicalHistory}
+					/>
 
-					<AuthRoute exact path="/patients/:id/bio-data">
-						<PatientBioData />
-					</AuthRoute>
+					<AuthRoute
+						exact
+						path="/patients/:id/bio-data"
+						component={PatientBioData}
+					/>
 
-					<AuthRoute exact path="/patients/:id/record_list">
-						<RecordList />
-					</AuthRoute>
+					<AuthRoute
+						exact
+						path="/patients/:id/record_list"
+						component={RecordList}
+					/>
 
 					{/* <Route
 						exact
@@ -168,63 +193,64 @@ const App = () => {
 						component={PatientDetail}
 					/> */}
 
-					<AuthRoute path="/add_patient_data/patient_biodata">
-						<PatientBiodataForm />
-					</AuthRoute>
+					<AuthRoute
+						path="/add_patient_data/patient_biodata"
+						component={PatientBiodataForm}
+					/>
 
-					<AuthRoute path="/add_patient_data/medical_history">
-						<PatientMedicalHistoryForm />
-					</AuthRoute>
+					<AuthRoute
+						path="/add_patient_data/medical_history"
+						component={PatientMedicalHistoryForm}
+					/>
 
-					<AuthRoute path="/add_patient_data/drug_history">
-						<DrugHistoryForm />
-					</AuthRoute>
+					<AuthRoute
+						path="/add_patient_data/drug_history"
+						component={DrugHistoryForm}
+					/>
 
-					<AuthRoute path="/add_patient_data/investigation_history">
-						<InvestigationHistoryForm />
-					</AuthRoute>
+					<AuthRoute
+						path="/add_patient_data/investigation_history"
+						component={InvestigationHistoryForm}
+					/>
 
-					<AuthRoute path="/add_patient_data/treatment_outcome">
-						<TreatmentOutcomeForm />
-					</AuthRoute>
+					<AuthRoute
+						path="/add_patient_data/treatment_outcome"
+						component={TreatmentOutcomeForm}
+					/>
 
-					<AuthRoute path="/search_folder_number">
-						<SearchFolderNoPage />
-					</AuthRoute>
+					<AuthRoute
+						path="/search_folder_number"
+						component={SearchFolderNoPage}
+					/>
 
-					<AuthRoute path="/profile">
-						<ProfilePage />
-					</AuthRoute>
+					<AuthRoute path="/profile" component={ProfilePage} />
 
-					<AuthRoute path="/create_user">
-						<CreateUserPage />
-					</AuthRoute>
+					<AuthRoute path="/create_user" component={CreateUserPage} />
 
-					<AuthRoute exact path="/appointments">
-						<AppointmentsPage />
-					</AuthRoute>
+					<AuthRoute
+						exact
+						path="/appointments"
+						component={AppointmentsPage}
+					/>
 
-					<AuthRoute exact path="/settings">
-						<SettingsPage />
-					</AuthRoute>
+					<AuthRoute path="/settings" component={SettingsPage} />
 
-					<AuthRoute exact path="/patient_engagement">
-						<PatientEngagement />
-					</AuthRoute>
+					<AuthRoute
+						exact
+						path="/patient_engagement"
+						component={PatientEngagement}
+					/>
 
-					<AuthRoute path="/book_appointment">
-						<BookAppointment />
-					</AuthRoute>
+					<AuthRoute
+						path="/book_appointment"
+						component={BookAppointment}
+					/>
 
-					<AuthRoute exact path="/patients">
-						<Patients />
-					</AuthRoute>
+					<AuthRoute exact path="/patients" component={Patients} />
 
 					<Route path="/sign_in" component={SignIn} />
 
-					<AuthRoute exact path="/">
-						<Home />
-					</AuthRoute>
+					<AuthRoute exact path="/" component={Home} />
 				</Suspense>
 			</Switch>
 		</BrowserRouter>
