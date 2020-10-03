@@ -531,6 +531,7 @@ class PatientBiodata extends Component {
 									<option>Anglican</option>
 									<option>Jehovah Witness</option>
 									<option>Islam</option>
+									<option>Others</option>
 								</select>
 							</div>
 							{Religion === "Others" ? (
