@@ -58,43 +58,43 @@ const PatientBiodataForm = () => {
 	const registry = localStorage.account
 		? JSON.parse(localStorage.account).Name
 		: null;
-	if (registry === "Oncology") return OncologyPatientBiodataForm;
-	if (registry === "Diabetes") return DiabetesPatientBiodataForm;
-	if (registry === "Asthma") return AsthmaPatientBiodataForm;
+	if (registry === "Oncology") return <OncologyPatientBiodataForm />;
+	if (registry === "Diabetes") return <DiabetesPatientBiodataForm />;
+	if (registry === "Asthma") return <AsthmaPatientBiodataForm />;
 };
 
 const PatientMedicalHistoryForm = () => {
 	const registry = localStorage.account
 		? JSON.parse(localStorage.account).Name
 		: null;
-	if (registry === "Oncology") return OncologyMedicalHistoryForm;
-	if (registry === "Diabetes") return DiabetesMedicalHistoryForm;
-	if (registry === "Asthma") return AsthmaMedicalHistoryForm;
+	if (registry === "Oncology") return <OncologyMedicalHistoryForm />;
+	if (registry === "Diabetes") return <DiabetesMedicalHistoryForm />;
+	if (registry === "Asthma") return <AsthmaMedicalHistoryForm />;
 };
 
 const DrugHistoryForm = () => {
 	const registry = localStorage.account
 		? JSON.parse(localStorage.account).Name
 		: null;
-	if (registry === "Oncology") return OncologyDrugHistoryForm;
-	if (registry === "Diabetes") return DiabetesDrugHistoryForm;
-	if (registry === "Asthma") return AsthmDrugHistoryForm;
+	if (registry === "Oncology") return <OncologyDrugHistoryForm />;
+	if (registry === "Diabetes") return <DiabetesDrugHistoryForm />;
+	if (registry === "Asthma") return <AsthmDrugHistoryForm />;
 };
 
 const InvestigationHistoryForm = () => {
 	const registry = localStorage.account
 		? JSON.parse(localStorage.account).Name
 		: null;
-	if (registry === "Oncology") return OncologyInvestigationHistoryForm;
-	if (registry === "Diabetes") return DiabetesInvestigationHistoryForm;
-	if (registry === "Asthma") return AsthmaInvestigationHistoryForm;
+	if (registry === "Oncology") return <OncologyInvestigationHistoryForm />;
+	if (registry === "Diabetes") return <DiabetesInvestigationHistoryForm />;
+	if (registry === "Asthma") return <AsthmaInvestigationHistoryForm />;
 };
 
 const TreatmentOutcomeForm = () => {
 	const registry = localStorage.account
 		? JSON.parse(localStorage.account).Name
 		: null;
-	if (registry === "Oncology") return OncologyTreatmentOutcomeForm;
+	if (registry === "Oncology") return <OncologyTreatmentOutcomeForm />;
 	// if (registry === "Diabetes")
 	// 	return () =>
 	// 		import("./container/AddPatientData/Diabetes/");
@@ -107,9 +107,9 @@ const PatientBioData = () => {
 	const registry = localStorage.account
 		? JSON.parse(localStorage.account).Name
 		: null;
-	if (registry === "Oncology") return OncologyPatientBioData;
-	if (registry === "Diabetes") return DiabetesPatientBioData;
-	if (registry === "Asthma") return AsthmaPatientBioData;
+	if (registry === "Oncology") return <OncologyPatientBioData />;
+	if (registry === "Diabetes") return <DiabetesPatientBioData />;
+	if (registry === "Asthma") return <AsthmaPatientBioData />;
 };
 
 function AuthRoute({ children, ...rest }) {
@@ -216,7 +216,7 @@ const App = () => {
 						<BookAppointment />
 					</AuthRoute>
 
-					<AuthRoute exact path="/patients" component={Patients}>
+					<AuthRoute exact path="/patients">
 						<Patients />
 					</AuthRoute>
 
