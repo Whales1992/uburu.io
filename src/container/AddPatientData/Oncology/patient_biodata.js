@@ -638,6 +638,7 @@ class PatientBiodata extends Component {
 								>
 									<option></option>
 									<option>Rural</option>
+									<option>Semi Urban</option>
 									<option>Urban</option>
 								</select>
 							</div>
