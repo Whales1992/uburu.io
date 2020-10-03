@@ -64,7 +64,11 @@ class SignIn extends Component {
 			const data = await request.json();
 			localStorage.setItem("token", data.token);
 			localStorage.setItem("account", JSON.stringify(data.records));
-			this.props.history.push("/");
+
+			let { from } = this.props.history.location.state || {
+				from: { pathname: "/" }
+			};
+			this.props.history.replace(from);
 		} catch (err) {
 			this.props.errorHandler(err);
 		}
