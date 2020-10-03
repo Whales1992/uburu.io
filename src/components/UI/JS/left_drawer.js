@@ -9,7 +9,7 @@ import SupportIcon from "../../../images/drawer_support_icon.svg";
 import Cog from "../../../images/drawer_settings_icon.svg";
 import About from "../../../images/drawer_about_icon.svg";
 
-const Name = JSON.parse(localStorage.account).LastName;
+const Name = localStorage.account && JSON.parse(localStorage.account).LastName;
 
 const leftDrawer = (props) => (
 	<div
