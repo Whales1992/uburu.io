@@ -42,7 +42,7 @@ class Home extends Component {
 				}
 
 				const data = await request.json();
-				this.setState({ recentRecords: data.Patients });
+				this.setState({ recentRecords: data.Patients.reverse() });
 			} else {
 				const patientBios = await localForage.getItem("BioData");
 
