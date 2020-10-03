@@ -256,7 +256,7 @@ class PatientBiodata extends Component {
 					const error = await request.json();
 					throw Error(error.Message);
 				}
-				
+
 				localStorage.removeItem("bio_data");
 			} catch (err) {
 				console.log(err);
