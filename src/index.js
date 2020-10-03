@@ -41,12 +41,14 @@ import DiabetesPatientBiodataForm from "./container/AddPatientData/Diabetes/pati
 import DiabetesMedicalHistoryForm from "./container/AddPatientData/Diabetes/medical_history";
 import DiabetesDrugHistoryForm from "./container/AddPatientData/Diabetes/drug_history";
 import DiabetesInvestigationHistoryForm from "./container/AddPatientData/Diabetes/investigation_history";
+import DiabetesTreatmentOutcomeForm from "./container/AddPatientData/Diabetes/treatment_outcome";
 
 //Asthma data forms
 import AsthmaPatientBiodataForm from "./container/AddPatientData/Asthma/patient_biodata";
 import AsthmaMedicalHistoryForm from "./container/AddPatientData/Asthma/medical_history";
 import AsthmDrugHistoryForm from "./container/AddPatientData/Asthma/drug_history";
 import AsthmaInvestigationHistoryForm from "./container/AddPatientData/Asthma/investigation_history";
+import AsthmaTreatmentOutcomeForm from "./container/AddPatientData/Asthma/treatment_outcome";
 
 import CreateUserPage from "./components/CreateUser/create_user";
 
@@ -103,12 +105,9 @@ const TreatmentOutcomeForm = (props) => {
 		: null;
 	if (registry === "Oncology")
 		return <OncologyTreatmentOutcomeForm {...props} />;
-	// if (registry === "Diabetes")
-	// 	return () =>
-	// 		import("./container/AddPatientData/Diabetes/");
-	// if (registry === "Asthma")
-	// 	return () =>
-	// 		import("./container/AddPatientData/Asthma/investigation_history");
+	if (registry === "Diabetes")
+		return <DiabetesTreatmentOutcomeForm {...props} />;
+	if (registry === "Asthma") return <AsthmaTreatmentOutcomeForm {...props} />;
 };
 
 const PatientBioData = (props) => {

@@ -129,9 +129,7 @@ class TreatmentOutcome extends Component {
 									<option></option>
 									<option>Good Clinical Response</option>
 									<option>Poor Clinical Response</option>
-									<option>Complete Remission</option>
 									<option>Disease Progression</option>
-									<option>Alive and Stable</option>
 									<option>Died on Outcome</option>
 									<option>Died after Outcome</option>
 								</select>
