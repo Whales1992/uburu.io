@@ -387,21 +387,21 @@ class PatientBiodata extends Component {
 									<option>Male</option>
 								</select>
 							</div>
-							{/* <div>
-								<label htmlAge">Age</label>
+							<div>
+								<label htmlFor="Age">Age</label>
 								<input
-								Age"
-									nAge"
-									type="number"
+									id="Age"
+									name="Age"
+									type="tel"
 									onChange={(e) => this.handleChange(e)}
-									vaAge}
+									value={Age}
 									className={styles.input}
 									placeholder="Enter Age"
 									minLength="1"
 									maxLength="3"
 									required
 								/>
-							</div> */}
+							</div>
 							<div>
 								<label htmlFor="MaritalStatus">
 									Marital Status

@@ -387,7 +387,7 @@ class PatientBiodata extends Component {
 									<option>Male</option>
 								</select>
 							</div>
-							{/* <div>
+							<div>
 								<label htmlFor="Age">Age</label>
 								<input
 									id="Age"
@@ -401,7 +401,7 @@ class PatientBiodata extends Component {
 									maxLength="3"
 									required
 								/>
-							</div> */}
+							</div>
 							<div>
 								<label htmlFor="MaritalStatus">
 									Marital Status
