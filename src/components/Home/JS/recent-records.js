@@ -3,7 +3,15 @@ import { Link } from "react-router-dom";
 import styles from "../CSS/recent_records.module.css";
 
 const EachRecentRecord = ({ patient }) => {
-	const { LastName, FirstName, OrganDiagnosis, FolderNo } = patient;
+	const {
+		LastName,
+		FirstName,
+		OrganDiagnosis,
+		FolderNo,
+		DateCreated
+	} = patient;
+
+	const splitDateString = new Date(DateCreated).toDateString().split(" ");
 
 	return (
 		<Link
@@ -19,7 +27,7 @@ const EachRecentRecord = ({ patient }) => {
 			<div className={styles.name}>{`${LastName} ${FirstName}`}</div>
 			<div className={styles.details}>
 				<small>{OrganDiagnosis}</small>
-				<small>{}</small>
+				<small>{`${splitDateString[2]} ${splitDateString[1]}, ${splitDateString[3]}`}</small>
 			</div>
 			<hr />
 		</Link>
