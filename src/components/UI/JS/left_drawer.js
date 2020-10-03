@@ -4,12 +4,14 @@ import styles from "../CSS/left_drawer.module.css";
 import UserIcon from "../../../images/drawer_user_icon.svg";
 import BarChart from "../../../images/drawer_barchart_icon.svg";
 import Chat from "../../../images/drawer_chat_icon.svg";
-import FriendsIcon from "../../../images/drawer_friends_icon.svg";
+// import FriendsIcon from "../../../images/drawer_friends_icon.svg";
 import SupportIcon from "../../../images/drawer_support_icon.svg";
 import Cog from "../../../images/drawer_settings_icon.svg";
 import About from "../../../images/drawer_about_icon.svg";
 
-const leftDrawer = props => (
+const Name = JSON.parse(localStorage.account).LastName;
+
+const leftDrawer = (props) => (
 	<div
 		className={
 			props.open
@@ -19,7 +21,7 @@ const leftDrawer = props => (
 	>
 		<div className={styles.bio}>
 			<img src={UserIcon} alt="user icon" />
-			<div className={styles.account_owner}>Dr. Nuel</div>
+			<div className={styles.account_owner}>Dr. {Name}</div>
 		</div>
 		<div className={styles.link_div}>
 			<NavLink
@@ -41,7 +43,7 @@ const leftDrawer = props => (
 				Patient Engagement
 			</NavLink>
 		</div>
-		<div className={styles.link_div}>
+		{/* <div className={styles.link_div}>
 			<NavLink
 				to="/pharmacy_db"
 				className={styles.nav_link}
@@ -50,16 +52,17 @@ const leftDrawer = props => (
 				<img src={FriendsIcon} alt="friends" />
 				Pharmacy DB
 			</NavLink>
-		</div>
+		</div> */}
 		<div className={styles.link_div}>
-			<NavLink
-				to="/support"
+			<a
+				rel="noopener noreferrer"
+				target="_blank"
+				href="mailto:support@uburu.ai"
 				className={styles.nav_link}
-				activeClassName={styles.nav_link_active}
 			>
-				<img src={SupportIcon} alt="support" />
+				<img src={SupportIcon} alt="support icon" />
 				Contact Support
-			</NavLink>
+			</a>
 		</div>
 		<div className={styles.link_div}>
 			<NavLink
@@ -78,7 +81,7 @@ const leftDrawer = props => (
 				activeClassName={styles.nav_link_active}
 			>
 				<img src={About} alt="about" />
-				About BlueCircle
+				About Uburu
 			</NavLink>
 		</div>
 	</div>
