@@ -46,7 +46,6 @@ const moreMenu = () => (
 				target="_blank"
 				href="mailto:support@uburu.ai"
 				className={styles.link}
-				activeClassName={styles.active}
 			>
 				<img src={ContactSupportIcon} alt="person profile icon" />
 				Contact Support
