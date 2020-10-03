@@ -10,7 +10,7 @@ import PatientsIconInactive from "../../../images/topbar_patients_inactive.svg";
 import AppointmentsActive from "../../../images/appointments_active.svg";
 import AppointmentsInactive from "../../../images/topbar_appointments_inactive.svg";
 import MoreIcon from "../../../images/more_icon.svg";
-import TopBarAvatar from "../../../images/topbar_avatar.svg";
+import UserIcon from "../../../images/drawer_user_icon.svg";
 import MoreMenu from "./more_menu";
 import { NavLink, Link } from "react-router-dom";
 
@@ -119,7 +119,7 @@ class Topbar extends Component {
 						{this.state.moreMenuShowing ? <MoreMenu /> : null}
 					</div>
 					<div className={styles.avatar_div}>
-						<img src={TopBarAvatar} alt="avatar" />
+						<img src={UserIcon} alt="avatar" />
 						<Link to="/profile">
 							Dr. {JSON.parse(localStorage.account).LastName}{" "}
 							{JSON.parse(localStorage.account).Admin ? (
