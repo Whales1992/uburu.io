@@ -1,13 +1,13 @@
 import React, { memo } from "react";
 import { NavLink } from "react-router-dom";
 import styles from "../CSS/left_drawer.module.css";
-import UserIcon from "../../../images/drawer_user_icon.svg";
-import BarChart from "../../../images/drawer_barchart_icon.svg";
-import Chat from "../../../images/drawer_chat_icon.svg";
+import UserIcon from "../../../images/Drawer/drawer_user_icon.svg";
+import BarChart from "../../../images/Drawer/drawer_barchart_icon.svg";
+import Chat from "../../../images/Drawer/drawer_chat_icon.svg";
 // import FriendsIcon from "../../../images/drawer_friends_icon.svg";
-import SupportIcon from "../../../images/drawer_support_icon.svg";
-import Cog from "../../../images/drawer_settings_icon.svg";
-import About from "../../../images/drawer_about_icon.svg";
+import SupportIcon from "../../../images/Drawer/drawer_support_icon.svg";
+import Cog from "../../../images/Drawer/drawer_settings_icon.svg";
+import About from "../../../images/Drawer/drawer_about_icon.svg";
 
 const Name = localStorage.account && JSON.parse(localStorage.account).LastName;
 
