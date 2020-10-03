@@ -146,12 +146,8 @@ class PatientBiodata extends Component {
 				Gender: "",
 				Age: "",
 				MaritalStatus: "",
-				HistoDiagnosis: "",
-				other_histopathology_diagnosis: "",
 				Occupation: "",
 				other_occupation: "",
-				OrganDiagnosis: "",
-				other_primary_organ_affected: "",
 				EthnicGroup: "",
 				other_ethnic_group: "",
 				Religion: "",
@@ -160,13 +156,16 @@ class PatientBiodata extends Component {
 				HighestEducation: "",
 				AlcoholUse: "",
 				alcohol_frequency: "",
-				FamilyHistory: ""
+				AsthmaHistory: "",
+				AgeOfOnset: "",
+				Triggers: "",
+				other_triggers: ""
 			}
 		});
 	}
 
 	async skipCreate(e) {
-		e.preventDefault();
+		if (e) e.preventDefault();
 		this.setState({ submitting: true });
 
 		let modifiedData = {
@@ -228,12 +227,10 @@ class PatientBiodata extends Component {
 					headers: {
 						Accept: "application/json",
 						"Content-Type": "application/json",
-						Authorisation: `Bearer ${localStorage.token}`
+						Authorization: `Bearer ${localStorage.token}`
 					},
 					body: JSON.stringify(modifiedData)
 				});
-
-				this.reset();
 
 				if (!request.ok) {
 					this.setState({ submitting: false });
@@ -241,10 +238,11 @@ class PatientBiodata extends Component {
 					throw Error(error.Message);
 				}
 
+				this.reset();
 				localStorage.removeItem("bio_data");
 			} catch (err) {
 				console.log(err);
-				this.props.errorHandler(err);
+				// this.props.errorHandler(err);
 			}
 		}
 	}
@@ -510,6 +508,7 @@ class PatientBiodata extends Component {
 									<option>Anglican</option>
 									<option>Jehovah Witness</option>
 									<option>Islam</option>
+									<option>Others</option>
 								</select>
 							</div>
 							{Religion === "Others" ? (

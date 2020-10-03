@@ -249,14 +249,13 @@ class PatientBiodata extends Component {
 					body: JSON.stringify(modifiedData)
 				});
 
-				this.reset();
-
 				if (!request.ok) {
 					this.setState({ submitting: false });
 					const error = await request.json();
 					throw Error(error.Message);
 				}
 
+				this.reset();
 				localStorage.removeItem("bio_data");
 			} catch (err) {
 				console.log(err);
