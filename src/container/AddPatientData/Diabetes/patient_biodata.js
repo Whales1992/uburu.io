@@ -54,9 +54,9 @@ class PatientBiodata extends Component {
 					(localStorage.bio_data &&
 						JSON.parse(localStorage.bio_data).MaritalStatus) ||
 					"",
-				DiabetesDiagnosis:
+				Diagnosis:
 					(localStorage.bio_data &&
-						JSON.parse(localStorage.bio_data).DiabetesDiagnosis) ||
+						JSON.parse(localStorage.bio_data).Diagnosis) ||
 					"",
 				other_DiabetesDiagnosis:
 					(localStorage.bio_data &&
@@ -150,7 +150,7 @@ class PatientBiodata extends Component {
 				Gender: "",
 				Age: "",
 				MaritalStatus: "",
-				DiabetesDiagnosis: "",
+				Diagnosis: "",
 				other_DiabetesDiagnosis: "",
 				Occupation: "",
 				other_occupation: "",
@@ -176,10 +176,10 @@ class PatientBiodata extends Component {
 
 		let modifiedData = {
 			...this.state.biodata,
-			DiabetesDiagnosis:
-				this.state.biodata.DiabetesDiagnosis === "Others"
+			Diagnosis:
+				this.state.biodata.Diagnosis === "Others"
 					? this.state.biodata.other_DiabetesDiagnosis
-					: this.state.biodata.DiabetesDiagnosis,
+					: this.state.biodata.Diagnosis,
 			Occupation:
 				this.state.biodata.Occupation === "Others"
 					? this.state.biodata.other_Occupation
@@ -265,7 +265,7 @@ class PatientBiodata extends Component {
 			Gender,
 			Age,
 			MaritalStatus,
-			DiabetesDiagnosis,
+			Diagnosis,
 			other_DiabetesDiagnosis,
 			Occupation,
 			other_Occupation,
@@ -508,7 +508,7 @@ class PatientBiodata extends Component {
 							</div>
 							<div>
 								<label
-									htmlFor="DiabetesDiagnosis"
+									htmlFor="Diagnosis"
 									className={
 										!consent_check ? "disabled_label" : ""
 									}
@@ -516,9 +516,9 @@ class PatientBiodata extends Component {
 									Diabetes Diagnosis
 								</label>
 								<select
-									id="DiabetesDiagnosis"
-									name="DiabetesDiagnosis"
-									value={DiabetesDiagnosis}
+									id="Diagnosis"
+									name="Diagnosis"
+									value={Diagnosis}
 									onChange={(e) => this.handleChange(e)}
 									className={styles.input}
 									required
@@ -531,7 +531,7 @@ class PatientBiodata extends Component {
 									<option>Others</option>
 								</select>
 							</div>
-							{DiabetesDiagnosis === "Others" ? (
+							{Diagnosis === "Others" ? (
 								<div>
 									<label
 										htmlFor="other_DiabetesDiagnosis"
@@ -550,7 +550,7 @@ class PatientBiodata extends Component {
 										className={styles.input}
 										onChange={(e) => this.handleChange(e)}
 										value={other_DiabetesDiagnosis}
-										placeholder="Type in other DiabetesDiagnosis"
+										placeholder="Type in other Diagnosis"
 										required
 										disabled={!consent_check}
 									/>
@@ -838,8 +838,8 @@ class PatientBiodata extends Component {
 									!RelationshipToNextOfKin ||
 									!FolderNo ||
 									!MaritalStatus ||
-									!DiabetesDiagnosis ||
-									(DiabetesDiagnosis === "Others" &&
+									!Diagnosis ||
+									(Diagnosis === "Others" &&
 										!other_DiabetesDiagnosis) ||
 									!Occupation ||
 									(Occupation === "Others" &&
@@ -868,8 +868,8 @@ class PatientBiodata extends Component {
 									!Age ||
 									!FolderNo ||
 									!MaritalStatus ||
-									!DiabetesDiagnosis ||
-									(DiabetesDiagnosis === "Others" &&
+									!Diagnosis ||
+									(Diagnosis === "Others" &&
 										!other_DiabetesDiagnosis) ||
 									!Occupation ||
 									(Occupation === "Others" &&
