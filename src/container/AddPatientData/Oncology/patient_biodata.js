@@ -21,6 +21,7 @@ class PatientBiodata extends Component {
 
 		this.state = {
 			biodata: {
+				consent_check: false,
 				LastName:
 					(localStorage.bio_data &&
 						JSON.parse(localStorage.bio_data).LastName) ||
@@ -149,6 +150,7 @@ class PatientBiodata extends Component {
 		this.setState({
 			submitting: false,
 			biodata: {
+				consent_check: false,
 				LastName: "",
 				FirstName: "",
 				PhoneNumber: "",
@@ -215,6 +217,7 @@ class PatientBiodata extends Component {
 		delete modifiedData.other_religion;
 		delete modifiedData.other_primary_organ_affected;
 		delete modifiedData.alcohol_frequency;
+		delete modifiedData.consent_check;
 
 		if (!window.navigator.onLine) {
 			let recordArray = await localForage.getItem("BioData");
@@ -267,6 +270,7 @@ class PatientBiodata extends Component {
 	render() {
 		const { showing, message } = this.props.errorModal;
 		const {
+			consent_check,
 			LastName,
 			FirstName,
 			PhoneNumber,
@@ -306,8 +310,28 @@ class PatientBiodata extends Component {
 						onSubmit={(e) => this.skipCreate(e)}
 					>
 						<div className={styles.fields}>
+							<div className={styles.checkbox_div}>
+								<input
+									type="checkbox"
+									name="consent_check"
+									onChange={(e) => this.handleChange(e)}
+									value={consent_check}
+								/>
+								<span>
+									Patient consents to data entry into
+									uburu.ai, and agrees to terms of use and
+									privacy policy.
+								</span>
+							</div>
 							<div>
-								<label htmlFor="LastName">Surname</label>
+								<label
+									htmlFor="LastName"
+									className={
+										!consent_check ? "disabled_label" : ""
+									}
+								>
+									Surname
+								</label>
 								<input
 									id="LastName"
 									type="text"
@@ -317,10 +341,18 @@ class PatientBiodata extends Component {
 									value={LastName}
 									placeholder="Enter patient's LastName"
 									required
+									disabled={!consent_check}
 								/>
 							</div>
 							<div>
-								<label htmlFor="FirstName">First Name</label>
+								<label
+									htmlFor="FirstName"
+									className={
+										!consent_check ? "disabled_label" : ""
+									}
+								>
+									First Name
+								</label>
 								<input
 									id="FirstName"
 									type="text"
@@ -330,10 +362,16 @@ class PatientBiodata extends Component {
 									value={FirstName}
 									placeholder="Enter patient's first name"
 									required
+									disabled={!consent_check}
 								/>
 							</div>
 							<div>
-								<label htmlFor="PhoneNumber">
+								<label
+									htmlFor="PhoneNumber"
+									className={
+										!consent_check ? "disabled_label" : ""
+									}
+								>
 									Phone Number
 								</label>
 								<input
@@ -346,10 +384,16 @@ class PatientBiodata extends Component {
 									placeholder="Enter phone number"
 									minLength="11"
 									maxLength="11"
+									disabled={!consent_check}
 								/>
 							</div>
 							<div>
-								<label htmlFor="KinsNumber">
+								<label
+									htmlFor="KinsNumber"
+									className={
+										!consent_check ? "disabled_label" : ""
+									}
+								>
 									Next of Kin's Phone Number
 								</label>
 								<input
@@ -362,10 +406,16 @@ class PatientBiodata extends Component {
 									placeholder="Enter next of kin's phone number"
 									minLength="11"
 									maxLength="11"
+									disabled={!consent_check}
 								/>
 							</div>
 							<div>
-								<label htmlFor="RelationshipToNextOfKin">
+								<label
+									htmlFor="RelationshipToNextOfKin"
+									className={
+										!consent_check ? "disabled_label" : ""
+									}
+								>
 									Relationship to Next of kin
 								</label>
 								<input
@@ -377,10 +427,18 @@ class PatientBiodata extends Component {
 									value={RelationshipToNextOfKin}
 									placeholder="Enter relationship to next of kin"
 									required
+									disabled={!consent_check}
 								/>
 							</div>
 							<div>
-								<label htmlFor="FolderNo">Folder Number</label>
+								<label
+									htmlFor="FolderNo"
+									className={
+										!consent_check ? "disabled_label" : ""
+									}
+								>
+									Folder Number
+								</label>
 								<input
 									id="FolderNo"
 									name="FolderNo"
@@ -390,10 +448,18 @@ class PatientBiodata extends Component {
 									className={styles.input}
 									placeholder="Enter folder number"
 									required
+									disabled={!consent_check}
 								/>
 							</div>
 							<div>
-								<label htmlFor="Gender">Sex</label>
+								<label
+									htmlFor="Gender"
+									className={
+										!consent_check ? "disabled_label" : ""
+									}
+								>
+									Sex
+								</label>
 								<select
 									id="Gender"
 									name="Gender"
@@ -401,6 +467,7 @@ class PatientBiodata extends Component {
 									onChange={(e) => this.handleChange(e)}
 									className={styles.input}
 									required
+									disabled={!consent_check}
 								>
 									<option></option>
 									<option>Female</option>
@@ -408,7 +475,14 @@ class PatientBiodata extends Component {
 								</select>
 							</div>
 							<div>
-								<label htmlFor="Age">Age</label>
+								<label
+									htmlFor="Age"
+									className={
+										!consent_check ? "disabled_label" : ""
+									}
+								>
+									Age
+								</label>
 								<input
 									id="Age"
 									name="Age"
@@ -420,10 +494,16 @@ class PatientBiodata extends Component {
 									minLength="1"
 									maxLength="3"
 									required
+									disabled={!consent_check}
 								/>
 							</div>
 							<div>
-								<label htmlFor="MaritalStatus">
+								<label
+									htmlFor="MaritalStatus"
+									className={
+										!consent_check ? "disabled_label" : ""
+									}
+								>
 									Marital Status
 								</label>
 								<select
@@ -433,6 +513,7 @@ class PatientBiodata extends Component {
 									onChange={(e) => this.handleChange(e)}
 									className={styles.input}
 									required
+									disabled={!consent_check}
 								>
 									<option></option>
 									<option>Married/co-habiting</option>
@@ -442,7 +523,14 @@ class PatientBiodata extends Component {
 								</select>
 							</div>
 							<div>
-								<label htmlFor="Occupation">Occupation</label>
+								<label
+									htmlFor="Occupation"
+									className={
+										!consent_check ? "disabled_label" : ""
+									}
+								>
+									Occupation
+								</label>
 								<select
 									id="Occupation"
 									name="Occupation"
@@ -450,6 +538,7 @@ class PatientBiodata extends Component {
 									onChange={(e) => this.handleChange(e)}
 									className={styles.input}
 									required
+									disabled={!consent_check}
 								>
 									<option></option>
 									<option>Government employed</option>
@@ -479,7 +568,12 @@ class PatientBiodata extends Component {
 								</div>
 							) : null}
 							<div>
-								<label htmlFor="EthnicGroup">
+								<label
+									htmlFor="EthnicGroup"
+									className={
+										!consent_check ? "disabled_label" : ""
+									}
+								>
 									Ethnic Group
 								</label>
 								<select
@@ -489,6 +583,7 @@ class PatientBiodata extends Component {
 									onChange={(e) => this.handleChange(e)}
 									className={styles.input}
 									required
+									disabled={!consent_check}
 								>
 									<option></option>
 									<option>Igbo</option>
@@ -515,7 +610,14 @@ class PatientBiodata extends Component {
 								</div>
 							) : null}
 							<div>
-								<label htmlFor="Religion">Religion</label>
+								<label
+									htmlFor="Religion"
+									className={
+										!consent_check ? "disabled_label" : ""
+									}
+								>
+									Religion
+								</label>
 								<select
 									id="Religion"
 									name="Religion"
@@ -523,6 +625,7 @@ class PatientBiodata extends Component {
 									onChange={(e) => this.handleChange(e)}
 									className={styles.input}
 									required
+									disabled={!consent_check}
 								>
 									<option></option>
 									<option>Roman Catholic</option>
@@ -551,7 +654,12 @@ class PatientBiodata extends Component {
 								</div>
 							) : null}
 							<div>
-								<label htmlFor="OrganDiagnosis">
+								<label
+									htmlFor="OrganDiagnosis"
+									className={
+										!consent_check ? "disabled_label" : ""
+									}
+								>
 									Primary Organ Affected
 								</label>
 								<select
@@ -561,6 +669,7 @@ class PatientBiodata extends Component {
 									onChange={(e) => this.handleChange(e)}
 									className={styles.input}
 									required
+									disabled={!consent_check}
 								>
 									<option></option>
 									<option>Breast Cancer</option>
@@ -589,7 +698,12 @@ class PatientBiodata extends Component {
 								</div>
 							) : null}
 							<div>
-								<label htmlFor="HistoDiagnosis">
+								<label
+									htmlFor="HistoDiagnosis"
+									className={
+										!consent_check ? "disabled_label" : ""
+									}
+								>
 									Histopathology Diagnosis
 								</label>
 								<select
@@ -599,6 +713,7 @@ class PatientBiodata extends Component {
 									onChange={(e) => this.handleChange(e)}
 									className={styles.input}
 									required
+									disabled={!consent_check}
 								>
 									<option></option>
 									<option>Squamous cell carcinoma</option>
@@ -628,13 +743,21 @@ class PatientBiodata extends Component {
 								</div>
 							) : null}
 							<div>
-								<label htmlFor="Residence">Residence</label>
+								<label
+									htmlFor="Residence"
+									className={
+										!consent_check ? "disabled_label" : ""
+									}
+								>
+									Residence
+								</label>
 								<select
 									id="Residence"
 									name="Residence"
 									value={Residence}
 									onChange={(e) => this.handleChange(e)}
 									className={styles.input}
+									disabled={!consent_check}
 								>
 									<option></option>
 									<option>Rural</option>
@@ -643,7 +766,12 @@ class PatientBiodata extends Component {
 								</select>
 							</div>
 							<div>
-								<label htmlFor="HighestEducation">
+								<label
+									htmlFor="HighestEducation"
+									className={
+										!consent_check ? "disabled_label" : ""
+									}
+								>
 									Highest Education
 								</label>
 								<select
@@ -652,6 +780,7 @@ class PatientBiodata extends Component {
 									value={HighestEducation}
 									onChange={(e) => this.handleChange(e)}
 									className={styles.input}
+									disabled={!consent_check}
 								>
 									<option></option>
 									<option>None</option>
@@ -661,13 +790,21 @@ class PatientBiodata extends Component {
 								</select>
 							</div>
 							<div>
-								<label htmlFor="AlcoholUse">Alcohol Use</label>
+								<label
+									htmlFor="AlcoholUse"
+									className={
+										!consent_check ? "disabled_label" : ""
+									}
+								>
+									Alcohol Use
+								</label>
 								<select
 									id="AlcoholUse"
 									name="AlcoholUse"
 									value={AlcoholUse}
 									onChange={(e) => this.handleChange(e)}
 									className={styles.input}
+									disabled={!consent_check}
 								>
 									<option></option>
 									<option>Yes</option>
@@ -691,7 +828,12 @@ class PatientBiodata extends Component {
 								</div>
 							) : null}
 							<div>
-								<label htmlFor="FamilyHistory">
+								<label
+									htmlFor="FamilyHistory"
+									className={
+										!consent_check ? "disabled_label" : ""
+									}
+								>
 									Family History of Cancer
 								</label>
 								<select
@@ -700,6 +842,7 @@ class PatientBiodata extends Component {
 									value={FamilyHistory}
 									onChange={(e) => this.handleChange(e)}
 									className={styles.input}
+									disabled={!consent_check}
 								>
 									<option></option>
 									<option>Yes</option>
@@ -712,6 +855,7 @@ class PatientBiodata extends Component {
 								className="secondary_btn"
 								type="submit"
 								disabled={
+									!consent_check ||
 									!LastName ||
 									!FirstName ||
 									!RelationshipToNextOfKin ||
@@ -740,6 +884,7 @@ class PatientBiodata extends Component {
 								className="primary_btn"
 								type="button"
 								disabled={
+									!consent_check ||
 									!LastName ||
 									!FirstName ||
 									!Age ||
