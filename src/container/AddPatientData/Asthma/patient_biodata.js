@@ -99,8 +99,7 @@ class PatientBiodata extends Component {
 					"",
 				FamilyHistory:
 					(localStorage.bio_data &&
-						JSON.parse(localStorage.bio_data)
-							.family_history_of_diabetes) ||
+						JSON.parse(localStorage.bio_data).FamilyHistory) ||
 					"",
 				AgeOfOnset:
 					(localStorage.bio_data &&
