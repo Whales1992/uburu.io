@@ -94,7 +94,7 @@ class PatientBiodata extends Component {
 					(localStorage.bio_data &&
 						JSON.parse(localStorage.bio_data).alcohol_frequency) ||
 					"",
-				AsthmaHistory:
+				FamilyHistory:
 					(localStorage.bio_data &&
 						JSON.parse(localStorage.bio_data)
 							.family_history_of_diabetes) ||
@@ -158,7 +158,7 @@ class PatientBiodata extends Component {
 				HighestEducation: "",
 				AlcoholUse: "",
 				alcohol_frequency: "",
-				AsthmaHistory: "",
+				FamilyHistory: "",
 				AgeOfOnset: "",
 				Triggers: "",
 				other_triggers: ""
@@ -274,7 +274,7 @@ class PatientBiodata extends Component {
 			HighestEducation,
 			AlcoholUse,
 			alcohol_frequency,
-			AsthmaHistory,
+			FamilyHistory,
 			AgeOfOnset
 		} = this.state.biodata;
 
@@ -718,7 +718,7 @@ class PatientBiodata extends Component {
 							) : null}
 							<div>
 								<label
-									htmlFor="AsthmaHistory"
+									htmlFor="FamilyHistory"
 									className={
 										!consent_check ? "disabled_label" : ""
 									}
@@ -726,9 +726,9 @@ class PatientBiodata extends Component {
 									Family History of Asthma
 								</label>
 								<select
-									id="AsthmaHistory"
-									name="AsthmaHistory"
-									value={AsthmaHistory}
+									id="FamilyHistory"
+									name="FamilyHistory"
+									value={FamilyHistory}
 									onChange={(e) => this.handleChange(e)}
 									className={styles.input}
 									disabled={!consent_check}
@@ -859,7 +859,7 @@ class PatientBiodata extends Component {
 									!Residence ||
 									!HighestEducation ||
 									!AlcoholUse ||
-									!AsthmaHistory ||
+									!FamilyHistory ||
 									(AlcoholUse === "Yes" && !alcohol_frequency)
 										? true
 										: false
