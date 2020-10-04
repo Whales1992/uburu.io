@@ -27,7 +27,11 @@ class ProfilePage extends Component {
 	render() {
 		const { activeTab } = this.state;
 		return (
-			<Layout pageTitle="Dr. Nuel Njikoka">
+			<Layout
+				pageTitle={`${account.Admin ? "Dr." : null} ${
+					account.LastName
+				} ${account.FirstName}`}
+			>
 				<Tab>
 					<div
 						onClick={() => this.switchTabs("Personal")}
@@ -64,7 +68,9 @@ class ProfilePage extends Component {
 									Full Name
 								</span>
 								<span className={pageStyles.value}>
-									{account.FirstName + " " + account.LastName}
+									{`${account.Admin ? "Dr." : null} ${
+										account.LastName
+									} ${account.FirstName}`}
 								</span>
 							</div>
 							{account.Admin ? (
