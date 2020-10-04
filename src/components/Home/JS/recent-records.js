@@ -7,6 +7,8 @@ const EachRecentRecord = ({ patient }) => {
 		LastName,
 		FirstName,
 		OrganDiagnosis,
+		Diagnosis,
+		Triggers,
 		FolderNo,
 		DateCreated
 	} = patient;
@@ -26,7 +28,7 @@ const EachRecentRecord = ({ patient }) => {
 		>
 			<div className={styles.name}>{`${LastName} ${FirstName}`}</div>
 			<div className={styles.details}>
-				<small>{OrganDiagnosis}</small>
+				<small>{OrganDiagnosis || Diagnosis || Triggers}</small>
 				<small>{`${splitDateString[2]} ${splitDateString[1]}, ${splitDateString[3]}`}</small>
 			</div>
 			<hr />
