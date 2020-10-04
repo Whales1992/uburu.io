@@ -16,7 +16,10 @@ class PatientBiodata extends Component {
 
 		this.state = {
 			biodata: {
-				consent_check: false,
+				consent_check:
+					(localStorage.bio_data &&
+						JSON.parse(localStorage.bio_data).consent_check) ||
+					false,
 				LastName:
 					(localStorage.bio_data &&
 						JSON.parse(localStorage.bio_data).LastName) ||
@@ -293,7 +296,7 @@ class PatientBiodata extends Component {
 									type="checkbox"
 									name="consent_check"
 									onChange={(e) => this.handleChange(e)}
-									value={consent_check}
+									checked={consent_check}
 								/>
 								<span>
 									Patient consents to data entry into
