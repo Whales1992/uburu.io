@@ -25,7 +25,7 @@ body {
 	/* primary button */
 	--primary-btn-color: #fff;
 	--primary-btn-disabled-color: #5c6589;
-	--primary-btn-active-background-color: #192551;
+	--primary-btn-active-background-color: #242424;
 
 	/* secondary button */
 	--secondary-btn-background-color: transparent;
@@ -36,7 +36,7 @@ body {
 }
 
 * {
-	scrollbar-color: #333f6b #d1dadd;
+	scrollbar-color: var(--color-primary) #d1dadd;
 	scrollbar-width: thin;
 }
 
@@ -45,7 +45,7 @@ body {
 }
 
 *::-webkit-scrollbar-thumb {
-	background-color: #333f6b;
+	background-color: var(--color-primary);
 	border-radius: 2.5px;
 	height: 50px;
 }
