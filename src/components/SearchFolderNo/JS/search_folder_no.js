@@ -69,6 +69,9 @@ const SearchFolderNoPage = () => {
 				});
 			}
 		} catch (error) {
+			if (error.message === "Sorry, Patient not found") {
+				setSearchResult(null);
+			}
 			setEffects({
 				...effects,
 				error: {
@@ -174,11 +177,12 @@ const SearchFolderNoPage = () => {
 				{effects.loading && (
 					<p style={{ textAlign: "center" }}>Loading...</p>
 				)}
-				{effects.error.error && (
-					<p style={{ color: "red", textAlign: "center" }}>
-						{effects.error.message}
-					</p>
-				)}
+				{effects.error.error &&
+					effects.error.message !== "Sorry, Patient not found" && (
+						<p style={{ color: "red", textAlign: "center" }}>
+							{effects.error.message}
+						</p>
+					)}
 			</form>
 			{/* <div className={styles.result}>
 				{searchResult ? (
