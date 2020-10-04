@@ -41,6 +41,23 @@ const CreateUserPage = () => {
 		});
 	}
 
+	function reset() {
+		setValue({
+			FirstName: "",
+			LastName: "",
+			Image: "",
+			PhoneNumber: "",
+			Email: "",
+			Password: "",
+			Submitting: false,
+			error: {
+				status: false,
+				message: ""
+			},
+			SuccessMessage: ""
+		});
+	}
+
 	async function createUser(e) {
 		e.preventDefault();
 
@@ -89,14 +106,7 @@ const CreateUserPage = () => {
 			});
 
 			//Remove success message after 3 secs
-			setTimeout(
-				() =>
-					setValue({
-						...values,
-						SuccessMessage: ""
-					}),
-				3000
-			);
+			setTimeout(() => reset(), 3000);
 		} catch (e) {
 			setValue({
 				...values,
