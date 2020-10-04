@@ -51,6 +51,7 @@ import AsthmaInvestigationHistoryForm from "./container/AddPatientData/Asthma/in
 import AsthmaTreatmentOutcomeForm from "./container/AddPatientData/Asthma/treatment_outcome";
 
 import CreateUserPage from "./components/CreateUser/create_user";
+import MedicalAnalytics from "./components/MedicalAnalytics/JS/medical_analytics";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = composeEnhancers()(createStore);
@@ -243,6 +244,11 @@ const App = () => {
 					<AuthRoute
 						path="/book_appointment"
 						component={BookAppointment}
+					/>
+
+					<AuthRoute
+						path="/medical_analytics"
+						component={MedicalAnalytics}
 					/>
 
 					<AuthRoute exact path="/patients" component={Patients} />
