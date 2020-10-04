@@ -285,7 +285,10 @@ class PatientBiodata extends Component {
 				<TopBar hide_on_small_screens />
 				<SecondaryBar shadow page_title="Bio-Data" />
 				<Shell>
-					<form className={styles.form}>
+					<form
+						className={styles.form}
+						onSubmit={(e) => this.skipCreate(e)}
+					>
 						<h3 className={styles.current_style}>
 							Patient Biodata
 						</h3>
