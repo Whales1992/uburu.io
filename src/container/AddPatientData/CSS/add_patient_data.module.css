@@ -110,22 +110,8 @@
 		margin-top: 0;
 		margin-bottom: 0;
 		overflow-y: auto;
-		scrollbar-color: #333f6b #d1dadd;
+		scrollbar-color: var(--color-primary) #d1dadd;
 		scrollbar-width: thin;
-	}
-
-	.form::-webkit-scrollbar {
-		width: 5px;
-	}
-
-	.form::-webkit-scrollbar-thumb {
-		background-color: #333f6b;
-		border-radius: 2.5px;
-	}
-
-	.form::-webkit-scrollbar-track {
-		background: #d1dadd;
-		border-bottom-right-radius: 16px;
 	}
 
 	.current_style {
@@ -140,7 +126,7 @@
 
 	.input,
 	.textarea {
-		color: #333f6b;
+		color: var(--color-primary);
 	}
 
 	.btn_area {
