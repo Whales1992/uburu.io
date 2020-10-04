@@ -7,7 +7,7 @@ import Chat from "../../../images/Drawer/drawer_chat_icon.svg";
 // import FriendsIcon from "../../../images/drawer_friends_icon.svg";
 import SupportIcon from "../../../images/Drawer/drawer_support_icon.svg";
 import Cog from "../../../images/Drawer/drawer_settings_icon.svg";
-import About from "../../../images/Drawer/drawer_about_icon.svg";
+// import About from "../../../images/Drawer/drawer_about_icon.svg";
 
 const Name = localStorage.account && JSON.parse(localStorage.account).LastName;
 
@@ -74,7 +74,7 @@ const leftDrawer = (props) => (
 				Settings
 			</NavLink>
 		</div>
-		<div className={styles.link_div}>
+		{/* <div className={styles.link_div}>
 			<NavLink
 				to="/about"
 				className={styles.nav_link}
@@ -83,7 +83,7 @@ const leftDrawer = (props) => (
 				<img src={About} alt="about" />
 				About Uburu
 			</NavLink>
-		</div>
+		</div> */}
 	</div>
 );
 
