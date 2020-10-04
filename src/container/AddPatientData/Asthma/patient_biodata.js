@@ -397,7 +397,7 @@ class PatientBiodata extends Component {
 										!consent_check ? "disabled_label" : ""
 									}
 								>
-									First Name
+									Relationship to Next of Kin
 								</label>
 								<input
 									id="RelationshipToNextOfKin"
