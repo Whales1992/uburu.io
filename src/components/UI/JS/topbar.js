@@ -14,6 +14,16 @@ import UserIcon from "../../../images/Drawer/drawer_user_icon.svg";
 import MoreMenu from "./more_menu";
 import { NavLink, Link } from "react-router-dom";
 
+global.dismissMoreMenu = () => {
+	try {
+		if (context !== null && context!==undefined)
+				context.dismissMoreMenu();
+	} catch (ex) {
+		console.log("should never happen");
+	}
+}
+var context;
+
 class Topbar extends Component {
 	constructor(props) {
 		super(props);
@@ -21,6 +31,16 @@ class Topbar extends Component {
 		this.state = {
 			moreMenuShowing: false
 		};
+
+		context = this;
+	}
+
+	/**
+	 * This basically dismiss Menu @moreMenuShowing
+	 */
+	dismissMoreMenu(){
+		if (this.state.moreMenuShowing)
+			this.setState({ moreMenuShowing: false });
 	}
 
 	toggleMoreMenu() {
@@ -31,12 +51,12 @@ class Topbar extends Component {
 		const { hide_on_small_screens, openDrawer, page_title } = this.props;
 		return (
 			<div
+				onClick={()=>this.dismissMoreMenu()}
 				className={
 					hide_on_small_screens
 						? [styles.topBar, styles.hide].join(" ")
 						: styles.topBar
-				}
-			>
+				}>
 				<img
 					className={styles.mobile_menu}
 					src={Hamburger}

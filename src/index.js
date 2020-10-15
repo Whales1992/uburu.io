@@ -126,7 +126,8 @@ function AuthRoute({ component: Component, ...rest }) {
 			{...rest}
 			render={(routeProps) =>
 				localStorage.token ? (
-					<Component {...routeProps} />
+					<Component 
+					{...routeProps} />
 				) : (
 					<Redirect
 						to={{
@@ -142,124 +143,126 @@ function AuthRoute({ component: Component, ...rest }) {
 
 const App = () => {
 	return (
-		<BrowserRouter>
-			<Switch>
-				<Suspense fallback={<p>Loading</p>}>
-					<AuthRoute
-						path="/appointment_detail/:id"
-						exact
-						component={AppointmentDetailPage}
-					/>
+		<div onClick={() => { global.dismissMoreMenu()}}>
+			<BrowserRouter>
+				<Switch>
+					<Suspense fallback={<p>Loading</p>}>
+						<AuthRoute
+							path="/appointment_detail/:id"
+							exact
+							component={AppointmentDetailPage}
+						/>
 
-					<AuthRoute
-						exact
-						path="/patients/:id/treatment_outcome"
-						component={PatientTreatmentOutcome}
-					/>
+						<AuthRoute
+							exact
+							path="/patients/:id/treatment_outcome"
+							component={PatientTreatmentOutcome}
+						/>
 
-					<AuthRoute
-						exact
-						path="/patients/:id/investigation_history"
-						component={InvestigationHistory}
-					/>
+						<AuthRoute
+							exact
+							path="/patients/:id/investigation_history"
+							component={InvestigationHistory}
+						/>
 
-					<AuthRoute
-						exact
-						path="/patients/:id/drug_history"
-						component={PatientDrugHistory}
-					/>
+						<AuthRoute
+							exact
+							path="/patients/:id/drug_history"
+							component={PatientDrugHistory}
+						/>
 
-					<AuthRoute
-						exact
-						path="/patients/:id/medical_history"
-						component={MedicalHistory}
-					/>
+						<AuthRoute
+							exact
+							path="/patients/:id/medical_history"
+							component={MedicalHistory}
+						/>
 
-					<AuthRoute
-						exact
-						path="/patients/:id/bio-data"
-						component={PatientBioData}
-					/>
+						<AuthRoute
+							exact
+							path="/patients/:id/bio-data"
+							component={PatientBioData}
+						/>
 
-					<AuthRoute
-						exact
-						path="/patients/:id/record_list"
-						component={RecordList}
-					/>
+						<AuthRoute
+							exact
+							path="/patients/:id/record_list"
+							component={RecordList}
+						/>
 
-					{/* <Route
+						{/* <Route
 						exact
 						path="/patients/:id"
 						component={PatientDetail}
 					/> */}
 
-					<AuthRoute
-						path="/add_patient_data/patient_biodata"
-						component={PatientBiodataForm}
-					/>
+						<AuthRoute
+							path="/add_patient_data/patient_biodata"
+							component={PatientBiodataForm}
+						/>
 
-					<AuthRoute
-						path="/add_patient_data/medical_history"
-						component={PatientMedicalHistoryForm}
-					/>
+						<AuthRoute
+							path="/add_patient_data/medical_history"
+							component={PatientMedicalHistoryForm}
+						/>
 
-					<AuthRoute
-						path="/add_patient_data/drug_history"
-						component={DrugHistoryForm}
-					/>
+						<AuthRoute
+							path="/add_patient_data/drug_history"
+							component={DrugHistoryForm}
+						/>
 
-					<AuthRoute
-						path="/add_patient_data/investigation_history"
-						component={InvestigationHistoryForm}
-					/>
+						<AuthRoute
+							path="/add_patient_data/investigation_history"
+							component={InvestigationHistoryForm}
+						/>
 
-					<AuthRoute
-						path="/add_patient_data/treatment_outcome"
-						component={TreatmentOutcomeForm}
-					/>
+						<AuthRoute
+							path="/add_patient_data/treatment_outcome"
+							component={TreatmentOutcomeForm}
+						/>
 
-					<AuthRoute
-						path="/search_folder_number"
-						component={SearchFolderNoPage}
-					/>
+						<AuthRoute
+							path="/search_folder_number"
+							component={SearchFolderNoPage}
+						/>
 
-					<AuthRoute path="/profile" component={ProfilePage} />
+						<AuthRoute path="/profile" component={ProfilePage} />
 
-					<AuthRoute path="/create_user" component={CreateUserPage} />
+						<AuthRoute path="/create_user" component={CreateUserPage} />
 
-					<AuthRoute
-						exact
-						path="/appointments"
-						component={AppointmentsPage}
-					/>
+						<AuthRoute
+							exact
+							path="/appointments"
+							component={AppointmentsPage}
+						/>
 
-					<AuthRoute path="/settings" component={SettingsPage} />
+						<AuthRoute path="/settings" component={SettingsPage} />
 
-					<AuthRoute
-						exact
-						path="/patient_engagement"
-						component={PatientEngagement}
-					/>
+						<AuthRoute
+							exact
+							path="/patient_engagement"
+							component={PatientEngagement}
+						/>
 
-					<AuthRoute
-						path="/book_appointment"
-						component={BookAppointment}
-					/>
+						<AuthRoute
+							path="/book_appointment"
+							component={BookAppointment}
+						/>
 
-					<AuthRoute
-						path="/medical_analytics"
-						component={MedicalAnalytics}
-					/>
+						<AuthRoute
+							path="/medical_analytics"
+							component={MedicalAnalytics}
+						/>
 
-					<AuthRoute exact path="/patients" component={Patients} />
+						<AuthRoute exact path="/patients" component={Patients} />
 
-					<Route path="/sign_in" component={SignIn} />
+						<Route path="/sign_in" component={SignIn} />
 
-					<AuthRoute exact path="/" component={Home} />
-				</Suspense>
-			</Switch>
-		</BrowserRouter>
-	);
+						<AuthRoute exact path="/" component={Home} />
+					</Suspense>
+				</Switch>
+			</BrowserRouter>
+		</div>
+		);
 };
 
 ReactDOM.render(

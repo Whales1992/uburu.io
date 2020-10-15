@@ -9,19 +9,35 @@ const quickActions = () => (
 		<div className={styles.top}>{`${
 			JSON.parse(localStorage.account).Name
 		} Registry - Quick Actions`}</div>
+		
 		<div className={styles.actions}>
 			<div>
 				<Link className={styles.link} to="/search_folder_number">
 					<img src={AddPatientDataIcon} alt="add patient icon" />
-					Enter <br /> Folder No
+					Add <br /> Patient Data
 				</Link>
 			</div>
+			<div>
+				<Link className={styles.link} to="/search_folder_number">
+					<img src={AddPatientDataIcon} alt="add update patient icon" />
+					Update <br /> Patient Data
+				</Link>
+			</div>
+
+			<div>
+				<Link className={styles.link} to="/search_folder_number">
+					<img src={AddPatientDataIcon} alt="add patient icon" />
+					Create <br /> Appointment
+				</Link>
+			</div>
+
 			<div className={styles.non_link}>
 				<img src={SyncDataIcon} alt="sync data icon" />
 				Sync <br /> Data Online
 			</div>
+
 		</div>
-	</div>
+		</div>
 );
 
 export default memo(quickActions);

@@ -25,20 +25,21 @@ class layout extends Component {
 		this.setState({ leftDrawerOpen: true });
 	}
 
+
 	render() {
 		return (
-			<>
+			<div>
 				<Topbar
 					openDrawer={this.openSideDrawer}
-					page_title={this.props.pageTitle}
-				/>
+					page_title={this.props.pageTitle}/>
+					
 				<LeftDrawer open={this.state.leftDrawerOpen} />
 				{this.state.leftDrawerOpen ? (
 					<Backdrop onClick={this.onBackdropClick} />
 				) : null}
 				{this.props.children}
 				<BottomBar />
-			</>
+			</div>
 		);
 	}
 }

@@ -61,16 +61,16 @@ class Home extends Component {
 	render() {
 		const { recentRecords, error } = this.state;
 		return (
-			<Layout
-				pageTitle={`Welcome, Dr. ${
-					JSON.parse(localStorage.account).LastName
-				}`}
-			>
-				<InstitutionBanner />
-				<BlackBackdrop />
-				<QuickActions />
-				<RecentRecords recents={recentRecords} error={error} />
-			</Layout>
+			<div onClick={() => { global.dismissMoreMenu()}}>
+				<Layout
+					pageTitle={`Welcome, Dr. ${JSON.parse(localStorage.account).LastName
+						}`}>
+					<InstitutionBanner />
+					<BlackBackdrop />
+					<QuickActions />
+					<RecentRecords recents={recentRecords} error={error} />
+				</Layout>
+			</div>
 		);
 	}
 }
