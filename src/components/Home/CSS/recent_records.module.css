@@ -1,126 +1,155 @@
 .container {
-	width: 90vw;
-	max-width: 774px;
-	margin: auto;
-	margin-top: 110px;
-	background-color: #fbfbfb;
-	border: 0.5px solid #e5e5e5;
-	border-radius: 8px;
-	margin-bottom: 88px;
+  width: 90vw;
+  max-width: 774px;
+  margin: auto;
+  margin-top: 150px;
+  background-color: #fbfbfb;
+  border: 0.5px solid #e5e5e5;
+  border-radius: 8px;
+  margin-bottom: 88px;
+}
+
+.dots {
+  position: relative;
+  top: -4px;
+  left: 10px;
+  cursor: pointer;
+}
+.deleteWrap {
+  border: 1px solid #e7e7ed;
+  background: white;
+  position: absolute;
+  top: 0;
+  cursor: pointer;
+  margin-top: 10px;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.05);
+  padding: 10px 20px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+}
+.deleteText {
+  color: red;
+  padding: 0;
+  margin: 0;
+  font-weight: 500;
+  font-style: normal;
+  font-size: 16px;
 }
 
 .container_title {
-	height: 40px;
-	background-color: #f2f5f6;
-	padding: 11px 17px;
-	font-size: 15px;
-	line-height: 18px;
-	font-weight: 600;
-	border-top-left-radius: 8px;
-	border-top-right-radius: 8px;
+  height: 40px;
+  background-color: #f2f5f6;
+  padding: 11px 17px;
+  font-size: 15px;
+  line-height: 18px;
+  font-weight: 600;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
 }
 
 .records_div {
-	margin: 0;
-	height: fit-content;
-	padding: 24px 17px;
-	padding-bottom: 0;
+  margin: 0;
+  height: fit-content;
+  position: relative;
+  padding: 24px 17px;
+  padding-bottom: 0;
 }
 
 .each_record {
-	margin-bottom: 23px;
-	text-decoration: none;
+  margin-bottom: 23px;
+  text-decoration: none;
 }
 
 .name {
-	font-size: 15px;
-	line-height: 18px;
-	font-weight: 600;
-	color: #000;
+  font-size: 15px;
+  line-height: 18px;
+  font-weight: 600;
+  color: #000;
 }
 
 .details {
-	display: flex;
-	justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .details small {
-	color: #8d979b;
-	font-size: 11px;
-	line-height: 13px;
+  color: #8d979b;
+  font-size: 11px;
+  line-height: 13px;
 }
 
 .details small:nth-child(1) {
-	margin-top: 4px;
-	margin-bottom: 8px;
+  margin-top: 4px;
+  margin-bottom: 8px;
 }
 
 .each_record hr {
-	background-color: #d1dadd;
-	height: 0.5px;
-	margin: 0;
-	margin-bottom: 23px;
+  background-color: #d1dadd;
+  height: 0.5px;
+  margin: 0;
+  margin-bottom: 23px;
 }
 
 .records_div .each_record:last-child hr {
-	display: none;
+  display: none;
 }
 
 @media (min-width: 600px) {
-	.container {
-		margin-top: 150px;
-		border-radius: 16px;
-		background-color: #fff;
-		border: 1px solid #e7e7ed;
-		box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.05);
-	}
+  .container {
+    margin-top: 150px;
+    border-radius: 16px;
+    background-color: #fff;
+    border: 1px solid #e7e7ed;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.05);
+  }
 
-	.container_title {
-		color: #333f6b;
-		height: 48px;
-		padding: 11px 30px;
-		font-size: 14px;
-		font-weight: 600;
-		line-height: 25px;
-		background-color: #fafbfb;
-		opacity: 0.75;
-		border-bottom: 1px solid #e7e7ed;
-		border-top-left-radius: 16px;
-		border-top-right-radius: 16px;
-	}
+  .container_title {
+    color: #333f6b;
+    height: 48px;
+    padding: 11px 30px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 25px;
+    background-color: #fafbfb;
+    opacity: 0.75;
+    border-bottom: 1px solid #e7e7ed;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+  }
 
-	.records_div {
-		padding: 28px 30px;
-		padding-bottom: 0;
-	}
+  .records_div {
+    padding: 28px 30px;
+    padding-bottom: 0;
+  }
 
-	.name {
-		margin-top: 30px;
-		font-size: 16px;
-		line-height: 29px;
-		font-weight: normal;
-	}
+  .name {
+    margin-top: 30px;
+    font-size: 16px;
+    line-height: 29px;
+    font-weight: normal;
+  }
 
-	.records_div .each_record:first-child .name {
-		margin-top: 0;
-	}
+  .records_div .each_record:first-child .name {
+    margin-top: 0;
+  }
 
-	.details small:first-child {
-		margin-top: 0;
-		margin-bottom: 16px;
-		font-size: 12px;
-		line-height: 21px;
-		font-weight: 400;
-	}
+  .details small:first-child {
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-size: 12px;
+    line-height: 21px;
+    font-weight: 400;
+  }
 
-	.details small:nth-child(2) {
-		font-size: 14px;
-		line-height: 25px;
-		font-weight: 400;
-		margin-bottom: 14px;
-	}
+  .details small:nth-child(2) {
+    font-size: 14px;
+    line-height: 25px;
+    font-weight: 400;
+    margin-bottom: 14px;
+  }
 
-	.each_record hr {
-		margin: 0;
-	}
+  .each_record hr {
+    margin: 0;
+  }
 }
