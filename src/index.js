@@ -18,6 +18,7 @@ import PatientEngagement from "./container/Message_Center/JS/message_center";
 import SettingsPage from "./components/Settings/JS/settings";
 import SearchFolderNoPage from "./components/SearchFolderNo/JS/search_folder_no";
 import ProfilePage from "./container/Profile/JS/profile";
+import UpdatePatient from "./components/Patients/UpdatePatient/JS/UpdatePatient";
 
 //Patient Detail
 import RecordList from "./components/Patients/JS/data_category_list";
@@ -115,6 +116,7 @@ const PatientBioData = (props) => {
 	const registry = localStorage.account
 		? JSON.parse(localStorage.account).Name
 		: null;
+
 	if (registry === "Oncology") return <OncologyPatientBioData {...props} />;
 	if (registry === "Diabetes") return <DiabetesPatientBioData {...props} />;
 	if (registry === "Asthma") return <AsthmaPatientBioData {...props} />;
@@ -223,6 +225,11 @@ const App = () => {
 						<AuthRoute
 							path="/search_folder_number"
 							component={SearchFolderNoPage}
+						/>
+
+						<AuthRoute
+							path="/update_patient"
+							component={UpdatePatient}
 						/>
 
 						<AuthRoute path="/profile" component={ProfilePage} />

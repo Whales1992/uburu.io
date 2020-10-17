@@ -19,7 +19,7 @@ const quickActions = () => (
         </Link>
       </div>
       <div>
-        <Link className={styles.link} to="/search_folder_number">
+			<Link className={styles.link} to="/update_patient">
           <img src={AddPatientDataIcon} alt="add update patient icon" />
           Update <br /> Patient Data
         </Link>

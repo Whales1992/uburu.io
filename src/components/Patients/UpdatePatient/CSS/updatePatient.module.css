@@ -1,0 +1,134 @@
+.form {
+	width: 100vw;
+	height: calc(100vh - 64px);
+	padding: 11px 20px;
+	margin-top: 64px;
+}
+.form label {
+	display: block;
+	font-weight: 500;
+	font-size: 13px;
+	line-height: 16px;
+	color: #3b4346;
+	margin: 19px 0 10px 0;
+}
+
+.input {
+	padding: 15px;
+	padding-bottom: 14px;
+	font-weight: 500;
+	font-size: 13px;
+	line-height: 16px;
+	color: #333f6b !important;
+	width: 100%;
+	height: 45px;
+	background: #ffffff;
+	border: 1px solid #e9e9e9;
+	border-radius: 3px;
+}
+
+.search_btn {
+	display: block;
+	width: 100%;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.input::placeholder {
+	font-weight: 500;
+	font-size: 13px;
+	line-height: 16px;
+	color: #d1dadd;
+}
+
+.form a.add_new_patient_link {
+	display: none;
+}
+
+.form a.add_new_patient_link_mobile {
+	height: 45px;
+	display: flex;
+	align-items: center;
+	text-decoration: none;
+	padding: 12px 0 8px 16.8px;
+	margin-top: 20px;
+	font-weight: 600;
+	font-size: 14px;
+	line-height: 25px;
+	color: #a7a9bc;
+	background: #f7f8f9;
+	border: 1px solid #e9e9e9;
+	border-radius: 0px 0px 3px 3px;
+}
+
+.form a.result {
+	display: block;
+	height: 45px;
+	padding: 20px 0;
+	text-align: center;
+	font-weight: 600;
+	font-size: 14px;
+	line-height: 16px;
+	color: var(--color-primary);
+	text-decoration: underline;
+}
+
+.not_found {
+	margin-top: 30px;
+	text-align: center;
+}
+
+@media (min-width: 600px) {
+	.form {
+		height: fit-content;
+		width: 80%;
+		max-width: 774px;
+		margin: auto;
+		margin-top: 0;
+		padding-top: 38px;
+		margin-bottom: 90px;
+		border-radius: 16px;
+		border-top-right-radius: 0;
+		border-top-left-radius: 0;
+		background-color: #fff;
+		border: 1px solid #e7e7ed;
+		box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.05);
+	}
+
+	.input,
+	.form a,
+	.form label,
+	.search_btn {
+		max-width: 400px;
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.form a.add_new_patient_link {
+		height: 45px;
+		display: flex;
+		align-items: center;
+		text-decoration: none;
+		padding: 12px 0 8px 16.8px;
+		font-weight: 600;
+		font-size: 14px;
+		line-height: 25px;
+		color: #a7a9bc;
+		background: #f7f8f9;
+		border: 1px solid #e9e9e9;
+		border-radius: 0px 0px 3px 3px;
+	}
+
+	.form a.result {
+		padding: 30px 0;
+	}
+
+	.form a.add_new_patient_link_mobile {
+		display: none;
+	}
+
+	.form a img {
+		margin-right: 8.75px;
+	}
+}

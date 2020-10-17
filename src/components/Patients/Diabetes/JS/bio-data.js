@@ -6,8 +6,12 @@ import TopBar from "../../../UI/JS/topbar";
 import SecondaryBar from "../../../UI/JS/secondary_navbar";
 import styles from "../../../../container/AddPatientData/CSS/add_patient_data.module.css";
 
+const url = process.env.REACT_APP_BASE_URL;
+
 const BioData = (props) => {
 	const bioData = useLocation().state;
+
+	console.log("@LLL", bioData);
 
 	const [value, changeValue] = useState({
 		LastName: bioData ? bioData.LastName : "",
@@ -35,21 +39,82 @@ const BioData = (props) => {
 		DiabetesHistory: bioData ? bioData.DiabetesHistory : "",
 		SelfGlucoseMonitoring: bioData ? bioData.SelfGlucoseMonitoring : ""
 	});
+	const [effects, setEffects] = useState({
+		loading: false,
+		error: {
+			error: false,
+			message: ""
+		}
+	});
 
 	function handleChange(name, e) {
 		e.preventDefault();
-		changeValue({ ...value, [name]: e.target.value });
+		changeValue({ ...value, [name]: e.target.value});
 	}
 
 	function update(e) {
-		e.preventDefault();
+		updatePatientDataOnline(e);
+	}
 
-		localForage
-			.setItem(bioData.FolderNo, {
-				...bioData,
-				bioData: { ...value }
-			})
-			.then(() => props.history.goBack());
+	async function updatePatientDataOnline(e) {
+		e.preventDefault();
+		try {
+			setEffects({ ...effects, loading: true });
+			if (window.navigator.onLine) {
+				const request = await fetch(`${url}/UpdatePatient`, {
+					method: "POST",
+					headers: {
+						Accept: "application/json",
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${localStorage.token}`
+					},
+					body: JSON.stringify({ FolderNo: value.FolderNo, Score:1 })//TODO("What is Score?")
+				});
+
+				if (!request.ok) {
+					setEffects({ ...effects, loading: false });
+					const error = await request.json();
+					throw Error(error.error);
+				}
+
+				const data = await request.json();
+				
+				console.log("HALF", data);
+
+				localForage
+					.setItem(bioData.FolderNo, {
+						...bioData,
+						bioData: { ...value }
+					})
+					.then(() => props.history.goBack());
+
+			} else {
+				localForage
+					.setItem(bioData.FolderNo, {
+						...bioData,
+						bioData: { ...value }
+					})
+					.then(() => {/**Do nothing for now ... */});
+			}
+		} catch (error) {
+			setEffects({
+				...effects,
+				error: {
+					error: true,
+					message: error.message
+				}
+			});
+
+			setTimeout(() => {
+				setEffects({
+					error: {
+						error: false,
+						message: ""
+					}
+				});
+				// changeValue("");
+			}, 3000);
+		}
 	}
 
 	return (
@@ -230,10 +295,7 @@ const BioData = (props) => {
 									name="other_DiabetesDiagnosis"
 									className={styles.input}
 									onChange={(e) =>
-										this.handleChange(
-											"other_DiabetesDiagnosis",
-											e
-										)
+										handleChange("other_DiabetesDiagnosis",e)
 									}
 									value={value.other_DiabetesDiagnosis}
 									placeholder="Type in other Diabetes Diagnosis"
@@ -472,12 +534,16 @@ const BioData = (props) => {
 								!value.SelfGlucoseMonitoring ||
 								(value.AlcoholUse === "Yes" &&
 									!value.AlcoholFrequency)
-									? true
-									: false
+									? false
+									: true
 							}
 						>
 							Update Basic Information
 						</button>
+
+						{effects.loading && (
+							<p style={{ textAlign: "center" }}>Updating...</p>
+						)}
 					</div>
 				</form>
 			</Shell>
