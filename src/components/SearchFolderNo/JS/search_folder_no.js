@@ -32,10 +32,6 @@ const SearchFolderNoPage = () => {
 		changeValue(e);
 	}
 
-	// function hideShowModal() {
-	// 	toggleModal(!modalShowing);
-	// }
-
 	async function search(e) {
 		e.preventDefault();
 		try {

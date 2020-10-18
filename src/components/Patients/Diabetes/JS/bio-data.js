@@ -11,8 +11,6 @@ const url = process.env.REACT_APP_BASE_URL;
 const BioData = (props) => {
 	const bioData = useLocation().state;
 
-	console.log("@LLL", bioData);
-
 	const [value, changeValue] = useState({
 		LastName: bioData ? bioData.LastName : "",
 		FirstName: bioData ? bioData.FirstName : "",
@@ -61,14 +59,14 @@ const BioData = (props) => {
 		try {
 			setEffects({ ...effects, loading: true });
 			if (window.navigator.onLine) {
-				const request = await fetch(`${url}/UpdatePatient`, {
+				const request = await fetch(`${url}/PatientUpdate`, {
 					method: "POST",
 					headers: {
 						Accept: "application/json",
 						"Content-Type": "application/json",
 						Authorization: `Bearer ${localStorage.token}`
 					},
-					body: JSON.stringify({ FolderNo: value.FolderNo, Score:1 })//TODO("What is Score?")
+					body: JSON.stringify(value)
 				});
 
 				if (!request.ok) {
@@ -77,10 +75,8 @@ const BioData = (props) => {
 					throw Error(error.error);
 				}
 
-				const data = await request.json();
+				// const data = await request.json();
 				
-				console.log("HALF", data);
-
 				localForage
 					.setItem(bioData.FolderNo, {
 						...bioData,

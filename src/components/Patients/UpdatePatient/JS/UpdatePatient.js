@@ -31,6 +31,7 @@ const UpdatePatient = () => {
 
 	async function search(e) {
 		e.preventDefault();
+
 		try {
 			setEffects({ ...effects, loading: true });
 			if (window.navigator.onLine) {
@@ -51,6 +52,7 @@ const UpdatePatient = () => {
 				}
 
 				const data = await request.json();
+
 				setSearchResult(data.Patients[0]);
 				setEffects({ ...effects, loading: false });
 			} else {

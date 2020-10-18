@@ -64,6 +64,7 @@ class Home extends Component {
       <div
         onClick={() => {
           global.dismissMoreMenu();
+          global.setToggleDeleteBtn();
         }}
       >
         <Layout
