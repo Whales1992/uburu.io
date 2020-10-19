@@ -29,7 +29,6 @@ const EachRecentRecord = ({ patient }) => {
 
   global.setToggleDeleteBtn = () => {
     try {
-      if (toggle)
         setToggle(false);
     } catch (ex) {
       console.log('Might Happen');
@@ -109,8 +108,7 @@ const EachRecentRecord = ({ patient }) => {
           state: patient,
         }}
         style={{ textDecoration: 'none' }}
-        className={styles.name}
-      >{`${LastName} ${FirstName}`}</Link>
+        className={styles.name}>{`${LastName} ${FirstName}`}</Link>
 
       <div className={styles.details}>
         <small>{OrganDiagnosis || Diagnosis || Triggers}</small>

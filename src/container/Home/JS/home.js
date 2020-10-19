@@ -63,8 +63,12 @@ class Home extends Component {
     return (
       <div
         onClick={() => {
-          global.dismissMoreMenu();
-          global.setToggleDeleteBtn();
+          try{
+            global.dismissMoreMenu();
+            global.setToggleDeleteBtn();
+          }catch(ex){
+            console.log("", ex);
+          }
         }}
       >
         <Layout

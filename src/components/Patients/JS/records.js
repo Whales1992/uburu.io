@@ -1,6 +1,8 @@
-import React, { Fragment, memo } from "react";
+import React, { Fragment, memo, useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "../CSS/records.module.css";
+import localForage from "localforage";
+const url = process.env.REACT_APP_BASE_URL;
 
 export const EachRecentRecord = ({ record }) => {
 	const {
@@ -13,26 +15,131 @@ export const EachRecentRecord = ({ record }) => {
 		DateCreated
 	} = record;
 
+	const [toggle, setToggle] = useState(false);
+	
+	const [effects, setEffects] = useState({
+		loading: false,
+		error: {
+			error: false,
+			message: ""
+		}
+	});
+
 	const splitDateString = new Date(DateCreated).toDateString().split(" ");
 
+	global.setToggleDeleteBtn = () => {
+		try {
+			setToggle(false);
+		} catch (ex) {
+			console.log('Might Happen');
+		}
+	};
+
+	async function deleteRecord(e) {
+		e.preventDefault();
+		try {
+			setEffects({ ...effects, loading: true });
+			if (window.navigator.onLine) {
+				const request = await fetch(`${url}/PatientDelete`, {
+					method: "POST",
+					headers: {
+						Accept: "application/json",
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${localStorage.token}`
+					},
+					body: JSON.stringify({ FolderNo: FolderNo })
+				});
+
+				console.log("DELETE RES", request);
+
+				if (!request.ok) {
+					setEffects({ ...effects, loading: false });
+					const error = await request.json();
+					throw Error(error.error);
+				}
+
+				localForage.removeItem(FolderNo, {
+
+				}).then(() => {
+					console.log("@deleteRecord");
+				});
+
+			} else {
+				setEffects({
+					...effects,
+					error: {
+						error: true,
+						message: "Connection Error"
+					}
+				});
+			}
+		} catch (error) {
+			setEffects({
+				...effects,
+				error: {
+					error: true,
+					message: error.message
+				}
+			});
+
+			setTimeout(() => {
+				setEffects({
+					error: {
+						error: false,
+						message: ""
+					}
+				});
+			}, 3000);
+		}
+	}
+
 	return (
-		<Link
-			to={{
-				pathname:
-					window.innerWidth > 600
-						? `/patients/${FolderNo}/bio-data`
-						: `/patients/${FolderNo}/record_list`,
-				state: record
-			}}
-			className={styles.each_record}
-		>
-			<div className={styles.name}>{`${LastName} ${FirstName}`}</div>
-			<div className={styles.details}>
-				<small>{OrganDiagnosis || Diagnosis || Triggers}</small>
+		<div className={styles.each_record}>
+			<Link
+				to={{
+					pathname:
+						window.innerWidth > 600
+							? `/patients/${FolderNo}/bio-data`
+							: `/patients/${FolderNo}/record_list`,
+					state: record
+				}}
+				className={styles.each_record}>
+				<div className={styles.name}>{`${LastName} ${FirstName}`}</div>
+			</Link>
+
+				<div className={styles.details}>	
+				<small>{OrganDiagnosis || Diagnosis || Triggers}</small>				
+					<div style={{ display: 'flex' }}>
 				<small>{`${splitDateString[2]} ${splitDateString[1]}, ${splitDateString[3]}`}</small>
-			</div>
-			<hr />
-		</Link>
+
+						<div
+							onClick={(e) => {
+								if(!toggle)
+									setToggle(true);
+								else
+									setToggle(false);
+							}}
+							className={styles.dots}
+						>
+							...
+							{toggle ==true ? <div
+								className={styles.deleteWrap}
+								onClick={(e) => {
+									setToggle(false);
+									deleteRecord(e);
+								}}
+							> <p className={styles.deleteText}>DELETE</p>
+							</div> : null}
+						</div>
+					
+					</div>
+
+				</div>
+				<hr />
+			{effects.loading && (
+				<p style={{ textAlign: "center" }}>Deleting...</p>
+			)}
+		</div>
 	);
 };
 
