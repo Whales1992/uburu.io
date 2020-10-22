@@ -1,7 +1,7 @@
 import React, { memo, Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from '../CSS/recent_records.module.css';
-import localForage from "localforage";
+import localForage from 'localforage';
 const url = process.env.REACT_APP_BASE_URL;
 
 const EachRecentRecord = ({ patient }) => {
@@ -21,15 +21,15 @@ const EachRecentRecord = ({ patient }) => {
     loading: false,
     error: {
       error: false,
-      message: ""
-    }
+      message: '',
+    },
   });
 
   const splitDateString = new Date(DateCreated).toDateString().split(' ');
 
   global.setToggleDeleteBtn = () => {
     try {
-        setToggle(false);
+      setToggle(false);
     } catch (ex) {
       console.log('Might Happen');
     }
@@ -39,17 +39,17 @@ const EachRecentRecord = ({ patient }) => {
     e.preventDefault();
     try {
       setEffects({ ...effects, loading: true });
-      console.log("DELETE RES", `Bearer ${localStorage.token}`);
+      console.log('DELETE RES', `Bearer ${localStorage.token}`);
 
       if (window.navigator.onLine) {
         const request = await fetch(`${url}/PatientDelete`, {
-          method: "POST",
+          method: 'POST',
           headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.token}`
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.token}`,
           },
-          body: JSON.stringify({FolderNo:patient.FolderNo})
+          body: JSON.stringify({ FolderNo: patient.FolderNo }),
         });
 
         if (!request.ok) {
@@ -60,21 +60,18 @@ const EachRecentRecord = ({ patient }) => {
 
         const data = await request.json();
 
-        console.log("DELETE RES", data);
+        console.log('DELETE RES', data);
 
-        localForage.removeItem(patient.FolderNo, {
-
-        }).then(()=>{
-          console.log("@deleteRecord");
+        localForage.removeItem(patient.FolderNo, {}).then(() => {
+          console.log('@deleteRecord');
         });
-
       } else {
         setEffects({
           ...effects,
           error: {
             error: true,
-            message: "Connection Error"
-          }
+            message: 'Connection Error',
+          },
         });
       }
     } catch (error) {
@@ -82,16 +79,16 @@ const EachRecentRecord = ({ patient }) => {
         ...effects,
         error: {
           error: true,
-          message: error.message
-        }
+          message: error.message,
+        },
       });
 
       setTimeout(() => {
         setEffects({
           error: {
             error: false,
-            message: ""
-          }
+            message: '',
+          },
         });
       }, 3000);
     }
@@ -108,40 +105,29 @@ const EachRecentRecord = ({ patient }) => {
           state: patient,
         }}
         style={{ textDecoration: 'none' }}
-        className={styles.name}>{`${LastName} ${FirstName}`}</Link>
+        className={styles.name}
+      >{`${LastName} ${FirstName}`}</Link>
 
       <div className={styles.details}>
         <small>{OrganDiagnosis || Diagnosis || Triggers}</small>
         <div style={{ display: 'flex' }}>
           <small>{`${splitDateString[2]} ${splitDateString[1]}, ${splitDateString[3]}`}</small>
+
           <div
-            onClick={() => {
-                setToggle(!false);
+            className={styles.deleteWrap}
+            onClick={(e) => {
+              // setToggle(!toggle);
+              deleteRecord(e);
             }}
-            className={styles.dots}
           >
-            ...
-           {/* this is the div for toggle */}
-            {toggle ? <div
-                className={styles.deleteWrap}
-                onClick={(e) => {
-                  setToggle(!toggle);
-                  deleteRecord(e);
-                }}
-              >
-                <p className={styles.deleteText}>DELETE</p>
-              </div>
-            : null}
+            <p className={styles.deleteText}>DELETE</p>
           </div>
         </div>
       </div>
-     
+
       <hr />
 
-      {effects.loading && (
-        <p style={{ textAlign: "center" }}>Deleting...</p>
-      )}
-
+      {effects.loading && <p style={{ textAlign: 'center' }}>Deleting...</p>}
     </div>
   );
 };

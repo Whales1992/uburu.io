@@ -18,11 +18,10 @@
 .deleteWrap {
   border: 1px solid #e7e7ed;
   background: white;
-  position: absolute;
-  top: 0;
-  right: 0;
+  position: relative;
+  top: -10px;
   cursor: pointer;
-  margin-top: 10px;
+  margin-left: 10px;
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.05);
   padding: 10px 20px;
   border-radius: 5px;
