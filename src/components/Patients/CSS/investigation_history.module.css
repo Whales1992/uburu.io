@@ -1,51 +1,120 @@
 .container {
-	width: 100%;
-	padding: 90px 0 0 0;
-	margin: 0;
+  width: 100%;
+  padding: 90px 0 0 0;
+  margin: 0;
 }
 
 .select {
-	display: block;
-	margin: 90px auto 29px auto;
-	padding: 15px;
-	padding-bottom: 12px;
-	font-weight: normal;
-	font-size: 15px;
-	color: #000000;
-	width: calc(100% - 40px);
-	height: 45px;
-	background: #ffffff;
-	border: 1px solid #e9e9e9;
-	border-radius: 3px;
+  display: block;
+  margin: 90px auto 29px auto;
+  padding: 15px;
+  padding-bottom: 12px;
+  font-weight: normal;
+  font-size: 15px;
+  color: #000000;
+  width: calc(100% - 40px);
+  height: 45px;
+  background: #ffffff;
+  border: 1px solid #e9e9e9;
+  border-radius: 3px;
 }
 
 .no_record {
-	text-align: center;
-	font-size: 13px;
-	color: var(--color-primary);
+  text-align: center;
+  font-size: 13px;
+  color: var(--color-primary);
 }
 
 .add_new_record {
-	position: absolute;
-	bottom: 93px;
-	right: 22px;
-	height: 60px;
-	width: 60px;
-	border-radius: 50%;
-	border: none;
-	background-color: #242424;
+  position: absolute;
+  bottom: 93px;
+  right: 22px;
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  border: none;
+  background-color: #242424;
+}
+.editWrap {
+  margin-left: 40px;
+}
+.formLabel {
+  font-size: 13px;
+  margin-top: 23px;
+}
+.inputGpWrap {
+  border: 1px solid #e9e9e9;
+  border-radius: 3px;
+  height: 45px;
+  max-width: 335px;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.inputName {
+  border: none;
+  font-size: 13px;
+  background: rgba(255, 255, 255, 0);
+}
+
+.inputName:focus {
+  outline: none;
+}
+
+.addRec {
+  height: 32px;
+  width: 119px;
+  font-size: 13px;
+  font-weight: 500;
+  margin-top: 29px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  cursor: pointer;
+  background: rgba(51, 63, 107, 0.1);
+}
+
+.dropWrap {
+  height: 45px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background-color: white;
+  left: 0;
+  top: 45px;
+  position: absolute;
+  padding: 15px;
+  -webkit-box-shadow: 2px 6px 5px -1px rgba(153, 153, 153, 0.4);
+  -moz-box-shadow: 2px 6px 5px -1px rgba(153, 153, 153, 0.4);
+  box-shadow: 2px 6px 5px -1px rgba(153, 153, 153, 0.4);
+}
+
+.pBlack {
+  color: black;
+  font-size: 13px;
+}
+
+@media (max-width: 760px) {
+  .editWrap {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
 }
 
 @media (min-width: 760px) {
-	.container {
-		padding-top: 30px;
-	}
-	.select {
-		margin-top: 27px;
-		width: calc(100% - 60px);
-	}
+  .container {
+    padding-top: 30px;
+  }
+  .select {
+    margin-top: 27px;
+    width: calc(100% - 60px);
+  }
 
-	.add_new_record {
-		display: none;
-	}
+  .add_new_record {
+    display: none;
+  }
 }

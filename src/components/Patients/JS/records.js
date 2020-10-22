@@ -121,28 +121,6 @@ export const EachRecentRecord = ({ record }) => {
               DELETE
             </p>
           </div>
-
-          {/* <p onClick={(e) => {deleteRecord(e)}} className={styles.deleteText}>DELETE</p> */}
-          {/* <div
-							onClick={(e) => {
-								if(!toggle)
-									setToggle(true);
-								else
-									setToggle(false);
-							}}
-							className={styles.dots}
-						>
-							...
-							{toggle ? <div
-								className={styles.deleteWrap}
-								onClick={(e) => {
-									setToggle(false);
-									deleteRecord(e);
-								}}
-							> <p className={styles.deleteText}>DELETE</p>
-							</div> : null}
-						</div>
-					 */}
         </div>
       </div>
       <hr />
