@@ -1,4 +1,4 @@
-import React, { memo, Fragment, useState } from 'react';
+import React, { memo, Fragment, useState, Modal } from 'react';
 import { Link } from 'react-router-dom';
 import styles from '../CSS/recent_records.module.css';
 import localForage from 'localforage';
@@ -9,7 +9,7 @@ const url = process.env.REACT_APP_BASE_URL;
 //   console.log("DELETING == ", res);
 // });
 
-localForage.getItem(15).then((res) => {
+localForage.getItem("patients").then((res) => {
   console.log("RESPONSE", res);
 });
 
@@ -36,13 +36,11 @@ const EachRecentRecord = ({ patient }) => {
 
   const splitDateString = new Date(DateCreated).toDateString().split(' ');
 
-  console.log("TEGAGGA == ", patient);
-
   global.setToggleDeleteBtn = () => {
     try {
       setToggle(false);
     } catch (ex) {
-      console.log('Might Happen');
+      console.log('Null Pointer Exception');
     }
   };
 
@@ -63,16 +61,24 @@ const EachRecentRecord = ({ patient }) => {
         });
 
         if (!request.ok) {
-          setEffects({ ...effects, loading: false });
           const error = await request.json();
+          global.reFresh();
+          setEffects({
+            ...effects, loading: false});
+          
+          // alert('Error:' + error.error);
           throw Error(error.error);
         }
 
         const data = await request.json();
+        console.log("WHY???", data);
 
         localForage.removeItem(patient.FolderNo, {}).then(() => {
           console.log('@deleteRecord');
         });
+
+
+
       } else {
         setEffects({
           ...effects,
@@ -170,6 +176,20 @@ const recentRecords = ({ recents, error }) => {
           ))
         )}
       </div>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Modal heading</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleClose}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

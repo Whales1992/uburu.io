@@ -8,6 +8,12 @@ import InstitutionBanner from '../../../components/UI/JS/institution_banner';
 
 const url = process.env.REACT_APP_BASE_URL;
 
+let dis;
+
+global.reFresh=()=>{
+  dis.setState({});
+}
+
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -24,6 +30,7 @@ class Home extends Component {
 
   async componentDidMount() {
     try {
+      dis = this;
       this.setState({ loading: true });
       if (window.navigator.onLine) {
         const request = await fetch(`${url}/GetRecentPatient`, {
@@ -42,22 +49,20 @@ class Home extends Component {
         }
 
         const data = await request.json();
-
-        // data.Patients.forEach(element => {
-        //   localForage.setItem(`${element.PatientID}`, element).then((res)=>{
-        //     console.log("ADDED", res);
-        //   });
-        // });
-
-        // localForage.setItem("15").then((res) => {
-        //   console.log("RESPONSE", res);
-        // });
-
-        this.setState({ recentRecords: data.Patients.reverse() });
+        localForage.setItem("patients", data.Patients).then((res) => {
+          this.setState({ recentRecords: res });
+        });
       } else {
-        const patientBios = await localForage.getItem('BioData');
-
-        this.setState({ recentRecords: patientBios });
+        localForage.getItem("patients").then((res) => {
+          this.setState({ recentRecords: res });
+        }).catch((ex)=>{
+          this.setState({
+            error: {
+              error: true,
+              message: ex,
+            },
+          });
+        });
       }
     } catch (error) {
       this.setState({
