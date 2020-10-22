@@ -114,13 +114,24 @@ const EachRecentRecord = ({ patient }) => {
           <small>{`${splitDateString[2]} ${splitDateString[1]}, ${splitDateString[3]}`}</small>
 
           <div
-            className={styles.deleteWrap}
-            onClick={(e) => {
-              // setToggle(!toggle);
-              deleteRecord(e);
+            onClick={() => {
+              setToggle(!false);
             }}
+            className={styles.dots}
           >
-            <p className={styles.deleteText}>DELETE</p>
+            ...
+            {/* this is the div for toggle */}
+            {toggle ? (
+              <div
+                className={styles.deleteWrap}
+                onClick={(e) => {
+                  setToggle(!toggle);
+                  deleteRecord(e);
+                }}
+              >
+                <p className={styles.deleteText}>DELETE</p>
+              </div>
+            ) : null}
           </div>
         </div>
       </div>
