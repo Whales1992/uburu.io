@@ -9,10 +9,14 @@ const Shell = ({ render, reset, children }) => {
 	);
 
 	function toggleRecord(recordToggled) {
-		if (activeRecord === recordToggled) return;
-		else {
-			reset();
-			setActiveRecord(recordToggled);
+		try{
+			if (activeRecord === recordToggled) return;
+			else {
+				reset();
+				setActiveRecord(recordToggled);
+			}
+		}catch(ex){
+			console.log(ex);
 		}
 	}
 

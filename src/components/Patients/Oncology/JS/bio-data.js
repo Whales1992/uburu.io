@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import localForage from "localforage";
 import { useLocation } from "react-router-dom";
 import Shell from "../../JS/detail_shell";
 import TopBar from "../../../UI/JS/topbar";
 import SecondaryBar from "../../../UI/JS/secondary_navbar";
 import styles from "../../../../container/AddPatientData/CSS/add_patient_data.module.css";
+
+import localForage from "localforage";
+const url = process.env.REACT_APP_BASE_URL;
 
 const BioData = (props) => {
 	const bioData = useLocation().state;
@@ -30,6 +32,14 @@ const BioData = (props) => {
 			bioData && bioData.AlcoholFrequency ? bioData.AlcoholFrequency : "",
 		FamilyHistory: bioData ? bioData.FamilyHistory : ""
 	});
+	
+	const [effects, setEffects] = useState({
+		loading: false,
+		error: {
+			error: false,
+			message: ""
+		}
+	});
 
 	function handleChange(name, e) {
 		e.preventDefault();
@@ -37,15 +47,69 @@ const BioData = (props) => {
 	}
 
 	function update(e) {
-		e.preventDefault();
-
-		localForage
-			.setItem(bioData.FolderNo, {
-				...bioData,
-				bioData: { ...value }
-			})
-			.then(() => props.history.goBack());
+		updatePatientDataOnline(e);
 	}
+
+	async function updatePatientDataOnline(e) {
+		e.preventDefault();
+		try {
+			setEffects({ ...effects, loading: true });
+			if (window.navigator.onLine) {
+				const request = await fetch(`${url}/PatientUpdate`, {
+					method: "POST",
+					headers: {
+						Accept: "application/json",
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${localStorage.token}`
+					},
+					body: JSON.stringify(value)
+				});
+
+				if (!request.ok) {
+					setEffects({ ...effects, loading: false });
+					const error = await request.json();
+					throw Error(error.error);
+				}
+
+				// const data = await request.json();
+
+				localForage
+					.setItem(bioData.FolderNo, {
+						...bioData,
+						bioData: { ...value }
+					})
+					.then(() => props.history.goBack());
+
+			} else {
+				localForage
+					.setItem(bioData.FolderNo, {
+						...bioData,
+						bioData: { ...value }
+					})
+					.then(() => {/**Do nothing for now ... */ });
+			}
+		} catch (error) {
+			setEffects({
+				...effects,
+				error: {
+					error: true,
+					message: error.message
+				}
+			});
+
+			setTimeout(() => {
+				setEffects({
+					error: {
+						error: false,
+						message: ""
+					}
+				});
+				// changeValue("");
+			}, 3000);
+		}
+	}
+
+	console.log("VALUE ", value);
 
 	return (
 		<>

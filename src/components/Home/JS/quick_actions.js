@@ -12,7 +12,12 @@ const quickActions = () => (
 
     <div className={styles.actions}>
       <div>
-        {/* <Link className={styles.link} to="/search_folder_number"> */}
+        <Link className={styles.link} to="/add_patient_data/patient_biodata">
+          <img src={AddPatientDataIcon} alt="add patient icon" />
+          Add <br /> Patient Data
+        </Link>
+      </div>
+      {/* <div>
         <Link className={styles.link} to="/add_patient_data/patient_biodata">
           <img src={AddPatientDataIcon} alt="add patient icon" />
           Add <br /> Patient Data
@@ -23,7 +28,7 @@ const quickActions = () => (
           <img src={AddPatientDataIcon} alt="add update patient icon" />
           Update <br /> Patient Data
         </Link>
-      </div>
+      </div> */}
 
       <div>
         <Link className={styles.link} to="/search_folder_number">

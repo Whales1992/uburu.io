@@ -31,6 +31,10 @@ class Patients extends Component {
 		this.getPatients = this.getPatients.bind(this);
 	}
 
+	sample(){
+		console.log("CLICKED");
+	}
+
 	async getPatients() {
 		try {
 			this.setState({ loading: true });

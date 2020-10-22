@@ -2,9 +2,11 @@ import React, { Fragment, memo, useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "../CSS/records.module.css";
 import localForage from "localforage";
+import { Button } from 'react-bootstrap';
+
 const url = process.env.REACT_APP_BASE_URL;
 
-export const EachRecentRecord = ({ record }) => {
+export const EachRecentRecord = ({ record}) => {
 	const {
 		LastName,
 		FirstName,
@@ -58,9 +60,7 @@ export const EachRecentRecord = ({ record }) => {
 					throw Error(error.error);
 				}
 
-				localForage.removeItem(FolderNo, {
-
-				}).then(() => {
+				localForage.removeItem(FolderNo).then(() => {
 					console.log("@deleteRecord");
 				});
 
@@ -111,8 +111,9 @@ export const EachRecentRecord = ({ record }) => {
 				<small>{OrganDiagnosis || Diagnosis || Triggers}</small>				
 					<div style={{ display: 'flex' }}>
 				<small>{`${splitDateString[2]} ${splitDateString[1]}, ${splitDateString[3]}`}</small>
-
-						<div
+					<Button style={{marginLeft:10, height:25, borderColor:"red", borderWidth:1, color:"red", textSizeAdjust:'auto'}} onClick={(e) => { deleteRecord(e) }} variant="danger">DELETE</Button>
+					{/* <p onClick={(e) => {deleteRecord(e)}} className={styles.deleteText}>DELETE</p> */}
+						{/* <div
 							onClick={(e) => {
 								if(!toggle)
 									setToggle(true);
@@ -122,7 +123,7 @@ export const EachRecentRecord = ({ record }) => {
 							className={styles.dots}
 						>
 							...
-							{toggle ==true ? <div
+							{toggle ? <div
 								className={styles.deleteWrap}
 								onClick={(e) => {
 									setToggle(false);
@@ -131,7 +132,7 @@ export const EachRecentRecord = ({ record }) => {
 							> <p className={styles.deleteText}>DELETE</p>
 							</div> : null}
 						</div>
-					
+					 */}
 					</div>
 
 				</div>
