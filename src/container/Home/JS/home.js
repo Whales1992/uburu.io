@@ -42,6 +42,17 @@ class Home extends Component {
         }
 
         const data = await request.json();
+
+        // data.Patients.forEach(element => {
+        //   localForage.setItem(`${element.PatientID}`, element).then((res)=>{
+        //     console.log("ADDED", res);
+        //   });
+        // });
+
+        // localForage.setItem("15").then((res) => {
+        //   console.log("RESPONSE", res);
+        // });
+
         this.setState({ recentRecords: data.Patients.reverse() });
       } else {
         const patientBios = await localForage.getItem('BioData');

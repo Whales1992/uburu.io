@@ -4,6 +4,15 @@ import styles from '../CSS/recent_records.module.css';
 import localForage from 'localforage';
 const url = process.env.REACT_APP_BASE_URL;
 
+
+// localForage.removeItem("2").then((res)=>{
+//   console.log("DELETING == ", res);
+// });
+
+localForage.getItem(15).then((res) => {
+  console.log("RESPONSE", res);
+});
+
 const EachRecentRecord = ({ patient }) => {
   const [toggle, setToggle] = useState(false);
 
@@ -27,6 +36,8 @@ const EachRecentRecord = ({ patient }) => {
 
   const splitDateString = new Date(DateCreated).toDateString().split(' ');
 
+  console.log("TEGAGGA == ", patient);
+
   global.setToggleDeleteBtn = () => {
     try {
       setToggle(false);
@@ -39,7 +50,6 @@ const EachRecentRecord = ({ patient }) => {
     e.preventDefault();
     try {
       setEffects({ ...effects, loading: true });
-      console.log('DELETE RES', `Bearer ${localStorage.token}`);
 
       if (window.navigator.onLine) {
         const request = await fetch(`${url}/PatientDelete`, {
@@ -59,8 +69,6 @@ const EachRecentRecord = ({ patient }) => {
         }
 
         const data = await request.json();
-
-        console.log('DELETE RES', data);
 
         localForage.removeItem(patient.FolderNo, {}).then(() => {
           console.log('@deleteRecord');

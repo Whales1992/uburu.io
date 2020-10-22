@@ -52,8 +52,6 @@ export const EachRecentRecord = ({ record }) => {
           body: JSON.stringify({ FolderNo: FolderNo }),
         });
 
-        console.log('DELETE RES', request);
-
         if (!request.ok) {
           setEffects({ ...effects, loading: false });
           const error = await request.json();

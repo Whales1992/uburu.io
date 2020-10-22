@@ -109,8 +109,6 @@ const BioData = (props) => {
 		}
 	}
 
-	console.log("VALUE ", value);
-
 	return (
 		<>
 			<TopBar hide_on_small_screens />
