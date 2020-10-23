@@ -118,24 +118,26 @@ const Shell = ({ render, children, name }) => {
             >
               <Link
                 to={{
-                  pathname: `/patients/${bioData.FolderNo}/appointments`,
+                  pathname: `/patients/${bioData.FolderNo}/appointments_page`,
                   state: bioData,
                 }}
               >
                 Appointments
               </Link>
             </li>
-          </ul>
 
-          <Link
-            // to={{
-            //   pathname: `/patients/${bioData.FolderNo}/appointments`,
-            //   state: bioData,
-            // }}
-            className={styles.appBtn}
-          >
-            Create Appointment
-          </Link>
+            <li>
+              <Link
+                to={{
+                  pathname: `/createAppointment`,
+                  state: bioData,
+                }}
+                className={styles.appBtn}
+              >
+                Create Appointment
+              </Link>
+            </li>
+          </ul>
         </nav>
         {render ? render(activeRecord, toggleRecord) : children}
       </div>

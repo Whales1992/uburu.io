@@ -7,9 +7,13 @@
   color: white;
   background: black;
   text-decoration: none;
-  padding: 15px 19px;
-  width: 100%;
-  margin-top: 128px;
+  padding: 0px 15px;
+  width: 80%;
+  /* margin-top: 128px; */
+}
+
+.appBtn:hover {
+  color: white;
 }
 
 @media (min-width: 760px) {
