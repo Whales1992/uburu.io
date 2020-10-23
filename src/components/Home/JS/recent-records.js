@@ -126,33 +126,10 @@ const EachRecentRecord = ({ patient }) => {
         <small>{OrganDiagnosis || Diagnosis || Triggers}</small>
         <div style={{ display: 'flex' }}>
           <small>{`${splitDateString[2]} ${splitDateString[1]}, ${splitDateString[3]}`}</small>
-
-          <div
-            onClick={() => {
-              setToggle(!false);
-            }}
-            className={styles.dots}
-          >
-            ...
-            {/* this is the div for toggle */}
-            {toggle ? (
-              <div
-                className={styles.deleteWrap}
-                onClick={(e) => {
-                  setToggle(!toggle);
-                  deleteRecord(e);
-                }}
-              >
-                <p className={styles.deleteText}>DELETE</p>
-              </div>
-            ) : null}
-          </div>
         </div>
       </div>
 
       <hr />
-
-      {effects.loading && <p style={{ textAlign: 'center' }}>Deleting...</p>}
     </div>
   );
 };
@@ -176,7 +153,7 @@ const recentRecords = ({ recents, error }) => {
           ))
         )}
       </div>
-      <Modal show={show} onHide={handleClose}>
+      {/* <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Modal heading</Modal.Title>
         </Modal.Header>
@@ -190,6 +167,7 @@ const recentRecords = ({ recents, error }) => {
           </Button>
         </Modal.Footer>
       </Modal>
+    */}
     </div>
   );
 };

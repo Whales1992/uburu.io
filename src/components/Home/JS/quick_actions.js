@@ -11,12 +11,12 @@ const quickActions = () => (
     } Registry - Quick Actions`}</div>
 
     <div className={styles.actions}>
-      <div>
+      {/* <div>
         <Link className={styles.link} to="/add_patient_data/patient_biodata">
           <img src={AddPatientDataIcon} alt="add patient icon" />
           Add <br /> Patient Data
         </Link>
-      </div>
+      </div> */}
       {/* <div>
         <Link className={styles.link} to="/add_patient_data/patient_biodata">
           <img src={AddPatientDataIcon} alt="add patient icon" />
