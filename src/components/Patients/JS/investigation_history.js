@@ -27,6 +27,16 @@ const InvestigationHistory = () => {
       <SecondaryBar page_title="Investigation History" shadow />
       <Shell name={`${patient.LastName} ${patient.FirstName}`}>
         <div className={styles.container}>
+          <div className={styles.editWrap2}>
+            <input
+              className={styles.input3}
+              name="search_folder_no"
+              // value={value}
+              type="text"
+              placeholder="Search"
+              // onChange={(e) => handleChange(e.target.value)}
+            />
+          </div>
           {/* <select
 						name="record"
 						value={showing}
