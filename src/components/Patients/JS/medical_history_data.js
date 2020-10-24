@@ -18,7 +18,7 @@ const MedicalHistory = () => {
 
   const [editabelRecord, setEditabelRecord] = useState({});
   const [editabelMode, setEditabelMode] = useState(false);
-
+  
   const [duration, setDuration] = useState("");
 
   const [effects, setEffects] = useState({
@@ -28,6 +28,8 @@ const MedicalHistory = () => {
       message: '',
     },
   });
+
+  console.log(patient.records);
 
   const assessmentRecords =
     patient.records &&
@@ -43,11 +45,96 @@ const MedicalHistory = () => {
 
   const [showing, switchShowing] = useState('Assessment');
 
+  const [recordList, setRecordList] = useState([]);
+
   function enableEditMode(e, editables){
     e.preventDefault();
     setEditabelRecord(editables);
     setEditabelMode(true);
     console.log(editables);
+  }
+
+  async function deleteRecord(e, record) {
+    e.preventDefault();
+    try {
+      setEffects({ ...effects, loading: true });
+      if (window.navigator.onLine) {
+        const request = await fetch(`${url}/DeleteRecord`, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.token}`,
+          },
+          body: JSON.stringify({ RecordID: record.RecordId }),
+        });
+
+        if (!request.ok) {
+          setEffects({ ...effects, loading: false });
+          const error = await request.json();
+          console.log("DELETE API FAILED... ", error.error);
+          throw Error(error.error);
+        }
+        const data = await request.json();
+
+        console.log("DELETED SUCCESSFULLY ", data);
+      } else {
+        setEffects({
+          ...effects,
+          error: {
+            error: true,
+            message: 'Connection Error',
+          },
+        });
+      }
+    } catch (error) {
+      setEffects({
+        ...effects,
+        error: {
+          error: true,
+          message: error.message,
+        },
+      });
+
+      setTimeout(() => {
+        setEffects({
+          error: {
+            error: false,
+            message: '',
+          },
+        });
+      }, 3000);
+    }
+  }
+
+  function handleSearchPhraseChange(phrase) {
+    if (phrase.length > 2) {
+      search(phrase);
+    }else{
+      setRecordList(recordList);
+    }
+  }
+
+  async function search(key) {
+    var result = [];
+    recordList.forEach(element => {
+      let target = element.Description + "";
+      if (key.length <= target.length){
+        target = target.slice(0, (key.length - 1));
+        let _key = key.slice(0, (key.length - 1));
+        if (target.toLocaleLowerCase() === _key.toLocaleLowerCase()) {
+          console.log("MATCH");
+          result.push(element);
+        }
+      }
+    });
+
+    if (result.length === 0) {
+      setRecordList(recordList);
+    } else {
+      console.log("FOUND");
+      setRecordList(result);
+    }
   }
 
   function GetNatures(){
@@ -103,9 +190,7 @@ const MedicalHistory = () => {
   }
 
   async function updateRecord(){
-    editabelRecord.Type = `MH_${editabelRecord.Type}`;
-
-    console.log("UPDATING API ... ", editabelRecord);
+      console.log("UPDATING API ... ", editabelRecord);
       try {
         setEffects({ ...effects, loading: true });
         if (window.navigator.onLine) {
@@ -156,17 +241,70 @@ const MedicalHistory = () => {
       }
   }
 
-  function deleteRecord(e, record){
-    e.preventDefault();
+  async function addNewRecord() {
+    editabelRecord.Type = `${showing}`;
+    console.log("ADD NEW API ... ", editabelRecord);
+   
+    try {
+      setEffects({ ...effects, loading: true });
+      if (window.navigator.onLine) {
+        const request = await fetch(`${url}/records`, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.token}`,
+          },
+          body: JSON.stringify(editabelRecord),
+        });
 
-    console.log("DELETE API ... ", record);
+        if (!request.ok) {
+          setEffects({ ...effects, loading: false });
+          const error = await request.json();
+          throw Error(error.error);
+        }
+        const data = await request.json();
+
+        console.log("ADDED SUCCESSFULLY ", data);
+      } else {
+        setEffects({
+          ...effects,
+          error: {
+            error: true,
+            message: 'Connection Error',
+          },
+        });
+      }
+    } catch (error) {
+      setEffects({
+        ...effects,
+        error: {
+          error: true,
+          message: error.message,
+        },
+      });
+
+      setTimeout(() => {
+        setEffects({
+          error: {
+            error: false,
+            message: '',
+          },
+        });
+      }, 3000);
+    }
   }
 
-  function addNewRecord() {
-    editabelRecord.Type = showing;
-    console.log("ADD NEW API ... ", editabelRecord, "AND TYPE IS ");
+  function setShowingRecord(value){
+    switchShowing(value);
+    if (value === 'Assessment'){
+      setRecordList(assessmentRecords);
+    } else if (value === 'Care'){
+      setRecordList(careRecords);
+    } else if (value === 'Complication'){
+      setRecordList(complicationRecords);
+    }
   }
-
 
   return (
     <>
@@ -174,10 +312,31 @@ const MedicalHistory = () => {
       <SecondaryBar page_title="Medical History" shadow />
       <Shell name={`${patient.LastName} ${patient.FirstName}`}>
         <div className={styles.container}>
+         
+          {/* Begin search section */}
+          <form className={styles.form}>
+            <input
+              className={styles.input}
+              name="search_folder_no"
+              type="text"
+              placeholder="Search"
+              onChange={(e) => handleSearchPhraseChange(e.target.value)}
+            />
+            <button aria-label="search" disabled={true}>
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path
+                  d="M16.8395 15.4605L13.1641 11.7852C14.0489 10.6072 14.5266 9.17331 14.525 7.7C14.525 3.93672 11.4633 0.875 7.7 0.875C3.93672 0.875 0.875 3.93672 0.875 7.7C0.875 11.4633 3.93672 14.525 7.7 14.525C9.17331 14.5266 10.6072 14.0489 11.7852 13.1641L15.4605 16.8395C15.6466 17.0058 15.8893 17.0945 16.1387 17.0876C16.3881 17.0806 16.6255 16.9784 16.8019 16.8019C16.9784 16.6255 17.0806 16.3881 17.0876 16.1387C17.0945 15.8893 17.0058 15.6466 16.8395 15.4605ZM2.825 7.7C2.825 6.73582 3.11091 5.79329 3.64659 4.9916C4.18226 4.18991 4.94363 3.56506 5.83442 3.19609C6.72521 2.82711 7.70541 2.73057 8.65107 2.91867C9.59672 3.10678 10.4654 3.57107 11.1471 4.25285C11.8289 4.93464 12.2932 5.80328 12.4813 6.74894C12.6694 7.69459 12.5729 8.67479 12.2039 9.56558C11.8349 10.4564 11.2101 11.2177 10.4084 11.7534C9.60672 12.2891 8.66418 12.575 7.7 12.575C6.40755 12.5735 5.16847 12.0593 4.25457 11.1454C3.34066 10.2315 2.82655 8.99246 2.825 7.7Z"
+                  fill="#A7A9BC"
+                />
+              </svg>
+            </button>
+          </form>
+          {/* End search section */}
+
           <select
             name="record"
             value={showing}
-            onChange={(e) => switchShowing(e.target.value)}
+            onChange={(e) => setShowingRecord(e.target.value)}
             className={styles.select}
           >
             <option>Assessment</option>
@@ -277,8 +436,8 @@ const MedicalHistory = () => {
             </div>
 
           {showing === 'Assessment' ? (
-            assessmentRecords ? (
-              assessmentRecords.map((record) => (
+            recordList ? (
+              recordList.map((record) => (
                 <Fragment key={`${record.Nature}_${record.Description}`}>
                   <EachRecord record={record} type="Assessment" editMode={(e) => { enableEditMode(e, record) }} />
                 </Fragment>
@@ -288,8 +447,8 @@ const MedicalHistory = () => {
             )
           ) : null}
           {showing === 'Care' ? (
-            careRecords ? (
-              careRecords.map((record) => (
+            recordList ? (
+              recordList.map((record) => (
                 <Fragment key={`${record.Nature}_${record.Description}`}>
                   <EachRecord record={record} type="Care" editMode={(e) => { enableEditMode(e, record) }} deleteRecord={(e) => { deleteRecord(e, record)}} />
                 </Fragment>
@@ -299,8 +458,8 @@ const MedicalHistory = () => {
             )
           ) : null}
           {showing === 'Complication' ? (
-            complicationRecords ? (
-              complicationRecords.map((record) => (
+            recordList ? (
+              recordList.map((record) => (
                 <Fragment key={`${record.Nature}_${record.Description}`}>
                   <EachRecord record={record} type="Complication" editMode={(e) => { enableEditMode(e, record) }} />
                 </Fragment>

@@ -8,33 +8,126 @@ import Shell from './detail_shell';
 import EachRecord from './each_drug_history_record';
 import styles from '../CSS/drug_history.module.css';
 import styles2 from '../CSS/medical_history_data.module.css';
+import { Overlay } from 'react-portal-overlay';
+const url = process.env.REACT_APP_BASE_URL;
 
 const DrugHistory = () => {
   const patient = useLocation().state;
-  const [myValue, setMyValue] = useState('');
-  const [myValueDes, setMyValueDes] = useState('');
+  const [openState, setOpenState] = useState('');
   const [showDrop, setShowWrap] = useState(false);
   const [showDropDes, setShowWrapDes] = useState(false);
-  const [editVisible, setEdit] = useState(true);
+  const [showDropDur, setShowWrapDur] = useState(false);
 
-  const [value, changeValue] = useState('');
-  // const [searchResult, setSearchResult] = useState("");
+  const [editabelRecord, setEditabelRecord] = useState({});
+  const [editabelMode, setEditabelMode] = useState(false);
 
-  function handleChange(e) {
-    changeValue(e);
-  }
+  const [duration, setDuration] = useState("");
+
+  const [effects, setEffects] = useState({
+    loading: false,
+    error: {
+      error: false,
+      message: '',
+    },
+  });
 
   const drugHistory =
     patient.records &&
     patient.records.filter((patient) => patient.Type === 'Drugs');
 
-  // function search(e) {
-  // 	e.preventDefault();
-  // 	localForage.getItem(value).then((patient) => {
-  // 		if (!patient) return setSearchResult(null);
-  // 		setSearchResult(patient);
-  // 	});
-  // }
+  const [recordList, setRecordList] = useState(drugHistory);
+
+
+  function handleSearchPhraseChange(phrase) {
+    if (phrase.length > 2) {
+      search(phrase);
+    } else {
+      setRecordList(recordList);
+    }
+  }
+
+  async function search(key) {
+    var result = [];
+    recordList.forEach(element => {
+      let target = element.Description + "";
+      if (key.length <= target.length) {
+        target = target.slice(0, (key.length - 1));
+        let _key = key.slice(0, (key.length - 1));
+        if (target.toLocaleLowerCase() === _key.toLocaleLowerCase()) {
+          console.log("MATCH");
+          result.push(element);
+        }
+      }
+    });
+
+    if (result.length === 0) {
+      setRecordList(recordList);
+    } else {
+      console.log("FOUND");
+      setRecordList(result);
+    }
+  }
+
+  function enableEditMode(e, editables) {
+    e.preventDefault();
+    setEditabelRecord(editables);
+    setEditabelMode(true);
+    console.log(editables);
+  }
+
+  async function deleteRecord(e, record) {
+    e.preventDefault();
+    console.log("DELETE API ... ", record);
+
+    try {
+      setEffects({ ...effects, loading: true });
+      if (window.navigator.onLine) {
+        const request = await fetch(`${url}/DeleteRecord`, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.token}`,
+          },
+          body: JSON.stringify({ RecordID: record.RecordId }),
+        });
+
+        if (!request.ok) {
+          setEffects({ ...effects, loading: false });
+          const error = await request.json();
+          throw Error(error.error);
+        }
+        const data = await request.json();
+
+        console.log("DELETED SUCCESSFULLY ", data);
+      } else {
+        setEffects({
+          ...effects,
+          error: {
+            error: true,
+            message: 'Connection Error',
+          },
+        });
+      }
+    } catch (error) {
+      setEffects({
+        ...effects,
+        error: {
+          error: true,
+          message: error.message,
+        },
+      });
+
+      setTimeout(() => {
+        setEffects({
+          error: {
+            error: false,
+            message: '',
+          },
+        });
+      }, 3000);
+    }
+  }
 
   return (
     <>
@@ -42,16 +135,17 @@ const DrugHistory = () => {
       <SecondaryBar page_title="Drug History" shadow />
       <Shell name={`${patient.LastName} ${patient.FirstName}`}>
         <div className={styles2.container}>
+
+          {/* Begin search section */}
           <form className={styles.form}>
             <input
               className={styles.input}
               name="search_folder_no"
-              value={value}
               type="text"
               placeholder="Search"
-              onChange={(e) => handleChange(e.target.value)}
+              onChange={(e) => handleSearchPhraseChange(e.target.value)}
             />
-            <button type="submit" aria-label="search" disabled={!value}>
+            <button aria-label="search" disabled={true}>
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
                 <path
                   d="M16.8395 15.4605L13.1641 11.7852C14.0489 10.6072 14.5266 9.17331 14.525 7.7C14.525 3.93672 11.4633 0.875 7.7 0.875C3.93672 0.875 0.875 3.93672 0.875 7.7C0.875 11.4633 3.93672 14.525 7.7 14.525C9.17331 14.5266 10.6072 14.0489 11.7852 13.1641L15.4605 16.8395C15.6466 17.0058 15.8893 17.0945 16.1387 17.0876C16.3881 17.0806 16.6255 16.9784 16.8019 16.8019C16.9784 16.6255 17.0806 16.3881 17.0876 16.1387C17.0945 15.8893 17.0058 15.6466 16.8395 15.4605ZM2.825 7.7C2.825 6.73582 3.11091 5.79329 3.64659 4.9916C4.18226 4.18991 4.94363 3.56506 5.83442 3.19609C6.72521 2.82711 7.70541 2.73057 8.65107 2.91867C9.59672 3.10678 10.4654 3.57107 11.1471 4.25285C11.8289 4.93464 12.2932 5.80328 12.4813 6.74894C12.6694 7.69459 12.5729 8.67479 12.2039 9.56558C11.8349 10.4564 11.2101 11.2177 10.4084 11.7534C9.60672 12.2891 8.66418 12.575 7.7 12.575C6.40755 12.5735 5.16847 12.0593 4.25457 11.1454C3.34066 10.2315 2.82655 8.99246 2.825 7.7Z"
@@ -60,111 +154,108 @@ const DrugHistory = () => {
               </svg>
             </button>
           </form>
-          {drugHistory ? (
-            drugHistory.map((record) => (
+          {/* End search section */}
+
+          {recordList && recordList.length >0 ? (
+            recordList.map((record) => (
               <Fragment key={`${record.Drug}_${record.Dosage}`}>
-                <EachRecord record={record} />
+                <EachRecord record={record} editMode={(e) => { enableEditMode(e, record) }} deleteRecord={(e) => { deleteRecord(e, record) }} />
               </Fragment>
             ))
           ) : (
             <p className={styles.no_record}>No Assessment Record.</p>
           )}
-          {editVisible ? (
-            <div className={styles.editWrap}>
-              <p className={styles.formLabel}>Nature</p>
-              <div
-                className={styles.inputGpWrap}
-                onClick={() => {
-                  setShowWrap(!showDrop);
-                }}
-              >
-                <input
-                  className={styles.inputName}
-                  placeholder="Select Nature"
-                  disabled={true}
-                  value={myValue}
-                />
-                <img
-                  src={require('../../../images/chevDown.svg')}
-                  alt=""
-                  className={styles.chev}
-                />{' '}
-                {showDrop ? (
-                  <div className={styles.dropWrap}>
-                    <p className={styles.pBlack}>No records Found</p>
-                  </div>
-                ) : null}
-              </div>
 
-              {/* form feild two */}
-              <p className={styles.formLabel}>Description</p>
-              <div
-                className={styles.inputGpWrap}
-                onClick={() => {
-                  setShowWrapDes(!showDropDes);
-                }}
-              >
-                <input
-                  className={styles.inputName}
-                  placeholder="Select Description"
-                  disabled={true}
-                  value={myValueDes}
-                />
-                <img
-                  src={require('../../../images/chevDown.svg')}
-                  alt=""
-                  className={styles.chev}
-                />{' '}
-                {showDropDes ? (
-                  <div className={styles.dropWrap}>
-                    <p className={styles.pBlack}>No records Found</p>
-                  </div>
-                ) : null}
-              </div>
-
-              {/* form feild three */}
-              <p className={styles.formLabel}>Duration/Entry</p>
-              <div
-                className={styles.inputGpWrap}
-                //   onClick={() => {
-                //     setShowWrapDes(!showDropDes);
-                //   }}
-              >
-                <input
-                  className={styles.inputName}
-                  placeholder="Select Duration"
-                  //     value={myValueDes}
-                />
-                {/* {showDropDes ? (
+          <div className={styles.editWrap}>
+            <p className={styles.formLabel}>Nature</p>
+            <div
+              className={styles.inputGpWrap}
+              onClick={() => {
+                setShowWrap(!showDrop);
+              }}
+            >
+              <input
+                className={styles.inputName}
+                placeholder="Select Nature"
+                disabled={true}
+                value={editabelRecord.Nature === undefined || editabelRecord.Nature === null ? '' : editabelRecord.Nature}
+              />
+              <img
+                src={require('../../../images/chevDown.svg')}
+                alt=""
+                className={styles.chev}
+              />{' '}
+              {showDrop ? (
                 <div className={styles.dropWrap}>
                   <p className={styles.pBlack}>No records Found</p>
                 </div>
-              ) : null} */}
-              </div>
-
-              {/* form feild four */}
-              <p className={styles.formLabel}>Duration/Entry</p>
-              <div
-                className={styles.inputGpWrap}
-                //   onClick={() => {
-                //     setShowWrapDes(!showDropDes);
-                //   }}
-              >
-                <input
-                  className={styles.inputName}
-                  placeholder="Select Date"
-                  //     value={myValueDes}
-                />
-                <img
-                  src={require('../../../images/cal.svg')}
-                  alt=""
-                  className={styles.chev}
-                />{' '}
-              </div>
-
-              <p className={styles.addRec}>Add New Record</p>
+              ) : null}
             </div>
-          ) : null}
+
+            {/* form feild two */}
+            <p className={styles.formLabel}>Description</p>
+            <div
+              className={styles.inputGpWrap}
+              onClick={() => {
+                setShowWrapDes(!showDropDes);
+              }}
+            >
+              <input
+                className={styles.inputName}
+                placeholder="Select Description"
+                disabled={true}
+                value={editabelRecord.Description === undefined || editabelRecord.Description === null ? '' : editabelRecord.Description}
+              />
+              <img
+                src={require('../../../images/chevDown.svg')}
+                alt=""
+                className={styles.chev}
+              />{' '}
+              {showDropDes ? (
+                <div className={styles.dropWrap}>
+                  <p className={styles.pBlack}>No records Found</p>
+                </div>
+              ) : null}
+            </div>
+
+            {/* form feild three */}
+            <p className={styles.formLabel}>Duration/Entry</p>
+            <div
+              className={styles.inputGpWrap}
+            //   onClick={() => {
+            //     setShowWrapDes(!showDropDes);
+            //   }}
+            >
+              <input
+                className={styles.inputName}
+                placeholder="Select Duration"
+              //     value={myValueDes}
+              />
+            </div>
+
+            {/* form feild four */}
+            <p className={styles.formLabel}>Duration/Entry</p>
+            <div
+              className={styles.inputGpWrap}
+            //   onClick={() => {
+            //     setShowWrapDes(!showDropDes);
+            //   }}
+            >
+              <input
+                className={styles.inputName}
+                placeholder="Select Date"
+              //     value={myValueDes}
+              />
+              <img
+                src={require('../../../images/cal.svg')}
+                alt=""
+                className={styles.chev}
+              />{' '}
+            </div>
+
+            <p className={styles.addRec}>Add New Record</p>
+          </div>
+
         </div>
       </Shell>
       <button className={styles2.add_new_record} aria-label="Add new record">
@@ -194,6 +285,44 @@ const DrugHistory = () => {
         </svg>
       </button>
       <BottomBar />
+
+      <Overlay
+        className={styles.modal}
+        closeOnClick={true}
+        open={openState !== ''}
+        onClose={() => { }}>
+        <div className={styles.modal_paper}>
+          <div className={styles.modalTop}>
+            <p className={styles.appTitle}>{openState}</p>
+            <img
+              src={require('../../../images/x.svg')}
+              alt=""
+              onClick={() => {
+                setOpenState('');
+              }}
+            />
+          </div>
+          <div className={styles.cWrap}>
+            <div className={styles.inputGpWrap}>
+              <input
+                className={styles.inputName}
+                onChange={(value) => {
+                  setDuration(`${value.target.value} ${openState}`);
+                }}
+                placeholder={`How Many ${openState} ?`}
+              />
+            </div>
+          </div>
+          <div
+            onClick={() => {
+              var pre = editabelRecord;
+              pre.Duration = duration
+              setEditabelRecord(pre);
+              setOpenState('');
+            }}
+            className={styles.pCreate}>Ok</div>
+        </div>
+      </Overlay>
     </>
   );
 };

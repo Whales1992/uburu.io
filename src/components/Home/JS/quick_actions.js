@@ -33,7 +33,7 @@ const quickActions = () => (
       <div>
         <Link className={styles.link} to="/search_folder_number">
           <img src={AddPatientDataIcon} alt="add patient icon" />
-          Create <br /> Appointment
+          Enter <br /> Folder No
         </Link>
       </div>
 
