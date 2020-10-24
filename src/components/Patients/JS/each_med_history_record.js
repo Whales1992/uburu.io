@@ -1,14 +1,16 @@
 import React from "react";
 import styles from "../CSS/each_med_history_record.module.css";
 
-const EachMedHistoryRecord = ({ record, type }) => {
+const EachMedHistoryRecord = ({ record, type, editMode, deleteRecord}) => {
 	const { Nature, Description, Duration, Entry } = record;
+
 	return (
 		<div className={styles.record}>
 			<div className={styles.description}>
 				<span>{Description}</span>
 				<div>
 					<svg
+						onClick={(e) => {editMode(e, record)}}
 						width="12"
 						height="14"
 						viewBox="0 0 12 14"
@@ -20,7 +22,9 @@ const EachMedHistoryRecord = ({ record, type }) => {
 							fill="#4FC2E7"
 						/>
 					</svg>
+
 					<svg
+						onClick={(e) => { deleteRecord(e, record)}}
 						className={styles.delete}
 						width="12"
 						height="14"

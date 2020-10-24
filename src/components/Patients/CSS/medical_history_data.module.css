@@ -3,7 +3,78 @@
   padding: 0;
   margin: 0;
 }
+.modal {
+  background: rgba(0, 0, 0, 0.16);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal_paper {
+  padding: 6px 18px;
+  background: white;
+  box-shadow: 0px 0px 15px #00000029;
+  border: 1px solid #dddddd;
+  border-radius: 16px;
+  width: 200px;
+}
 
+.modalTop {
+  height: 48px;
+  width: 100%;
+  border-bottom: 1px solid #e7e7ed;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.appTitle {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 25px;
+  color: #242424;
+}
+.cWrap {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+}
+.inputGpWrap {
+  border: 1px solid #e9e9e9;
+  border-radius: 3px;
+  height: 45px;
+  max-width: 335px;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+.inputName {
+  border: none;
+  font-size: 13px;
+  background: rgba(255, 255, 255, 0);
+}
+.pCreate {
+  width: 90%;
+  margin: 55px auto;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #242424;
+  color: white;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  cursor: pointer;
+  /* identical to box height */
+  text-align: center;
+
+  color: #ffffff;
+}
 .select {
   display: block;
   margin: 90px auto 29px auto;

@@ -44,8 +44,7 @@ const Shell = ({ render, reset, children }) => {
 										styles.medical_history
 								  ].join(" ")
 								: styles.medical_history
-						}
-					>
+						}>
 						Medical History
 						<ul>
 							<li

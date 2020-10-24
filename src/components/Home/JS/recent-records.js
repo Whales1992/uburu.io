@@ -4,18 +4,12 @@ import styles from '../CSS/recent_records.module.css';
 import localForage from 'localforage';
 const url = process.env.REACT_APP_BASE_URL;
 
-
-// localForage.removeItem("2").then((res)=>{
-//   console.log("DELETING == ", res);
-// });
-
 localForage.getItem("patients").then((res) => {
-  console.log("RESPONSE", res);
+  console.log("@HERE", res);
 });
 
 const EachRecentRecord = ({ patient }) => {
-  const [toggle, setToggle] = useState(false);
-
+  
   const {
     LastName,
     FirstName,
@@ -35,14 +29,6 @@ const EachRecentRecord = ({ patient }) => {
   });
 
   const splitDateString = new Date(DateCreated).toDateString().split(' ');
-
-  global.setToggleDeleteBtn = () => {
-    try {
-      setToggle(false);
-    } catch (ex) {
-      console.log('Null Pointer Exception');
-    }
-  };
 
   async function deleteRecord(e) {
     e.preventDefault();
@@ -153,21 +139,6 @@ const recentRecords = ({ recents, error }) => {
           ))
         )}
       </div>
-      {/* <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    */}
     </div>
   );
 };

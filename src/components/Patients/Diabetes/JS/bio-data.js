@@ -113,8 +113,6 @@ const BioData = (props) => {
 		}
 	}
 
-	console.log("HERE", bioData.Age);
-
 	return (
 		<>
 			<TopBar hide_on_small_screens />
