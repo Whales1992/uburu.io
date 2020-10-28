@@ -1,14 +1,26 @@
 import React, { useState } from 'react';
 import { Overlay } from 'react-portal-overlay';
+import DatePicker from 'react-date-picker';
+import TimePicker from 'react-time-picker';
 import styles from '../CSS/appointments_side_page.module.css';
 
 const CreateAppointment = (props) => {
   const [openState, setOpenState] = useState(true);
   const [myValue, setMyValue] = useState('');
-  const [myDateValue, setMyDateValue] = useState('12/02/2020');
-  const [myTimeValue, setMyTimeValue] = useState('10:30AM');
+  const [myDateValue, setMyDateValue] = useState(new Date());
+  const [myTimeValue, setMyTimeValue] = useState('');
   const [showDrop, setShowWrap] = useState(false);
   const { history } = props;
+
+  const onSubmit = () => {
+    const params = {
+      Nature: myValue,
+      ValueDate: myDateValue,
+      ValueTime: myTimeValue,
+    };
+    console.log({ params });
+  };
+
   return (
     <Overlay
       className={styles.modal}
@@ -50,7 +62,13 @@ const CreateAppointment = (props) => {
               className={styles.chev}
             />{' '}
             {showDrop ? (
-              <div className={styles.dropWrap}>
+              <div
+                className={styles.dropWrap}
+                onClick={() => {
+                  setMyValue('ill nature picker');
+                  setShowWrap(false);
+                }}
+              >
                 <p className={styles.pBlack}>No records Found</p>
               </div>
             ) : null}
@@ -58,11 +76,11 @@ const CreateAppointment = (props) => {
 
           <p className={styles.formLabel}>Appointment Date</p>
           <div className={styles.inputGpWrap}>
-            <input
-              className={styles.inputName}
-              placeholder="dd/mm/yy"
-              disabled={true}
+            <DatePicker
+              onChange={setMyDateValue}
+              calendarIcon={null}
               value={myDateValue}
+              clearIcon={null}
             />
             <img
               src={require('../../../images/cal.svg')}
@@ -73,10 +91,19 @@ const CreateAppointment = (props) => {
 
           <p className={styles.formLabel}>Appointment Time</p>
           <div className={styles.inputGpWrap}>
-            <input
+            {/* <input
+              onChange={() => {}}
               className={styles.inputName}
               placeholder="time"
               disabled={false}
+              value={myTimeValue}
+            /> */}
+            <TimePicker
+              onChange={setMyTimeValue}
+              clearIcon={null}
+              clockIcon={null}
+              autoFocus={false}
+              format={'HH mm a'}
               value={myTimeValue}
             />
             <img
@@ -88,7 +115,8 @@ const CreateAppointment = (props) => {
         </div>
         <div
           onClick={() => {
-            history.goBack();
+            // history.goBack();
+            onSubmit();
           }}
           className={styles.pCreate}
         >
