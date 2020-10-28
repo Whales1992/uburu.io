@@ -326,6 +326,13 @@
   color: #ffffff;
 }
 
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20%;
+}
+
 @media screen and (max-width: 760px) {
   .container {
     margin-top: 65px;
