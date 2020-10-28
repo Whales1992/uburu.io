@@ -40,7 +40,7 @@ const PatientTreatmentOutcome2 = () => {
   });
 
   function handleChange(name, e) {
-    e.preventDefault();
+    // e.preventDefault();
     let value;
 
     if (name === 'StatusDate') {
