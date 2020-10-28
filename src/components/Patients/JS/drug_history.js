@@ -8,8 +8,8 @@ import EachRecord from './each_drug_history_record';
 import styles from '../CSS/drug_history.module.css';
 import styles2 from '../CSS/medical_history_data.module.css';
 import { Overlay } from 'react-portal-overlay';
-import { css } from "@emotion/core";
-import ClipLoader from "react-spinners/ClipLoader";
+import { css } from '@emotion/core';
+import ClipLoader from 'react-spinners/ClipLoader';
 const url = process.env.REACT_APP_BASE_URL;
 
 const override = css`
@@ -30,7 +30,7 @@ const DrugHistory = () => {
   const [editabelMode, setEditabelMode] = useState(false);
   const [drug, setDrug] = useState(undefined);
 
-  const [duration, setDuration] = useState("");
+  const [duration, setDuration] = useState('');
 
   const [effects, setEffects] = useState({
     loading: false,
@@ -58,13 +58,13 @@ const DrugHistory = () => {
 
   async function search(key) {
     var result = [];
-    recordList.forEach(element => {
-      let target = element.Description + "";
+    recordList.forEach((element) => {
+      let target = element.Description + '';
       if (key.length <= target.length) {
-        target = target.slice(0, (key.length - 1));
-        let _key = key.slice(0, (key.length - 1));
+        target = target.slice(0, key.length - 1);
+        let _key = key.slice(0, key.length - 1);
         if (target.toLocaleLowerCase() === _key.toLocaleLowerCase()) {
-          console.log("MATCH");
+          console.log('MATCH');
           result.push(element);
         }
       }
@@ -73,7 +73,7 @@ const DrugHistory = () => {
     if (result.length === 0) {
       setRecordList(recordList);
     } else {
-      console.log("FOUND");
+      console.log('FOUND');
       setRecordList(result);
     }
   }
@@ -86,18 +86,46 @@ const DrugHistory = () => {
 
     setDosage(editables.Dosage);
     setDuration(editables.Duration);
-    setDrug(editables.Drug)
+    setDrug(editables.Drug);
     setSideEffect(editables.SideEffect);
 
-    console.log("@enableEditMode", editables);
+    console.log('@enableEditMode', editables);
   }
 
   function GetDrugs() {
-    const drugs = ['Metformin', 'Glibenclamide', 'Glipizide', 'Gliclazide', 'Gliclazide SR', 'Glimepiride',
-      'Sitagliptin', 'Vildagliptin', 'Linagliptin', 'Empagliflozin', 'Dapagliflozin', 'Premix insulin', 'Glargine',
-      'Detemir', 'Degludec', 'Liraglutide', 'Liraglutide', 'Voglibose', 'Telmisartan', 'Losartan', 'Valsartan',
-      'Amlodipine', 'Nifedipine', 'Nevibilol', 'Bisoprolol', 'Metoprolol', 'HCTz', 'Rosuvastatin', 'Simvastatin',
-      'Atorvastatin', 'Fenofibrate'];
+    const drugs = [
+      'Metformin',
+      'Glibenclamide',
+      'Glipizide',
+      'Gliclazide',
+      'Gliclazide SR',
+      'Glimepiride',
+      'Sitagliptin',
+      'Vildagliptin',
+      'Linagliptin',
+      'Empagliflozin',
+      'Dapagliflozin',
+      'Premix insulin',
+      'Glargine',
+      'Detemir',
+      'Degludec',
+      'Liraglutide',
+      'Liraglutide',
+      'Voglibose',
+      'Telmisartan',
+      'Losartan',
+      'Valsartan',
+      'Amlodipine',
+      'Nifedipine',
+      'Nevibilol',
+      'Bisoprolol',
+      'Metoprolol',
+      'HCTz',
+      'Rosuvastatin',
+      'Simvastatin',
+      'Atorvastatin',
+      'Fenofibrate',
+    ];
     return (
       <>
         {drugs.map(function (e, i) {
@@ -127,122 +155,56 @@ const DrugHistory = () => {
   function GetDurations() {
     return (
       <>
-        {
-          durations.map(function (e, i) {
-            return (
-              <p
-                onClick={() => {
-                  setOpenState(e);
-                }}
-                style={{
-                  position: 'relative',
-                  top: 0,
-                  left: 0,
-                  width: '100%',
-                  cursor: 'pointer',
-                }}
-                key={i}
-              >
-                {' '}
-                {e}{' '}
-              </p>
-            )
-          })
-        }
+        {durations.map(function (e, i) {
+          return (
+            <p
+              onClick={() => {
+                setOpenState(e);
+              }}
+              style={{
+                position: 'relative',
+                top: 0,
+                left: 0,
+                width: '100%',
+                cursor: 'pointer',
+              }}
+              key={i}
+            >
+              {' '}
+              {e}{' '}
+            </p>
+          );
+        })}
       </>
     );
   }
 
-  async function addNewRecord(){
-    var newDrugRecod = {Type:"Drugs", FolderNo: patient.FolderNo, Drug: drug, Dosage: dosage, SideEffect:sideEffect, Duration:duration}
+  async function addNewRecord() {
+    var newDrugRecod = {
+      Type: 'Drugs',
+      FolderNo: patient.FolderNo,
+      Drug: drug,
+      Dosage: dosage,
+      SideEffect: sideEffect,
+      Duration: duration,
+    };
     // console.log("@addNewRecord", newDrugRecod);
-
-      try {
-        if (window.navigator.onLine) {
-          setEffects({
-            ...effects,
-            loading: true
-          });
-
-          const request = await fetch(`${url}/records`, {
-            method: "POST",
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${localStorage.token}`
-            },
-            body: JSON.stringify(newDrugRecod)
-          });
-
-          if (!request.ok) {
-            const error = await request.json();
-            throw Error(error.error);
-          }
-          const data = await request.json();
-
-          setEffects({
-            ...effects,
-            loading: false,
-            error: {
-              error: false,
-              title: "Success",
-              message: `${data.message}`,
-            },
-          });
-          setShowInfoDialog(true);
-        }else{
-          setEffects({
-            ...effects,
-            loading: false,
-            error: {
-              error: true,
-              title: "Network",
-              message: "Connection Error",
-            },
-          });
-          setShowInfoDialog(true);
-        }
-      } catch (error) {
-        setTimeout(() => {
-          setEffects({
-            ...effects,
-            loading: false,
-            error: {
-              error: true,
-              title: "Error",
-              message: error.message,
-            },
-          });
-
-          setShowInfoDialog(true);
-        }, 2000);
-      }
-  }
-
-  async function updateRecord(){
-    var edited = editabelRecord;
-    edited.Duration = duration;
-    edited.SideEffect = sideEffect;
-    edited.Drug = drug;
-    edited.Dosage = dosage;
-
-    // console.log("@updateRecord", edited);
 
     try {
       if (window.navigator.onLine) {
         setEffects({
           ...effects,
-          loading: true
+          loading: true,
         });
 
-        const request = await fetch(`${url}/UpdateRecords`, {
-          method: "POST",
+        const request = await fetch(`${url}/records`, {
+          method: 'POST',
           headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.token}`
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.token}`,
           },
-          body: JSON.stringify(edited)
+          body: JSON.stringify(newDrugRecod),
         });
 
         if (!request.ok) {
@@ -256,7 +218,7 @@ const DrugHistory = () => {
           loading: false,
           error: {
             error: false,
-            title: "Success",
+            title: 'Success',
             message: `${data.message}`,
           },
         });
@@ -267,8 +229,8 @@ const DrugHistory = () => {
           loading: false,
           error: {
             error: true,
-            title: "Network",
-            message: "Connection Error",
+            title: 'Network',
+            message: 'Connection Error',
           },
         });
         setShowInfoDialog(true);
@@ -280,7 +242,78 @@ const DrugHistory = () => {
           loading: false,
           error: {
             error: true,
-            title: "Error",
+            title: 'Error',
+            message: error.message,
+          },
+        });
+
+        setShowInfoDialog(true);
+      }, 2000);
+    }
+  }
+
+  async function updateRecord() {
+    var edited = editabelRecord;
+    edited.Duration = duration;
+    edited.SideEffect = sideEffect;
+    edited.Drug = drug;
+    edited.Dosage = dosage;
+
+    // console.log("@updateRecord", edited);
+
+    try {
+      if (window.navigator.onLine) {
+        setEffects({
+          ...effects,
+          loading: true,
+        });
+
+        const request = await fetch(`${url}/UpdateRecords`, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.token}`,
+          },
+          body: JSON.stringify(edited),
+        });
+
+        if (!request.ok) {
+          const error = await request.json();
+          throw Error(error.error);
+        }
+        const data = await request.json();
+
+        setEffects({
+          ...effects,
+          loading: false,
+          error: {
+            error: false,
+            title: 'Success',
+            message: `${data.message}`,
+          },
+        });
+        setShowInfoDialog(true);
+      } else {
+        setEffects({
+          ...effects,
+          loading: false,
+          error: {
+            error: true,
+            title: 'Network',
+            message: 'Connection Error',
+          },
+        });
+        setShowInfoDialog(true);
+      }
+    } catch (error) {
+      setTimeout(() => {
+        setEffects({
+          ...effects,
+          loading: false,
+          error: {
+            error: true,
+            title: 'Error',
             message: error.message,
           },
         });
@@ -298,15 +331,15 @@ const DrugHistory = () => {
       if (window.navigator.onLine) {
         setEffects({
           ...effects,
-          loading: true
+          loading: true,
         });
 
         const request = await fetch(`${url}/DeleteRecord`, {
-          method: "POST",
+          method: 'POST',
           headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.token}`
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.token}`,
           },
           body: JSON.stringify({ RecordID: record.RecordId }),
         });
@@ -322,7 +355,7 @@ const DrugHistory = () => {
           loading: false,
           error: {
             error: false,
-            title: "Success",
+            title: 'Success',
             message: `${data.message}`,
           },
         });
@@ -333,8 +366,8 @@ const DrugHistory = () => {
           loading: false,
           error: {
             error: true,
-            title: "Network",
-            message: "Connection Error",
+            title: 'Network',
+            message: 'Connection Error',
           },
         });
         setShowInfoDialog(true);
@@ -346,7 +379,7 @@ const DrugHistory = () => {
           loading: false,
           error: {
             error: true,
-            title: "Error",
+            title: 'Error',
             message: error.message,
           },
         });
@@ -362,7 +395,6 @@ const DrugHistory = () => {
       <SecondaryBar page_title="Drug History" shadow />
       <Shell name={`${patient.LastName} ${patient.FirstName}`}>
         <div className={styles2.container}>
-
           {/* Begin search section */}
           <form className={styles.form}>
             <input
@@ -383,10 +415,18 @@ const DrugHistory = () => {
           </form>
           {/* End search section */}
 
-          {recordList && recordList.length >0 ? (
+          {recordList && recordList.length > 0 ? (
             recordList.map((record) => (
               <Fragment key={`${record.Drug}_${record.Dosage}`}>
-                <EachRecord record={record} editMode={(e) => { enableEditMode(e, record) }} deleteRecord={(e) => { deleteRecord(e, record) }} />
+                <EachRecord
+                  record={record}
+                  editMode={(e) => {
+                    enableEditMode(e, record);
+                  }}
+                  deleteRecord={(e) => {
+                    deleteRecord(e, record);
+                  }}
+                />
               </Fragment>
             ))
           ) : (
@@ -414,25 +454,24 @@ const DrugHistory = () => {
               />{' '}
               {showDrop ? (
                 <div className={styles.dropWrap}>
-                  <GetDrugs/>
+                  <GetDrugs />
                 </div>
               ) : null}
             </div>
 
             {/* form feild two */}
             <p className={styles.formLabel}>Dosage (unit: mg)</p>
-            <div
-              className={styles.inputGpWrap}>
+            <div className={styles.inputGpWrap}>
               <input
                 autoFocus={true}
                 className={styles.inputName}
                 placeholder="Enter Dosage"
                 value={dosage === undefined ? '' : dosage}
                 onChange={(e) => {
-                  setDosage(e.target.value)
+                  setDosage(e.target.value);
                 }}
                 readOnly={false}
-                type='number'
+                type="number"
               />
             </div>
 
@@ -448,11 +487,7 @@ const DrugHistory = () => {
                 className={styles.inputName}
                 placeholder="Enter Duration"
                 disabled={true}
-                value={
-                  duration === undefined
-                    ? ''
-                    : duration
-                }
+                value={duration === undefined ? '' : duration}
               />
               <img
                 src={require('../../../images/chevDown.svg')}
@@ -468,10 +503,15 @@ const DrugHistory = () => {
 
             {/* form feild four */}
             <p className={styles.formLabel}>Side Effects</p>
-            <div
-              className={styles.inputGpWrapTextArea}>
+            <div className={styles.inputGpWrapTextArea}>
               <textarea
-              style={{width:'100%', height:'100%', margin:0, padding:0, border:'none'}}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  margin: 0,
+                  padding: 0,
+                  border: 'none',
+                }}
                 id="SideEffect"
                 type="text"
                 name="side effect"
@@ -506,18 +546,17 @@ const DrugHistory = () => {
                 </p>
               </div>
             ) : (
-                <p
-                  onClick={(e) => {
-                    e.preventDefault();
-                    addNewRecord();
-                  }}
-                  className={styles.addRec}
-                >
-                  Add New Record
-                </p>
-              )}
+              <p
+                onClick={(e) => {
+                  e.preventDefault();
+                  addNewRecord();
+                }}
+                className={styles.addRec}
+              >
+                Add New Record
+              </p>
+            )}
           </div>
-
         </div>
       </Shell>
       <button className={styles2.add_new_record} aria-label="Add new record">
@@ -596,7 +635,8 @@ const DrugHistory = () => {
         open={showInfoDialog}
         onClose={() => {
           setShowInfoDialog(false);
-        }}>
+        }}
+      >
         <div className={styles.modal_paper}>
           <div className={styles.modalTop2}>
             <p className={styles.appTitle}>{effects.error.title}</p>
@@ -618,7 +658,6 @@ const DrugHistory = () => {
       </Overlay>
       {/* End Show Info Dialog */}
 
-
       {/* Begin Spinner Show */}
       <Overlay
         className={styles.modal}
@@ -626,15 +665,15 @@ const DrugHistory = () => {
         open={effects.loading}
         onClose={() => {
           setShowInfoDialog(false);
-        }}>
+        }}
+      >
         <ClipLoader
           css={override}
           size={150}
-          color={"#123abc"}
+          color={'#123abc'}
           loading={true}
         />
       </Overlay>
-
     </>
   );
 };
