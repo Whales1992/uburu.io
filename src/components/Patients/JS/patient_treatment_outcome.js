@@ -6,9 +6,17 @@ import SecondaryBar from '../../UI/JS/secondary_navbar';
 import TopBar from '../../UI/JS/topbar';
 import Shell from './detail_shell';
 
-//style
+import { Overlay } from 'react-portal-overlay';
+import { css } from "@emotion/core";
+import ClipLoader from "react-spinners/ClipLoader";
 import styles from '../../../container/AddPatientData/CSS/add_patient_data.module.css';
-// import styles2 from "../../../../container/AddPatientData/CSS/medical_history.module.css";
+const url = process.env.REACT_APP_BASE_URL;
+
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+`;
 
 const PatientTreatmentOutcome2 = () => {
   const patient = useLocation().state;
@@ -16,15 +24,26 @@ const PatientTreatmentOutcome2 = () => {
     patient.records &&
     patient.records.filter((patient) => patient.Type === 'Treatment');
 
+  const [showInfoDialog, setShowInfoDialog] = useState(false);
+  const [effects, setEffects] = useState({
+    loading: false,
+    error: {
+      error: false,
+      message: '',
+      title: "Info"
+    },
+  });
+
   const [values, changeValues] = useState({
     Status: treatmentOutcome ? treatmentOutcome.Status : '',
     StatusDate: treatmentOutcome ? treatmentOutcome.StatusDate : '',
   });
 
   function handleChange(name, e) {
+    e.preventDefault();
     let value;
 
-    if (name === 'date') {
+    if (name === 'StatusDate') {
       value = e;
     } else {
       value = e.target.value;
@@ -33,8 +52,71 @@ const PatientTreatmentOutcome2 = () => {
     changeValues({ ...values, [name]: value });
   }
 
-  function update(e) {
+  async function update(e) {
     e.preventDefault();
+
+    const payload = { Type: 'Treatment', Outcome: values.Status, RecordDate: values.StatusDate, RecordID: treatmentOutcome.RecordID }
+    console.log("@update", payload);
+
+    try {
+      if (window.navigator.onLine) {
+        setEffects({
+          ...effects,
+          loading: true
+        });
+        const request = await fetch(`${url}/UpdateRecords`, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.token}`,
+          },
+          body: JSON.stringify(payload),
+        });
+
+        if (!request.ok) {
+          const error = await request.json();
+          throw Error(error.error);
+        }
+
+        const data = await request.json();
+        setEffects({
+          ...effects,
+          loading: false,
+          error: {
+            error: false,
+            title: "Success",
+            message: `${data.message}`,
+          },
+        });
+        setShowInfoDialog(true);
+      } else {
+        setEffects({
+          ...effects,
+          loading: false,
+          error: {
+            error: true,
+            title: "Network",
+            message: "Connection Error",
+          },
+        });
+        setShowInfoDialog(true);
+      }
+    } catch (error) {
+      setTimeout(() => {
+        setEffects({
+          ...effects,
+          loading: false,
+          error: {
+            error: true,
+            title: "Error",
+            message: error.message,
+          },
+        });
+
+        setShowInfoDialog(true);
+      }, 2000);
+    }
   }
 
   return (
@@ -50,7 +132,8 @@ const PatientTreatmentOutcome2 = () => {
                 id="outcome"
                 name="treatment outcome"
                 className={styles.input}
-                value={values.Status}
+                selected={treatmentOutcome.Status !== undefined ? treatmentOutcome.Status : 'JJJ'}
+                value={values.Status !== '' ? values.Status : treatmentOutcome.Status !== undefined ? '' : treatmentOutcome.Status}
                 onChange={(e) => handleChange('Status', e)}
                 required
               >
@@ -69,7 +152,7 @@ const PatientTreatmentOutcome2 = () => {
                 Status Date
               </label>
               <DatePicker
-                name="date"
+                name="StatusDate"
                 className={styles.input}
                 onChange={(e) => handleChange('StatusDate', e)}
                 value={values.StatusDate}
@@ -78,19 +161,65 @@ const PatientTreatmentOutcome2 = () => {
                 disabled={!values.Status}
               />
             </div>
+          
           </div>
           <div className={styles.btn_area}>
             <button
               className="primary_btn"
               type="submit"
-              disabled={values.Status && !values.StatusDate}
-              onClick={() => this.createPatient('Treatment')}
-            >
+              disabled={!values.Status}
+              onClick={(e) => update(e)}>
               Update Treatment Outcome
             </button>
           </div>
         </form>
       </Shell>
+
+
+      {/* Begin Show Info Dialog */}
+      <Overlay
+        className={styles.modal}
+        closeOnClick={true}
+        open={showInfoDialog}
+        onClose={() => {
+          setShowInfoDialog(false);
+        }}>
+        <div className={styles.modal_paper}>
+          <div className={styles.modalTop2}>
+            <p className={styles.appTitle}>{effects.error.title}</p>
+          </div>
+          <div className={styles.inputGpWrap}>
+            <p>{effects.error.message}</p>
+          </div>
+          <div
+            onClick={() => {
+              setShowInfoDialog(false);
+            }}
+            className={styles.pCreate}
+          >
+            Dismiss
+          </div>
+        </div>
+      </Overlay>
+      {/* End Show Info Dialog */}
+
+
+      {/* Begin Spinner Show */}
+      <Overlay
+        className={styles.modal}
+        closeOnClick={true}
+        open={effects.loading}
+        onClose={() => {
+          setShowInfoDialog(false);
+        }}>
+        <ClipLoader
+          css={override}
+          size={150}
+          color={"#123abc"}
+          loading={true}
+        />
+      </Overlay>
+
     </>
   );
 };

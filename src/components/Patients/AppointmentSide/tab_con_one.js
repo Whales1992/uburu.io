@@ -1,56 +1,52 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from '../CSS/appointments_side_page.module.css';
+import localForage from 'localforage';
 
 const detailsArray = [
   {
-    title: 'Oncology Test',
-    name: 'Jane Cooper',
-    date: 'Aug 28, 2013',
-    serialN: 'ID 1812384593',
-    age: '42 Years',
-    severity: 'Normal',
-    time: '12/02/2020, 09:00AM',
-  },
-  {
-    title: 'Albert Fox',
-    name: 'Guy Hawkins',
-    date: 'Jan 18, 2020',
-    serialN: 'ID 18123845932',
-    age: '39 Years',
-    severity: 'Severe',
-    time: '18/01/2020, 10:00AM',
-  },
-  {
-    title: 'Morris Wilson',
-    name: 'Esther Howard',
-    date: 'Aug 27, 2014',
-    serialN: 'ID 1812384595',
-    age: '24 Years',
-    severity: 'Normal',
-    time: '27/08/2014, 09:00AM',
-  },
-  {
-    title: 'Courtney Murphy',
-    name: 'Wade Warren',
-    date: 'Nov 19, 2015',
-    serialN: 'ID 1812384548',
-    age: '49 Years',
-    severity: 'Normal',
-    time: '19/11/2015, 11:05AM',
-  },
-  {
-    title: 'Guy Russell',
-    name: 'Cameron Williamson',
-    date: 'Aug 17, 2013',
-    serialN: 'ID 1812384534',
-    age: '28 Years',
-    severity: 'Normal',
-    time: '17/08/2013, 12:00PM',
+    "AppointmentID": 2,
+    "UserID": "9",
+    "RegistryID": "7",
+    "PatientID": null,
+    "FolderNo": "900",
+    "DateCreated": "2020-10-26T00:00:00.000Z",
+    "Nature": "Drug",
+    "ValueDate": "12/03/2020",
+    "ValueTime": "19:00",
+    "Duration": null,
+    "Type": null,
+    "Status": "Active"
   },
 ];
 
-const TabConOne = () => {
+const patientName = (item) => {
+  let name = 'Unknown';
+  if(item!==null && item!==undefined){
+    localForage.getItem("patients").then((res) => {
+      res.forEach(element => {
+        if (element.PatientID == item.PatientID) {
+          console.log("PATIENT FOUND", element);
+          name = `${element.LastName} ${element.FirstName}`;
+        }
+      });
+    }).catch((ex) => {
+      console.log("@patientName", ex);
+      // this.setState({
+      //   error: {
+      //     error: true,
+      //     message: ex,
+      //   },
+      // });
+    });
+  }
+  return name;
+}
+
+patientName();
+
+
+const TabConOne = (appointmentList) => {
   const [calender, setCalVal] = useState('Sort Date');
   return (
     <div className={styles.contentWrap}>
@@ -70,27 +66,30 @@ const TabConOne = () => {
         </div>
       </div>
 
-      {detailsArray.map((item, i) => {
-        return (
-          <Link
-            to={{
-              pathname: '/patients/appointments_detail',
-              objectItem: item,
-            }}
-            key={i}
-            style={{ cursor: 'pointer', textDecoration: 'none' }}
-          >
-            <div className={styles.secDiv}>
-              <div className={styles.secTextWrap}>
-                <p className={styles.divAppTitle}>{item.title}</p>
-                <p className={styles.divAppMini}>{item.name}</p>
-              </div>
+      <>
+        {appointmentList.appointmentList.length === 0 ? <div><p>You don have any appointment yet</p></div> : appointmentList.appointmentList.map((item, i) => {
+              return (
+                <Link
+                  to={{
+                    pathname: '/patients/appointments_detail',
+                    objectItem: item,
+                  }}
+                  key={i}
+                  style={{ cursor: 'pointer', textDecoration: 'none' }}
+                >
+                  <div className={styles.secDiv}>
+                    <div className={styles.secTextWrap}>
+                      <p className={styles.divAppTitle}>{item.Nature}</p>
+                      <p className={styles.divAppMini}>{patientName(item)}</p>
+                    </div>
 
-              <p className={styles.SecDate}>{item.date}</p>
-            </div>
-          </Link>
-        );
-      })}
+                    <p className={styles.SecDate}>{item.ValueDate}</p>
+                  </div>
+                </Link>
+              );
+            })
+          }
+      </>
     </div>
   );
 };

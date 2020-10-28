@@ -26,9 +26,9 @@ const MedicalHistory = () => {
   const [editabelRecord, setEditabelRecord] = useState({});
   const [editabelMode, setEditabelMode] = useState(false);  
   const [duration, setDuration] = useState("");
-  const [showInfoDialog, setShowInfoDialog] = useState(false);
   const [enableTrueFalse, setEnableTrueFalse] = useState(false);
   const [optionEntry, setOptionEntry] = useState('');
+  const [showInfoDialog, setShowInfoDialog] = useState(false);
   const [effects, setEffects] = useState({
     loading: false,
     error: {
