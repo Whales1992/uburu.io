@@ -66,6 +66,28 @@
 
   color: #ffffff;
 }
+.pNo {
+  width: 90%;
+  margin: 55px auto;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  border: 1px solid black;
+  align-items: center;
+  color: black;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.deRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 .appTitle {
   font-style: normal;
   font-weight: 600;

@@ -7,8 +7,8 @@ import Shell from './detail_shell';
 import EachRecord from './each_investigation';
 import styles from '../CSS/investigation_history.module.css';
 import { Overlay } from 'react-portal-overlay';
-import { css } from "@emotion/core";
-import ClipLoader from "react-spinners/ClipLoader";
+import { css } from '@emotion/core';
+import ClipLoader from 'react-spinners/ClipLoader';
 const url = process.env.REACT_APP_BASE_URL;
 
 const override = css`
@@ -21,8 +21,11 @@ const InvestigationHistory = () => {
   const patient = useLocation().state;
   const [showDrop, setShowWrap] = useState(false);
   const [showInfoDialog, setShowInfoDialog] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [editabelMode, setEditabelMode] = useState(false);
   const [entry, setEntry] = useState(undefined);
+  const [myRecord, setMyRecord] = useState();
+
   const [investigation, setInvestigation] = useState(undefined);
   const [editabelRecord, setEditabelRecord] = useState({});
 
@@ -30,7 +33,7 @@ const InvestigationHistory = () => {
     patient.records &&
     patient.records.filter((patient) => patient.Type === 'Investigation');
 
-  console.log("@investigationHistory", investigationHistory);
+  console.log('@investigationHistory', investigationHistory);
 
   const [effects, setEffects] = useState({
     loading: false,
@@ -40,11 +43,29 @@ const InvestigationHistory = () => {
     },
   });
 
-  function GetInvestigations(){
-    const investigations = ['FBS', 'RBS', 'HbA1c', 'Total Cholesterol', 'Triglyceride Level',
-      'HDL-C', 'LDL-C', 'Serum Creatinine', 'eGFR', 'Total white blood cell count', 'Neutrophil count',
-      'Lymphocyte count', 'Monocyte count', 'Eosinophil count', 'Basophil count', 'Red blood cell count',
-      'Haemoglobin', 'Platelet count', 'Urine Protein', 'Vibration Perception Threshold (VPT)'];
+  function GetInvestigations() {
+    const investigations = [
+      'FBS',
+      'RBS',
+      'HbA1c',
+      'Total Cholesterol',
+      'Triglyceride Level',
+      'HDL-C',
+      'LDL-C',
+      'Serum Creatinine',
+      'eGFR',
+      'Total white blood cell count',
+      'Neutrophil count',
+      'Lymphocyte count',
+      'Monocyte count',
+      'Eosinophil count',
+      'Basophil count',
+      'Red blood cell count',
+      'Haemoglobin',
+      'Platelet count',
+      'Urine Protein',
+      'Vibration Perception Threshold (VPT)',
+    ];
 
     return (
       <>
@@ -73,24 +94,29 @@ const InvestigationHistory = () => {
   }
 
   async function addNewRecord() {
-    var newInvestigation = { Type: "Investigation", Investigation: investigation, FolderNo: patient.FolderNo, Entry: entry}
-    console.log("@addNewRecord", newInvestigation);
+    var newInvestigation = {
+      Type: 'Investigation',
+      Investigation: investigation,
+      FolderNo: patient.FolderNo,
+      Entry: entry,
+    };
+    console.log('@addNewRecord', newInvestigation);
 
     try {
       if (window.navigator.onLine) {
         setEffects({
           ...effects,
-          loading: true
+          loading: true,
         });
 
         const request = await fetch(`${url}/records`, {
-          method: "POST",
+          method: 'POST',
           headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.token}`
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.token}`,
           },
-          body: JSON.stringify(newInvestigation)
+          body: JSON.stringify(newInvestigation),
         });
 
         if (!request.ok) {
@@ -104,7 +130,7 @@ const InvestigationHistory = () => {
           loading: false,
           error: {
             error: false,
-            title: "Success",
+            title: 'Success',
             message: `${data.message}`,
           },
         });
@@ -115,8 +141,8 @@ const InvestigationHistory = () => {
           loading: false,
           error: {
             error: true,
-            title: "Network",
-            message: "Connection Error",
+            title: 'Network',
+            message: 'Connection Error',
           },
         });
         setShowInfoDialog(true);
@@ -128,7 +154,7 @@ const InvestigationHistory = () => {
           loading: false,
           error: {
             error: true,
-            title: "Error",
+            title: 'Error',
             message: error.message,
           },
         });
@@ -143,23 +169,23 @@ const InvestigationHistory = () => {
     edited.Investigation = investigation;
     edited.Entry = entry;
 
-    console.log("@updateRecord", edited);
+    console.log('@updateRecord', edited);
 
     try {
       if (window.navigator.onLine) {
         setEffects({
           ...effects,
-          loading: true
+          loading: true,
         });
 
         const request = await fetch(`${url}/UpdateRecords`, {
-          method: "POST",
+          method: 'POST',
           headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.token}`
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.token}`,
           },
-          body: JSON.stringify(edited)
+          body: JSON.stringify(edited),
         });
 
         if (!request.ok) {
@@ -173,7 +199,7 @@ const InvestigationHistory = () => {
           loading: false,
           error: {
             error: false,
-            title: "Success",
+            title: 'Success',
             message: `${data.message}`,
           },
         });
@@ -184,8 +210,8 @@ const InvestigationHistory = () => {
           loading: false,
           error: {
             error: true,
-            title: "Network",
-            message: "Connection Error",
+            title: 'Network',
+            message: 'Connection Error',
           },
         });
         setShowInfoDialog(true);
@@ -197,7 +223,7 @@ const InvestigationHistory = () => {
           loading: false,
           error: {
             error: true,
-            title: "Error",
+            title: 'Error',
             message: error.message,
           },
         });
@@ -209,20 +235,20 @@ const InvestigationHistory = () => {
 
   async function deleteRecord(e, record) {
     e.preventDefault();
-    console.log("@deleteRecord", record);
+    console.log('@deleteRecord', record);
     try {
       if (window.navigator.onLine) {
         setEffects({
           ...effects,
-          loading: true
+          loading: true,
         });
 
         const request = await fetch(`${url}/DeleteRecord`, {
-          method: "POST",
+          method: 'POST',
           headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.token}`
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.token}`,
           },
           body: JSON.stringify({ RecordID: record.RecordId }),
         });
@@ -238,7 +264,7 @@ const InvestigationHistory = () => {
           loading: false,
           error: {
             error: false,
-            title: "Success",
+            title: 'Success',
             message: `${data.message}`,
           },
         });
@@ -249,8 +275,8 @@ const InvestigationHistory = () => {
           loading: false,
           error: {
             error: true,
-            title: "Network",
-            message: "Connection Error",
+            title: 'Network',
+            message: 'Connection Error',
           },
         });
         setShowInfoDialog(true);
@@ -262,7 +288,7 @@ const InvestigationHistory = () => {
           loading: false,
           error: {
             error: true,
-            title: "Error",
+            title: 'Error',
             message: error.message,
           },
         });
@@ -272,9 +298,12 @@ const InvestigationHistory = () => {
     }
   }
 
-  async function handleSearchPhraseChange(key){
+  const deleteRModal = (e, val) => {
+    setShowDeleteDialog(true);
+    setMyRecord(val);
+  };
 
-  }
+  async function handleSearchPhraseChange(key) {}
 
   function enableEditMode(e, editables) {
     e.preventDefault();
@@ -292,7 +321,6 @@ const InvestigationHistory = () => {
       <SecondaryBar page_title="Investigation History" shadow />
       <Shell name={`${patient.LastName} ${patient.FirstName}`}>
         <div className={styles.container}>
-          
           {/* Begin search section */}
           <form className={styles.form}>
             <input
@@ -316,15 +344,23 @@ const InvestigationHistory = () => {
           {investigationHistory ? (
             investigationHistory.map((record) => (
               <Fragment key={`${record.Investigation}_${record.Report}`}>
-                <EachRecord record={record} editMode={(e) => { enableEditMode(e, record) }} deleteRecord={(e) => { deleteRecord(e, record) }} />
+                <EachRecord
+                  record={record}
+                  editMode={(e) => {
+                    enableEditMode(e, record);
+                  }}
+                  openDeleteModal={deleteRModal}
+                  // deleteRecord={(e) => {
+                  //   // deleteRecord(e, record);
+                  // }}
+                />
               </Fragment>
             ))
           ) : (
-              <p className={styles.no_record}>No Investigation Record.</p>
-            )}
+            <p className={styles.no_record}>No Investigation Record.</p>
+          )}
 
           <div className={styles.editWrap}>
-
             {/* form feild one */}
             <p className={styles.formLabel}>Investigation</p>
             <div
@@ -351,20 +387,18 @@ const InvestigationHistory = () => {
               ) : null}
             </div>
 
-
             {/* form feild two */}
             <p className={styles.formLabel}>Entry</p>
-            <div
-              className={styles.inputGpWrap}>
+            <div className={styles.inputGpWrap}>
               <input
                 autoFocus={true}
                 className={styles.inputName}
                 value={entry === undefined ? '' : entry}
                 onChange={(e) => {
-                  setEntry(e.target.value)
+                  setEntry(e.target.value);
                 }}
                 readOnly={false}
-                type='number'
+                type="number"
               />
             </div>
 
@@ -390,16 +424,16 @@ const InvestigationHistory = () => {
                 </p>
               </div>
             ) : (
-                <p
-                  onClick={(e) => {
-                    e.preventDefault();
-                    addNewRecord();
-                  }}
-                  className={styles.addRec}
-                >
-                  Add New Record
-                </p>
-              )}
+              <p
+                onClick={(e) => {
+                  e.preventDefault();
+                  addNewRecord();
+                }}
+                className={styles.addRec}
+              >
+                Add New Record
+              </p>
+            )}
           </div>
         </div>
 
@@ -439,7 +473,8 @@ const InvestigationHistory = () => {
         open={showInfoDialog}
         onClose={() => {
           setShowInfoDialog(false);
-        }}>
+        }}
+      >
         <div className={styles.modal_paper}>
           <div className={styles.modalTop2}>
             <p className={styles.appTitle}>{effects.error.title}</p>
@@ -459,7 +494,6 @@ const InvestigationHistory = () => {
       </Overlay>
       {/* End Show Info Dialog */}
 
-
       {/* Begin Spinner Show */}
       <Overlay
         className={styles.modal}
@@ -467,15 +501,52 @@ const InvestigationHistory = () => {
         open={effects.loading}
         onClose={() => {
           setShowInfoDialog(false);
-        }}>
+        }}
+      >
         <ClipLoader
           css={override}
           size={150}
-          color={"#123abc"}
+          color={'#123abc'}
           loading={true}
         />
       </Overlay>
 
+      {/* Begin Delete Dialog*/}
+      <Overlay
+        className={styles.modal}
+        closeOnClick={true}
+        open={showDeleteDialog}
+        onClose={() => {
+          setShowDeleteDialog(false);
+        }}
+      >
+        <div className={styles.modal_paper}>
+          <div className={styles.modalTop2}>
+            <p className={styles.appTitle}>Are you Sure you want to Delete ?</p>
+          </div>
+
+          <div className={styles.deRow}>
+            <div
+              onClick={(e) => {
+                deleteRecord(e, myRecord);
+                setShowDeleteDialog(false);
+              }}
+              className={styles.pCreate}
+            >
+              Yes
+            </div>
+            <div
+              // onClick={() => {
+              //   setShowInfoDialog(false);
+              // }}
+              className={styles.pNo}
+            >
+              No
+            </div>
+          </div>
+        </div>
+      </Overlay>
+      {/* End Delete Dialog*/}
     </>
   );
 };

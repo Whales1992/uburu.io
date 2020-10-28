@@ -27,6 +27,8 @@ const DrugHistory = () => {
   const [sideEffect, setSideEffect] = useState('');
   const [editabelRecord, setEditabelRecord] = useState({});
   const [showInfoDialog, setShowInfoDialog] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [myRecord, setMyRecord] = useState();
   const [editabelMode, setEditabelMode] = useState(false);
   const [drug, setDrug] = useState(undefined);
 
@@ -389,6 +391,11 @@ const DrugHistory = () => {
     }
   }
 
+  const deleteRModal = (e, val) => {
+    setShowDeleteDialog(true);
+    setMyRecord(val);
+  };
+
   return (
     <>
       <TopBar />
@@ -423,9 +430,10 @@ const DrugHistory = () => {
                   editMode={(e) => {
                     enableEditMode(e, record);
                   }}
-                  deleteRecord={(e) => {
-                    deleteRecord(e, record);
-                  }}
+                  openDeleteModal={deleteRModal}
+                  // deleteRecord={(e) => {
+                  //   deleteRecord(e, record);
+                  // }}
                 />
               </Fragment>
             ))
@@ -657,6 +665,43 @@ const DrugHistory = () => {
         </div>
       </Overlay>
       {/* End Show Info Dialog */}
+
+      {/* Begin Delete Dialog*/}
+      <Overlay
+        className={styles.modal}
+        closeOnClick={true}
+        open={showDeleteDialog}
+        onClose={() => {
+          setShowDeleteDialog(false);
+        }}
+      >
+        <div className={styles.modal_paper}>
+          <div className={styles.modalTop2}>
+            <p className={styles.appTitle}>Are you Sure you want to Delete ?</p>
+          </div>
+
+          <div className={styles.deRow}>
+            <div
+              onClick={(e) => {
+                deleteRecord(e, myRecord);
+                setShowDeleteDialog(false);
+              }}
+              className={styles.pCreate}
+            >
+              Yes
+            </div>
+            <div
+              // onClick={() => {
+              //   setShowInfoDialog(false);
+              // }}
+              className={styles.pNo}
+            >
+              No
+            </div>
+          </div>
+        </div>
+      </Overlay>
+      {/* End Delete Dialog*/}
 
       {/* Begin Spinner Show */}
       <Overlay
