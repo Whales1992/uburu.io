@@ -101,12 +101,21 @@ const Shell = ({ render, children, name }) => {
             >
               <Link
                 to={{
-                  pathname: `/patients/${bioData.FolderNo}/treatment_outcome`,
+                  pathname: `/patients/${bioData.FolderNo}/patient_treatment_outcome`,
                   state: bioData,
                 }}
               >
                 Treatment Outcome
               </Link>
+
+              {/* <Link
+                to={{
+                  pathname: `/patients/${bioData.FolderNo}/treatment_outcome`,
+                  state: bioData,
+                }}
+              >
+                Treatment Outcome
+              </Link> */}
             </li>
 
             <li

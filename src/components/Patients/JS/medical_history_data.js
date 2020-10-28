@@ -27,6 +27,8 @@ const MedicalHistory = () => {
   const [editabelMode, setEditabelMode] = useState(false);  
   const [duration, setDuration] = useState("");
   const [showInfoDialog, setShowInfoDialog] = useState(false);
+  const [enableTrueFalse, setEnableTrueFalse] = useState(false);
+  const [optionEntry, setOptionEntry] = useState('');
   const [effects, setEffects] = useState({
     loading: false,
     error: {
@@ -35,7 +37,7 @@ const MedicalHistory = () => {
       title:"Info"
     },
   });
-  
+
   const natures = [
     { title: "Core Symptoms", descriptions: ['Polyuria', 'Polydipsia', 'Weight Loss', 'Polyphagia', 'Dry Mouth', 'Visual Disturbances'] },
     { title: "Co-morbidity", descriptions: ['Osteoarthritis', 'Hypertension', 'Thyroid Disease', 'Asthma', 'Dementia', 'GERD'] },
@@ -45,12 +47,43 @@ const MedicalHistory = () => {
         'Hip Circumference (unit: m)', 'Waist Circumference (unit: m)', 'Waist-Hip Ratio (no unit)', 'Ankle-Brachial Index (no unit)']
     },
   ]
+
+  const natures0 = [
+    { title: "Hospitalization", descriptions: ['Polyuria', 'Polydipsia', 'Weight Loss', 'Polyphagia', 'Dry Mouth', 'Visual Disturbances'] },
+    { title: "Surgery", descriptions: ['Amputation'] },
+    {
+      title: "Blood Transfusion ", descriptions: ['Whole Blood', 'Packed Red Blood Cells', 'Fresh Frozen Plasma', 'Platelets',
+        'Cryoprecipitate', 'Granulocytes']
+    },
+  ]
+
+  const natures1 = [
+    { title: "Core Symptoms", descriptions: ['Polyuria', 'Polydipsia', 'Weight Loss', 'Polyphagia', 'Dry Mouth', 'Visual Disturbances'] },
+    { title: "Blood Transfusion", descriptions: ['Osteoarthritis', 'Hypertension', 'Thyroid Disease', 'Asthma', 'Dementia', 'GERD'] },
+    {
+      title: "Examination ", descriptions: ['Systolic BP (unit: mmHg)', 'Diastolic BP (unit: mmHg)', 'Weight (unit: Kg)', 'Height (unit: m)',
+        'BMI (unit: Kg/m2)', 'Pulse Rate (unit: /min)', 'Respiratory Rate (unit: bpm)', 'Foot Examination', 'Eye Examination',
+        'Hip Circumference (unit: m)', 'Waist Circumference (unit: m)', 'Waist-Hip Ratio (no unit)', 'Ankle-Brachial Index (no unit)']
+    },
+  ]
+
+
+  function resetDuration(){
+    var edit = editabelRecord;
+    edit.Duration = undefined;
+    setEditabelRecord(edit);
+  }
+
   const [selectedNatures, setSelectedNatures] = useState(natures[0].title);
   const [descriptions, setDescriptions] = useState([]);
-  const durations = useState(['Years', 'Months', 'Days']);
+
+  const durations = ['Years', 'Months', 'Days'];
+  const durations0 = ['Ray Amputation left foot', 'Ray Amputation Right', 'foot', 
+  'Right Foot', 'Left Foot', 'Right Below Knee', 'Left Below Knee', 
+  'Right Above Knee', 'Left Above Knee'];
   const [entry, setEntry] = useState('');
 
-  console.log(patient.records);
+  console.log(`Bearer ${localStorage.token}`);
 
   const assessmentRecords =
     patient.records &&
@@ -67,29 +100,22 @@ const MedicalHistory = () => {
   const [showing, switchShowing] = useState('Assessment');
   const [recordList, setRecordList] = useState([]);
 
-  function enableEditMode(e, editables){
-    e.preventDefault();
-    setEditabelRecord(editables);
-    setEditabelMode(true);
-    console.log(editables);
-  }
-
-  async function deleteRecord(e, record) {
-    e.preventDefault();
+  async function updateRecord() {
+    // console.log("@updateRecord", editabelRecord);
     try {
       if (window.navigator.onLine) {
         setEffects({
           ...effects,
-          loading:true
+          loading: true
         });
-        const request = await fetch(`${url}/DeleteRecord`, {
+        const request = await fetch(`${url}/UpdateRecords`, {
           method: 'POST',
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
             Authorization: `Bearer ${localStorage.token}`,
           },
-          body: JSON.stringify({ RecordID: record.RecordId }),
+          body: JSON.stringify(editabelRecord),
         });
 
         if (!request.ok) {
@@ -100,7 +126,7 @@ const MedicalHistory = () => {
 
         setEffects({
           ...effects,
-          loading:false,
+          loading: false,
           error: {
             error: false,
             title: "Success",
@@ -111,7 +137,7 @@ const MedicalHistory = () => {
       } else {
         setEffects({
           ...effects,
-          loading:false,
+          loading: false,
           error: {
             error: true,
             title: "Network",
@@ -124,7 +150,7 @@ const MedicalHistory = () => {
       setTimeout(() => {
         setEffects({
           ...effects,
-          loading:false,
+          loading: false,
           error: {
             error: true,
             title: "Error",
@@ -135,6 +161,144 @@ const MedicalHistory = () => {
         setShowInfoDialog(true);
       }, 2000);
     }
+  }
+
+  async function addNewRecord() {
+    editabelRecord.Type = `${showing}`;
+    editabelRecord.FolderNo = patient.FolderNo;
+    
+    // console.log("@addNewRecord", editabelRecord);
+    try {
+      if (window.navigator.onLine) {
+        setEffects({
+          ...effects,
+          loading: true
+        });
+        const request = await fetch(`${url}/records`, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.token}`,
+          },
+          body: JSON.stringify(editabelRecord),
+        });
+
+        if (!request.ok) {
+          const error = await request.json();
+          throw Error(error.error);
+        }
+
+        const data = await request.json();
+        setEffects({
+          ...effects,
+          loading: false,
+          error: {
+            error: false,
+            title: "Success",
+            message: `${data.message}`,
+          },
+        });
+        setShowInfoDialog(true);
+      } else {
+        setEffects({
+          ...effects,
+          loading: false,
+          error: {
+            error: true,
+            title: "Network",
+            message: "Connection Error",
+          },
+        });
+        setShowInfoDialog(true);
+      }
+    } catch (error) {
+      setTimeout(() => {
+        setEffects({
+          ...effects,
+          loading: false,
+          error: {
+            error: true,
+            title: "Error",
+            message: error.message,
+          },
+        });
+
+        setShowInfoDialog(true);
+      }, 2000);
+    }
+  }
+
+  async function deleteRecord(e, record) {
+    e.preventDefault();
+    console.log("@deleteRecord", record.RecordID);
+
+    try {
+      if (window.navigator.onLine) {
+        setEffects({
+          ...effects,
+          loading: true
+        });
+        const request = await fetch(`${url}/DeleteRecord`, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.token}`,
+          },
+          body: JSON.stringify({ RecordID: record.RecordID }),
+        });
+
+        if (!request.ok) {
+          const error = await request.json();
+          throw Error(error.error);
+        }
+        const data = await request.json();
+
+        setEffects({
+          ...effects,
+          loading: false,
+          error: {
+            error: false,
+            title: "Success",
+            message: `${data.message}`,
+          },
+        });
+        setShowInfoDialog(true);
+      } else {
+        setEffects({
+          ...effects,
+          loading: false,
+          error: {
+            error: true,
+            title: "Network",
+            message: "Connection Error",
+          },
+        });
+        setShowInfoDialog(true);
+      }
+    } catch (error) {
+      setTimeout(() => {
+        setEffects({
+          ...effects,
+          loading: false,
+          error: {
+            error: true,
+            title: "Error",
+            message: error.message,
+          },
+        });
+
+        setShowInfoDialog(true);
+      }, 2000);
+    }
+  }
+
+  function enableEditMode(e, editables){
+    e.preventDefault();
+    setEditabelRecord(editables);
+    setEditabelMode(true);
+    console.log(editables);
   }
 
   function handleSearchPhraseChange(phrase) {
@@ -198,6 +362,68 @@ const MedicalHistory = () => {
     );
   }
 
+  function GetNatures0() {
+    return (
+      <>
+        {natures0.map(function (e, i) {
+          return (
+            <p
+              onClick={() => {
+                var pre = editabelRecord;
+                pre.Nature = e.title;
+                setEditabelRecord(pre);
+                setDescriptions(e.descriptions);
+                setSelectedNatures(e.title);
+              }}
+              style={{
+                position: 'relative',
+                top: 0,
+                left: 0,
+                width: '100%',
+                cursor: 'pointer',
+              }}
+              key={i}
+            >
+              {' '}
+              {e.title}{' '}
+            </p>
+          );
+        })}
+      </>
+    );
+  }
+
+  function GetNatures1() {
+    return (
+      <>
+        {natures1.map(function (e, i) {
+          return (
+            <p
+              onClick={() => {
+                var pre = editabelRecord;
+                pre.Nature = e.title;
+                setEditabelRecord(pre);
+                setDescriptions(e.descriptions);
+                setSelectedNatures(e.title);
+              }}
+              style={{
+                position: 'relative',
+                top: 0,
+                left: 0,
+                width: '100%',
+                cursor: 'pointer',
+              }}
+              key={i}
+            >
+              {' '}
+              {e.title}{' '}
+            </p>
+          );
+        })}
+      </>
+    );
+  }
+
   function GetDescriptions() {
     return (
       <>
@@ -207,6 +433,66 @@ const MedicalHistory = () => {
               onClick={() => {
                 var pre = editabelRecord;
                 pre.Description = e;
+                
+                if (e === 'Foot Examination' || e === 'Eye Examination')
+                setEnableTrueFalse(true);
+                else {
+                  setEnableTrueFalse(false);
+                }
+
+                setEditabelRecord(pre);
+              }}
+              style={{ position: 'relative', top: 0, left: 0, width: 100 }}
+              key={i}
+            >
+              {' '}
+              {e}{' '}
+            </p>
+          );
+        })}
+      </>
+    );
+  }
+
+  function GetDescriptions0() {
+    return (
+      <>
+        {descriptions.map(function (e, i) {
+          return (
+            <p
+              onClick={() => {
+                var pre = editabelRecord;
+                pre.Description = e;
+                setEditabelRecord(pre);
+              }}
+              style={{ position: 'relative', top: 0, left: 0, width: 100 }}
+              key={i}
+            >
+              {' '}
+              {e}{' '}
+            </p>
+          );
+        })}
+      </>
+    );
+  }
+
+  function GetDescriptions1() {
+    return (
+      <>
+        {descriptions.map(function (e, i) {
+          return (
+            <p
+              onClick={() => {
+                var pre = editabelRecord;
+                pre.Description = e;
+
+                if (e === 'Foot Examination' || e === 'Eye Examination')
+                  setEnableTrueFalse(true);
+                else {
+                  setEnableTrueFalse(false);
+                }
+
                 setEditabelRecord(pre);
               }}
               style={{ position: 'relative', top: 0, left: 0, width: 100 }}
@@ -249,132 +535,522 @@ const MedicalHistory = () => {
     );
   }
 
-  async function updateRecord(){
-      try {
-        if (window.navigator.onLine) {
-          setEffects({
-            ...effects,
-            loading: true
-          });
-          const request = await fetch(`${url}/UpdateRecords`, {
-            method: 'POST',
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${localStorage.token}`,
-            },
-            body: JSON.stringify(editabelRecord),
-          });
-
-          if (!request.ok) {
-            const error = await request.json();
-            throw Error(error.error);
-          }
-          const data = await request.json();
-
-          setEffects({
-            ...effects,
-            loading:false,
-            error: {
-              error: false,
-              title: "Success",
-              message: `${data.message}`,
-            },
-          });
-          setShowInfoDialog(true);
-      } else {
-        setEffects({
-            ...effects,
-            loading:false,
-            error: {
-              error: true,
-              title: "Network",
-              message: "Connection Error",
-            },
-          });
-        setShowInfoDialog(true);
-      }
-    } catch (error) {
-      setTimeout(() => {
-        setEffects({
-          ...effects,
-          loading:false,
-          error: {
-            error: true,
-            title: "Error",
-            message: error.message,
-          },
-        });
-
-        setShowInfoDialog(true);
-      }, 2000);
-    }
+  function GetDurations0() {
+    return (
+      <>
+        {
+          durations0.map(function (e, i) {
+            return (
+              <p
+                onClick={() => {
+                  var pre = editabelRecord;
+                  pre.Duration = e;
+                  setEditabelRecord(pre);
+                  setOpenState('');
+                }}
+                style={{
+                  position: 'relative',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  cursor: 'pointer',
+                }}
+                key={i}
+              >
+                {' '}
+                {e}{' '}
+              </p>
+            )
+          })
+        }
+      </>
+    );
   }
 
-  async function addNewRecord() {
-    editabelRecord.Type = `${showing}`;   
-    try {
-      if (window.navigator.onLine) {
-        setEffects({
-          ...effects,
-          loading: true
-        });
-        const request = await fetch(`${url}/records`, {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.token}`,
-          },
-          body: JSON.stringify(editabelRecord),
-        });
-
-        if (!request.ok) {
-          const error = await request.json();
-          throw Error(error.error);
+  function GetDurations00() {
+    return (
+      <>
+        {
+          durations.map(function (e, i) {
+            return (
+              <p
+                onClick={() => {
+                  setOpenState(e);
+                }}
+                style={{
+                  position: 'relative',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  cursor: 'pointer',
+                }}
+                key={i}
+              >
+                {' '}
+                {e}{' '}
+              </p>
+            )
+          })
         }
+      </>
+    );
+  }
 
-        const data = await request.json();
-        setEffects({
-          ...effects,
-          loading:false,
-          error: {
-            error: false,
-            title: "Success",
-            message: `${data.message}`,
-          },
-        });
-        setShowInfoDialog(true);
-      } else {
-        setEffects({
-          ...effects,
-          loading:false,
-          error: {
-            error: true,
-            title: "Network",
-            message: "Connection Error",
-          },
-        });
-        setShowInfoDialog(true);
-      }
-    } catch (error) {
-      setTimeout(() => {
-        setEffects({
-          ...effects,
-          loading:false,
-          error: {
-            error: true,
-            title: "Error",
-            message: error.message,
-          },
-        });
+  function GetTrueOrFalse(){
+    const values = ['True', 'False'];
+    return (
+      <>
+        {
+          values.map(function (e, i) {
+            return (
+              <p
+                onClick={() => {
+                  var edit = editabelRecord;
+                  edit.Duration = e;
+                  setEditabelRecord(edit);
+                  setOptionEntry(e);
+                  setShowWrapDur(!showDropDur);
+                }}
+                style={{
+                  position: 'relative',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  cursor: 'pointer',
+                }}
+                key={i}
+              >
+                {' '}
+                {e}{' '}
+              </p>
+            )
+          })
+        }
+      </>
+    );
+  }
 
-        setShowInfoDialog(true);
-      }, 2000);
-    }
+  function Assessment(){
+    return (<>
+      <div className={styles.editWrap}>
+        <p className={styles.formLabel}>Nature</p>
+        <div
+          className={styles.inputGpWrap}
+          onClick={() => {
+            setShowWrap(!showDrop);
+          }}
+        >
+          <input
+            className={styles.inputName}
+            placeholder="Select Nature"
+            disabled={true}
+            value={
+              editabelRecord.Nature === undefined
+                ? ''
+                : editabelRecord.Nature
+            }
+          />
+          <img
+            src={require('../../../images/chevDown.svg')}
+            alt=""
+            className={styles.chev}
+          />{' '}
+          {showDrop ? (
+            <div className={styles.dropWrap}>
+              <GetNatures />
+            </div>
+          ) : null}
+        </div>
+
+        {/* form feild two */}
+        <p className={styles.formLabel}>Description</p>
+        <div
+          className={styles.inputGpWrap}
+          onClick={() => {
+            setShowWrapDes(!showDropDes);
+          }}
+        >
+          <input
+            className={styles.inputName}
+            placeholder="Select Description"
+            disabled={true}
+            value={
+              editabelRecord.Description === undefined
+                ? ''
+                : editabelRecord.Description
+            }
+          />
+          <img
+            src={require('../../../images/chevDown.svg')}
+            alt=""
+            className={styles.chev}
+          />{' '}
+          {showDropDes ? (
+            <div className={styles.dropWrap}>
+              <GetDescriptions />
+            </div>
+          ) : null}
+        </div>
+
+        {/* begin duration form*/}
+        <p className={styles.formLabel}>Duration/Entry</p>
+        {
+          selectedNatures === `${natures[2].title}` && !enableTrueFalse ? <div
+            className={styles.inputGpWrap}>
+            <input
+              autoFocus={true}
+              className={styles.inputName}
+              placeholder="Entry"
+              value={entry}
+              onChange={(e) => {
+                var edit = editabelRecord;
+                edit.Duration = e.target.value;
+                setEditabelRecord(edit);
+                setEntry(e.target.value) }}
+              readOnly={false}
+              type='number'
+            />
+          </div> : selectedNatures === `${natures[2].title}` ? <div
+              className={styles.inputGpWrap}
+              onClick={() => {
+                setShowWrapDur(!showDropDur);
+              }}
+            >
+            <input
+              className={styles.inputName}
+              placeholder="Select Option"
+              value={optionEntry}
+              readOnly={true}
+            />
+            <img
+              src={require('../../../images/chevDown.svg')}
+              alt=""
+              className={styles.chev}
+            />{' '}
+              {showDropDur ? (
+                <div className={styles.dropWrap}>
+                  <GetTrueOrFalse />
+                </div>
+              ) : null}
+          </div> : <div
+            className={styles.inputGpWrap}
+            onClick={() => {
+              setShowWrapDur(!showDropDur);
+            }}
+          >
+                <input
+                  className={styles.inputName}
+                  placeholder="Select Duration"
+                  value={
+                    editabelRecord.Duration === undefined
+                      ? ''
+                      : editabelRecord.Duration
+                  }
+                  readOnly={true}
+                />
+
+                <img
+                  src={require('../../../images/chevDown.svg')}
+                  alt=""
+                  className={styles.chev}
+                />{' '}
+                {showDropDur ? (
+                  <div className={styles.dropWrap}>
+                    <GetDurations />
+                  </div>
+                ) : null}
+              </div>
+        }
+        {/* end duration form */}
+      </div>
+    </>);
+  }
+
+  function Care() {
+    return (<>
+      <div className={styles.editWrap}>
+        <p className={styles.formLabel}>Nature</p>
+        <div
+          className={styles.inputGpWrap}
+          onClick={() => {
+            setShowWrap(!showDrop);
+          }}
+        >
+          <input
+            className={styles.inputName}
+            placeholder="Select Nature"
+            disabled={true}
+            value={
+              editabelRecord.Nature === undefined
+                ? ''
+                : editabelRecord.Nature
+            }
+          />
+          <img
+            src={require('../../../images/chevDown.svg')}
+            alt=""
+            className={styles.chev}
+          />{' '}
+          {showDrop ? (
+            <div className={styles.dropWrap}>
+              <GetNatures0 />
+            </div>
+          ) : null}
+        </div>
+
+        {/* form feild two */}
+        <p className={styles.formLabel}>Description</p>
+        <div
+          className={styles.inputGpWrap}
+          onClick={() => {
+            setShowWrapDes(!showDropDes);
+          }}
+        >
+          <input
+            className={styles.inputName}
+            placeholder="Select Description"
+            disabled={true}
+            value={
+              editabelRecord.Description === undefined
+                ? ''
+                : editabelRecord.Description
+            }
+          />
+          <img
+            src={require('../../../images/chevDown.svg')}
+            alt=""
+            className={styles.chev}
+          />{' '}
+          {showDropDes ? (
+            <div className={styles.dropWrap}>
+              <GetDescriptions0 />
+            </div>
+          ) : null}
+        </div>
+
+        {/* begin duration form*/}
+        <p className={styles.formLabel}>Duration/Entry</p>
+          {
+            selectedNatures === `${natures0[0].title}` ? <div>
+              <div
+                className={styles.inputGpWrap}
+                onClick={() => {
+                  setShowWrapDur(!showDropDur);
+                }}
+              >
+                <input
+                  className={styles.inputName}
+                  placeholder="Select Duration"
+                  value={
+                    editabelRecord.Duration === undefined
+                      ? ''
+                      : editabelRecord.Duration
+                  }
+                  readOnly={true}
+                />
+
+                <img
+                  src={require('../../../images/chevDown.svg')}
+                  alt=""
+                  className={styles.chev}
+                />{' '}
+                {showDropDur ? (
+                  <div className={styles.dropWrap}>
+                  <GetDurations00 />
+                  </div>
+                ) : null}
+              </div>
+            </div> 
+            :
+             selectedNatures === `${natures0[1].title}` ? <>
+              <div
+                className={styles.inputGpWrap}
+                onClick={() => {
+                  setShowWrapDur(!showDropDur);
+                }}
+              >
+                <input
+                  className={styles.inputName}
+                  placeholder="Select Duration"
+                  value={
+                    editabelRecord.Duration === undefined
+                      ? ''
+                      : editabelRecord.Duration
+                  }
+                  readOnly={true}
+                />
+
+                <img
+                  src={require('../../../images/chevDown.svg')}
+                  alt=""
+                  className={styles.chev}
+                />{' '}
+                {showDropDur ? (
+                  <div className={styles.dropWrap}>
+                    <GetDurations0 />
+                  </div>
+                ) : null}
+              </div>
+            </> : <>
+                <div
+                  className={styles.inputGpWrap}>
+                  <input
+                    autoFocus={true}
+                    className={styles.inputName}
+                    placeholder="Entry"
+                    value={entry}
+                    onChange={(e) => { 
+                      var edit = editabelRecord;
+                      edit.Duration = e.target.value;
+                      setEditabelRecord(edit);
+                      setEntry(e.target.value)}}
+                    type='number'
+                  />
+                </div>
+            </>
+          }
+      </div>
+    </>);
+  }
+
+  function Complication() {
+    return (<>
+      <div className={styles.editWrap}>
+        <p className={styles.formLabel}>Nature</p>
+        <div
+          className={styles.inputGpWrap}
+          onClick={() => {
+            setShowWrap(!showDrop);
+          }}
+        >
+          <input
+            className={styles.inputName}
+            placeholder="Select Nature"
+            disabled={true}
+            value={
+              editabelRecord.Nature === undefined
+                ? ''
+                : editabelRecord.Nature
+            }
+          />
+          <img
+            src={require('../../../images/chevDown.svg')}
+            alt=""
+            className={styles.chev}
+          />{' '}
+          {showDrop ? (
+            <div className={styles.dropWrap}>
+              <GetNatures1 />
+            </div>
+          ) : null}
+        </div>
+
+        {/* form feild two */}
+        <p className={styles.formLabel}>Description</p>
+        <div
+          className={styles.inputGpWrap}
+          onClick={() => {
+            setShowWrapDes(!showDropDes);
+          }}
+        >
+          <input
+            className={styles.inputName}
+            placeholder="Select Description"
+            disabled={true}
+            value={
+              editabelRecord.Description === undefined
+                ? ''
+                : editabelRecord.Description
+            }
+          />
+          <img
+            src={require('../../../images/chevDown.svg')}
+            alt=""
+            className={styles.chev}
+          />{' '}
+          {showDropDes ? (
+            <div className={styles.dropWrap}>
+              <GetDescriptions1 />
+            </div>
+          ) : null}
+        </div>
+
+        {/* begin duration form*/}
+        <p className={styles.formLabel}>Duration/Entry</p>
+          {
+          selectedNatures === `${natures1[2].title}` && !enableTrueFalse ? <div
+              className={styles.inputGpWrap}>
+              <input
+                autoFocus={true}
+                className={styles.inputName}
+                placeholder="Entry"
+                value={entry}
+                onChange={(e) => {
+                  var edit = editabelRecord;
+                  edit.Duration = e.target.value;
+                  setEditabelRecord(edit);
+                  setEntry(e.target.value)
+                }}
+                readOnly={false}
+                type='number'
+              />
+          </div> : selectedNatures === `${natures1[2].title}` ? <div
+              className={styles.inputGpWrap}
+              onClick={() => {
+                setShowWrapDur(!showDropDur);
+              }}
+            >
+              <input
+                className={styles.inputName}
+                placeholder="Select Option"
+                value={optionEntry}
+                readOnly={true}
+              />
+              <img
+                src={require('../../../images/chevDown.svg')}
+                alt=""
+                className={styles.chev}
+              />{' '}
+              {showDropDur ? (
+                <div className={styles.dropWrap}>
+                  <GetTrueOrFalse />
+                </div>
+              ) : null}
+            </div> : <div
+              className={styles.inputGpWrap}
+              onClick={() => {
+                setShowWrapDur(!showDropDur);
+              }}
+            >
+                <input
+                  className={styles.inputName}
+                  placeholder="Select Duration"
+                  value={
+                    editabelRecord.Duration === undefined
+                      ? ''
+                      : editabelRecord.Duration
+                  }
+                  readOnly={true}
+                />
+
+                <img
+                  src={require('../../../images/chevDown.svg')}
+                  alt=""
+                  className={styles.chev}
+                />{' '}
+                {showDropDur ? (
+                  <div className={styles.dropWrap}>
+                    <GetDurations />
+                  </div>
+                ) : null}
+              </div>
+        }
+      </div>
+    </>);
   }
 
   function setShowingRecord(value){
+    resetDuration();
     switchShowing(value);
     if (value === 'Assessment'){
       setRecordList(assessmentRecords);
@@ -390,6 +1066,7 @@ const MedicalHistory = () => {
       <TopBar />
       <SecondaryBar page_title="Medical History" shadow />
       <Shell name={`${patient.LastName} ${patient.FirstName}`}>
+        
         <div className={styles.container}>
          
           {/* Begin search section */}
@@ -413,153 +1090,15 @@ const MedicalHistory = () => {
           {/* End search section */}
 
           <select
+            className={styles.select} 
             name="record"
-            value={showing}
             onChange={(e) => setShowingRecord(e.target.value)}
-            className={styles.select}
-          >
-            <option>Assessment</option>
-            <option>Care</option>
-            <option>Complication</option>
+            >
+            <option selected value="">Select ...</option>
+            <option value="Assessment">Assessment</option>
+            <option value="Care">Care</option>
+            <option value="Complication">Complication</option>
           </select>
-
-          <div className={styles.editWrap}>
-            <p className={styles.formLabel}>Nature</p>
-            <div
-              className={styles.inputGpWrap}
-              onClick={() => {
-                setShowWrap(!showDrop);
-              }}
-            >
-              <input
-                className={styles.inputName}
-                placeholder="Select Nature"
-                disabled={true}
-                value={
-                  editabelRecord.Nature === undefined
-                    ? ''
-                    : editabelRecord.Nature
-                }
-              />
-              <img
-                src={require('../../../images/chevDown.svg')}
-                alt=""
-                className={styles.chev}
-              />{' '}
-              {showDrop ? (
-                <div className={styles.dropWrap}>
-                  <GetNatures />
-                </div>
-              ) : null}
-            </div>
-
-            {/* form feild two */}
-            <p className={styles.formLabel}>Description</p>
-            <div
-              className={styles.inputGpWrap}
-              onClick={() => {
-                setShowWrapDes(!showDropDes);
-              }}
-            >
-              <input
-                className={styles.inputName}
-                placeholder="Select Description"
-                disabled={true}
-                value={
-                  editabelRecord.Description === undefined
-                    ? ''
-                    : editabelRecord.Description
-                }
-              />
-              <img
-                src={require('../../../images/chevDown.svg')}
-                alt=""
-                className={styles.chev}
-              />{' '}
-              {showDropDes ? (
-                <div className={styles.dropWrap}>
-                  <GetDescriptions />
-                </div>
-              ) : null}
-            </div>
-
-            {/* begin duration form*/}
-            <p className={styles.formLabel}>Duration/Entry</p>
-            {
-              selectedNatures === `${natures[2].title}` ? <div
-                className={styles.inputGpWrap}>
-                <input
-                  className={styles.inputName}
-                  placeholder="Entry"
-                  value={entry}
-                  onChange={(e)=>{setEntry(e.target.value)}}
-                  readOnly={false}
-                  type='number'
-                />
-              </div> : <div
-                className={styles.inputGpWrap}
-                onClick={() => {
-                  setShowWrapDur(!showDropDur);
-                }}
-              >
-                  <input
-                    className={styles.inputName}
-                    placeholder="Select Duration"
-                    value={
-                      editabelRecord.Duration === undefined
-                        ? ''
-                        : editabelRecord.Duration
-                    }
-                    readOnly={true}
-                  />
-
-                  <img
-                    src={require('../../../images/chevDown.svg')}
-                    alt=""
-                    className={styles.chev}
-                  />{' '}
-                  {showDropDur ? (
-                    <div className={styles.dropWrap}>
-                      <GetDurations />
-                    </div>
-                  ) : null}
-                </div>
-            }
-           {/* end duration form */}
-
-            {editabelMode ? (
-              <div className={styles.roe}>
-                <p
-                  onClick={(e) => {
-                    e.preventDefault();
-                    updateRecord();
-                  }}
-                  className={styles.addRec}
-                >
-                  Update Record
-                </p>
-                <p
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setEditabelMode(false);
-                  }}
-                  className={styles.addRec}
-                >
-                  Cancel
-                </p>
-              </div>
-            ) : (
-              <p
-                onClick={(e) => {
-                  e.preventDefault();
-                  addNewRecord();
-                }}
-                className={styles.addRec}
-              >
-                Add New Record
-              </p>
-            )}
-          </div>
 
           {showing === 'Assessment' ? (
             recordList ? (
@@ -578,8 +1117,8 @@ const MedicalHistory = () => {
                 </Fragment>
               ))
             ) : (
-              <p className={styles.no_record}>No Assessment Record.</p>
-            )
+                <p className={styles.no_record}>No Assessment Record.</p>
+              )
           ) : null}
           {showing === 'Care' ? (
             recordList ? (
@@ -598,8 +1137,8 @@ const MedicalHistory = () => {
                 </Fragment>
               ))
             ) : (
-              <p className={styles.no_record}>No Care Record.</p>
-            )
+                <p className={styles.no_record}>No Care Record.</p>
+              )
           ) : null}
           {showing === 'Complication' ? (
             recordList ? (
@@ -618,9 +1157,44 @@ const MedicalHistory = () => {
                 </Fragment>
               ))
             ) : (
-              <p className={styles.no_record}>No Complication Record.</p>
-            )
+                <p className={styles.no_record}>No Complication Record.</p>
+              )
           ) : null}
+
+          {showing === 'Complication' ? <Complication/> : showing === 'Care' ? <Care/> : <Assessment/>}
+
+          {editabelMode ? (
+            <div className={styles.roe}>
+              <p
+                onClick={(e) => {
+                  e.preventDefault();
+                  updateRecord();
+                }}
+                className={styles.addRec}
+              >
+                Update Record
+                </p>
+              <p
+                onClick={(e) => {
+                  e.preventDefault();
+                  setEditabelMode(false);
+                }}
+                className={styles.addRec}
+              >
+                Cancel
+                </p>
+            </div>
+          ) : (
+              <p
+                onClick={(e) => {
+                  e.preventDefault();
+                  addNewRecord();
+                }}
+                className={styles.addRec}
+              >
+                Add New Record
+              </p>
+            )}
         </div>
 
         <BottomBar />
@@ -670,6 +1244,7 @@ const MedicalHistory = () => {
         </div>
       </Overlay>
     
+
       {/* Begin Show Info Dialog */}
       <Overlay
         className={styles.modal}
@@ -697,7 +1272,7 @@ const MedicalHistory = () => {
           </div>
           </div>
         </Overlay>
-        {/* End Show Info Dialog */}
+      {/* End Show Info Dialog */}
     
 
       {/* Begin Spinner Show */}

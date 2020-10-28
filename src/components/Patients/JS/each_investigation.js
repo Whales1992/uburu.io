@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "../CSS/each_investigation.module.css";
 
-const EachInvestigationRecord = ({ record }) => {
+const EachInvestigationRecord = ({ record, editMode, deleteRecord }) => {
 	const { Investigation, Report, Entry, RecordDate } = record;
 	return (
 		<div className={styles.record}>
@@ -9,6 +9,7 @@ const EachInvestigationRecord = ({ record }) => {
 				<span>{Investigation}</span>
 				<div>
 					<svg
+						onClick={(e) => { editMode(e, record) }}
 						width="12"
 						height="14"
 						viewBox="0 0 12 14"
@@ -21,6 +22,7 @@ const EachInvestigationRecord = ({ record }) => {
 						/>
 					</svg>
 					<svg
+						onClick={(e) => { deleteRecord(e, record) }}
 						className={styles.delete}
 						width="12"
 						height="14"

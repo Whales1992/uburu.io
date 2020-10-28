@@ -29,6 +29,7 @@ class Home extends Component {
   }
 
   async componentDidMount() {
+    // console.log("Bearer ", localStorage.getItem('token'));
     try {
       dis = this;
       this.setState({ loading: true });

@@ -1,5 +1,4 @@
 import React, { useState, Fragment } from 'react';
-// import localForage from "localforage";
 import { useLocation } from 'react-router-dom';
 import TopBar from '../../UI/JS/topbar';
 import SecondaryBar from '../../UI/JS/secondary_navbar';
@@ -9,17 +8,27 @@ import EachRecord from './each_drug_history_record';
 import styles from '../CSS/drug_history.module.css';
 import styles2 from '../CSS/medical_history_data.module.css';
 import { Overlay } from 'react-portal-overlay';
+import { css } from "@emotion/core";
+import ClipLoader from "react-spinners/ClipLoader";
 const url = process.env.REACT_APP_BASE_URL;
+
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+`;
 
 const DrugHistory = () => {
   const patient = useLocation().state;
   const [openState, setOpenState] = useState('');
   const [showDrop, setShowWrap] = useState(false);
   const [showDropDes, setShowWrapDes] = useState(false);
-  const [showDropDur, setShowWrapDur] = useState(false);
-
+  const [dosage, setDosage] = useState(undefined);
+  const [sideEffect, setSideEffect] = useState('');
   const [editabelRecord, setEditabelRecord] = useState({});
+  const [showInfoDialog, setShowInfoDialog] = useState(false);
   const [editabelMode, setEditabelMode] = useState(false);
+  const [drug, setDrug] = useState(undefined);
 
   const [duration, setDuration] = useState("");
 
@@ -37,6 +46,7 @@ const DrugHistory = () => {
 
   const [recordList, setRecordList] = useState(drugHistory);
 
+  const durations = ['Years', 'Months', 'Days'];
 
   function handleSearchPhraseChange(phrase) {
     if (phrase.length > 2) {
@@ -71,61 +81,278 @@ const DrugHistory = () => {
   function enableEditMode(e, editables) {
     e.preventDefault();
     setEditabelRecord(editables);
+
     setEditabelMode(true);
-    console.log(editables);
+
+    setDosage(editables.Dosage);
+    setDuration(editables.Duration);
+    setDrug(editables.Drug)
+    setSideEffect(editables.SideEffect);
+
+    console.log("@enableEditMode", editables);
   }
 
-  async function deleteRecord(e, record) {
-    e.preventDefault();
-    console.log("DELETE API ... ", record);
+  function GetDrugs() {
+    const drugs = ['Metformin', 'Glibenclamide', 'Glipizide', 'Gliclazide', 'Gliclazide SR', 'Glimepiride',
+      'Sitagliptin', 'Vildagliptin', 'Linagliptin', 'Empagliflozin', 'Dapagliflozin', 'Premix insulin', 'Glargine',
+      'Detemir', 'Degludec', 'Liraglutide', 'Liraglutide', 'Voglibose', 'Telmisartan', 'Losartan', 'Valsartan',
+      'Amlodipine', 'Nifedipine', 'Nevibilol', 'Bisoprolol', 'Metoprolol', 'HCTz', 'Rosuvastatin', 'Simvastatin',
+      'Atorvastatin', 'Fenofibrate'];
+    return (
+      <>
+        {drugs.map(function (e, i) {
+          return (
+            <p
+              onClick={() => {
+                setDrug(e);
+              }}
+              style={{
+                position: 'relative',
+                top: 0,
+                left: 0,
+                width: '100%',
+                cursor: 'pointer',
+              }}
+              key={i}
+            >
+              {' '}
+              {e}{' '}
+            </p>
+          );
+        })}
+      </>
+    );
+  }
+
+  function GetDurations() {
+    return (
+      <>
+        {
+          durations.map(function (e, i) {
+            return (
+              <p
+                onClick={() => {
+                  setOpenState(e);
+                }}
+                style={{
+                  position: 'relative',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  cursor: 'pointer',
+                }}
+                key={i}
+              >
+                {' '}
+                {e}{' '}
+              </p>
+            )
+          })
+        }
+      </>
+    );
+  }
+
+  async function addNewRecord(){
+    var newDrugRecod = {Type:"Drugs", FolderNo: patient.FolderNo, Drug: drug, Dosage: dosage, SideEffect:sideEffect, Duration:duration}
+    // console.log("@addNewRecord", newDrugRecod);
+
+      try {
+        if (window.navigator.onLine) {
+          setEffects({
+            ...effects,
+            loading: true
+          });
+
+          const request = await fetch(`${url}/records`, {
+            method: "POST",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.token}`
+            },
+            body: JSON.stringify(newDrugRecod)
+          });
+
+          if (!request.ok) {
+            const error = await request.json();
+            throw Error(error.error);
+          }
+          const data = await request.json();
+
+          setEffects({
+            ...effects,
+            loading: false,
+            error: {
+              error: false,
+              title: "Success",
+              message: `${data.message}`,
+            },
+          });
+          setShowInfoDialog(true);
+        }else{
+          setEffects({
+            ...effects,
+            loading: false,
+            error: {
+              error: true,
+              title: "Network",
+              message: "Connection Error",
+            },
+          });
+          setShowInfoDialog(true);
+        }
+      } catch (error) {
+        setTimeout(() => {
+          setEffects({
+            ...effects,
+            loading: false,
+            error: {
+              error: true,
+              title: "Error",
+              message: error.message,
+            },
+          });
+
+          setShowInfoDialog(true);
+        }, 2000);
+      }
+  }
+
+  async function updateRecord(){
+    var edited = editabelRecord;
+    edited.Duration = duration;
+    edited.SideEffect = sideEffect;
+    edited.Drug = drug;
+    edited.Dosage = dosage;
+
+    // console.log("@updateRecord", edited);
 
     try {
-      setEffects({ ...effects, loading: true });
       if (window.navigator.onLine) {
-        const request = await fetch(`${url}/DeleteRecord`, {
-          method: 'POST',
+        setEffects({
+          ...effects,
+          loading: true
+        });
+
+        const request = await fetch(`${url}/UpdateRecords`, {
+          method: "POST",
           headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.token}`,
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.token}`
           },
-          body: JSON.stringify({ RecordID: record.RecordId }),
+          body: JSON.stringify(edited)
         });
 
         if (!request.ok) {
-          setEffects({ ...effects, loading: false });
           const error = await request.json();
           throw Error(error.error);
         }
         const data = await request.json();
 
-        console.log("DELETED SUCCESSFULLY ", data);
+        setEffects({
+          ...effects,
+          loading: false,
+          error: {
+            error: false,
+            title: "Success",
+            message: `${data.message}`,
+          },
+        });
+        setShowInfoDialog(true);
       } else {
         setEffects({
           ...effects,
+          loading: false,
           error: {
             error: true,
-            message: 'Connection Error',
+            title: "Network",
+            message: "Connection Error",
           },
         });
+        setShowInfoDialog(true);
       }
     } catch (error) {
-      setEffects({
-        ...effects,
-        error: {
-          error: true,
-          message: error.message,
-        },
-      });
-
       setTimeout(() => {
         setEffects({
+          ...effects,
+          loading: false,
           error: {
-            error: false,
-            message: '',
+            error: true,
+            title: "Error",
+            message: error.message,
           },
         });
-      }, 3000);
+
+        setShowInfoDialog(true);
+      }, 2000);
+    }
+  }
+
+  async function deleteRecord(e, record) {
+    e.preventDefault();
+    // console.log("@deleteRecord", record);
+
+    try {
+      if (window.navigator.onLine) {
+        setEffects({
+          ...effects,
+          loading: true
+        });
+
+        const request = await fetch(`${url}/DeleteRecord`, {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.token}`
+          },
+          body: JSON.stringify({ RecordID: record.RecordId }),
+        });
+
+        if (!request.ok) {
+          const error = await request.json();
+          throw Error(error.error);
+        }
+        const data = await request.json();
+
+        setEffects({
+          ...effects,
+          loading: false,
+          error: {
+            error: false,
+            title: "Success",
+            message: `${data.message}`,
+          },
+        });
+        setShowInfoDialog(true);
+      } else {
+        setEffects({
+          ...effects,
+          loading: false,
+          error: {
+            error: true,
+            title: "Network",
+            message: "Connection Error",
+          },
+        });
+        setShowInfoDialog(true);
+      }
+    } catch (error) {
+      setTimeout(() => {
+        setEffects({
+          ...effects,
+          loading: false,
+          error: {
+            error: true,
+            title: "Error",
+            message: error.message,
+          },
+        });
+
+        setShowInfoDialog(true);
+      }, 2000);
     }
   }
 
@@ -167,7 +394,7 @@ const DrugHistory = () => {
           )}
 
           <div className={styles.editWrap}>
-            <p className={styles.formLabel}>Nature</p>
+            <p className={styles.formLabel}>Drugs</p>
             <div
               className={styles.inputGpWrap}
               onClick={() => {
@@ -176,9 +403,9 @@ const DrugHistory = () => {
             >
               <input
                 className={styles.inputName}
-                placeholder="Select Nature"
+                placeholder="Select Drug"
                 disabled={true}
-                value={editabelRecord.Nature === undefined || editabelRecord.Nature === null ? '' : editabelRecord.Nature}
+                value={drug === undefined ? '' : drug}
               />
               <img
                 src={require('../../../images/chevDown.svg')}
@@ -187,24 +414,45 @@ const DrugHistory = () => {
               />{' '}
               {showDrop ? (
                 <div className={styles.dropWrap}>
-                  <p className={styles.pBlack}>No records Found</p>
+                  <GetDrugs/>
                 </div>
               ) : null}
             </div>
 
             {/* form feild two */}
-            <p className={styles.formLabel}>Description</p>
+            <p className={styles.formLabel}>Dosage (unit: mg)</p>
             <div
-              className={styles.inputGpWrap}
+              className={styles.inputGpWrap}>
+              <input
+                autoFocus={true}
+                className={styles.inputName}
+                placeholder="Enter Dosage"
+                value={dosage === undefined ? '' : dosage}
+                onChange={(e) => {
+                  setDosage(e.target.value)
+                }}
+                readOnly={false}
+                type='number'
+              />
+            </div>
+
+            {/* form feild three */}
+            <p className={styles.formLabel}>Duration/Entry</p>
+            <div
               onClick={() => {
                 setShowWrapDes(!showDropDes);
               }}
+              className={styles.inputGpWrap}
             >
               <input
                 className={styles.inputName}
-                placeholder="Select Description"
+                placeholder="Enter Duration"
                 disabled={true}
-                value={editabelRecord.Description === undefined || editabelRecord.Description === null ? '' : editabelRecord.Description}
+                value={
+                  duration === undefined
+                    ? ''
+                    : duration
+                }
               />
               <img
                 src={require('../../../images/chevDown.svg')}
@@ -213,47 +461,61 @@ const DrugHistory = () => {
               />{' '}
               {showDropDes ? (
                 <div className={styles.dropWrap}>
-                  <p className={styles.pBlack}>No records Found</p>
+                  <GetDurations />
                 </div>
               ) : null}
             </div>
 
-            {/* form feild three */}
-            <p className={styles.formLabel}>Duration/Entry</p>
-            <div
-              className={styles.inputGpWrap}
-            //   onClick={() => {
-            //     setShowWrapDes(!showDropDes);
-            //   }}
-            >
-              <input
-                className={styles.inputName}
-                placeholder="Select Duration"
-              //     value={myValueDes}
-              />
-            </div>
-
             {/* form feild four */}
-            <p className={styles.formLabel}>Duration/Entry</p>
+            <p className={styles.formLabel}>Side Effects</p>
             <div
-              className={styles.inputGpWrap}
-            //   onClick={() => {
-            //     setShowWrapDes(!showDropDes);
-            //   }}
-            >
-              <input
-                className={styles.inputName}
-                placeholder="Select Date"
-              //     value={myValueDes}
+              className={styles.inputGpWrapTextArea}>
+              <textarea
+              style={{width:'100%', height:'100%', margin:0, padding:0, border:'none'}}
+                id="SideEffect"
+                type="text"
+                name="side effect"
+                placeholder="Type in side effects"
+                className={styles.textarea}
+                value={sideEffect}
+                onChange={(e) => {
+                  setSideEffect(e.target.value);
+                }}
               />
-              <img
-                src={require('../../../images/cal.svg')}
-                alt=""
-                className={styles.chev}
-              />{' '}
             </div>
 
-            <p className={styles.addRec}>Add New Record</p>
+            {editabelMode ? (
+              <div className={styles.roe}>
+                <p
+                  onClick={(e) => {
+                    e.preventDefault();
+                    updateRecord();
+                  }}
+                  className={styles.addRec}
+                >
+                  Update Record
+                </p>
+                <p
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setEditabelMode(false);
+                  }}
+                  className={styles.addRec}
+                >
+                  Cancel
+                </p>
+              </div>
+            ) : (
+                <p
+                  onClick={(e) => {
+                    e.preventDefault();
+                    addNewRecord();
+                  }}
+                  className={styles.addRec}
+                >
+                  Add New Record
+                </p>
+              )}
           </div>
 
         </div>
@@ -290,9 +552,12 @@ const DrugHistory = () => {
         className={styles.modal}
         closeOnClick={true}
         open={openState !== ''}
-        onClose={() => { }}>
+        onClose={() => {
+          setOpenState('');
+        }}
+      >
         <div className={styles.modal_paper}>
-          <div className={styles.modalTop}>
+          <div className={styles.modalTop2}>
             <p className={styles.appTitle}>{openState}</p>
             <img
               src={require('../../../images/x.svg')}
@@ -302,27 +567,74 @@ const DrugHistory = () => {
               }}
             />
           </div>
-          <div className={styles.cWrap}>
-            <div className={styles.inputGpWrap}>
-              <input
-                className={styles.inputName}
-                onChange={(value) => {
-                  setDuration(`${value.target.value} ${openState}`);
-                }}
-                placeholder={`How Many ${openState} ?`}
-              />
-            </div>
+          {/* <div className={styles.cWrap}> */}
+          <div className={styles.inputGpWrap}>
+            <input
+              className={styles.inputName}
+              onChange={(value) => {
+                setDuration(`${value.target.value} ${openState}`);
+              }}
+              placeholder={`How Many ${openState} ?`}
+            />
+          </div>
+          {/* </div> */}
+          <div
+            onClick={() => {
+              setOpenState('');
+            }}
+            className={styles.pCreate}
+          >
+            Ok
+          </div>
+        </div>
+      </Overlay>
+
+      {/* Begin Show Info Dialog */}
+      <Overlay
+        className={styles.modal}
+        closeOnClick={true}
+        open={showInfoDialog}
+        onClose={() => {
+          setShowInfoDialog(false);
+        }}>
+        <div className={styles.modal_paper}>
+          <div className={styles.modalTop2}>
+            <p className={styles.appTitle}>{effects.error.title}</p>
+          </div>
+          <div className={styles.inputGpWrap}>
+            <p>{effects.error.message}</p>
           </div>
           <div
             onClick={() => {
               var pre = editabelRecord;
-              pre.Duration = duration
-              setEditabelRecord(pre);
-              setOpenState('');
+              pre.Duration = duration;
+              setShowInfoDialog(false);
             }}
-            className={styles.pCreate}>Ok</div>
+            className={styles.pCreate}
+          >
+            Dismiss
+          </div>
         </div>
       </Overlay>
+      {/* End Show Info Dialog */}
+
+
+      {/* Begin Spinner Show */}
+      <Overlay
+        className={styles.modal}
+        closeOnClick={true}
+        open={effects.loading}
+        onClose={() => {
+          setShowInfoDialog(false);
+        }}>
+        <ClipLoader
+          css={override}
+          size={150}
+          color={"#123abc"}
+          loading={true}
+        />
+      </Overlay>
+
     </>
   );
 };

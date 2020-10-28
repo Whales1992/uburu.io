@@ -36,10 +36,10 @@ class PatientBiodata extends Component {
 					(localStorage.bio_data &&
 						JSON.parse(localStorage.bio_data).KinsNumber) ||
 					"",
-				RelationshipToNextOfKin:
+				NextOfKin:
 					(localStorage.bio_data &&
 						JSON.parse(localStorage.bio_data)
-							.RelationshipToNextOfKin) ||
+						.NextOfKin) ||
 					"",
 				FolderNo:
 					(localStorage.bio_data &&
@@ -148,7 +148,7 @@ class PatientBiodata extends Component {
 				FirstName: "",
 				PhoneNumber: "",
 				KinsNumber: "",
-				RelationshipToNextOfKin: "",
+				NextOfKin: "",
 				FolderNo: "",
 				Gender: "",
 				Age: "",
@@ -257,13 +257,15 @@ class PatientBiodata extends Component {
 	}
 
 	render() {
+		console.log("HEAVEN", localStorage.bio_data);
+
 		const {
 			consent_check,
 			LastName,
 			FirstName,
 			PhoneNumber,
 			KinsNumber,
-			RelationshipToNextOfKin,
+			NextOfKin,
 			FolderNo,
 			Gender,
 			Age,
@@ -408,10 +410,10 @@ class PatientBiodata extends Component {
 								<input
 									id="RelationshipToNextOfKin"
 									type="text"
-									name="RelationshipToNextOfKin"
+									name="NextOfKin"
 									className={styles.input}
 									onChange={(e) => this.handleChange(e)}
-									value={RelationshipToNextOfKin}
+									value={NextOfKin}
 									placeholder="Enter relationship to next of kin"
 									required
 									disabled={!consent_check}
@@ -838,7 +840,7 @@ class PatientBiodata extends Component {
 									!FirstName ||
 									!Gender ||
 									!Age ||
-									!RelationshipToNextOfKin ||
+									!NextOfKin ||
 									!FolderNo ||
 									!MaritalStatus ||
 									!Diagnosis ||

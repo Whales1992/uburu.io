@@ -30,6 +30,8 @@ import PatientDrugHistory from './components/Patients/JS/drug_history';
 import InvestigationHistory from './components/Patients/JS/investigation_history';
 import PatientTreatmentOutcome from './components/Patients/Oncology/JS/treatment_outcome';
 
+import PatientTreatmentOutcome2 from './components/Patients/JS/patient_treatment_outcome';
+
 //Oncology data forms
 import OncologyPatientBiodataForm from './container/AddPatientData/Oncology/patient_biodata';
 import OncologyMedicalHistoryForm from './container/AddPatientData/Oncology/medical_history';
@@ -65,6 +67,7 @@ const PatientBiodataForm = (props) => {
   const registry = localStorage.account
     ? JSON.parse(localStorage.account).Name
     : null;
+
   if (registry === 'Oncology') return <OncologyPatientBiodataForm {...props} />;
   if (registry === 'Diabetes') return <DiabetesPatientBiodataForm {...props} />;
   if (registry === 'Asthma') return <AsthmaPatientBiodataForm {...props} />;
@@ -116,6 +119,8 @@ const PatientBioData = (props) => {
     ? JSON.parse(localStorage.account).Name
     : null;
 
+  console.log("@registry", registry);
+
   if (registry === 'Oncology') return <OncologyPatientBioData {...props} />;
   if (registry === 'Diabetes') return <DiabetesPatientBioData {...props} />;
   if (registry === 'Asthma') return <AsthmaPatientBioData {...props} />;
@@ -162,6 +167,13 @@ const App = () => {
               path="/patients/:id/treatment_outcome"
               component={PatientTreatmentOutcome}
             />
+
+            <AuthRoute
+              exact
+              path="/patients/:id/patient_treatment_outcome"
+              component={PatientTreatmentOutcome2}
+            />
+
             <AuthRoute
               exact
               path="/patients/:id/appointments_page"

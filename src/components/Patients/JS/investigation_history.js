@@ -6,20 +6,285 @@ import BottomBar from '../../UI/JS/bottom_toolbar';
 import Shell from './detail_shell';
 import EachRecord from './each_investigation';
 import styles from '../CSS/investigation_history.module.css';
+import { Overlay } from 'react-portal-overlay';
+import { css } from "@emotion/core";
+import ClipLoader from "react-spinners/ClipLoader";
+const url = process.env.REACT_APP_BASE_URL;
+
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+`;
 
 const InvestigationHistory = () => {
   const patient = useLocation().state;
-  const [myValue, setMyValue] = useState('');
-  const [myValueDes, setMyValueDes] = useState('');
   const [showDrop, setShowWrap] = useState(false);
-  const [showDropDes, setShowWrapDes] = useState(false);
-  const [editVisible, setEdit] = useState(true);
+  const [showInfoDialog, setShowInfoDialog] = useState(false);
+  const [editabelMode, setEditabelMode] = useState(false);
+  const [entry, setEntry] = useState(undefined);
+  const [investigation, setInvestigation] = useState(undefined);
+  const [editabelRecord, setEditabelRecord] = useState({});
 
   const investigationHistory =
     patient.records &&
     patient.records.filter((patient) => patient.Type === 'Investigation');
 
-  // const [showing, switchShowing] = useState("Chest X-ray")
+  console.log("@investigationHistory", investigationHistory);
+
+  const [effects, setEffects] = useState({
+    loading: false,
+    error: {
+      error: false,
+      message: '',
+    },
+  });
+
+  function GetInvestigations(){
+    const investigations = ['FBS', 'RBS', 'HbA1c', 'Total Cholesterol', 'Triglyceride Level',
+      'HDL-C', 'LDL-C', 'Serum Creatinine', 'eGFR', 'Total white blood cell count', 'Neutrophil count',
+      'Lymphocyte count', 'Monocyte count', 'Eosinophil count', 'Basophil count', 'Red blood cell count',
+      'Haemoglobin', 'Platelet count', 'Urine Protein', 'Vibration Perception Threshold (VPT)'];
+
+    return (
+      <>
+        {investigations.map(function (e, i) {
+          return (
+            <p
+              onClick={() => {
+                setInvestigation(e);
+              }}
+              style={{
+                position: 'relative',
+                top: 0,
+                left: 0,
+                width: '100%',
+                cursor: 'pointer',
+              }}
+              key={i}
+            >
+              {' '}
+              {e}{' '}
+            </p>
+          );
+        })}
+      </>
+    );
+  }
+
+  async function addNewRecord() {
+    var newInvestigation = { Type: "Investigation", Investigation: investigation, FolderNo: patient.FolderNo, Entry: entry}
+    console.log("@addNewRecord", newInvestigation);
+
+    try {
+      if (window.navigator.onLine) {
+        setEffects({
+          ...effects,
+          loading: true
+        });
+
+        const request = await fetch(`${url}/records`, {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.token}`
+          },
+          body: JSON.stringify(newInvestigation)
+        });
+
+        if (!request.ok) {
+          const error = await request.json();
+          throw Error(error.error);
+        }
+        const data = await request.json();
+
+        setEffects({
+          ...effects,
+          loading: false,
+          error: {
+            error: false,
+            title: "Success",
+            message: `${data.message}`,
+          },
+        });
+        setShowInfoDialog(true);
+      } else {
+        setEffects({
+          ...effects,
+          loading: false,
+          error: {
+            error: true,
+            title: "Network",
+            message: "Connection Error",
+          },
+        });
+        setShowInfoDialog(true);
+      }
+    } catch (error) {
+      setTimeout(() => {
+        setEffects({
+          ...effects,
+          loading: false,
+          error: {
+            error: true,
+            title: "Error",
+            message: error.message,
+          },
+        });
+
+        setShowInfoDialog(true);
+      }, 2000);
+    }
+  }
+
+  async function updateRecord() {
+    var edited = editabelRecord;
+    edited.Investigation = investigation;
+    edited.Entry = entry;
+
+    console.log("@updateRecord", edited);
+
+    try {
+      if (window.navigator.onLine) {
+        setEffects({
+          ...effects,
+          loading: true
+        });
+
+        const request = await fetch(`${url}/UpdateRecords`, {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.token}`
+          },
+          body: JSON.stringify(edited)
+        });
+
+        if (!request.ok) {
+          const error = await request.json();
+          throw Error(error.error);
+        }
+        const data = await request.json();
+
+        setEffects({
+          ...effects,
+          loading: false,
+          error: {
+            error: false,
+            title: "Success",
+            message: `${data.message}`,
+          },
+        });
+        setShowInfoDialog(true);
+      } else {
+        setEffects({
+          ...effects,
+          loading: false,
+          error: {
+            error: true,
+            title: "Network",
+            message: "Connection Error",
+          },
+        });
+        setShowInfoDialog(true);
+      }
+    } catch (error) {
+      setTimeout(() => {
+        setEffects({
+          ...effects,
+          loading: false,
+          error: {
+            error: true,
+            title: "Error",
+            message: error.message,
+          },
+        });
+
+        setShowInfoDialog(true);
+      }, 2000);
+    }
+  }
+
+  async function deleteRecord(e, record) {
+    e.preventDefault();
+    console.log("@deleteRecord", record);
+    try {
+      if (window.navigator.onLine) {
+        setEffects({
+          ...effects,
+          loading: true
+        });
+
+        const request = await fetch(`${url}/DeleteRecord`, {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.token}`
+          },
+          body: JSON.stringify({ RecordID: record.RecordId }),
+        });
+
+        if (!request.ok) {
+          const error = await request.json();
+          throw Error(error.error);
+        }
+        const data = await request.json();
+
+        setEffects({
+          ...effects,
+          loading: false,
+          error: {
+            error: false,
+            title: "Success",
+            message: `${data.message}`,
+          },
+        });
+        setShowInfoDialog(true);
+      } else {
+        setEffects({
+          ...effects,
+          loading: false,
+          error: {
+            error: true,
+            title: "Network",
+            message: "Connection Error",
+          },
+        });
+        setShowInfoDialog(true);
+      }
+    } catch (error) {
+      setTimeout(() => {
+        setEffects({
+          ...effects,
+          loading: false,
+          error: {
+            error: true,
+            title: "Error",
+            message: error.message,
+          },
+        });
+
+        setShowInfoDialog(true);
+      }, 2000);
+    }
+  }
+
+  async function handleSearchPhraseChange(key){
+
+  }
+
+  function enableEditMode(e, editables) {
+    e.preventDefault();
+
+    // console.log("@enableEditMode", editables);
+    setEntry(editables.Entry);
+    setInvestigation(editables.Investigation);
+    setEditabelRecord(editables);
+    setEditabelMode(true);
+  }
 
   return (
     <>
@@ -27,147 +292,115 @@ const InvestigationHistory = () => {
       <SecondaryBar page_title="Investigation History" shadow />
       <Shell name={`${patient.LastName} ${patient.FirstName}`}>
         <div className={styles.container}>
-          <div className={styles.editWrap2}>
+          
+          {/* Begin search section */}
+          <form className={styles.form}>
             <input
-              className={styles.input3}
+              className={styles.input}
               name="search_folder_no"
-              // value={value}
               type="text"
               placeholder="Search"
-              // onChange={(e) => handleChange(e.target.value)}
+              onChange={(e) => handleSearchPhraseChange(e.target.value)}
             />
-          </div>
-          {/* <select
-						name="record"
-						value={showing}
-						onChange={(e) => switchShowing(e.target.value)}
-						className={styles.select}
-					>
-						<option>Chest X-ray</option>
-						<option>UltraSound</option>
-						<option>CT-Scan</option>
-						<option>Total white blood cell count</option>
-						<option>Lymphocyte count</option>
-						<option>Monocyte count</option>
-						<option>Basophil count</option>
-						<option>Red blood cell count</option>
-						<option>Haemoglobin</option>
-						<option>Platelet count</option>
-						<option>CA 15-3</option>
-						<option>.CA 125</option>
-						<option>CA 19-9</option>
-						<option>CA 27-29</option>
-						<option>CEA</option>
-						<option>PSA</option>
-						<option>.ER Status (Immunohistochemistry)</option>
-						<option>PR Status (Immunohistochemistry)</option>
-						<option> HER 2 Status (Immunohistochemistry)</option>
-					</select> */}
+            <button aria-label="search" disabled={true}>
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path
+                  d="M16.8395 15.4605L13.1641 11.7852C14.0489 10.6072 14.5266 9.17331 14.525 7.7C14.525 3.93672 11.4633 0.875 7.7 0.875C3.93672 0.875 0.875 3.93672 0.875 7.7C0.875 11.4633 3.93672 14.525 7.7 14.525C9.17331 14.5266 10.6072 14.0489 11.7852 13.1641L15.4605 16.8395C15.6466 17.0058 15.8893 17.0945 16.1387 17.0876C16.3881 17.0806 16.6255 16.9784 16.8019 16.8019C16.9784 16.6255 17.0806 16.3881 17.0876 16.1387C17.0945 15.8893 17.0058 15.6466 16.8395 15.4605ZM2.825 7.7C2.825 6.73582 3.11091 5.79329 3.64659 4.9916C4.18226 4.18991 4.94363 3.56506 5.83442 3.19609C6.72521 2.82711 7.70541 2.73057 8.65107 2.91867C9.59672 3.10678 10.4654 3.57107 11.1471 4.25285C11.8289 4.93464 12.2932 5.80328 12.4813 6.74894C12.6694 7.69459 12.5729 8.67479 12.2039 9.56558C11.8349 10.4564 11.2101 11.2177 10.4084 11.7534C9.60672 12.2891 8.66418 12.575 7.7 12.575C6.40755 12.5735 5.16847 12.0593 4.25457 11.1454C3.34066 10.2315 2.82655 8.99246 2.825 7.7Z"
+                  fill="#A7A9BC"
+                />
+              </svg>
+            </button>
+          </form>
+          {/* End search section */}
+
           {investigationHistory ? (
             investigationHistory.map((record) => (
               <Fragment key={`${record.Investigation}_${record.Report}`}>
-                <EachRecord record={record} />
+                <EachRecord record={record} editMode={(e) => { enableEditMode(e, record) }} deleteRecord={(e) => { deleteRecord(e, record) }} />
               </Fragment>
             ))
           ) : (
-            <p className={styles.no_record}>No Investigation Record.</p>
-          )}
-          {editVisible ? (
-            <div className={styles.editWrap}>
-              <p className={styles.formLabel}>Nature</p>
-              <div
-                className={styles.inputGpWrap}
-                onClick={() => {
-                  setShowWrap(!showDrop);
-                }}
-              >
-                <input
-                  className={styles.inputName}
-                  placeholder="Select Nature"
-                  disabled={true}
-                  value={myValue}
-                />
-                <img
-                  src={require('../../../images/chevDown.svg')}
-                  alt=""
-                  className={styles.chev}
-                />{' '}
-                {showDrop ? (
-                  <div className={styles.dropWrap}>
-                    <p className={styles.pBlack}>No records Found</p>
-                  </div>
-                ) : null}
-              </div>
+              <p className={styles.no_record}>No Investigation Record.</p>
+            )}
 
-              {/* form feild two */}
-              <p className={styles.formLabel}>Description</p>
-              <div
-                className={styles.inputGpWrap}
-                onClick={() => {
-                  setShowWrapDes(!showDropDes);
-                }}
-              >
-                <input
-                  className={styles.inputName}
-                  placeholder="Select Description"
-                  disabled={true}
-                  value={myValueDes}
-                />
-                <img
-                  src={require('../../../images/chevDown.svg')}
-                  alt=""
-                  className={styles.chev}
-                />{' '}
-                {showDropDes ? (
-                  <div className={styles.dropWrap}>
-                    <p className={styles.pBlack}>No records Found</p>
-                  </div>
-                ) : null}
-              </div>
+          <div className={styles.editWrap}>
 
-              {/* form feild three */}
-              <p className={styles.formLabel}>Duration/Entry</p>
-              <div
-                className={styles.inputGpWrap}
-                //   onClick={() => {
-                //     setShowWrapDes(!showDropDes);
-                //   }}
-              >
-                <input
-                  className={styles.inputName}
-                  placeholder="Select Duration"
-                  //     value={myValueDes}
-                />
-                {/* {showDropDes ? (
+            {/* form feild one */}
+            <p className={styles.formLabel}>Investigation</p>
+            <div
+              className={styles.inputGpWrap}
+              onClick={() => {
+                setShowWrap(!showDrop);
+              }}
+            >
+              <input
+                className={styles.inputName}
+                placeholder="Select Investigation"
+                disabled={true}
+                value={investigation === undefined ? '' : investigation}
+              />
+              <img
+                src={require('../../../images/chevDown.svg')}
+                alt=""
+                className={styles.chev}
+              />{' '}
+              {showDrop ? (
                 <div className={styles.dropWrap}>
-                  <p className={styles.pBlack}>No records Found</p>
+                  <GetInvestigations />
                 </div>
-              ) : null} */}
-              </div>
-
-              {/* form feild four */}
-              <p className={styles.formLabel}>Duration/Entry</p>
-              <div
-                className={styles.inputGpWrap}
-                //   onClick={() => {
-                //     setShowWrapDes(!showDropDes);
-                //   }}
-              >
-                <input
-                  className={styles.inputName}
-                  placeholder="Select Date"
-                  //     value={myValueDes}
-                />
-                <img
-                  src={require('../../../images/cal.svg')}
-                  alt=""
-                  className={styles.chev}
-                />{' '}
-              </div>
-
-              <p className={styles.addRec}>Add New Record</p>
+              ) : null}
             </div>
-          ) : null}
+
+
+            {/* form feild two */}
+            <p className={styles.formLabel}>Entry</p>
+            <div
+              className={styles.inputGpWrap}>
+              <input
+                autoFocus={true}
+                className={styles.inputName}
+                value={entry === undefined ? '' : entry}
+                onChange={(e) => {
+                  setEntry(e.target.value)
+                }}
+                readOnly={false}
+                type='number'
+              />
+            </div>
+
+            {editabelMode ? (
+              <div className={styles.roe}>
+                <p
+                  onClick={(e) => {
+                    e.preventDefault();
+                    updateRecord();
+                  }}
+                  className={styles.addRec}
+                >
+                  Update Record
+                </p>
+                <p
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setEditabelMode(false);
+                  }}
+                  className={styles.addRec}
+                >
+                  Cancel
+                </p>
+              </div>
+            ) : (
+                <p
+                  onClick={(e) => {
+                    e.preventDefault();
+                    addNewRecord();
+                  }}
+                  className={styles.addRec}
+                >
+                  Add New Record
+                </p>
+              )}
+          </div>
         </div>
 
         <button className={styles.add_new_record} aria-label="Add new record">
@@ -198,6 +431,51 @@ const InvestigationHistory = () => {
         </button>
         <BottomBar />
       </Shell>
+
+      {/* Begin Show Info Dialog */}
+      <Overlay
+        className={styles.modal}
+        closeOnClick={true}
+        open={showInfoDialog}
+        onClose={() => {
+          setShowInfoDialog(false);
+        }}>
+        <div className={styles.modal_paper}>
+          <div className={styles.modalTop2}>
+            <p className={styles.appTitle}>{effects.error.title}</p>
+          </div>
+          <div className={styles.inputGpWrap}>
+            <p>{effects.error.message}</p>
+          </div>
+          <div
+            onClick={() => {
+              setShowInfoDialog(false);
+            }}
+            className={styles.pCreate}
+          >
+            Dismiss
+          </div>
+        </div>
+      </Overlay>
+      {/* End Show Info Dialog */}
+
+
+      {/* Begin Spinner Show */}
+      <Overlay
+        className={styles.modal}
+        closeOnClick={true}
+        open={effects.loading}
+        onClose={() => {
+          setShowInfoDialog(false);
+        }}>
+        <ClipLoader
+          css={override}
+          size={150}
+          color={"#123abc"}
+          loading={true}
+        />
+      </Overlay>
+
     </>
   );
 };

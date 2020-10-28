@@ -16,7 +16,7 @@ const BioData = (props) => {
 		FirstName: bioData ? bioData.FirstName : "",
 		PhoneNumber: bioData ? bioData.PhoneNumber : "",
 		KinsNumber: bioData ? bioData.KinsNumber : "",
-		RelationshipToNextOfKin: bioData ? bioData.RelationshipToNextOfKin : "",
+		NextOfKin: bioData ? bioData.NextOfKin : "",
 		FolderNo: bioData ? bioData.FolderNo : "",
 		Gender: bioData ? bioData.Gender : "",
 		Age: bioData ? bioData.Age : "",
@@ -56,6 +56,8 @@ const BioData = (props) => {
 
 	async function updatePatientDataOnline(e) {
 		e.preventDefault();
+		console.log("@BioData", value);
+
 		try {
 			setEffects({ ...effects, loading: true });
 			if (window.navigator.onLine) {
@@ -179,18 +181,18 @@ const BioData = (props) => {
 							/>
 						</div>
 						<div>
-							<label htmlFor="RelationshipToNextOfKin">
+							<label htmlFor="NextOfKin">
 								Relationship To Next of Kin
 							</label>
 							<input
-								id="RelationshipToNextOfKin"
+								id="NextOfKin"
 								type="text"
-								name="RelationshipToNextOfKin"
+								name="NextOfKin"
 								className={styles.input}
 								onChange={(e) =>
-									handleChange("RelationshipToNextOfKin", e)
+									handleChange("NextOfKin", e)
 								}
-								value={value.RelationshipToNextOfKin}
+								value={value.NextOfKin}
 								placeholder="Enter relationship to next of kin"
 								required
 							/>
@@ -508,7 +510,7 @@ const BioData = (props) => {
 								!value.Gender ||
 								!value.Age ||
 								!value.KinsNumber ||
-								!value.RelationshipToNextOfKin ||
+								!value.NextOfKin ||
 								!value.FolderNo ||
 								!value.MaritalStatus ||
 								!value.DiabetesDiagnosis ||
