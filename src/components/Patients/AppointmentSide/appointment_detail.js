@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Overlay } from 'react-portal-overlay';
 import styles from '../CSS/appointments_side_page.module.css';
 

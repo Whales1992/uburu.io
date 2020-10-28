@@ -1,8 +1,8 @@
-import React, { memo, Fragment, useState } from 'react';
+import React, { memo, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import styles from '../CSS/recent_records.module.css';
 import localForage from 'localforage';
-const url = process.env.REACT_APP_BASE_URL;
+// const url = process.env.REACT_APP_BASE_URL;
 
 localForage.getItem("patients").then((res) => {
   // console.log("@HERE", res);
@@ -20,13 +20,13 @@ const EachRecentRecord = ({ patient }) => {
     DateCreated,
   } = patient;
 
-  const [effects, setEffects] = useState({
-    loading: false,
-    error: {
-      error: false,
-      message: '',
-    },
-  });
+  // const [effects, setEffects] = useState({
+  //   loading: false,
+  //   error: {
+  //     error: false,
+  //     message: '',
+  //   },
+  // });
 
   const splitDateString = new Date(DateCreated).toDateString().split(' ');
 
