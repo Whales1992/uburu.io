@@ -73,7 +73,7 @@ const TabConOne = (appointmentList) => {
 
         {appointmentList.appointmentList.length === 0 ? (
           <div className={styles.empty}>
-            <p>You don have any appointment yet</p>
+            <p>You don't have any appointment yet</p>
           </div>
         ) : (
           appointmentList.appointmentList.map((item, i) => {
