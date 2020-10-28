@@ -52,23 +52,25 @@ const TabConOne = (appointmentList) => {
   const [calender, setCalVal] = useState('Sort Date');
   return (
     <div className={styles.contentWrap}>
-      <div className={styles.fistDiv}>
-        <div className={styles.dateWrap}>
-          <input
-            placeholder={calender}
-            className={styles.calender}
-            disabled={true}
-          />
-          <img src={require('../../../images/cal.svg')} alt="" />
-        </div>
-
-        <div className={styles.appointWrap}>
-          <p className={styles.appointLeft}>Appointment Compliance</p>
-          <p className={styles.appointRight}>40%</p>
-        </div>
-      </div>
-
       <>
+      {
+          appointmentList.appointmentList.length !== 0 ? <div className={styles.fistDiv}>
+            <div className={styles.dateWrap}>
+              <input
+                placeholder={calender}
+                className={styles.calender}
+                disabled={true}
+              />
+              <img src={require('../../../images/cal.svg')} alt="" />
+            </div>
+
+            <div className={styles.appointWrap}>
+              <p className={styles.appointLeft}>Appointment Compliance</p>
+              <p className={styles.appointRight}>40%</p>
+            </div>
+          </div>:null
+      }
+
         {appointmentList.appointmentList.length === 0 ? (
           <div className={styles.empty}>
             <p>You don have any appointment yet</p>

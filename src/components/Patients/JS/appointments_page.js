@@ -69,10 +69,7 @@ const AppointmentsSidePage = () => {
             loading: false
           });
        
-          if (data.data.length === 0) {
-            // console.log("@APPOINTEMNTS", data.data);
-            setAppointmentList(data.data);
-          }
+          setAppointmentList(data.data);
         } else {
           setEffects({
             ...effects,
@@ -166,25 +163,3 @@ const AppointmentsSidePage = () => {
 };
 
 export default AppointmentsSidePage;
-
-
-// {
-//   "status": 200,
-//     "message": "Appiontment successful scheduled",
-//       "data": [
-        // {
-        //   "AppointmentID": 2,
-        //   "UserID": "9",
-        //   "RegistryID": "7",
-        //   "PatientID": null,
-        //   "FolderNo": "900",
-        //   "DateCreated": "2020-10-26T00:00:00.000Z",
-        //   "Nature": "Drug",
-        //   "ValueDate": "12/03/2020",
-        //   "ValueTime": "19:00",
-        //   "Duration": null,
-        //   "Type": null,
-        //   "Status": "Active"
-        // }
-//       ]
-// }

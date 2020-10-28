@@ -1,10 +1,21 @@
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Overlay } from 'react-portal-overlay';
 import DatePicker from 'react-date-picker';
 import TimePicker from 'react-time-picker';
 import styles from '../CSS/appointments_side_page.module.css';
+import { css } from "@emotion/core";
+import ClipLoader from "react-spinners/ClipLoader";
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+`;
+const url = process.env.REACT_APP_BASE_URL;
 
 const CreateAppointment = (props) => {
+  const patient = useLocation().state;
+
   const [openState, setOpenState] = useState(true);
   const [myValue, setMyValue] = useState('');
   const [myDateValue, setMyDateValue] = useState(new Date());
@@ -12,16 +23,121 @@ const CreateAppointment = (props) => {
   const [showDrop, setShowWrap] = useState(false);
   const { history } = props;
 
-  const onSubmit = () => {
-    const params = {
+  const natures = ['Medical', 'Drug', 'Investigation', 'Treatment Outcome'];
+
+  const [showInfoDialog, setShowInfoDialog] = useState(false);
+  const [effects, setEffects] = useState({
+    loading: false,
+    error: {
+      error: false,
+      message: '',
+      title: "Info"
+    },
+  });
+
+  const GetNatures = ()=>{
+        return (
+      <>
+        {natures.map(function (e, i) {
+          return (
+            <p
+              onClick={() => {
+                setMyValue(e);
+              }}
+              style={{
+                position: 'relative',
+                top: 0,
+                left: 0,
+                width: '100%',
+                cursor: 'pointer',
+              }}
+              key={i}
+            >
+              {' '}
+              {e}{' '}
+            </p>
+          );
+        })}
+      </>
+    );
+  }
+
+  const onSubmit = async () => {
+    const payload = {
       Nature: myValue,
       ValueDate: myDateValue,
       ValueTime: myTimeValue,
+      FolderNo: patient.FolderNo
     };
-    console.log({ params });
+
+    try {
+      if (window.navigator.onLine) {
+        setEffects({
+          ...effects,
+          loading: true
+        });
+        const request = await fetch(`${url}/appointment`, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.token}`,
+          },
+          body: JSON.stringify(payload),
+        });
+
+        if (!request.ok) {
+          const error = await request.json();
+          throw Error(error.error);
+        }
+
+        const data = await request.json();
+        console.log("@SUBMIT", data);
+
+        setEffects({
+          ...effects,
+          loading: false,
+          error: {
+            error: false,
+            title: "Success",
+            message: `${data.message}`,
+          },
+        });
+
+        setShowInfoDialog(true);
+
+      } else {
+        setEffects({
+          ...effects,
+          loading: false,
+          error: {
+            error: true,
+            title: "Network",
+            message: "Connection Error",
+          },
+        });
+        setShowInfoDialog(true);
+      }
+    } catch (error) {
+      setTimeout(() => {
+        setEffects({
+          ...effects,
+          loading: false,
+          error: {
+            error: true,
+            title: "Error",
+            message: error.message,
+          },
+        });
+
+        setShowInfoDialog(true);
+      }, 2000);
+    }
+
   };
 
   return (
+    <> 
     <Overlay
       className={styles.modal}
       closeOnClick
@@ -52,7 +168,7 @@ const CreateAppointment = (props) => {
           >
             <input
               className={styles.inputName}
-              placeholder="Testing"
+              placeholder="Select ..."
               disabled={true}
               value={myValue}
             />
@@ -65,11 +181,10 @@ const CreateAppointment = (props) => {
               <div
                 className={styles.dropWrap}
                 onClick={() => {
-                  setMyValue('ill nature picker');
                   setShowWrap(false);
                 }}
               >
-                <p className={styles.pBlack}>No records Found</p>
+                <GetNatures />
               </div>
             ) : null}
           </div>
@@ -91,13 +206,6 @@ const CreateAppointment = (props) => {
 
           <p className={styles.formLabel}>Appointment Time</p>
           <div className={styles.inputGpWrap}>
-            {/* <input
-              onChange={() => {}}
-              className={styles.inputName}
-              placeholder="time"
-              disabled={false}
-              value={myTimeValue}
-            /> */}
             <TimePicker
               onChange={setMyTimeValue}
               clearIcon={null}
@@ -124,6 +232,53 @@ const CreateAppointment = (props) => {
         </div>
       </div>
     </Overlay>
+    
+
+      {/* Begin Show Info Overlay */}
+      <Overlay
+        className={styles.modal}
+        closeOnClick={true}
+        open={showInfoDialog}
+        onClose={() => {
+          setShowInfoDialog(false);
+        }}>
+        <div className={styles.modal_paper}>
+          <div className={styles.modalTop2}>
+            <p className={styles.appTitle}>{effects.error.title}</p>
+          </div>
+          <div className={styles.inputGpWrap}>
+            <p>{effects.error.message}</p>
+          </div>
+          <div
+            onClick={() => {
+              setShowInfoDialog(false);
+            }}
+            className={styles.pCreate}
+          >
+            Dismiss
+          </div>
+        </div>
+      </Overlay>
+      {/* End Show Info Overlay */}
+
+
+      {/* Begin Spinner Overlay */}
+      <Overlay
+        className={styles.modal}
+        closeOnClick={true}
+        open={effects.loading}
+        onClose={() => {
+          setShowInfoDialog(false);
+        }}>
+        <ClipLoader
+          css={override}
+          size={150}
+          color={"#123abc"}
+          loading={true}
+        />
+      </Overlay>
+      {/* End Spinner Overlay */}
+    </>
   );
 };
 

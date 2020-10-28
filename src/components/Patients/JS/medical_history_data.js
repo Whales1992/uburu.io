@@ -1200,6 +1200,7 @@ const MedicalHistory = () => {
         <BottomBar />
       </Shell>
 
+      {/* Days,Months, and Years Selection Overlay */}
       <Overlay
         className={styles.modal}
         closeOnClick={true}
@@ -1243,9 +1244,10 @@ const MedicalHistory = () => {
           </div>
         </div>
       </Overlay>
-    
+      {/* End Days,Months, and Years Selection Overlay */}
 
-      {/* Begin Show Info Dialog */}
+
+      {/* Begin Show Info Overlay */}
       <Overlay
         className={styles.modal}
         closeOnClick={true}
@@ -1272,10 +1274,10 @@ const MedicalHistory = () => {
           </div>
           </div>
         </Overlay>
-      {/* End Show Info Dialog */}
+      {/* End Show Info Overlay */}
     
 
-      {/* Begin Spinner Show */}
+      {/* Begin Spinner Overlay */}
       <Overlay
         className={styles.modal}
         closeOnClick={true}
@@ -1290,7 +1292,7 @@ const MedicalHistory = () => {
           loading={true}
         />
       </Overlay>
-
+      {/* End Spinner Overlay */}
     </>
   );
 };
