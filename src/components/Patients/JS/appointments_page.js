@@ -33,73 +33,68 @@ const AppointmentsSidePage = () => {
     },
   });
   
-  useEffect(()=>{
-    getAppointments();
-  },[null])
+  const getAppointments = async ()=> {
+    const payload = { FolderNo: patient.FolderNo, Type: 'Appointment' }
+    try {
+      if (window.navigator.onLine) {
+        setEffects({
+          ...effects,
+          loading: true
+        });
+        const request = await fetch(`${url}/getUniversal`, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.token}`,
+          },
+          body: JSON.stringify(payload),
+        });
 
-  
-
-  async function getAppointments() {
-    const payload = { FolderNo: patient.FolderNo, Type: 'Appointment'}
-    // console.log("@getAppointments DidMount", payload);
-      try {
-        if (window.navigator.onLine) {
-          setEffects({
-            ...effects,
-            loading: true
-          });
-          const request = await fetch(`${url}/getUniversal`, {
-            method: 'POST',
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${localStorage.token}`,
-            },
-            body: JSON.stringify(payload),
-          });
-
-          if (!request.ok) {
-            const error = await request.json();
-            throw Error(error.error);
-          }
-          const data = await request.json();
-
-          setEffects({
-            ...effects,
-            loading: false
-          });
-       
-          setAppointmentList(data.data);
-        } else {
-          setEffects({
-            ...effects,
-            loading: false,
-            error: {
-              error: true,
-              title: "Network",
-              message: "Connection Error",
-            },
-          });
-          setShowInfoDialog(true);
+        if (!request.ok) {
+          const error = await request.json();
+          throw Error(error.error);
         }
-      } catch (error) {
-        setTimeout(() => {
-          setEffects({
-            ...effects,
-            loading: false,
-            error: {
-              error: true,
-              title: "Error",
-              message: error.message,
-            },
-          });
+        const data = await request.json();
 
-          setShowInfoDialog(true);
-        }, 2000);
+        setEffects({
+          ...effects,
+          loading: false
+        });
+
+        setAppointmentList(data.data);
+      } else {
+        setEffects({
+          ...effects,
+          loading: false,
+          error: {
+            error: true,
+            title: "Network",
+            message: "Connection Error",
+          },
+        });
+        setShowInfoDialog(true);
       }
+    } catch (error) {
+      setTimeout(() => {
+        setEffects({
+          ...effects,
+          loading: false,
+          error: {
+            error: true,
+            title: "Error",
+            message: error.message,
+          },
+        });
+
+        setShowInfoDialog(true);
+      }, 2000);
+    }
   }
 
-
+  useEffect(()=>{
+    getAppointments();
+  }, [])
 
   return (
     <>
