@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Overlay } from 'react-portal-overlay';
 import styles from '../CSS/appointments_side_page.module.css';
 
 const AppointmentDetail = (props) => {
   const { history, location } = props;
-  const [openState, setOpenState] = useState(true);
-
   const { objectItem } = location;
 
-  if (objectItem==undefined){
+  if (objectItem===undefined){
     history.goBack();
   }
 
@@ -17,10 +15,10 @@ const AppointmentDetail = (props) => {
   return (
     <>
     {
-        objectItem == undefined ? history.goBack() : <Overlay
+        objectItem === undefined ? history.goBack() : <Overlay
           className={styles.modal}
           closeOnClick
-          open={openState}
+          open={true}
           onClose={() => {
             history.goBack();
           }}

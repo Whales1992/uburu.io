@@ -2,7 +2,6 @@ import React, { Fragment, memo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from '../CSS/records.module.css';
 import localForage from 'localforage';
-import { Button } from 'react-bootstrap';
 
 const url = process.env.REACT_APP_BASE_URL;
 
@@ -17,7 +16,6 @@ export const EachRecentRecord = ({ record }) => {
     DateCreated,
   } = record;
 
-  const [toggle, setToggle] = useState(false);
   const [showDeleteIcon, setShowDeleteIcon] = useState(false)
 
   const [effects, setEffects] = useState({

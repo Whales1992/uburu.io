@@ -15,8 +15,6 @@ const url = process.env.REACT_APP_BASE_URL;
 
 const CreateAppointment = (props) => {
   const patient = useLocation().state;
-
-  const [openState, setOpenState] = useState(true);
   const [myValue, setMyValue] = useState('');
   const [myDateValue, setMyDateValue] = useState(new Date());
   const [myTimeValue, setMyTimeValue] = useState('');
@@ -141,7 +139,7 @@ const CreateAppointment = (props) => {
     <Overlay
       className={styles.modal}
       closeOnClick
-      open={openState}
+      open={true}
       onClose={() => {
         history.goBack();
       }}

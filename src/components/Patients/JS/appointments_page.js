@@ -35,7 +35,7 @@ const AppointmentsSidePage = () => {
   
   useEffect(()=>{
     getAppointments();
-  },[])
+  },[null])
 
   
 

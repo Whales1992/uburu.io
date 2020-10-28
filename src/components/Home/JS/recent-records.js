@@ -1,11 +1,11 @@
-import React, { memo, Fragment, useState, Modal } from 'react';
+import React, { memo, Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from '../CSS/recent_records.module.css';
 import localForage from 'localforage';
 const url = process.env.REACT_APP_BASE_URL;
 
 localForage.getItem("patients").then((res) => {
-  console.log("@HERE", res);
+  // console.log("@HERE", res);
 });
 
 const EachRecentRecord = ({ patient }) => {
@@ -30,69 +30,69 @@ const EachRecentRecord = ({ patient }) => {
 
   const splitDateString = new Date(DateCreated).toDateString().split(' ');
 
-  async function deleteRecord(e) {
-    e.preventDefault();
-    try {
-      setEffects({ ...effects, loading: true });
+  // async function deleteRecord(e) {
+  //   e.preventDefault();
+  //   try {
+  //     setEffects({ ...effects, loading: true });
 
-      if (window.navigator.onLine) {
-        const request = await fetch(`${url}/PatientDelete`, {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.token}`,
-          },
-          body: JSON.stringify({ FolderNo: patient.FolderNo }),
-        });
+  //     if (window.navigator.onLine) {
+  //       const request = await fetch(`${url}/PatientDelete`, {
+  //         method: 'POST',
+  //         headers: {
+  //           Accept: 'application/json',
+  //           'Content-Type': 'application/json',
+  //           Authorization: `Bearer ${localStorage.token}`,
+  //         },
+  //         body: JSON.stringify({ FolderNo: patient.FolderNo }),
+  //       });
 
-        if (!request.ok) {
-          const error = await request.json();
-          global.reFresh();
-          setEffects({
-            ...effects, loading: false});
+  //       if (!request.ok) {
+  //         const error = await request.json();
+  //         global.reFresh();
+  //         setEffects({
+  //           ...effects, loading: false});
           
-          // alert('Error:' + error.error);
-          throw Error(error.error);
-        }
+  //         // alert('Error:' + error.error);
+  //         throw Error(error.error);
+  //       }
 
-        const data = await request.json();
-        console.log("WHY???", data);
+  //       const data = await request.json();
+  //       console.log("WHY???", data);
 
-        localForage.removeItem(patient.FolderNo, {}).then(() => {
-          console.log('@deleteRecord');
-        });
+  //       localForage.removeItem(patient.FolderNo, {}).then(() => {
+  //         console.log('@deleteRecord');
+  //       });
 
 
 
-      } else {
-        setEffects({
-          ...effects,
-          error: {
-            error: true,
-            message: 'Connection Error',
-          },
-        });
-      }
-    } catch (error) {
-      setEffects({
-        ...effects,
-        error: {
-          error: true,
-          message: error.message,
-        },
-      });
+  //     } else {
+  //       setEffects({
+  //         ...effects,
+  //         error: {
+  //           error: true,
+  //           message: 'Connection Error',
+  //         },
+  //       });
+  //     }
+  //   } catch (error) {
+  //     setEffects({
+  //       ...effects,
+  //       error: {
+  //         error: true,
+  //         message: error.message,
+  //       },
+  //     });
 
-      setTimeout(() => {
-        setEffects({
-          error: {
-            error: false,
-            message: '',
-          },
-        });
-      }, 3000);
-    }
-  }
+  //     setTimeout(() => {
+  //       setEffects({
+  //         error: {
+  //           error: false,
+  //           message: '',
+  //         },
+  //       });
+  //     }, 3000);
+  //   }
+  // }
 
   return (
     <div className={styles.each_record}>

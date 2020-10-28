@@ -3,23 +3,6 @@ import { Link } from 'react-router-dom';
 import styles from '../CSS/appointments_side_page.module.css';
 import localForage from 'localforage';
 
-const detailsArray = [
-  {
-    AppointmentID: 2,
-    UserID: '9',
-    RegistryID: '7',
-    PatientID: null,
-    FolderNo: '900',
-    DateCreated: '2020-10-26T00:00:00.000Z',
-    Nature: 'Drug',
-    ValueDate: '12/03/2020',
-    ValueTime: '19:00',
-    Duration: null,
-    Type: null,
-    Status: 'Active',
-  },
-];
-
 const patientName = (item) => {
   let name = 'Unknown';
   if (item !== null && item !== undefined) {
@@ -27,7 +10,7 @@ const patientName = (item) => {
       .getItem('patients')
       .then((res) => {
         res.forEach((element) => {
-          if (element.PatientID == item.PatientID) {
+          if (element.PatientID === item.PatientID) {
             console.log('PATIENT FOUND', element);
             name = `${element.LastName} ${element.FirstName}`;
           }
@@ -49,7 +32,7 @@ const patientName = (item) => {
 patientName();
 
 const TabConOne = (appointmentList) => {
-  const [calender, setCalVal] = useState('Sort Date');
+  const [calender] = useState('Sort Date');
   return (
     <div className={styles.contentWrap}>
       <>
