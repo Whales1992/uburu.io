@@ -691,9 +691,9 @@ const DrugHistory = () => {
               Yes
             </div>
             <div
-              // onClick={() => {
-              //   setShowInfoDialog(false);
-              // }}
+              onClick={() => {
+                setShowDeleteDialog(false);
+              }}
               className={styles.pNo}
             >
               No
