@@ -22,6 +22,7 @@ const url = process.env.REACT_APP_BASE_URL;
 const AppointmentsSidePage = () => {
   const patient = useLocation().state;
   const [active, setActive] = useState(true);
+  const [appointmentList, setAppointmentList] = useState([]);
   const [showInfoDialog, setShowInfoDialog] = useState(false);
   const [effects, setEffects] = useState({
     loading: false,
@@ -39,84 +40,66 @@ const AppointmentsSidePage = () => {
   
 
   async function getAppointments() {
-    console.log("@getAppointments DidMount");
+    const payload = { FolderNo: patient.FolderNo, Type: 'Appointment'}
+    // console.log("@getAppointments DidMount", payload);
+      try {
+        if (window.navigator.onLine) {
+          setEffects({
+            ...effects,
+            loading: true
+          });
+          const request = await fetch(`${url}/getUniversal`, {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${localStorage.token}`,
+            },
+            body: JSON.stringify(payload),
+          });
 
-    setEffects({
-      ...effects,
-      loading: true
-    });
+          if (!request.ok) {
+            const error = await request.json();
+            throw Error(error.error);
+          }
+          const data = await request.json();
 
-    setTimeout(()=>{
-      setEffects({
-        ...effects,
-        loading: false
-      });
-    }, 3000);
+          setEffects({
+            ...effects,
+            loading: false
+          });
+       
+          if (data.data.length === 0) {
+            // console.log("@APPOINTEMNTS", data.data);
+            setAppointmentList(data.data);
+          }
+        } else {
+          setEffects({
+            ...effects,
+            loading: false,
+            error: {
+              error: true,
+              title: "Network",
+              message: "Connection Error",
+            },
+          });
+          setShowInfoDialog(true);
+        }
+      } catch (error) {
+        setTimeout(() => {
+          setEffects({
+            ...effects,
+            loading: false,
+            error: {
+              error: true,
+              title: "Error",
+              message: error.message,
+            },
+          });
 
-    // if (!localStorage.gotAppointments){
-    //   localStorage.setItem('gotAppointments', true);
-    //   console.log("@getAppointments B", localStorage.gotAppointments);
-
-      // try {
-      //   if (window.navigator.onLine) {
-      //     setEffects({
-      //       ...effects,
-      //       loading: true
-      //     });
-      //     const request = await fetch(`${url}/CheckAppointment`, {
-      //       method: 'POST',
-      //       headers: {
-      //         Accept: 'application/json',
-      //         'Content-Type': 'application/json',
-      //         Authorization: `Bearer ${localStorage.token}`,
-      //       },
-      //       body: JSON.stringify({ PatientID: patient.PatientID }),
-      //     });
-
-      //     if (!request.ok) {
-      //       const error = await request.json();
-      //       throw Error(error.error);
-      //     }
-      //     const data = await request.json();
-
-      //     setEffects({
-      //       ...effects,
-      //       loading: false,
-      //       error: {
-      //         error: false,
-      //         title: "Success",
-      //         message: `${data.message}`,
-      //       },
-      //     });
-      //     setShowInfoDialog(true);
-      //   } else {
-      //     setEffects({
-      //       ...effects,
-      //       loading: false,
-      //       error: {
-      //         error: true,
-      //         title: "Network",
-      //         message: "Connection Error",
-      //       },
-      //     });
-      //     setShowInfoDialog(true);
-      //   }
-      // } catch (error) {
-      //   setTimeout(() => {
-      //     setEffects({
-      //       ...effects,
-      //       loading: false,
-      //       error: {
-      //         error: true,
-      //         title: "Error",
-      //         message: error.message,
-      //       },
-      //     });
-
-      //     setShowInfoDialog(true);
-      //   }, 2000);
-      // }
-    // }
+          setShowInfoDialog(true);
+        }, 2000);
+      }
   }
 
 
@@ -128,8 +111,7 @@ const AppointmentsSidePage = () => {
       <Shell name={`${patient.LastName} ${patient.FirstName}`}>
         <div className={styles.container}>
           <TabHead active={active} activeToogle={setActive} />
-
-          {active ? <TabConOne /> : null}
+          {active ? <TabConOne appointmentList={appointmentList}/> : null}
         </div>
         <BottomBar />
       </Shell>
@@ -190,19 +172,19 @@ export default AppointmentsSidePage;
 //   "status": 200,
 //     "message": "Appiontment successful scheduled",
 //       "data": [
-//         {
-//           "AppointmentID": 2,
-//           "UserID": "9",
-//           "RegistryID": "7",
-//           "PatientID": null,
-//           "FolderNo": "900",
-//           "DateCreated": "2020-10-26T00:00:00.000Z",
-//           "Nature": "Drug",
-//           "ValueDate": "12/03/2020",
-//           "ValueTime": "19:00",
-//           "Duration": null,
-//           "Type": null,
-//           "Status": "Active"
-//         }
+        // {
+        //   "AppointmentID": 2,
+        //   "UserID": "9",
+        //   "RegistryID": "7",
+        //   "PatientID": null,
+        //   "FolderNo": "900",
+        //   "DateCreated": "2020-10-26T00:00:00.000Z",
+        //   "Nature": "Drug",
+        //   "ValueDate": "12/03/2020",
+        //   "ValueTime": "19:00",
+        //   "Duration": null,
+        //   "Type": null,
+        //   "Status": "Active"
+        // }
 //       ]
 // }
