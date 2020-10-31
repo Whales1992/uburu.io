@@ -1,17 +1,20 @@
 import React, { useState, Fragment } from 'react';
 import { useLocation } from 'react-router-dom';
-import TopBar from '../../UI/JS/topbar';
-import SecondaryBar from '../../UI/JS/secondary_navbar';
-import BottomBar from '../../UI/JS/bottom_toolbar';
-import Shell from './detail_shell';
-import EachRecord from './each_drug_history_record';
-import styles from '../CSS/drug_history.module.css';
-import styles2 from '../CSS/medical_history_data.module.css';
+import TopBar from '../../../UI/JS/topbar';
+import SecondaryBar from '../../../UI/JS/secondary_navbar';
+import BottomBar from '../../../UI/JS/bottom_toolbar';
+import Shell from '../detail_shell';
+import EachRecord from '../../JS/each_drug_history_record';
+import styles from '../../CSS/drug_history.module.css';
+import styles2 from '../../CSS/medical_history_data.module.css';
 import { Overlay } from 'react-portal-overlay';
 import { css } from '@emotion/core';
 import DatePicker from 'react-date-picker';
 import ClipLoader from 'react-spinners/ClipLoader';
 const url = process.env.REACT_APP_BASE_URL;
+
+const chevDown = require('../../../../images/chevDown.svg');
+const x = require('../../../../images/x.svg');
 
 const override = css`
   display: block;
@@ -78,7 +81,6 @@ const DrugHistory = () => {
     if (result.length === 0) {
       setRecordList(recordList);
     } else {
-      console.log('FOUND');
       setRecordList(result);
     }
   }
@@ -93,8 +95,6 @@ const DrugHistory = () => {
     setDuration(editables.Duration);
     setDrug(editables.Drug);
     setSideEffect(editables.SideEffect);
-
-    console.log('@enableEditMode', editables);
   }
 
   function GetDrugs() {
@@ -512,7 +512,7 @@ const DrugHistory = () => {
           <div className={styles.modalTop2}>
             <p className={styles.appTitle}>Add new Record</p>
             <img
-              src={require('../../../images/x.svg')}
+              src={x}
               alt=""
               onClick={() => {
                 setAddRecModal(false);
@@ -535,7 +535,7 @@ const DrugHistory = () => {
                 value={drug === undefined ? '' : drug}
               />
               <img
-                src={require('../../../images/chevDown.svg')}
+                src={chevDown}
                 alt=""
                 className={styles.chev}
               />{' '}
@@ -577,7 +577,7 @@ const DrugHistory = () => {
                 value={duration === undefined ? '' : duration}
               />
               <img
-                src={require('../../../images/chevDown.svg')}
+                src={chevDown}
                 alt=""
                 className={styles.chev}
               />{' '}

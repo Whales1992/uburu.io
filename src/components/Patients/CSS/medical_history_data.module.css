@@ -154,9 +154,6 @@
   background-color: #242424;
 }
 
-.editWrap {
-  /* margin-left: 40px; */
-}
 .formLabel {
   font-size: 13px;
   margin-top: 23px;
@@ -227,12 +224,12 @@
 }
 
 .fab {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   cursor: pointer;
   right: 0;
   margin-right: 20%;
-  margin-bottom: 15%;
+  margin-bottom: 10%;
   height: 60px;
   width: 60px;
   border-radius: 50%;
@@ -267,7 +264,7 @@
   }
   .fab {
     display: none;
-    position: absolute;
+    position: fixed;
     bottom: 0;
     right: 0;
     margin-right: 50px;

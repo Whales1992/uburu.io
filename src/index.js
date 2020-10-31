@@ -26,6 +26,12 @@ import OncologyPatientBioData from './components/Patients/Oncology/JS/bio-data';
 import DiabetesPatientBioData from './components/Patients/Diabetes/JS/bio-data';
 import AsthmaPatientBioData from './components/Patients/Asthma/JS/bio-data';
 import MedicalHistory from './components/Patients/JS/medical_history_data';
+
+import OncologyMedicalHistory from './components/Patients/JS/Oncology/medical_history_data';
+import OncologyDrugHistory from './components/Patients/JS/Oncology/drug_history';
+import OncologyInvestigationHistory from './components/Patients/JS/Oncology/investigation_history';
+
+
 import PatientDrugHistory from './components/Patients/JS/drug_history';
 import InvestigationHistory from './components/Patients/JS/investigation_history';
 import PatientTreatmentOutcome from './components/Patients/Oncology/JS/treatment_outcome';
@@ -61,6 +67,41 @@ import CreateAppointment from './components/Patients/AppointmentSide/create_appo
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = composeEnhancers()(createStore);
+
+const GoToMedicalHistory = (props) => {
+
+  const registry = localStorage.account
+    ? JSON.parse(localStorage.account).Name
+    : null;
+
+  if (registry === 'Oncology') return <OncologyMedicalHistory {...props} />;
+  if (registry === 'Diabetes') return <DiabetesPatientBiodataForm {...props} />;
+  if (registry === 'Asthma') return <AsthmaPatientBiodataForm {...props} />;
+};
+
+const GoToDrugHistory = (props) => {
+
+  const registry = localStorage.account
+    ? JSON.parse(localStorage.account).Name
+    : null;
+
+  if (registry === 'Oncology') return <OncologyDrugHistory {...props} />;
+  if (registry === 'Diabetes') return <DiabetesPatientBiodataForm {...props} />;
+  if (registry === 'Asthma') return <AsthmaPatientBiodataForm {...props} />;
+};
+
+const GoToInvestigationHistory = (props) => {
+
+  const registry = localStorage.account
+    ? JSON.parse(localStorage.account).Name
+    : null;
+
+  if (registry === 'Oncology') return <OncologyInvestigationHistory {...props} />;
+  if (registry === 'Diabetes') return <DiabetesPatientBiodataForm {...props} />;
+  if (registry === 'Asthma') return <AsthmaPatientBiodataForm {...props} />;
+};
+
+
 
 //conditionally import forms
 const PatientBiodataForm = (props) => {
@@ -118,8 +159,6 @@ const PatientBioData = (props) => {
   const registry = localStorage.account
     ? JSON.parse(localStorage.account).Name
     : null;
-
-  console.log('@registry', registry);
 
   if (registry === 'Oncology') return <OncologyPatientBioData {...props} />;
   if (registry === 'Diabetes') return <DiabetesPatientBioData {...props} />;
@@ -190,7 +229,7 @@ const App = () => {
               component={CreateAppointment}
             />
 
-            <AuthRoute
+            {/* <AuthRoute
               exact
               path="/patients/:id/investigation_history"
               component={InvestigationHistory}
@@ -206,7 +245,28 @@ const App = () => {
               exact
               path="/patients/:id/medical_history"
               component={MedicalHistory}
+            /> */}
+
+            {/* =====||====== */}
+            <AuthRoute
+              exact
+              path="/patients/:id/medical_history"
+              component={GoToMedicalHistory}
             />
+
+
+            <AuthRoute
+              exact
+              path="/patients/:id/drug_history"
+              component={GoToDrugHistory}
+            />
+
+            <AuthRoute
+              exact
+              path="/patients/:id/investigation_history"
+              component={GoToInvestigationHistory}
+            />
+            {/* =======||========= */}
 
             <AuthRoute
               exact
