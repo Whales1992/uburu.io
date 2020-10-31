@@ -4,8 +4,8 @@ import { Overlay } from 'react-portal-overlay';
 import DatePicker from 'react-date-picker';
 import TimePicker from 'react-time-picker';
 import styles from '../CSS/appointments_side_page.module.css';
-import { css } from "@emotion/core";
-import ClipLoader from "react-spinners/ClipLoader";
+import { css } from '@emotion/core';
+import ClipLoader from 'react-spinners/ClipLoader';
 const override = css`
   display: block;
   margin: 0 auto;
@@ -29,12 +29,12 @@ const CreateAppointment = (props) => {
     error: {
       error: false,
       message: '',
-      title: "Info"
+      title: 'Info',
     },
   });
 
-  const GetNatures = ()=>{
-        return (
+  const GetNatures = () => {
+    return (
       <>
         {natures.map(function (e, i) {
           return (
@@ -58,21 +58,21 @@ const CreateAppointment = (props) => {
         })}
       </>
     );
-  }
+  };
 
   const onSubmit = async () => {
     const payload = {
       Nature: myValue,
       ValueDate: myDateValue,
       ValueTime: myTimeValue,
-      FolderNo: patient.FolderNo
+      FolderNo: patient.FolderNo,
     };
 
     try {
       if (window.navigator.onLine) {
         setEffects({
           ...effects,
-          loading: true
+          loading: true,
         });
         const request = await fetch(`${url}/appointment`, {
           method: 'POST',
@@ -90,28 +90,27 @@ const CreateAppointment = (props) => {
         }
 
         const data = await request.json();
-        console.log("@SUBMIT", data);
+        console.log('@SUBMIT', data);
 
         setEffects({
           ...effects,
           loading: false,
           error: {
             error: false,
-            title: "Success",
+            title: 'Success',
             message: `${data.message}`,
           },
         });
 
         setShowInfoDialog(true);
-
       } else {
         setEffects({
           ...effects,
           loading: false,
           error: {
             error: true,
-            title: "Network",
-            message: "Connection Error",
+            title: 'Network',
+            message: 'Connection Error',
           },
         });
         setShowInfoDialog(true);
@@ -123,7 +122,7 @@ const CreateAppointment = (props) => {
           loading: false,
           error: {
             error: true,
-            title: "Error",
+            title: 'Error',
             message: error.message,
           },
         });
@@ -131,106 +130,107 @@ const CreateAppointment = (props) => {
         setShowInfoDialog(true);
       }, 2000);
     }
-
   };
 
   return (
-    <> 
-    <Overlay
-      className={styles.modal}
-      closeOnClick
-      open={true}
-      onClose={() => {
-        history.goBack();
-      }}
-    >
-      <div className={styles.modal_paper}>
-        <div className={styles.modalTop}>
-          <p className={styles.appTitle}>Create Appointment</p>
-          <img
-            src={require('../../../images/x.svg')}
-            alt=""
-            onClick={() => {
-              history.goBack();
-            }}
-          />
-        </div>
+    <>
+      <Overlay
+        className={styles.modal}
+        closeOnClick
+        // open={true}
+        open={props.modal}
+        onClose={() => {
+          props.toggleFunc(false);
+          // history.goBack();
+        }}
+      >
+        <div className={styles.modal_paper}>
+          <div className={styles.modalTop}>
+            <p className={styles.appTitle}>Create Appointment</p>
+            <img
+              src={require('../../../images/x.svg')}
+              alt=""
+              onClick={() => {
+                // history.goBack();
+                props.toggleFunc(false);
+              }}
+            />
+          </div>
 
-        <div className={styles.cWrap}>
-          <p className={styles.formLabel}>Nature</p>
+          <div className={styles.cWrap}>
+            <p className={styles.formLabel}>Nature</p>
+            <div
+              className={styles.inputGpWrap}
+              onClick={() => {
+                setShowWrap(!showDrop);
+              }}
+            >
+              <input
+                className={styles.inputName}
+                placeholder="Select ..."
+                disabled={true}
+                value={myValue}
+              />
+              <img
+                src={require('../../../images/chevDown.svg')}
+                alt=""
+                className={styles.chev}
+              />{' '}
+              {showDrop ? (
+                <div
+                  className={styles.dropWrap}
+                  onClick={() => {
+                    setShowWrap(false);
+                  }}
+                >
+                  <GetNatures />
+                </div>
+              ) : null}
+            </div>
+
+            <p className={styles.formLabel}>Appointment Date</p>
+            <div className={styles.inputGpWrap}>
+              <DatePicker
+                onChange={setMyDateValue}
+                calendarIcon={null}
+                value={myDateValue}
+                clearIcon={null}
+              />
+              <img
+                src={require('../../../images/cal.svg')}
+                alt=""
+                className={styles.chev}
+              />{' '}
+            </div>
+
+            <p className={styles.formLabel}>Appointment Time</p>
+            <div className={styles.inputGpWrap}>
+              <TimePicker
+                onChange={setMyTimeValue}
+                clearIcon={null}
+                clockIcon={null}
+                autoFocus={false}
+                format={'HH mm a'}
+                value={myTimeValue}
+              />
+              <img
+                src={require('../../../images/clock.svg')}
+                alt=""
+                className={styles.chev}
+              />{' '}
+            </div>
+          </div>
           <div
-            className={styles.inputGpWrap}
             onClick={() => {
-              setShowWrap(!showDrop);
+              // history.goBack();
+              onSubmit();
             }}
+            className={styles.pCreate}
           >
-            <input
-              className={styles.inputName}
-              placeholder="Select ..."
-              disabled={true}
-              value={myValue}
-            />
-            <img
-              src={require('../../../images/chevDown.svg')}
-              alt=""
-              className={styles.chev}
-            />{' '}
-            {showDrop ? (
-              <div
-                className={styles.dropWrap}
-                onClick={() => {
-                  setShowWrap(false);
-                }}
-              >
-                <GetNatures />
-              </div>
-            ) : null}
-          </div>
-
-          <p className={styles.formLabel}>Appointment Date</p>
-          <div className={styles.inputGpWrap}>
-            <DatePicker
-              onChange={setMyDateValue}
-              calendarIcon={null}
-              value={myDateValue}
-              clearIcon={null}
-            />
-            <img
-              src={require('../../../images/cal.svg')}
-              alt=""
-              className={styles.chev}
-            />{' '}
-          </div>
-
-          <p className={styles.formLabel}>Appointment Time</p>
-          <div className={styles.inputGpWrap}>
-            <TimePicker
-              onChange={setMyTimeValue}
-              clearIcon={null}
-              clockIcon={null}
-              autoFocus={false}
-              format={'HH mm a'}
-              value={myTimeValue}
-            />
-            <img
-              src={require('../../../images/clock.svg')}
-              alt=""
-              className={styles.chev}
-            />{' '}
+            Create Appointment
           </div>
         </div>
-        <div
-          onClick={() => {
-            // history.goBack();
-            onSubmit();
-          }}
-          className={styles.pCreate}
-        >
-          Create Appointment
-        </div>
-      </div>
-    </Overlay>
-    
+      </Overlay>
 
       {/* Begin Show Info Overlay */}
       <Overlay
@@ -239,7 +239,8 @@ const CreateAppointment = (props) => {
         open={showInfoDialog}
         onClose={() => {
           setShowInfoDialog(false);
-        }}>
+        }}
+      >
         <div className={styles.modal_paper}>
           <div className={styles.modalTop2}>
             <p className={styles.appTitle}>{effects.error.title}</p>
@@ -259,7 +260,6 @@ const CreateAppointment = (props) => {
       </Overlay>
       {/* End Show Info Overlay */}
 
-
       {/* Begin Spinner Overlay */}
       <Overlay
         className={styles.modal}
@@ -267,11 +267,12 @@ const CreateAppointment = (props) => {
         open={effects.loading}
         onClose={() => {
           setShowInfoDialog(false);
-        }}>
+        }}
+      >
         <ClipLoader
           css={override}
           size={150}
-          color={"#123abc"}
+          color={'#123abc'}
           loading={true}
         />
       </Overlay>

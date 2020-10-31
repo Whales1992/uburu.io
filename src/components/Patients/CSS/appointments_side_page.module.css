@@ -281,8 +281,11 @@
 }
 
 .dropWrap {
-  height: 45px;
+  height: 100px;
+  overflow-y: scroll;
+  z-index: 4;
   display: flex;
+  flex-direction: column;
   align-items: center;
   width: 100%;
   background-color: white;
@@ -331,6 +334,16 @@
   align-items: center;
   justify-content: center;
   margin-top: 20%;
+}
+.add_new_record {
+  position: absolute;
+  bottom: 93px;
+  right: 22px;
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  border: none;
+  background-color: #242424;
 }
 
 @media screen and (max-width: 760px) {
