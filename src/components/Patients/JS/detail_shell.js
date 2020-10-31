@@ -135,7 +135,7 @@ const Shell = ({ render, children, name }) => {
               </Link>
             </li>
 
-            <li>
+            {/* <li>
               <Link
                 to={{
                   pathname: `/createAppointment`,
@@ -145,7 +145,7 @@ const Shell = ({ render, children, name }) => {
               >
                 Create Appointment
               </Link>
-            </li>
+            </li> */}
           </ul>
         </nav>
         {render ? render(activeRecord, toggleRecord) : children}
