@@ -5,6 +5,7 @@ import SecondaryBar from '../../UI/JS/secondary_navbar';
 import BottomBar from '../../UI/JS/bottom_toolbar';
 import Shell from './detail_shell';
 import EachRecord from './each_investigation';
+import DatePicker from "react-date-picker";
 import styles from '../CSS/investigation_history.module.css';
 import { Overlay } from 'react-portal-overlay';
 import { css } from '@emotion/core';
@@ -28,6 +29,7 @@ const InvestigationHistory = () => {
 
   const [investigation, setInvestigation] = useState(undefined);
   const [editabelRecord, setEditabelRecord] = useState({});
+  const [RecordDate, setRecordDate] = useState('');
 
   const investigationHistory =
     patient.records &&
@@ -99,6 +101,7 @@ const InvestigationHistory = () => {
       Investigation: investigation,
       FolderNo: patient.FolderNo,
       Entry: entry,
+      RecordDate: RecordDate
     };
     console.log('@addNewRecord', newInvestigation);
 
@@ -168,6 +171,7 @@ const InvestigationHistory = () => {
     var edited = editabelRecord;
     edited.Investigation = investigation;
     edited.Entry = entry;
+    edited.RecordDate= RecordDate;
 
     console.log('@updateRecord', edited);
 
@@ -401,6 +405,23 @@ const InvestigationHistory = () => {
                 type="number"
               />
             </div>
+
+            {/* Begin Date */}
+            <p className={styles.formLabel}>Date of Record</p>
+            <div
+              className={styles.inputGpWrap}>
+              <DatePicker
+                id="RecordDate"
+                name="RecordDate"
+                value={RecordDate}
+                className={styles.input}
+                onChange={(e) => setRecordDate(e)}
+                required
+                format="dd/MM/y"
+              />
+            </div>
+            {/* End Date */}
+
 
             {editabelMode ? (
               <div className={styles.roe}>

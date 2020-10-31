@@ -8,6 +8,16 @@ import Shell from "../../../components/AddPatientData/JS/shell";
 //style
 import styles from "../CSS/add_patient_data.module.css";
 import styles2 from "../CSS/medical_history.module.css";
+import { Overlay } from 'react-portal-overlay';
+import { css } from "@emotion/core";
+import ClipLoader from "react-spinners/ClipLoader";
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+`;
+
+let dis;
 
 const upArrow = (
 	<svg width="5" height="6" viewBox="0 0 5 6" fill="none">
@@ -28,6 +38,7 @@ const downArrow = (
 );
 
 const url = process.env.REACT_APP_BASE_URL;
+const durations = ['Years', 'Months', 'Days'];
 
 class MedicalHistoryData extends Component {
 	constructor(props) {
@@ -39,8 +50,12 @@ class MedicalHistoryData extends Component {
 			Duration: "",
 			Entry: "",
 			Other: "",
-			RecordDate: ""
+			RecordDate: "",
+			openState: '',
+			showDropDur: false
 		};
+
+		dis = this;
 
 		this.handleChange = this.handleChange.bind(this);
 		this.handleDateChange = this.handleDateChange.bind(this);
@@ -64,9 +79,38 @@ class MedicalHistoryData extends Component {
 			Duration: "",
 			Entry: "",
 			Other: "",
-			RecordDate: ""
+			RecordDate: "",
 		});
 	}
+
+GetDurations(){
+	return (
+		<>
+			{
+				durations.map(function (e, i) {
+					return (
+						<p
+							onClick={function(){
+								dis.setState({openState:e});
+							}}
+							style={{
+								position: 'relative',
+								top: 0,
+								left: 0,
+								width: '100%',
+								cursor: 'pointer',
+							}}
+							key={i}
+						>
+							{' '}
+							{e}{' '}
+						</p>
+					)
+				})
+			}
+		</>
+	);
+}
 
 	handleChange(e) {
 		const target = e.target;
@@ -308,6 +352,7 @@ class MedicalHistoryData extends Component {
 											</select>
 										</div>
 										<div>
+									
 											<label
 												className={
 													!Description
@@ -341,30 +386,32 @@ class MedicalHistoryData extends Component {
 													<option>No</option>
 												</select>
 											) : (
+											<div className= { styles.inputGpWrap }
+												onClick={() => {
+													this.setState({ showDropDur: !this.state.showDropDur});
+												}}>
 												<input
-													id={
-														Nature === "Examination"
-															? "Entry"
-															: "Duration"
-													}
-													type="number"
-													name={
-														Nature === "Examination"
-															? "Entry"
-															: "Duration"
-													}
 													className={styles.input}
+													placeholder="Select Duration"
 													value={
-														Nature === "Examination"
-															? Entry
-															: Duration
+														this.state.Duration === undefined
+															? ''
+															: this.state.Duration
 													}
-													onChange={(e) =>
-														this.handleChange(e)
-													}
-													disabled={!Description}
+													readOnly={true}
 												/>
+
+												<div className={styles.dropWrap}>
+													{this.state.showDropDur ? (
+														<div className={styles.dropWrap}>
+															<this.GetDurations />
+														</div>
+													) : null}
+												</div>
+												
+												</div>
 											)}
+											
 										</div>
 										<div>
 											<label
@@ -921,6 +968,50 @@ class MedicalHistoryData extends Component {
 						</div>
 					)}
 				/>
+
+				{/* Days,Months, and Years Selection Overlay */}
+				<Overlay
+					className={styles.modal}
+					closeOnClick={true}
+					open={this.state.openState !== ''}
+					onClose={() => {
+						this.setState({ openState: '' });
+					}}
+				>
+					<div className={styles.modal_paper}>
+						<div className={styles.modalTop2}>
+							<p className={styles.appTitle}>{this.state.openState}</p>
+							<img
+								src={require('../../../images/x.svg')}
+								alt=""
+								onClick={() => {
+									this.setState({ openState: '' });
+								}}
+							/>
+						</div>
+						{/* <div className={styles.cWrap}> */}
+						<div className={styles.inputGpWrap}>
+							<input
+								className={styles.inputName}
+								onChange={(value) => {
+									this.setState({ Duration: `${value.target.value} ${this.state.openState}`});
+								}}
+								placeholder={`How Many ${this.state.openState} ?`}
+							/>
+						</div>
+						{/* </div> */}
+						<div
+							onClick={() => {
+								this.setState({openState:''});
+							}}
+							className={styles.pCreate}
+						>
+							Ok
+          </div>
+					</div>
+				</Overlay>
+				{/* End Days,Months, and Years Selection Overlay */}
+
 			</>
 		);
 	}

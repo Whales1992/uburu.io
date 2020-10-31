@@ -6,9 +6,12 @@ import SecondaryBar from "../../../components/UI/JS/secondary_navbar";
 import TopBar from "../../../components/UI/JS/topbar";
 import Shell from "../../../components/AddPatientData/JS/shell";
 
+import { Overlay } from 'react-portal-overlay';
+
 //style
 import styles from "../CSS/add_patient_data.module.css";
 import styles2 from "../CSS/medical_history.module.css";
+
 
 const url = process.env.REACT_APP_BASE_URL;
 
@@ -21,6 +24,10 @@ const DrugHistory = ({ history }) => {
 		SideEffect: "",
 		RecordDate: ""
 	});
+	const [showDropDur, setShowWrapDur] = useState(false);
+	const [openState, setOpenState] = useState('');
+
+	const durations = ['Years', 'Months', 'Days'];
 
 	const {
 		Drug,
@@ -43,6 +50,37 @@ const DrugHistory = ({ history }) => {
 
 		setInputValue({ ...inputValues, [name]: value });
 	}
+
+
+	function GetDurations() {
+		return (
+			<>
+				{
+					durations.map(function (e, i) {
+						return (
+							<p
+								onClick={() => {
+									setOpenState(e);
+								}}
+								style={{
+									position: 'relative',
+									top: 0,
+									left: 0,
+									width: '100%',
+									cursor: 'pointer',
+								}}
+								key={i}
+							>
+								{' '}
+								{e}{' '}
+							</p>
+						)
+					})
+				}
+			</>
+		);
+	}
+
 
 	function resetRecord() {
 		setInputValue({
@@ -186,7 +224,7 @@ const DrugHistory = ({ history }) => {
 								required
 							/>
 						</div>
-						<div>
+						{/* <div>
 							<label
 								className={!Dosage ? "disabled_label" : ""}
 								htmlFor="Duration"
@@ -203,7 +241,41 @@ const DrugHistory = ({ history }) => {
 								disabled={!Dosage}
 								required
 							/>
-						</div>
+						</div> */}
+						<>
+							<label
+								className={!Dosage ? "disabled_label" : ""}
+								htmlFor="Duration"
+							>
+								Duration
+							</label>
+							<div
+								style={{ marginTop: 20 }}
+								className={styles2.inputGpWrap}
+								onClick={() => {
+									setShowWrapDur(!showDropDur);
+								}}
+							>
+								{/* Begin Duration Selection */}
+								<input
+									className={styles2.inputName}
+									placeholder="Select Duration"
+									value={
+										Duration === undefined
+											? ''
+											: Duration
+									}
+									readOnly={true}
+									disabled={!Dosage}
+								/>
+								{showDropDur ? (
+									<div className={styles2.dropWrap}>
+										<GetDurations />
+									</div>
+								) : null}
+							</div>
+
+						</>
 						<div>
 							<label
 								className={!Duration ? "disabled_label" : ""}
@@ -272,6 +344,50 @@ const DrugHistory = ({ history }) => {
 					</div>
 				</form>
 			</Shell>
+
+			{/* Days,Months, and Years Selection Overlay */}
+			<Overlay
+				className={styles2.modal}
+				closeOnClick={true}
+				open={openState !== ''}
+				onClose={() => {
+					setOpenState('');
+				}}
+			>
+				<div className={styles2.modal_paper}>
+					<div className={styles2.modalTop2}>
+						<p className={styles2.appTitle}>{openState}</p>
+						<img
+							src={require('../../../images/x.svg')}
+							alt=""
+							onClick={() => {
+								setOpenState('');
+							}}
+						/>
+					</div>
+					{/* <div className={styles.cWrap}> */}
+					<div className={styles2.inputGpWrap}>
+						<input
+							className={styles2.inputName}
+							onChange={(value) => {
+								setInputValue({ ...inputValues, 'Duration': `${value.target.value} ${openState}` });
+							}}
+							placeholder={`How Many ${openState} ?`}
+						/>
+					</div>
+					{/* </div> */}
+					<div
+						onClick={() => {
+							setOpenState('');
+						}}
+						className={styles2.pCreate}
+					>
+						Ok
+          </div>
+				</div>
+			</Overlay>
+			{/* End Days,Months, and Years Selection Overlay */}
+
 		</>
 	);
 };

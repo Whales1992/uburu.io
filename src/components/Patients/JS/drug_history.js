@@ -9,6 +9,7 @@ import styles from '../CSS/drug_history.module.css';
 import styles2 from '../CSS/medical_history_data.module.css';
 import { Overlay } from 'react-portal-overlay';
 import { css } from '@emotion/core';
+import DatePicker from "react-date-picker";
 import ClipLoader from 'react-spinners/ClipLoader';
 const url = process.env.REACT_APP_BASE_URL;
 
@@ -31,6 +32,7 @@ const DrugHistory = () => {
   const [myRecord, setMyRecord] = useState();
   const [editabelMode, setEditabelMode] = useState(false);
   const [drug, setDrug] = useState(undefined);
+  const [RecordDate, setRecordDate] = useState('');
 
   const [duration, setDuration] = useState('');
 
@@ -189,6 +191,7 @@ const DrugHistory = () => {
       Dosage: dosage,
       SideEffect: sideEffect,
       Duration: duration,
+      RecordDate: RecordDate,
     };
     // console.log("@addNewRecord", newDrugRecod);
 
@@ -260,6 +263,7 @@ const DrugHistory = () => {
     edited.SideEffect = sideEffect;
     edited.Drug = drug;
     edited.Dosage = dosage;
+    edited.RecordDate = RecordDate;
 
     // console.log("@updateRecord", edited);
 
@@ -508,6 +512,23 @@ const DrugHistory = () => {
                 </div>
               ) : null}
             </div>
+
+            {/* Begin Date */}
+            <p className={styles.formLabel}>Date of Record</p>
+            <div
+              className={styles.inputGpWrap}>
+              <DatePicker
+                id="RecordDate"
+                name="RecordDate"
+                value={RecordDate}
+                className={styles.input}
+                onChange={(e) => setRecordDate(e)}
+                required
+                format="dd/MM/y"
+              />
+            </div>
+            {/* End Date */}
+
 
             {/* form feild four */}
             <p className={styles.formLabel}>Side Effects</p>

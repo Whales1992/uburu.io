@@ -1,6 +1,7 @@
 import React, { useState, Fragment } from 'react';
 import { useLocation } from 'react-router-dom';
 import TopBar from '../../UI/JS/topbar';
+import DatePicker from "react-date-picker";
 import SecondaryBar from '../../UI/JS/secondary_navbar';
 import BottomBar from '../../UI/JS/bottom_toolbar';
 import Shell from './detail_shell';
@@ -26,6 +27,7 @@ const MedicalHistory = () => {
   const [editabelRecord, setEditabelRecord] = useState({});
   const [editabelMode, setEditabelMode] = useState(false);  
   const [duration, setDuration] = useState("");
+  const [RecordDate, setRecordDate] = useState('');
   const [enableTrueFalse, setEnableTrueFalse] = useState(false);
   const [optionEntry, setOptionEntry] = useState('');
   const [showInfoDialog, setShowInfoDialog] = useState(false);
@@ -166,6 +168,7 @@ const MedicalHistory = () => {
   async function addNewRecord() {
     editabelRecord.Type = `${showing}`;
     editabelRecord.FolderNo = patient.FolderNo;
+    editabelRecord.RecordDate = RecordDate;
     
     // console.log("@addNewRecord", editabelRecord);
     try {
@@ -738,6 +741,7 @@ const MedicalHistory = () => {
               setShowWrapDur(!showDropDur);
             }}
           >
+                {/* Begin Duration Selection */}
                 <input
                   className={styles.inputName}
                   placeholder="Select Duration"
@@ -761,7 +765,24 @@ const MedicalHistory = () => {
                 ) : null}
               </div>
         }
-        {/* end duration form */}
+          {/* End duration form */}
+
+        {/* Begin Date */}
+        <p className={styles.formLabel}>Date of Record</p>
+        <div
+          className={styles.inputGpWrap}>
+          <DatePicker
+            id="RecordDate"
+            name="RecordDate"
+            value={RecordDate}
+            className={styles.input}
+            onChange={(e) => setRecordDate(e)}
+            required
+            format="dd/MM/y"
+          />
+        </div>
+        {/* End Date */}
+
       </div>
     </>);
   }
