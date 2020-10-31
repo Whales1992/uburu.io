@@ -1,14 +1,14 @@
-import React from "react";
-import Layout from "../../../container/UI/JS/layout";
+import React from 'react';
+import Layout from '../../../container/UI/JS/layout';
+import InstitutionBanner from '../../../components/UI/JS/institution_banner';
+// import styles from '../../Patients/CSS/patients.module.css';
 
 const MedicalAnalytics = () => {
-	return (
-		<Layout pageTitle="Medical Analytics">
-			<p style={{ marginTop: "140px", textAlign: "center" }}>
-				Coming Soon
-			</p>
-		</Layout>
-	);
+  return (
+    <Layout pageTitle="Medical Analytics">
+      <InstitutionBanner />
+    </Layout>
+  );
 };
 
 export default MedicalAnalytics;
