@@ -1,0 +1,370 @@
+.container {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  height: 60vh;
+  overflow-y: scroll;
+}
+
+.tabWrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 48%;
+  align-self: center;
+  justify-self: center;
+  position: relative;
+  top: 7px;
+}
+
+.tabLine {
+  width: 100%;
+  border: 1px solid #e7e7ed;
+  height: 46px;
+  display: flex;
+  justify-content: center;
+}
+
+.tabText {
+  text-align: center;
+  border-bottom: 2px solid #fe1f00;
+  width: 168px;
+  padding-bottom: 8px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+}
+.tabTextPlain {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  text-align: center;
+  color: #d1dadd;
+  width: 168px;
+  padding-bottom: 8px;
+  cursor: pointer;
+}
+
+.contentWrap {
+  padding: 25px 29px;
+  width: 100%;
+}
+
+.fistDiv {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dateWrap {
+  height: 34px;
+  width: 205px;
+  border-radius: 3px;
+  border: 1px solid #e9e9e9;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 7px 9px;
+}
+
+.calender {
+  border: none;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  width: 90px;
+}
+
+.calender:focus {
+  outline: none;
+}
+
+.appointWrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 231px;
+}
+.appointLeft {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  line-height: 18px;
+  color: #8d979b;
+}
+
+.appointRight {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  line-height: 18px;
+  text-align: right;
+  color: #000000;
+}
+
+.secDiv {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+  padding-bottom: 16px;
+  border-bottom: 0.5px solid #d1dadd;
+}
+
+.divAppTitle {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 29px;
+  color: #000000;
+  padding: 0;
+  margin: 0;
+}
+.divAppMini {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 21px;
+  color: #8d979b;
+  padding: 0;
+  margin: 0;
+}
+
+.SecDate {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 25px;
+  text-align: center;
+  text-transform: uppercase;
+  color: #8d979b;
+}
+.modal {
+  background: rgba(0, 0, 0, 0.16);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal_paper {
+  padding: 6px 18px;
+  background: white;
+  box-shadow: 0px 0px 15px #00000029;
+  border: 1px solid #dddddd;
+  border-radius: 16px;
+  width: 529px;
+}
+
+.modalTop {
+  height: 48px;
+  width: 100%;
+  border-bottom: 1px solid #e7e7ed;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.appTitle {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 25px;
+  color: #242424;
+}
+
+.pWrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 9px;
+  border-bottom: 0.5px solid #d1dadd;
+  margin-top: 24px;
+}
+.pLeft {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 29px;
+  color: #393a4a;
+  padding: 0;
+  margin: 0;
+}
+.pRight {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 29px;
+  text-align: right;
+  color: #8d979b;
+  padding: 0;
+  margin: 0;
+}
+
+.moTitle {
+  margin-top: 20px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 36px;
+  color: #cdced9;
+}
+
+.appButtons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 43px 0px;
+}
+
+.whiteBg {
+  height: 45px;
+  width: 225px;
+  border: 1px solid #242424;
+  background: white;
+  color: #242424;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 29px;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+.blackBg {
+  height: 45px;
+  width: 225px;
+  border: 1px solid #242424;
+  background: #242424;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 29px;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.formLabel {
+  font-size: 13px;
+  margin-top: 23px;
+}
+.inputGpWrap {
+  border: 1px solid #e9e9e9;
+  border-radius: 3px;
+  height: 45px;
+  max-width: 335px;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.inputName {
+  border: none;
+  font-size: 13px;
+  background: rgba(255, 255, 255, 0);
+}
+
+.inputName:focus {
+  outline: none;
+}
+
+.dropWrap {
+  height: 45px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background-color: white;
+  left: 0;
+  top: 45px;
+  position: absolute;
+  padding: 15px;
+  -webkit-box-shadow: 2px 6px 5px -1px rgba(153, 153, 153, 0.4);
+  -moz-box-shadow: 2px 6px 5px -1px rgba(153, 153, 153, 0.4);
+  box-shadow: 2px 6px 5px -1px rgba(153, 153, 153, 0.4);
+}
+
+.pBlack {
+  color: black;
+  font-size: 13px;
+}
+
+.cWrap {
+  display: flex;
+  flex-direction: column;
+  margin-left: 70px;
+}
+
+.pCreate {
+  width: 90%;
+  margin: 55px auto;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #242424;
+  color: white;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  cursor: pointer;
+  /* identical to box height */
+  text-align: center;
+
+  color: #ffffff;
+}
+
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20%;
+}
+
+@media screen and (max-width: 760px) {
+  .container {
+    margin-top: 65px;
+    height: 100%;
+    overflow-y: scroll;
+  }
+  .cWrap {
+    margin-left: 5%;
+  }
+  .modal_paper {
+    width: 90%;
+  }
+  .blackBg {
+    width: 130px;
+    padding: 10px;
+  }
+  .whiteBg {
+    width: 130px;
+    padding: 10px;
+    line-height: 1;
+  }
+  .appointWrap {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-left: 15px;
+  }
+  .appointLeft {
+    text-align: center;
+  }
+  .appointRight {
+    padding: 0;
+    margin: 0;
+  }
+}

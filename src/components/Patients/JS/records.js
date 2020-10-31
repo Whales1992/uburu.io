@@ -2,6 +2,7 @@ import React, { Fragment, memo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from '../CSS/records.module.css';
 import localForage from 'localforage';
+import { Overlay } from 'react-portal-overlay';
 
 const url = process.env.REACT_APP_BASE_URL;
 
@@ -17,6 +18,7 @@ export const EachRecentRecord = ({ record }) => {
   } = record;
 
   const [showDeleteIcon, setShowDeleteIcon] = useState(false)
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
   const [effects, setEffects] = useState({
     loading: false,
@@ -27,6 +29,11 @@ export const EachRecentRecord = ({ record }) => {
   });
 
   const splitDateString = new Date(DateCreated).toDateString().split(' ');
+
+  const deleteRModal = (e) => {
+    e.preventDefault();
+    setShowDeleteDialog(true);
+  };
 
   async function deleteRecord(e) {
     e.preventDefault();
@@ -82,6 +89,7 @@ export const EachRecentRecord = ({ record }) => {
   }
 
   return (
+    <>
     <div className={styles.each_record}>
       <Link
         to={{
@@ -101,7 +109,7 @@ export const EachRecentRecord = ({ record }) => {
         <div style={{ display: 'flex' }}>
           <small>{`${splitDateString[2]} ${splitDateString[1]}, ${splitDateString[3]}`}</small>
           {
-            showDeleteIcon ? <div onClick={(e)=>{deleteRecord(e)}} className={styles.deleteWrapPa}>
+              showDeleteIcon ? <div onClick={(e) => { deleteRModal(e)}} className={styles.deleteWrapPa}>
               <svg
                 className={styles.delete}
                 width="12"
@@ -122,7 +130,45 @@ export const EachRecentRecord = ({ record }) => {
       <hr />
       {effects.loading && <p style={{ textAlign: 'center' }}>Deleting...</p>}
     </div>
-  );
+    
+      {/* Begin Delete Dialog*/}
+      <Overlay
+        className={styles.modal}
+        closeOnClick={true}
+        open={showDeleteDialog}
+        onClose={() => {
+          setShowDeleteDialog(false);
+        }}
+      >
+        <div className={styles.modal_paper}>
+          <div className={styles.modalTop2}>
+            <p className={styles.appTitle}>Are you Sure you want to Delete ?</p>
+          </div>
+
+          <div className={styles.deRow}>
+            <div
+              onClick={(e) => {
+                deleteRecord(e);
+                setShowDeleteDialog(false);
+              }}
+              className={styles.pCreate}
+            >
+              Yes
+            </div>
+            <div
+              onClick={() => {
+                setShowDeleteDialog(false);
+              }}
+              className={styles.pNo}
+            >
+              No
+            </div>
+          </div>
+        </div>
+      </Overlay>
+      {/* End Delete Dialog*/}
+    </>
+    );
 };
 
 const RecentRecords = ({ recents, error }) => {
