@@ -39,6 +39,7 @@
   padding: 0;
   margin: 0;
   overflow-y: scroll;
+  position: relative;
 }
 .modal {
   background: rgba(0, 0, 0, 0.16);
@@ -53,6 +54,15 @@
   border: 1px solid #dddddd;
   border-radius: 16px;
   width: 200px;
+}
+.modal_paper2 {
+  padding: 10px 18px;
+  padding-bottom: 25px;
+  background: white;
+  box-shadow: 0px 0px 15px #00000029;
+  border: 1px solid #dddddd;
+  border-radius: 16px;
+  width: auto;
 }
 
 .modalTop {
@@ -145,7 +155,7 @@
 }
 
 .editWrap {
-  margin-left: 40px;
+  /* margin-left: 40px; */
 }
 .formLabel {
   font-size: 13px;
@@ -216,6 +226,31 @@
   font-size: 13px;
 }
 
+.fab {
+  position: absolute;
+  bottom: 0;
+  cursor: pointer;
+  right: 0;
+  margin-right: 20%;
+  margin-bottom: 15%;
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  background: black;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 35px;
+}
+.fab:hover {
+  background: rgba(36, 36, 36, 0.509);
+}
+.fab > p {
+  position: relative;
+  top: -2px;
+}
+
 @media (min-width: 760px) {
   .select {
     margin-top: 27px;
@@ -227,16 +262,15 @@
   }
 }
 @media (max-width: 760px) {
-  .editWrap {
-    margin-left: 20px;
-    margin-right: 20px;
-  }
-  .roe,
-  .addRec {
-    margin-bottom: 30%;
-    margin-left: 20px;
-  }
   .container {
     height: 100%;
+  }
+  .fab {
+    display: none;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin-right: 50px;
+    margin-bottom: 110px;
   }
 }
