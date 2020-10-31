@@ -395,7 +395,7 @@ const InvestigationHistory = () => {
             <p className={styles.formLabel}>Entry</p>
             <div className={styles.inputGpWrap}>
               <input
-                autoFocus={true}
+                autoFocus={false}
                 className={styles.inputName}
                 value={entry === undefined ? '' : entry}
                 onChange={(e) => {

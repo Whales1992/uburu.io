@@ -119,7 +119,7 @@ const PatientBioData = (props) => {
     ? JSON.parse(localStorage.account).Name
     : null;
 
-  console.log("@registry", registry);
+  console.log('@registry', registry);
 
   if (registry === 'Oncology') return <OncologyPatientBioData {...props} />;
   if (registry === 'Diabetes') return <DiabetesPatientBioData {...props} />;

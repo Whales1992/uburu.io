@@ -475,7 +475,7 @@ const DrugHistory = () => {
             <p className={styles.formLabel}>Dosage (unit: mg)</p>
             <div className={styles.inputGpWrap}>
               <input
-                autoFocus={true}
+                autoFocus={false}
                 className={styles.inputName}
                 placeholder="Enter Dosage"
                 value={dosage === undefined ? '' : dosage}

@@ -8,8 +8,8 @@ import Shell from './detail_shell';
 import EachRecord from './each_med_history_record';
 import styles from '../CSS/medical_history_data.module.css';
 import { Overlay } from 'react-portal-overlay';
-import { css } from "@emotion/core";
-import ClipLoader from "react-spinners/ClipLoader";
+import { css } from '@emotion/core';
+import ClipLoader from 'react-spinners/ClipLoader';
 const override = css`
   display: block;
   margin: 0 auto;
@@ -36,41 +36,123 @@ const MedicalHistory = () => {
     error: {
       error: false,
       message: '',
-      title:"Info"
+      title: 'Info',
     },
   });
 
   const natures = [
-    { title: "Core Symptoms", descriptions: ['Polyuria', 'Polydipsia', 'Weight Loss', 'Polyphagia', 'Dry Mouth', 'Visual Disturbances'] },
-    { title: "Co-morbidity", descriptions: ['Osteoarthritis', 'Hypertension', 'Thyroid Disease', 'Asthma', 'Dementia', 'GERD'] },
     {
-      title: "Examination ", descriptions: ['Systolic BP (unit: mmHg)', 'Diastolic BP (unit: mmHg)', 'Weight (unit: Kg)', 'Height (unit: m)',
-        'BMI (unit: Kg/m2)', 'Pulse Rate (unit: /min)', 'Respiratory Rate (unit: bpm)', 'Foot Examination', 'Eye Examination',
-        'Hip Circumference (unit: m)', 'Waist Circumference (unit: m)', 'Waist-Hip Ratio (no unit)', 'Ankle-Brachial Index (no unit)']
+      title: 'Core Symptoms',
+      descriptions: [
+        'Polyuria',
+        'Polydipsia',
+        'Weight Loss',
+        'Polyphagia',
+        'Dry Mouth',
+        'Visual Disturbances',
+      ],
     },
-  ]
+    {
+      title: 'Co-morbidity',
+      descriptions: [
+        'Osteoarthritis',
+        'Hypertension',
+        'Thyroid Disease',
+        'Asthma',
+        'Dementia',
+        'GERD',
+      ],
+    },
+    {
+      title: 'Examination ',
+      descriptions: [
+        'Systolic BP (unit: mmHg)',
+        'Diastolic BP (unit: mmHg)',
+        'Weight (unit: Kg)',
+        'Height (unit: m)',
+        'BMI (unit: Kg/m2)',
+        'Pulse Rate (unit: /min)',
+        'Respiratory Rate (unit: bpm)',
+        'Foot Examination',
+        'Eye Examination',
+        'Hip Circumference (unit: m)',
+        'Waist Circumference (unit: m)',
+        'Waist-Hip Ratio (no unit)',
+        'Ankle-Brachial Index (no unit)',
+      ],
+    },
+  ];
 
   const natures0 = [
-    { title: "Hospitalization", descriptions: ['Polyuria', 'Polydipsia', 'Weight Loss', 'Polyphagia', 'Dry Mouth', 'Visual Disturbances'] },
-    { title: "Surgery", descriptions: ['Amputation'] },
     {
-      title: "Blood Transfusion ", descriptions: ['Whole Blood', 'Packed Red Blood Cells', 'Fresh Frozen Plasma', 'Platelets',
-        'Cryoprecipitate', 'Granulocytes']
+      title: 'Hospitalization',
+      descriptions: [
+        'Polyuria',
+        'Polydipsia',
+        'Weight Loss',
+        'Polyphagia',
+        'Dry Mouth',
+        'Visual Disturbances',
+      ],
     },
-  ]
+    { title: 'Surgery', descriptions: ['Amputation'] },
+    {
+      title: 'Blood Transfusion ',
+      descriptions: [
+        'Whole Blood',
+        'Packed Red Blood Cells',
+        'Fresh Frozen Plasma',
+        'Platelets',
+        'Cryoprecipitate',
+        'Granulocytes',
+      ],
+    },
+  ];
 
   const natures1 = [
-    { title: "Core Symptoms", descriptions: ['Polyuria', 'Polydipsia', 'Weight Loss', 'Polyphagia', 'Dry Mouth', 'Visual Disturbances'] },
-    { title: "Blood Transfusion", descriptions: ['Osteoarthritis', 'Hypertension', 'Thyroid Disease', 'Asthma', 'Dementia', 'GERD'] },
     {
-      title: "Examination ", descriptions: ['Systolic BP (unit: mmHg)', 'Diastolic BP (unit: mmHg)', 'Weight (unit: Kg)', 'Height (unit: m)',
-        'BMI (unit: Kg/m2)', 'Pulse Rate (unit: /min)', 'Respiratory Rate (unit: bpm)', 'Foot Examination', 'Eye Examination',
-        'Hip Circumference (unit: m)', 'Waist Circumference (unit: m)', 'Waist-Hip Ratio (no unit)', 'Ankle-Brachial Index (no unit)']
+      title: 'Core Symptoms',
+      descriptions: [
+        'Polyuria',
+        'Polydipsia',
+        'Weight Loss',
+        'Polyphagia',
+        'Dry Mouth',
+        'Visual Disturbances',
+      ],
     },
-  ]
+    {
+      title: 'Blood Transfusion',
+      descriptions: [
+        'Osteoarthritis',
+        'Hypertension',
+        'Thyroid Disease',
+        'Asthma',
+        'Dementia',
+        'GERD',
+      ],
+    },
+    {
+      title: 'Examination ',
+      descriptions: [
+        'Systolic BP (unit: mmHg)',
+        'Diastolic BP (unit: mmHg)',
+        'Weight (unit: Kg)',
+        'Height (unit: m)',
+        'BMI (unit: Kg/m2)',
+        'Pulse Rate (unit: /min)',
+        'Respiratory Rate (unit: bpm)',
+        'Foot Examination',
+        'Eye Examination',
+        'Hip Circumference (unit: m)',
+        'Waist Circumference (unit: m)',
+        'Waist-Hip Ratio (no unit)',
+        'Ankle-Brachial Index (no unit)',
+      ],
+    },
+  ];
 
-
-  function resetDuration(){
+  function resetDuration() {
     var edit = editabelRecord;
     edit.Duration = undefined;
     setEditabelRecord(edit);
@@ -80,9 +162,17 @@ const MedicalHistory = () => {
   const [descriptions, setDescriptions] = useState([]);
 
   const durations = ['Years', 'Months', 'Days'];
-  const durations0 = ['Ray Amputation left foot', 'Ray Amputation Right', 'foot', 
-  'Right Foot', 'Left Foot', 'Right Below Knee', 'Left Below Knee', 
-  'Right Above Knee', 'Left Above Knee'];
+  const durations0 = [
+    'Ray Amputation left foot',
+    'Ray Amputation Right',
+    'foot',
+    'Right Foot',
+    'Left Foot',
+    'Right Below Knee',
+    'Left Below Knee',
+    'Right Above Knee',
+    'Left Above Knee',
+  ];
   const [entry, setEntry] = useState('');
 
   console.log(`Bearer ${localStorage.token}`);
@@ -108,7 +198,7 @@ const MedicalHistory = () => {
       if (window.navigator.onLine) {
         setEffects({
           ...effects,
-          loading: true
+          loading: true,
         });
         const request = await fetch(`${url}/UpdateRecords`, {
           method: 'POST',
@@ -131,7 +221,7 @@ const MedicalHistory = () => {
           loading: false,
           error: {
             error: false,
-            title: "Success",
+            title: 'Success',
             message: `${data.message}`,
           },
         });
@@ -142,8 +232,8 @@ const MedicalHistory = () => {
           loading: false,
           error: {
             error: true,
-            title: "Network",
-            message: "Connection Error",
+            title: 'Network',
+            message: 'Connection Error',
           },
         });
         setShowInfoDialog(true);
@@ -155,7 +245,7 @@ const MedicalHistory = () => {
           loading: false,
           error: {
             error: true,
-            title: "Error",
+            title: 'Error',
             message: error.message,
           },
         });
@@ -175,7 +265,7 @@ const MedicalHistory = () => {
       if (window.navigator.onLine) {
         setEffects({
           ...effects,
-          loading: true
+          loading: true,
         });
         const request = await fetch(`${url}/records`, {
           method: 'POST',
@@ -198,7 +288,7 @@ const MedicalHistory = () => {
           loading: false,
           error: {
             error: false,
-            title: "Success",
+            title: 'Success',
             message: `${data.message}`,
           },
         });
@@ -209,8 +299,8 @@ const MedicalHistory = () => {
           loading: false,
           error: {
             error: true,
-            title: "Network",
-            message: "Connection Error",
+            title: 'Network',
+            message: 'Connection Error',
           },
         });
         setShowInfoDialog(true);
@@ -222,7 +312,7 @@ const MedicalHistory = () => {
           loading: false,
           error: {
             error: true,
-            title: "Error",
+            title: 'Error',
             message: error.message,
           },
         });
@@ -234,13 +324,13 @@ const MedicalHistory = () => {
 
   async function deleteRecord(e, record) {
     e.preventDefault();
-    console.log("@deleteRecord", record.RecordID);
+    console.log('@deleteRecord', record.RecordID);
 
     try {
       if (window.navigator.onLine) {
         setEffects({
           ...effects,
-          loading: true
+          loading: true,
         });
         const request = await fetch(`${url}/DeleteRecord`, {
           method: 'POST',
@@ -263,7 +353,7 @@ const MedicalHistory = () => {
           loading: false,
           error: {
             error: false,
-            title: "Success",
+            title: 'Success',
             message: `${data.message}`,
           },
         });
@@ -274,8 +364,8 @@ const MedicalHistory = () => {
           loading: false,
           error: {
             error: true,
-            title: "Network",
-            message: "Connection Error",
+            title: 'Network',
+            message: 'Connection Error',
           },
         });
         setShowInfoDialog(true);
@@ -287,7 +377,7 @@ const MedicalHistory = () => {
           loading: false,
           error: {
             error: true,
-            title: "Error",
+            title: 'Error',
             message: error.message,
           },
         });
@@ -297,7 +387,7 @@ const MedicalHistory = () => {
     }
   }
 
-  function enableEditMode(e, editables){
+  function enableEditMode(e, editables) {
     e.preventDefault();
     setEditabelRecord(editables);
     setEditabelMode(true);
@@ -307,20 +397,20 @@ const MedicalHistory = () => {
   function handleSearchPhraseChange(phrase) {
     if (phrase.length > 2) {
       search(phrase);
-    }else{
+    } else {
       setRecordList(recordList);
     }
   }
 
   async function search(key) {
     var result = [];
-    recordList.forEach(element => {
-      let target = element.Description + "";
-      if (key.length <= target.length){
-        target = target.slice(0, (key.length - 1));
-        let _key = key.slice(0, (key.length - 1));
+    recordList.forEach((element) => {
+      let target = element.Description + '';
+      if (key.length <= target.length) {
+        target = target.slice(0, key.length - 1);
+        let _key = key.slice(0, key.length - 1);
         if (target.toLocaleLowerCase() === _key.toLocaleLowerCase()) {
-          console.log("MATCH");
+          console.log('MATCH');
           result.push(element);
         }
       }
@@ -329,12 +419,12 @@ const MedicalHistory = () => {
     if (result.length === 0) {
       setRecordList(recordList);
     } else {
-      console.log("FOUND");
+      console.log('FOUND');
       setRecordList(result);
     }
   }
 
-  function GetNatures(){
+  function GetNatures() {
     return (
       <>
         {natures.map(function (e, i) {
@@ -436,9 +526,9 @@ const MedicalHistory = () => {
               onClick={() => {
                 var pre = editabelRecord;
                 pre.Description = e;
-                
+
                 if (e === 'Foot Examination' || e === 'Eye Examination')
-                setEnableTrueFalse(true);
+                  setEnableTrueFalse(true);
                 else {
                   setEnableTrueFalse(false);
                 }
@@ -513,8 +603,7 @@ const MedicalHistory = () => {
   function GetDurations() {
     return (
       <>
-        {
-          durations.map(function (e, i) {
+        {durations.map(function (e, i) {
           return (
             <p
               onClick={() => {
@@ -532,8 +621,8 @@ const MedicalHistory = () => {
               {' '}
               {e}{' '}
             </p>
-          )})
-        }
+          );
+        })}
       </>
     );
   }
@@ -541,31 +630,29 @@ const MedicalHistory = () => {
   function GetDurations0() {
     return (
       <>
-        {
-          durations0.map(function (e, i) {
-            return (
-              <p
-                onClick={() => {
-                  var pre = editabelRecord;
-                  pre.Duration = e;
-                  setEditabelRecord(pre);
-                  setOpenState('');
-                }}
-                style={{
-                  position: 'relative',
-                  top: 0,
-                  left: 0,
-                  width: '100%',
-                  cursor: 'pointer',
-                }}
-                key={i}
-              >
-                {' '}
-                {e}{' '}
-              </p>
-            )
-          })
-        }
+        {durations0.map(function (e, i) {
+          return (
+            <p
+              onClick={() => {
+                var pre = editabelRecord;
+                pre.Duration = e;
+                setEditabelRecord(pre);
+                setOpenState('');
+              }}
+              style={{
+                position: 'relative',
+                top: 0,
+                left: 0,
+                width: '100%',
+                cursor: 'pointer',
+              }}
+              key={i}
+            >
+              {' '}
+              {e}{' '}
+            </p>
+          );
+        })}
       </>
     );
   }
@@ -573,172 +660,210 @@ const MedicalHistory = () => {
   function GetDurations00() {
     return (
       <>
-        {
-          durations.map(function (e, i) {
-            return (
-              <p
-                onClick={() => {
-                  setOpenState(e);
-                }}
-                style={{
-                  position: 'relative',
-                  top: 0,
-                  left: 0,
-                  width: '100%',
-                  cursor: 'pointer',
-                }}
-                key={i}
-              >
-                {' '}
-                {e}{' '}
-              </p>
-            )
-          })
-        }
+        {durations.map(function (e, i) {
+          return (
+            <p
+              onClick={() => {
+                setOpenState(e);
+              }}
+              style={{
+                position: 'relative',
+                top: 0,
+                left: 0,
+                width: '100%',
+                cursor: 'pointer',
+              }}
+              key={i}
+            >
+              {' '}
+              {e}{' '}
+            </p>
+          );
+        })}
       </>
     );
   }
 
-  function GetTrueOrFalse(){
+  function GetTrueOrFalse() {
     const values = ['True', 'False'];
     return (
       <>
-        {
-          values.map(function (e, i) {
-            return (
-              <p
-                onClick={() => {
-                  var edit = editabelRecord;
-                  edit.Duration = e;
-                  setEditabelRecord(edit);
-                  setOptionEntry(e);
-                  setShowWrapDur(!showDropDur);
-                }}
-                style={{
-                  position: 'relative',
-                  top: 0,
-                  left: 0,
-                  width: '100%',
-                  cursor: 'pointer',
-                }}
-                key={i}
-              >
-                {' '}
-                {e}{' '}
-              </p>
-            )
-          })
-        }
+        {values.map(function (e, i) {
+          return (
+            <p
+              onClick={() => {
+                var edit = editabelRecord;
+                edit.Duration = e;
+                setEditabelRecord(edit);
+                setOptionEntry(e);
+                setShowWrapDur(!showDropDur);
+              }}
+              style={{
+                position: 'relative',
+                top: 0,
+                left: 0,
+                width: '100%',
+                cursor: 'pointer',
+              }}
+              key={i}
+            >
+              {' '}
+              {e}{' '}
+            </p>
+          );
+        })}
       </>
     );
   }
 
-  function Assessment(){
-    return (<>
-      <div className={styles.editWrap}>
-        <p className={styles.formLabel}>Nature</p>
-        <div
-          className={styles.inputGpWrap}
-          onClick={() => {
-            setShowWrap(!showDrop);
-          }}
-        >
-          <input
-            className={styles.inputName}
-            placeholder="Select Nature"
-            disabled={true}
-            value={
-              editabelRecord.Nature === undefined
-                ? ''
-                : editabelRecord.Nature
-            }
-          />
-          <img
-            src={require('../../../images/chevDown.svg')}
-            alt=""
-            className={styles.chev}
-          />{' '}
-          {showDrop ? (
-            <div className={styles.dropWrap}>
-              <GetNatures />
-            </div>
-          ) : null}
-        </div>
-
-        {/* form feild two */}
-        <p className={styles.formLabel}>Description</p>
-        <div
-          className={styles.inputGpWrap}
-          onClick={() => {
-            setShowWrapDes(!showDropDes);
-          }}
-        >
-          <input
-            className={styles.inputName}
-            placeholder="Select Description"
-            disabled={true}
-            value={
-              editabelRecord.Description === undefined
-                ? ''
-                : editabelRecord.Description
-            }
-          />
-          <img
-            src={require('../../../images/chevDown.svg')}
-            alt=""
-            className={styles.chev}
-          />{' '}
-          {showDropDes ? (
-            <div className={styles.dropWrap}>
-              <GetDescriptions />
-            </div>
-          ) : null}
-        </div>
-
-        {/* begin duration form*/}
-        <p className={styles.formLabel}>Duration/Entry</p>
-        {
-          selectedNatures === `${natures[2].title}` && !enableTrueFalse ? <div
-            className={styles.inputGpWrap}>
-            <input
-              autoFocus={true}
-              className={styles.inputName}
-              placeholder="Entry"
-              value={entry}
-              onChange={(e) => {
-                var edit = editabelRecord;
-                edit.Duration = e.target.value;
-                setEditabelRecord(edit);
-                setEntry(e.target.value) }}
-              readOnly={false}
-              type='number'
-            />
-          </div> : selectedNatures === `${natures[2].title}` ? <div
-              className={styles.inputGpWrap}
-              onClick={() => {
-                setShowWrapDur(!showDropDur);
-              }}
-            >
+  function Assessment() {
+    return (
+      <>
+        <div className={styles.editWrap}>
+          <p className={styles.formLabel}>Nature</p>
+          <div
+            className={styles.inputGpWrap}
+            onClick={() => {
+              setShowWrap(!showDrop);
+            }}
+          >
             <input
               className={styles.inputName}
-              placeholder="Select Option"
-              value={optionEntry}
-              readOnly={true}
+              placeholder="Select Nature"
+              disabled={true}
+              value={
+                editabelRecord.Nature === undefined ? '' : editabelRecord.Nature
+              }
             />
             <img
               src={require('../../../images/chevDown.svg')}
               alt=""
               className={styles.chev}
             />{' '}
+            {showDrop ? (
+              <div className={styles.dropWrap}>
+                <GetNatures />
+              </div>
+            ) : null}
+          </div>
+
+          {/* form feild two */}
+          <p className={styles.formLabel}>Description</p>
+          <div
+            className={styles.inputGpWrap}
+            onClick={() => {
+              setShowWrapDes(!showDropDes);
+            }}
+          >
+            <input
+              className={styles.inputName}
+              placeholder="Select Description"
+              disabled={true}
+              value={
+                editabelRecord.Description === undefined
+                  ? ''
+                  : editabelRecord.Description
+              }
+            />
+            <img
+              src={require('../../../images/chevDown.svg')}
+              alt=""
+              className={styles.chev}
+            />{' '}
+            {showDropDes ? (
+              <div className={styles.dropWrap}>
+                <GetDescriptions />
+              </div>
+            ) : null}
+          </div>
+
+          {/* begin duration form*/}
+          <p className={styles.formLabel}>Duration/Entry</p>
+          {selectedNatures === `${natures[2].title}` && !enableTrueFalse ? (
+            <div className={styles.inputGpWrap}>
+              <input
+                autoFocus={true}
+                className={styles.inputName}
+                placeholder="Entry"
+                value={entry}
+                onChange={(e) => {
+                  var edit = editabelRecord;
+                  edit.Duration = e.target.value;
+                  setEditabelRecord(edit);
+                  setEntry(e.target.value);
+                }}
+                readOnly={false}
+                type="number"
+              />
+            </div>
+          ) : selectedNatures === `${natures[2].title}` ? (
+            <div
+              className={styles.inputGpWrap}
+              onClick={() => {
+                setShowWrapDur(!showDropDur);
+              }}
+            >
+              <input
+                className={styles.inputName}
+                placeholder="Select Option"
+                value={optionEntry}
+                readOnly={true}
+              />
+              <img
+                src={require('../../../images/chevDown.svg')}
+                alt=""
+                className={styles.chev}
+              />{' '}
               {showDropDur ? (
                 <div className={styles.dropWrap}>
                   <GetTrueOrFalse />
                 </div>
               ) : null}
-          </div> : <div
+            </div>
+          ) : (
+            <div
+              className={styles.inputGpWrap}
+              onClick={() => {
+                setShowWrapDur(!showDropDur);
+              }}
+            >
+              <input
+                className={styles.inputName}
+                placeholder="Select Duration"
+                value={
+                  editabelRecord.Duration === undefined
+                    ? ''
+                    : editabelRecord.Duration
+                }
+                readOnly={true}
+              />
+              <img
+                src={require('../../../images/chevDown.svg')}
+                alt=""
+                className={styles.chev}
+              />{' '}
+              {showDropDur ? (
+                <div className={styles.dropWrap}>
+                  <GetDurations />
+                </div>
+              ) : null}
+            </div>
+          )}
+          {/* end duration form */}
+        </div>
+      </>
+    );
+  }
+
+  function Care() {
+    return (
+      <>
+        <div className={styles.editWrap}>
+          <p className={styles.formLabel}>Nature</p>
+          <div
             className={styles.inputGpWrap}
             onClick={() => {
-              setShowWrapDur(!showDropDur);
+              setShowWrap(!showDrop);
             }}
           >
                 {/* Begin Duration Selection */}
@@ -764,7 +889,6 @@ const MedicalHistory = () => {
                   </div>
                 ) : null}
               </div>
-        }
           {/* End duration form */}
 
         {/* Begin Date */}
@@ -819,40 +943,40 @@ const MedicalHistory = () => {
           ) : null}
         </div>
 
-        {/* form feild two */}
-        <p className={styles.formLabel}>Description</p>
-        <div
-          className={styles.inputGpWrap}
-          onClick={() => {
-            setShowWrapDes(!showDropDes);
-          }}
-        >
-          <input
-            className={styles.inputName}
-            placeholder="Select Description"
-            disabled={true}
-            value={
-              editabelRecord.Description === undefined
-                ? ''
-                : editabelRecord.Description
-            }
-          />
-          <img
-            src={require('../../../images/chevDown.svg')}
-            alt=""
-            className={styles.chev}
-          />{' '}
-          {showDropDes ? (
-            <div className={styles.dropWrap}>
-              <GetDescriptions0 />
-            </div>
-          ) : null}
-        </div>
+          {/* form feild two */}
+          <p className={styles.formLabel}>Description</p>
+          <div
+            className={styles.inputGpWrap}
+            onClick={() => {
+              setShowWrapDes(!showDropDes);
+            }}
+          >
+            <input
+              className={styles.inputName}
+              placeholder="Select Description"
+              disabled={true}
+              value={
+                editabelRecord.Description === undefined
+                  ? ''
+                  : editabelRecord.Description
+              }
+            />
+            <img
+              src={require('../../../images/chevDown.svg')}
+              alt=""
+              className={styles.chev}
+            />{' '}
+            {showDropDes ? (
+              <div className={styles.dropWrap}>
+                <GetDescriptions0 />
+              </div>
+            ) : null}
+          </div>
 
-        {/* begin duration form*/}
-        <p className={styles.formLabel}>Duration/Entry</p>
-          {
-            selectedNatures === `${natures0[0].title}` ? <div>
+          {/* begin duration form*/}
+          <p className={styles.formLabel}>Duration/Entry</p>
+          {selectedNatures === `${natures0[0].title}` ? (
+            <div>
               <div
                 className={styles.inputGpWrap}
                 onClick={() => {
@@ -869,7 +993,6 @@ const MedicalHistory = () => {
                   }
                   readOnly={true}
                 />
-
                 <img
                   src={require('../../../images/chevDown.svg')}
                   alt=""
@@ -877,13 +1000,13 @@ const MedicalHistory = () => {
                 />{' '}
                 {showDropDur ? (
                   <div className={styles.dropWrap}>
-                  <GetDurations00 />
+                    <GetDurations00 />
                   </div>
                 ) : null}
               </div>
-            </div> 
-            :
-             selectedNatures === `${natures0[1].title}` ? <>
+            </div>
+          ) : selectedNatures === `${natures0[1].title}` ? (
+            <>
               <div
                 className={styles.inputGpWrap}
                 onClick={() => {
@@ -900,7 +1023,6 @@ const MedicalHistory = () => {
                   }
                   readOnly={true}
                 />
-
                 <img
                   src={require('../../../images/chevDown.svg')}
                   alt=""
@@ -912,95 +1034,96 @@ const MedicalHistory = () => {
                   </div>
                 ) : null}
               </div>
-            </> : <>
-                <div
-                  className={styles.inputGpWrap}>
-                  <input
-                    autoFocus={true}
-                    className={styles.inputName}
-                    placeholder="Entry"
-                    value={entry}
-                    onChange={(e) => { 
-                      var edit = editabelRecord;
-                      edit.Duration = e.target.value;
-                      setEditabelRecord(edit);
-                      setEntry(e.target.value)}}
-                    type='number'
-                  />
-                </div>
             </>
-          }
-      </div>
-    </>);
+          ) : (
+            <>
+              <div className={styles.inputGpWrap}>
+                <input
+                  autoFocus={true}
+                  className={styles.inputName}
+                  placeholder="Entry"
+                  value={entry}
+                  onChange={(e) => {
+                    var edit = editabelRecord;
+                    edit.Duration = e.target.value;
+                    setEditabelRecord(edit);
+                    setEntry(e.target.value);
+                  }}
+                  type="number"
+                />
+              </div>
+            </>
+          )}
+        </div>
+      </>
+    );
   }
 
   function Complication() {
-    return (<>
-      <div className={styles.editWrap}>
-        <p className={styles.formLabel}>Nature</p>
-        <div
-          className={styles.inputGpWrap}
-          onClick={() => {
-            setShowWrap(!showDrop);
-          }}
-        >
-          <input
-            className={styles.inputName}
-            placeholder="Select Nature"
-            disabled={true}
-            value={
-              editabelRecord.Nature === undefined
-                ? ''
-                : editabelRecord.Nature
-            }
-          />
-          <img
-            src={require('../../../images/chevDown.svg')}
-            alt=""
-            className={styles.chev}
-          />{' '}
-          {showDrop ? (
-            <div className={styles.dropWrap}>
-              <GetNatures1 />
-            </div>
-          ) : null}
-        </div>
+    return (
+      <>
+        <div className={styles.editWrap}>
+          <p className={styles.formLabel}>Nature</p>
+          <div
+            className={styles.inputGpWrap}
+            onClick={() => {
+              setShowWrap(!showDrop);
+            }}
+          >
+            <input
+              className={styles.inputName}
+              placeholder="Select Nature"
+              disabled={true}
+              value={
+                editabelRecord.Nature === undefined ? '' : editabelRecord.Nature
+              }
+            />
+            <img
+              src={require('../../../images/chevDown.svg')}
+              alt=""
+              className={styles.chev}
+            />{' '}
+            {showDrop ? (
+              <div className={styles.dropWrap}>
+                <GetNatures1 />
+              </div>
+            ) : null}
+          </div>
 
-        {/* form feild two */}
-        <p className={styles.formLabel}>Description</p>
-        <div
-          className={styles.inputGpWrap}
-          onClick={() => {
-            setShowWrapDes(!showDropDes);
-          }}
-        >
-          <input
-            className={styles.inputName}
-            placeholder="Select Description"
-            disabled={true}
-            value={
-              editabelRecord.Description === undefined
-                ? ''
-                : editabelRecord.Description
-            }
-          />
-          <img
-            src={require('../../../images/chevDown.svg')}
-            alt=""
-            className={styles.chev}
-          />{' '}
-          {showDropDes ? (
-            <div className={styles.dropWrap}>
-              <GetDescriptions1 />
-            </div>
-          ) : null}
-        </div>
+          {/* form feild two */}
+          <p className={styles.formLabel}>Description</p>
+          <div
+            className={styles.inputGpWrap}
+            onClick={() => {
+              setShowWrapDes(!showDropDes);
+            }}
+          >
+            <input
+              className={styles.inputName}
+              placeholder="Select Description"
+              disabled={true}
+              value={
+                editabelRecord.Description === undefined
+                  ? ''
+                  : editabelRecord.Description
+              }
+            />
+            <img
+              src={require('../../../images/chevDown.svg')}
+              alt=""
+              className={styles.chev}
+            />{' '}
+            {showDropDes ? (
+              <div className={styles.dropWrap}>
+                <GetDescriptions1 />
+              </div>
+            ) : null}
+          </div>
 
-        {/* begin duration form*/}
-        <p className={styles.formLabel}>Duration/Entry</p>
-          {
-          selectedNatures === `${natures1[2].title}` && !enableTrueFalse ? <div
-              className={styles.inputGpWrap}>
+          {/* begin duration form*/}
+          <p className={styles.formLabel}>Duration/Entry</p>
+          {selectedNatures === `${natures1[2].title}` && !enableTrueFalse ? (
+            <div className={styles.inputGpWrap}>
               <input
                 autoFocus={true}
                 className={styles.inputName}
@@ -1010,12 +1133,14 @@ const MedicalHistory = () => {
                   var edit = editabelRecord;
                   edit.Duration = e.target.value;
                   setEditabelRecord(edit);
-                  setEntry(e.target.value)
+                  setEntry(e.target.value);
                 }}
                 readOnly={false}
-                type='number'
+                type="number"
               />
-          </div> : selectedNatures === `${natures1[2].title}` ? <div
+            </div>
+          ) : selectedNatures === `${natures1[2].title}` ? (
+            <div
               className={styles.inputGpWrap}
               onClick={() => {
                 setShowWrapDur(!showDropDur);
@@ -1037,47 +1162,49 @@ const MedicalHistory = () => {
                   <GetTrueOrFalse />
                 </div>
               ) : null}
-            </div> : <div
+            </div>
+          ) : (
+            <div
               className={styles.inputGpWrap}
               onClick={() => {
                 setShowWrapDur(!showDropDur);
               }}
             >
-                <input
-                  className={styles.inputName}
-                  placeholder="Select Duration"
-                  value={
-                    editabelRecord.Duration === undefined
-                      ? ''
-                      : editabelRecord.Duration
-                  }
-                  readOnly={true}
-                />
-
-                <img
-                  src={require('../../../images/chevDown.svg')}
-                  alt=""
-                  className={styles.chev}
-                />{' '}
-                {showDropDur ? (
-                  <div className={styles.dropWrap}>
-                    <GetDurations />
-                  </div>
-                ) : null}
-              </div>
-        }
-      </div>
-    </>);
+              <input
+                className={styles.inputName}
+                placeholder="Select Duration"
+                value={
+                  editabelRecord.Duration === undefined
+                    ? ''
+                    : editabelRecord.Duration
+                }
+                readOnly={true}
+              />
+              <img
+                src={require('../../../images/chevDown.svg')}
+                alt=""
+                className={styles.chev}
+              />{' '}
+              {showDropDur ? (
+                <div className={styles.dropWrap}>
+                  <GetDurations />
+                </div>
+              ) : null}
+            </div>
+          )}
+        </div>
+      </>
+    );
   }
 
-  function setShowingRecord(value){
+  function setShowingRecord(value) {
     resetDuration();
     switchShowing(value);
-    if (value === 'Assessment'){
+    if (value === 'Assessment') {
       setRecordList(assessmentRecords);
-    } else if (value === 'Care'){
+    } else if (value === 'Care') {
       setRecordList(careRecords);
-    } else if (value === 'Complication'){
+    } else if (value === 'Complication') {
       setRecordList(complicationRecords);
     }
   }
@@ -1087,9 +1214,7 @@ const MedicalHistory = () => {
       <TopBar />
       <SecondaryBar page_title="Medical History" shadow />
       <Shell name={`${patient.LastName} ${patient.FirstName}`}>
-        
         <div className={styles.container}>
-         
           {/* Begin search section */}
           <form className={styles.form}>
             <input
@@ -1111,11 +1236,13 @@ const MedicalHistory = () => {
           {/* End search section */}
 
           <select
-            className={styles.select} 
+            className={styles.select}
             name="record"
             onChange={(e) => setShowingRecord(e.target.value)}
-            >
-            <option selected value="">Select ...</option>
+          >
+            <option selected value="">
+              Select ...
+            </option>
             <option value="Assessment">Assessment</option>
             <option value="Care">Care</option>
             <option value="Complication">Complication</option>
@@ -1138,8 +1265,8 @@ const MedicalHistory = () => {
                 </Fragment>
               ))
             ) : (
-                <p className={styles.no_record}>No Assessment Record.</p>
-              )
+              <p className={styles.no_record}>No Assessment Record.</p>
+            )
           ) : null}
           {showing === 'Care' ? (
             recordList ? (
@@ -1158,8 +1285,8 @@ const MedicalHistory = () => {
                 </Fragment>
               ))
             ) : (
-                <p className={styles.no_record}>No Care Record.</p>
-              )
+              <p className={styles.no_record}>No Care Record.</p>
+            )
           ) : null}
           {showing === 'Complication' ? (
             recordList ? (
@@ -1178,11 +1305,17 @@ const MedicalHistory = () => {
                 </Fragment>
               ))
             ) : (
-                <p className={styles.no_record}>No Complication Record.</p>
-              )
+              <p className={styles.no_record}>No Complication Record.</p>
+            )
           ) : null}
 
-          {showing === 'Complication' ? <Complication/> : showing === 'Care' ? <Care/> : <Assessment/>}
+          {showing === 'Complication' ? (
+            <Complication />
+          ) : showing === 'Care' ? (
+            <Care />
+          ) : (
+            <Assessment />
+          )}
 
           {editabelMode ? (
             <div className={styles.roe}>
@@ -1194,7 +1327,7 @@ const MedicalHistory = () => {
                 className={styles.addRec}
               >
                 Update Record
-                </p>
+              </p>
               <p
                 onClick={(e) => {
                   e.preventDefault();
@@ -1203,19 +1336,19 @@ const MedicalHistory = () => {
                 className={styles.addRec}
               >
                 Cancel
-                </p>
+              </p>
             </div>
           ) : (
-              <p
-                onClick={(e) => {
-                  e.preventDefault();
-                  addNewRecord();
-                }}
-                className={styles.addRec}
-              >
-                Add New Record
-              </p>
-            )}
+            <p
+              onClick={(e) => {
+                e.preventDefault();
+                addNewRecord();
+              }}
+              className={styles.addRec}
+            >
+              Add New Record
+            </p>
+          )}
         </div>
 
         <BottomBar />
@@ -1267,7 +1400,6 @@ const MedicalHistory = () => {
       </Overlay>
       {/* End Days,Months, and Years Selection Overlay */}
 
-
       {/* Begin Show Info Overlay */}
       <Overlay
         className={styles.modal}
@@ -1275,28 +1407,28 @@ const MedicalHistory = () => {
         open={showInfoDialog}
         onClose={() => {
           setShowInfoDialog(false);
-        }}>
-          <div className={styles.modal_paper}>
-            <div className={styles.modalTop2}>
-              <p className={styles.appTitle}>{effects.error.title}</p>
-            </div>
-            <div className={styles.inputGpWrap}>
-              <p>{effects.error.message}</p>
-            </div>
-            <div
-              onClick={() => {
-                var pre = editabelRecord;
-                pre.Duration = duration;
-                setShowInfoDialog(false);
-              }}
-              className={styles.pCreate}
-            >
-              Dismiss
+        }}
+      >
+        <div className={styles.modal_paper}>
+          <div className={styles.modalTop2}>
+            <p className={styles.appTitle}>{effects.error.title}</p>
           </div>
+          <div className={styles.inputGpWrap}>
+            <p>{effects.error.message}</p>
           </div>
-        </Overlay>
+          <div
+            onClick={() => {
+              var pre = editabelRecord;
+              pre.Duration = duration;
+              setShowInfoDialog(false);
+            }}
+            className={styles.pCreate}
+          >
+            Dismiss
+          </div>
+        </div>
+      </Overlay>
       {/* End Show Info Overlay */}
-    
 
       {/* Begin Spinner Overlay */}
       <Overlay
@@ -1305,11 +1437,12 @@ const MedicalHistory = () => {
         open={effects.loading}
         onClose={() => {
           setShowInfoDialog(false);
-        }}>
+        }}
+      >
         <ClipLoader
           css={override}
           size={150}
-          color={"#123abc"}
+          color={'#123abc'}
           loading={true}
         />
       </Overlay>
