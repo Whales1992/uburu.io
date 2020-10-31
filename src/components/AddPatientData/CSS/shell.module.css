@@ -25,8 +25,9 @@
     width: 90%;
     max-width: 969.49px;
     margin: 130.69px auto;
-    height: auto;
-    /* max-height: 570.63px; */
+    /* height: auto; */
+    overflow-y: scroll;
+    max-height: 570.63px;
   }
 
   .title {

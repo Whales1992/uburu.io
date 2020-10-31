@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from '../CSS/appointments_side_page.module.css';
 import localForage from 'localforage';
+import Shell from '../JS/detail_shell';
 import CreateAppointment from './create_appointment';
 
 const patientName = (item) => {
