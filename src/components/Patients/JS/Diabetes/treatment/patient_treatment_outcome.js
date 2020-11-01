@@ -2,14 +2,14 @@ import React, { Fragment, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import DatePicker from 'react-date-picker';
 import EachRecord from './each_treatmentoutcome';
-import SecondaryBar from '../../UI/JS/secondary_navbar';
-import TopBar from '../../UI/JS/topbar';
-import Shell from './detail_shell';
+import SecondaryBar from '../../../../UI/JS/secondary_navbar';
+import TopBar from '../../../../UI/JS/topbar';
+import Shell from '../../detail_shell';
 import { Overlay } from 'react-portal-overlay';
 import { css } from "@emotion/core";
 import ClipLoader from "react-spinners/ClipLoader";
-import styles from '../CSS/general_history_data.module.css';
-import styles2 from '../CSS/medical_history_data.module.css';
+import styles from '../../../CSS/general_history_data.module.css';
+import styles2 from '../../../CSS/medical_history_data.module.css';
 const url = process.env.REACT_APP_BASE_URL;
 
 const override = css`
@@ -18,13 +18,65 @@ const override = css`
   border-color: red;
 `;
 
+const x = require('../../../../../images/x.svg');
+
 const PatientTreatmentOutcome2 = () => {
   const patient = useLocation().state;
   const treatmentOutcome =
     patient.records &&
     patient.records.filter((patient) => patient.Type === 'Treatment');
 
-  console.log('@patientTreatmentOutcome2', treatmentOutcome);
+  const groupedRecord = [];
+
+  function sortByDate() {
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "June",
+      "July", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
+    let firstDate = new Date(treatmentOutcome[0].Date_Created);
+    let obj = { Type: 'Date', Tag: `${firstDate.getDate()} ${monthNames[firstDate.getMonth()]}, ${firstDate.getFullYear()}` }
+
+    groupedRecord.push(obj);
+    groupedRecord.push(treatmentOutcome[0]);
+    for (let i = 0; i < treatmentOutcome.length; i++) {
+      if (i + 1 == treatmentOutcome.length) {
+        break;
+      }
+
+      let left = treatmentOutcome[i];
+      let right = treatmentOutcome[i + 1];
+
+      let ldate = new Date(left.Date_Created);
+      let rdate = new Date(right.Date_Created);
+
+      let lyear = ldate.getFullYear();
+      let ryear = rdate.getFullYear();
+
+      let lmonth = ldate.getMonth() + 1;
+      let rmonth = rdate.getMonth() + 1;
+
+      let lday = ldate.getDate();
+      let rday = rdate.getDate();
+
+      console.log(ldate, " || ", lyear, " || ", lmonth, " || ", lday);
+      console.log(rdate, " || ", ryear, " || ", rmonth, " || ", rday);
+
+      if (lyear === ryear && lmonth === rmonth && lday === rday) {
+        //same
+        groupedRecord.push(right);
+      } else {
+        //not same
+        let obj = { Type: 'Date', Tag: `${rdate.getDate()} ${monthNames[rdate.getMonth()]}, ${rdate.getFullYear()}` }
+
+        groupedRecord.push(obj);
+        groupedRecord.push(right);
+      }
+    }
+  }
+
+  if (treatmentOutcome.length > 0) {
+    sortByDate();
+    console.log("MAKE OUT", groupedRecord);
+  }
 
   const [showInfoDialog, setShowInfoDialog] = useState(false);
   const [effects, setEffects] = useState({
@@ -37,8 +89,8 @@ const PatientTreatmentOutcome2 = () => {
   });
 
   const [values, changeValues] = useState({
-    Status: treatmentOutcome ? treatmentOutcome.Status : '',
-    StatusDate: treatmentOutcome ? treatmentOutcome.StatusDate : '',
+    Outcome: treatmentOutcome ? treatmentOutcome.Outcome : '',
+    RecordDate: treatmentOutcome ? treatmentOutcome.RecordDate : '',
   });
 
   const [entry, setEntry] = useState(undefined);
@@ -49,12 +101,11 @@ const PatientTreatmentOutcome2 = () => {
   const [editabelRecord, setEditabelRecord] = useState({});
   const [myRecord, setMyRecord] = useState();
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-  const [RecordDate, setRecordDate] = useState('');
 
   function handleChange(name, e) {
     let value;
 
-    if (name === 'StatusDate') {
+    if (name === 'RecordDate') {
       value = e;
     } else {
       value = e.target.value;
@@ -64,6 +115,8 @@ const PatientTreatmentOutcome2 = () => {
   }
 
   const deleteRModal = (e, val) => {
+    e.preventDefault();
+
     setShowDeleteDialog(true);
     setMyRecord(val);
   };
@@ -72,9 +125,8 @@ const PatientTreatmentOutcome2 = () => {
 
   function enableEditMode(e, editables) {
     e.preventDefault();
-
+  
     setEntry(editables.Entry);
-    setTreatmentoutcome(editables.Investigation);
     setEditabelRecord(editables);
     setEditabelMode(true);
   }
@@ -127,14 +179,7 @@ const PatientTreatmentOutcome2 = () => {
   };
 
   async function addNewRecord() {
-    // var newInvestigation = {
-    //   Type: 'Investigation',
-    //   Investigation: investigation,
-    //   FolderNo: patient.FolderNo,
-    //   Entry: entry,
-    //   RecordDate: RecordDate
-    // };
-    // console.log('@addNewRecord', newInvestigation);
+    const payload = { Type: 'Treatment', Outcome: values.Outcome, RecordDate: values.RecordDate, FolderNo: patient.FolderNo}
 
     try {
       if (window.navigator.onLine) {
@@ -150,7 +195,74 @@ const PatientTreatmentOutcome2 = () => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${localStorage.token}`,
           },
-          // body: JSON.stringify(newInvestigation),
+          body: JSON.stringify(payload),
+        });
+
+        if (!request.ok) {
+          const error = await request.json();
+          throw Error(error.error);
+        }
+        const data = await request.json();
+
+        setEffects({
+          ...effects,
+          loading: false,
+          error: {
+            error: false,
+            title: 'Success',
+            message: `${data.message}`,
+          },
+        });
+        setShowInfoDialog(true);
+      } else {
+        setEffects({
+          ...effects,
+          loading: false,
+          error: {
+            error: true,
+            title: 'Network',
+            message: 'Connection Error',
+          },
+        });
+        setShowInfoDialog(true);
+      }
+    } catch (error) {
+      setTimeout(() => {
+        setEffects({
+          ...effects,
+          loading: false,
+          error: {
+            error: true,
+            title: 'Error',
+            message: error.message,
+          },
+        });
+
+        setShowInfoDialog(true);
+      }, 2000);
+    }
+  }
+
+  async function deleteRecord(e, record) {
+    e.preventDefault();
+    console.log("@deleteRecord", record);
+    return
+
+    try {
+      if (window.navigator.onLine) {
+        setEffects({
+          ...effects,
+          loading: true,
+        });
+
+        const request = await fetch(`${url}/DeleteRecord`, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.token}`,
+          },
+          body: JSON.stringify({ RecordID: record.RecordId }),
         });
 
         if (!request.ok) {
@@ -293,15 +405,18 @@ const PatientTreatmentOutcome2 = () => {
           </form>
           {/* End search section */}
 
-          {treatmentOutcome ? (
-            treatmentOutcome.map((record) => (
-              <Fragment key={`${record.Investigation}_${record.Report}`}>
+          {groupedRecord.length !==0 ? (
+            groupedRecord.map((record, key) => (
+              record.Type === 'Date' ? <><p>{record.Tag}</p></> : <Fragment key={key}>
                 <EachRecord
+                  key={key}
                   record={record}
                   editMode={(e) => {
                     enableEditMode(e, record);
                   }}
-                  openDeleteModal={deleteRModal}
+                  openDeleteModal={(e) => {
+                    deleteRModal(e, record);
+                  }}
                 />
               </Fragment>
             ))
@@ -326,7 +441,7 @@ const PatientTreatmentOutcome2 = () => {
           <div className={styles.modalTop2}>
             <p className={styles.appTitle}>Add new Record</p>
             <img
-              src={require('../../../images/x.svg')}
+              src={x}
               alt=""
               onClick={() => {
                 setAddRecModal(false);
@@ -337,7 +452,7 @@ const PatientTreatmentOutcome2 = () => {
           <div className={styles.editWrap}>
 
             {/* form feild one */}
-            <p className={styles.formLabel}>Investigation</p>
+            <p className={styles.formLabel}>TreatmentOutcome</p>
             <div
               className={styles.inputGpWrap}
               onClick={() => {
@@ -350,12 +465,12 @@ const PatientTreatmentOutcome2 = () => {
                     id="outcome"
                     name="treatment outcome"
                     className={styles.input}
-                    selected={treatmentOutcome.Status !== undefined ? treatmentOutcome.Status : 'JJJ'}
-                    value={values.Status !== '' ? values.Status : treatmentOutcome.Status !== undefined ? '' : treatmentOutcome.Status}
-                    onChange={(e) => handleChange('Status', e)}
+                    selected={treatmentOutcome.Status !== undefined ? treatmentOutcome.Outcome : 'JJJ'}
+                    value={values.Outcome !== '' ? values.Outcome : treatmentOutcome.Outcome !== undefined ? '' : treatmentOutcome.Outcome}
+                    onChange={(e) => handleChange('Outcome', e)}
                     required
                   >
-                    <option></option>
+                    <option>Select ...</option>
                     <option>Good Clinical Response</option>
                     <option>Poor Clinical Response</option>
                     <option>Complete Remission</option>
@@ -366,10 +481,7 @@ const PatientTreatmentOutcome2 = () => {
                   </select>
               </div>
               
-            <label className={!values.Status ? 'disabled_label' : ''}>
-                    Status Date
-              </label>
-            
+          
             {/* Begin Date */}
             <p className={styles.formLabel}>Date of Record</p>
             <div
@@ -377,9 +489,9 @@ const PatientTreatmentOutcome2 = () => {
               <DatePicker
                 id="RecordDate"
                 name="RecordDate"
-                value={RecordDate}
+                value={values.RecordDate}
                 className={styles.input}
-                onChange={(e) => handleChange('StatusDate', e)}
+                onChange={(e) => handleChange('RecordDate', e)}
                 required
                 format="dd/MM/y"
               />
@@ -451,6 +563,44 @@ const PatientTreatmentOutcome2 = () => {
         </div>
       </Overlay>
       {/* End Show Info Dialog */}
+
+
+      {/* Begin Delete Dialog*/}
+      <Overlay
+        className={styles.modal}
+        closeOnClick={true}
+        open={showDeleteDialog}
+        onClose={() => {
+          setShowDeleteDialog(false);
+        }}
+      >
+        <div className={styles.modal_paper}>
+          <div className={styles.modalTop2}>
+            <p className={styles.appTitle}>Are you Sure you want to Delete ?</p>
+          </div>
+
+          <div className={styles.deRow}>
+            <div
+              onClick={(e) => {
+                deleteRecord(e, myRecord);
+                setShowDeleteDialog(false);
+              }}
+              className={styles.pCreate}
+            >
+              Yes
+            </div>
+            <div
+              onClick={() => {
+                setShowDeleteDialog(false);
+              }}
+              className={styles.pNo}
+            >
+              No
+            </div>
+          </div>
+        </div>
+      </Overlay>
+      {/* End Delete Dialog*/}
 
 
       {/* Begin Spinner Show */}

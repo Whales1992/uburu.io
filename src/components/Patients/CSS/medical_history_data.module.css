@@ -144,7 +144,7 @@
 }
 
 .add_new_record {
-  position: absolute;
+  position: fixed;
   bottom: 93px;
   right: 22px;
   height: 60px;

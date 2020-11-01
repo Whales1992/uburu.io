@@ -1,20 +1,20 @@
 import React, { useState, Fragment } from 'react';
 import { useLocation } from 'react-router-dom';
-import TopBar from '../../../UI/JS/topbar';
-import SecondaryBar from '../../../UI/JS/secondary_navbar';
-import BottomBar from '../../../UI/JS/bottom_toolbar';
-import Shell from '../detail_shell';
-import EachRecord from '../../JS/each_drug_history_record';
-import styles from '../../CSS/drug_history.module.css';
-import styles2 from '../../CSS/medical_history_data.module.css';
+import TopBar from '../../../../UI/JS/topbar';
+import SecondaryBar from '../../../../UI/JS/secondary_navbar';
+import BottomBar from '../../../../UI/JS/bottom_toolbar';
+import Shell from '../../detail_shell';
+import EachRecord from './each_drug_history_record';
+import styles from '../../../CSS/drug_history.module.css';
+import styles2 from '../../../CSS/medical_history_data.module.css';
 import { Overlay } from 'react-portal-overlay';
 import { css } from '@emotion/core';
 import DatePicker from 'react-date-picker';
 import ClipLoader from 'react-spinners/ClipLoader';
 const url = process.env.REACT_APP_BASE_URL;
 
-const chevDown = require('../../../../images/chevDown.svg');
-const x = require('../../../../images/x.svg');
+const chevDown = require('../../../../../images/chevDown.svg');
+const x = require('../../../../../images/x.svg');
 
 const override = css`
   display: block;
@@ -53,9 +53,55 @@ const DrugHistory = () => {
     patient.records.filter((patient) => patient.Type === 'Drugs');
 
   const [recordList, setRecordList] = useState(drugHistory);
+ 
+  const groupedRecord = [];
+  function sortByDate() {
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "June",
+      "July", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
+    let firstDate = new Date(recordList[0].Date_Created);
+    let obj = { Type: 'Date', Tag: `${firstDate.getDate()} ${monthNames[firstDate.getMonth()]}, ${firstDate.getFullYear()}` }
+
+    groupedRecord.push(obj);
+    groupedRecord.push(recordList[0]);
+    for (let i = 0; i < recordList.length; i++) {
+      if (i + 1 == recordList.length) {
+        break;
+      }
+
+      let left = recordList[i];
+      let right = recordList[i + 1];
+
+      let ldate = new Date(left.Date_Created);
+      let rdate = new Date(right.Date_Created);
+
+      let lyear = ldate.getFullYear();
+      let ryear = rdate.getFullYear();
+
+      let lmonth = ldate.getMonth() + 1;
+      let rmonth = rdate.getMonth() + 1;
+
+      let lday = ldate.getDate();
+      let rday = rdate.getDate();
+
+      if (lyear === ryear && lmonth === rmonth && lday === rday) {
+        //same
+        groupedRecord.push(right);
+      } else {
+        //not same
+        let obj = { Type: 'Date', Tag: `${rdate.getDate()} ${monthNames[rdate.getMonth()]}, ${rdate.getFullYear()}` }
+
+        groupedRecord.push(obj);
+        groupedRecord.push(right);
+      }
+    }
+  }
+  if (recordList.length > 0) {
+    sortByDate();
+    // console.log("OUT", groupedRecord);
+  }
 
   const durations = ['Years', 'Months', 'Days'];
-
   function handleSearchPhraseChange(phrase) {
     if (phrase.length > 2) {
       search(phrase);
@@ -266,8 +312,6 @@ const DrugHistory = () => {
     edited.Dosage = dosage;
     edited.RecordDate = RecordDate;
 
-    // console.log("@updateRecord", edited);
-
     try {
       if (window.navigator.onLine) {
         setEffects({
@@ -397,9 +441,12 @@ const DrugHistory = () => {
   }
 
   const deleteRModal = (e, val) => {
+    e.preventDefault();
+
     setShowDeleteDialog(true);
     setMyRecord(val);
   };
+
   const FabTwo = () => {
     return (
       <div>
@@ -473,20 +520,20 @@ const DrugHistory = () => {
           </form>
           {/* End search section */}
 
-          {recordList && recordList.length > 0 ? (
-            recordList.map((record) => (
-              <Fragment key={`${record.Drug}_${record.Dosage}`}>
+          {groupedRecord.length !==0 ? (
+            groupedRecord.map((record, key) => (
+              record.Type === 'Date' ? <><p>{record.Tag}</p></> : <Fragment key={`${record.Drug}_${record.Dosage}`}>
                 <EachRecord
+                  key={key}
                   record={record}
                   editMode={(e) => {
                     enableEditMode(e, record);
                     setAddRecModal(true);
                     setEditabelMode(true);
                   }}
-                  openDeleteModal={deleteRModal}
-                  // deleteRecord={(e) => {
-                  //   deleteRecord(e, record);
-                  // }}
+                  openDeleteModal={(e) => {
+                    deleteRModal(e, record);
+                  }}
                 />
               </Fragment>
             ))
@@ -498,7 +545,7 @@ const DrugHistory = () => {
       <FabTwo />
       <BottomBar />
 
-      {/* start of modal for edit and delete */}
+      {/* start of modal for edit and add new */}
       <Overlay
         className={styles.modal}
         closeOnClick={true}
@@ -661,7 +708,7 @@ const DrugHistory = () => {
           </div>
         </div>
       </Overlay>
-      {/* end of modal for edit and delete */}
+      {/* end of modal for edit and add new */}
 
       {/* Begin Show Info Dialog */}
       <Overlay

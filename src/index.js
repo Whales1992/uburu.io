@@ -27,10 +27,25 @@ import DiabetesPatientBioData from './components/Patients/Diabetes/JS/bio-data';
 import AsthmaPatientBioData from './components/Patients/Asthma/JS/bio-data';
 import MedicalHistory from './components/Patients/JS/medical_history_data';
 
-import OncologyMedicalHistory from './components/Patients/JS/Oncology/medical_history_data';
-import OncologyDrugHistory from './components/Patients/JS/Oncology/drug_history';
-import OncologyInvestigationHistory from './components/Patients/JS/Oncology/investigation_history';
-
+//Begin Medical Records and co
+import OncologyMedicalHistory from './components/Patients/JS/Oncology/medical/medical_history_data';
+import OncologyDrugHistory from './components/Patients/JS/Oncology/drug/drug_history';
+import OncologyInvestigationHistory from './components/Patients/JS/Oncology/investigation/investigation_history';
+import OncologyTreatmentOutComeHistory from './components/Patients/JS/Oncology/treatment/patient_treatment_outcome';
+import OncologyAppointmentsPage from './components/Patients/JS/Oncology/appointment/appointments_page';
+// ==========||=========
+import DiabetesMedicalHistory from './components/Patients/JS/Diabetes/medical/medical_history_data';
+import DiabetesDrugHistory from './components/Patients/JS/Diabetes/drug/drug_history';
+import DiabetesInvestigationHistory from './components/Patients/JS/Diabetes/investigation/investigation_history';
+import DiabetesTreatmentOutComeHistory from './components/Patients/JS/Diabetes/treatment/patient_treatment_outcome';
+import DiabetesAppointmentsPage from './components/Patients/JS/Diabetes/appointment/appointments_page';
+// ==========||=========
+import AsthmaMedicalHistory from './components/Patients/JS/Asthma/medical/medical_history_data';
+import AsthmaDrugHistory from './components/Patients/JS/Asthma/drug/drug_history';
+import AsthmaInvestigationHistory from './components/Patients/JS/Asthma/investigation/investigation_history';
+import AsthmaTreatmentOutComeHistory from './components/Patients/JS/Asthma/treatment/patient_treatment_outcome';
+import AsthmaAppointmentsPage from './components/Patients/JS/Asthma/appointment/appointments_page';
+//End Medical Records and co
 
 import PatientDrugHistory from './components/Patients/JS/drug_history';
 import InvestigationHistory from './components/Patients/JS/investigation_history';
@@ -68,6 +83,7 @@ import CreateAppointment from './components/Patients/AppointmentSide/create_appo
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = composeEnhancers()(createStore);
 
+//============*****===================
 const GoToMedicalHistory = (props) => {
 
   const registry = localStorage.account
@@ -75,8 +91,8 @@ const GoToMedicalHistory = (props) => {
     : null;
 
   if (registry === 'Oncology') return <OncologyMedicalHistory {...props} />;
-  if (registry === 'Diabetes') return <DiabetesPatientBiodataForm {...props} />;
-  if (registry === 'Asthma') return <AsthmaPatientBiodataForm {...props} />;
+  if (registry === 'Diabetes') return <DiabetesMedicalHistory {...props} />;
+  if (registry === 'Asthma') return <AsthmaMedicalHistory {...props} />;
 };
 
 const GoToDrugHistory = (props) => {
@@ -86,8 +102,8 @@ const GoToDrugHistory = (props) => {
     : null;
 
   if (registry === 'Oncology') return <OncologyDrugHistory {...props} />;
-  if (registry === 'Diabetes') return <DiabetesPatientBiodataForm {...props} />;
-  if (registry === 'Asthma') return <AsthmaPatientBiodataForm {...props} />;
+  if (registry === 'Diabetes') return <DiabetesDrugHistory {...props} />;
+  if (registry === 'Asthma') return <AsthmaDrugHistory {...props} />;
 };
 
 const GoToInvestigationHistory = (props) => {
@@ -97,10 +113,31 @@ const GoToInvestigationHistory = (props) => {
     : null;
 
   if (registry === 'Oncology') return <OncologyInvestigationHistory {...props} />;
-  if (registry === 'Diabetes') return <DiabetesPatientBiodataForm {...props} />;
-  if (registry === 'Asthma') return <AsthmaPatientBiodataForm {...props} />;
+  if (registry === 'Diabetes') return <DiabetesInvestigationHistory {...props} />;
+  if (registry === 'Asthma') return <AsthmaInvestigationHistory {...props} />;
 };
 
+const GoToTreatmentOutComeHistory = (props) => {
+
+  const registry = localStorage.account
+    ? JSON.parse(localStorage.account).Name
+    : null;
+
+  if (registry === 'Oncology') return <OncologyTreatmentOutComeHistory {...props} />;
+  if (registry === 'Diabetes') return <DiabetesTreatmentOutComeHistory {...props} />;
+  if (registry === 'Asthma') return <AsthmaTreatmentOutComeHistory {...props} />;
+};
+
+const GoToAppointmentPage = (props) => {
+  const registry = localStorage.account
+    ? JSON.parse(localStorage.account).Name
+    : null;
+
+  if (registry === 'Oncology') return <OncologyAppointmentsPage {...props} />;
+  if (registry === 'Diabetes') return <DiabetesAppointmentsPage {...props} />;
+  if (registry === 'Asthma') return <AsthmaAppointmentsPage {...props} />;
+};
+//============*****===================
 
 
 //conditionally import forms
@@ -207,17 +244,17 @@ const App = () => {
               component={PatientTreatmentOutcome}
             />
 
-            <AuthRoute
+            {/* <AuthRoute
               exact
               path="/patients/:id/patient_treatment_outcome"
               component={PatientTreatmentOutcome2}
-            />
+            /> */}
 
-            <AuthRoute
+            {/* <AuthRoute
               exact
               path="/patients/:id/appointments_page"
               component={AppointmentsSidePage}
-            />
+            /> */}
             <AuthRoute
               exact
               path="/patients/appointments_detail"
@@ -265,6 +302,18 @@ const App = () => {
               exact
               path="/patients/:id/investigation_history"
               component={GoToInvestigationHistory}
+            />
+
+            <AuthRoute
+              exact
+              path="/patients/:id/patient_treatment_outcome"
+              component={GoToTreatmentOutComeHistory}
+            />
+
+            <AuthRoute
+              exact
+              path="/patients/:id/appointments_page"
+              component={GoToAppointmentPage}
             />
             {/* =======||========= */}
 

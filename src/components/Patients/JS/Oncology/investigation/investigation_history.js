@@ -1,13 +1,13 @@
 import React, { Fragment, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import TopBar from '../../UI/JS/topbar';
-import SecondaryBar from '../../UI/JS/secondary_navbar';
-import BottomBar from '../../UI/JS/bottom_toolbar';
-import Shell from './detail_shell';
+import TopBar from '../../../../UI/JS/topbar';
+import SecondaryBar from '../../../../UI/JS/secondary_navbar';
+import BottomBar from '../../../../UI/JS/bottom_toolbar';
+import Shell from '../../detail_shell';
 import EachRecord from './each_investigation';
 import DatePicker from "react-date-picker";
-import styles from '../CSS/investigation_history.module.css';
-import styles2 from '../CSS/medical_history_data.module.css';
+import styles from '../../../CSS/investigation_history.module.css';
+import styles2 from '../../../CSS/medical_history_data.module.css';
 import { Overlay } from 'react-portal-overlay';
 import { css } from '@emotion/core';
 import ClipLoader from 'react-spinners/ClipLoader';
@@ -18,6 +18,9 @@ const override = css`
   margin: 0 auto;
   border-color: red;
 `;
+
+const chevDown = require('../../../../../images/chevDown.svg');
+const x = require('../../../../../images/x.svg');
 
 const InvestigationHistory = () => {
   const patient = useLocation().state;
@@ -36,6 +39,61 @@ const InvestigationHistory = () => {
   const investigationHistory =
     patient.records &&
     patient.records.filter((patient) => patient.Type === 'Investigation');
+
+  // console.log('@investigationHistory', investigationHistory);
+
+  const groupedRecord = [];
+
+  function sortByDate() {
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "June",
+      "July", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
+    let firstDate = new Date(investigationHistory[0].Date_Created);
+    let obj = { Type: 'Date', Tag: `${firstDate.getDate()} ${monthNames[firstDate.getMonth()]}, ${firstDate.getFullYear()}` }
+
+    groupedRecord.push(obj);
+    groupedRecord.push(investigationHistory[0]);
+    for (let i = 0; i < investigationHistory.length; i++) {
+      if (i + 1 == investigationHistory.length) {
+        break;
+      }
+
+      let left = investigationHistory[i];
+      let right = investigationHistory[i + 1];
+
+      let ldate = new Date(left.Date_Created);
+      let rdate = new Date(right.Date_Created);
+
+      let lyear = ldate.getFullYear();
+      let ryear = rdate.getFullYear();
+
+      let lmonth = ldate.getMonth() + 1;
+      let rmonth = rdate.getMonth() + 1;
+
+      let lday = ldate.getDate();
+      let rday = rdate.getDate();
+
+      console.log(ldate, " || ", lyear, " || ", lmonth, " || ", lday);
+      console.log(rdate, " || ", ryear, " || ", rmonth, " || ", rday);
+
+      if (lyear === ryear && lmonth === rmonth && lday === rday) {
+        //same
+        groupedRecord.push(right);
+      } else {
+        //not same
+        let obj = { Type: 'Date', Tag: `${rdate.getDate()} ${monthNames[rdate.getMonth()]}, ${rdate.getFullYear()}` }
+
+        groupedRecord.push(obj);
+        groupedRecord.push(right);
+      }
+    }
+  }
+
+  if (investigationHistory.length > 0) {
+    sortByDate();
+    console.log("MAKE OUT", groupedRecord);
+  }
+
 
   const [effects, setEffects] = useState({
     loading: false,
@@ -391,9 +449,9 @@ const InvestigationHistory = () => {
           </form>
           {/* End search section */}
 
-          {investigationHistory.length !==0 ? (
-            investigationHistory.map((record) => (
-              <Fragment key={`${record.Investigation}_${record.Report}`}>
+          {groupedRecord.length !==0 ? (
+            groupedRecord.map((record) => (
+              record.Type === 'Date' ? <><p>{record.Tag}</p></> : <Fragment key={`${record.Investigation}_${record.Report}`}>
                 <EachRecord
                   record={record}
                   editMode={(e) => {
@@ -424,7 +482,7 @@ const InvestigationHistory = () => {
             <div className={styles.modalTop2}>
               <p className={styles.appTitle}>Add new Record</p>
               <img
-                src={require('../../../images/x.svg')}
+                src={x}
                 alt=""
                 onClick={() => {
                   setAddRecModal(false);
@@ -449,7 +507,7 @@ const InvestigationHistory = () => {
                 value={investigation === undefined ? '' : investigation}
               />
               <img
-                src={require('../../../images/chevDown.svg')}
+                src={chevDown}
                 alt=""
                 className={styles.chev}
               />{' '}
@@ -489,8 +547,8 @@ const InvestigationHistory = () => {
                 format="dd/MM/y"
               />
             </div>
+            
             {/* End Date */}
-
               {editabelMode ? (
                 <div className={styles.roe}>
                   <p

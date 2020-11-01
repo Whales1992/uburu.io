@@ -4,7 +4,7 @@ import TopBar from '../../UI/JS/topbar';
 import SecondaryBar from '../../UI/JS/secondary_navbar';
 import BottomBar from '../../UI/JS/bottom_toolbar';
 import Shell from './detail_shell';
-import EachRecord from './each_drug_history_record';
+import EachRecord from './Oncology/drug/each_drug_history_record';
 import styles from '../CSS/drug_history.module.css';
 import styles2 from '../CSS/medical_history_data.module.css';
 import { Overlay } from 'react-portal-overlay';

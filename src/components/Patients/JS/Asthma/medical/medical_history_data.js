@@ -1,12 +1,12 @@
 import React, { useState, Fragment } from 'react';
 import { useLocation } from 'react-router-dom';
-import TopBar from '../../../UI/JS/topbar';
+import TopBar from '../../../../UI/JS/topbar';
 import DatePicker from 'react-date-picker';
-import SecondaryBar from '../../../UI/JS/secondary_navbar';
-import BottomBar from '../../../UI/JS/bottom_toolbar';
-import Shell from '../detail_shell';
-import EachRecord from '../each_med_history_record';
-import styles from '../../CSS/medical_history_data.module.css';
+import SecondaryBar from '../../../../UI/JS/secondary_navbar';
+import BottomBar from '../../../../UI/JS/bottom_toolbar';
+import Shell from '../../detail_shell';
+import EachRecord from './each_med_history_record';
+import styles from '../../../CSS/medical_history_data.module.css';
 import { Overlay } from 'react-portal-overlay';
 import { css } from '@emotion/core';
 import ClipLoader from 'react-spinners/ClipLoader';
@@ -18,6 +18,9 @@ const override = css`
 
 const url = process.env.REACT_APP_BASE_URL;
 
+const chevDown = require('../../../../../images/chevDown.svg');
+const x = require('../../../../../images/x.svg');
+
 const MedicalHistory = () => {
   const patient = useLocation().state;
   const [openState, setOpenState] = useState('');
@@ -25,12 +28,14 @@ const MedicalHistory = () => {
   const [showDropDes, setShowWrapDes] = useState(false);
   const [showDropDur, setShowWrapDur] = useState(false);
   const [editabelRecord, setEditabelRecord] = useState({});
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [editabelMode, setEditabelMode] = useState(false);
   const [duration, setDuration] = useState('');
   const [RecordDate, setRecordDate] = useState('');
   const [enableTrueFalse, setEnableTrueFalse] = useState(false);
   const [addRecModal, setAddRecModal] = useState(false);
   const [optionEntry, setOptionEntry] = useState('');
+  const [myRecord, setMyRecord] = useState();
   const [showInfoDialog, setShowInfoDialog] = useState(false);
   const [effects, setEffects] = useState({
     loading: false,
@@ -176,8 +181,6 @@ const MedicalHistory = () => {
   ];
   const [entry, setEntry] = useState('');
 
-  console.log(`Bearer ${localStorage.token}`);
-
   const assessmentRecords =
     patient.records &&
     patient.records.filter((patient) => patient.Type === 'Assessment');
@@ -189,9 +192,58 @@ const MedicalHistory = () => {
   const complicationRecords =
     patient.records &&
     patient.records.filter((patient) => patient.Type === 'Complication');
-
+  
   const [showing, switchShowing] = useState('Assessment');
   const [recordList, setRecordList] = useState(assessmentRecords);
+  
+  const groupedRecord = [];
+  
+  function sortByDate(){
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "June",
+      "July", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
+    let firstDate = new Date(recordList[0].Date_Created);
+    let obj = { Type: 'Date', Tag: `${firstDate.getDate()} ${monthNames[firstDate.getMonth()]}, ${firstDate.getFullYear()}` }
+
+    groupedRecord.push(obj);
+    groupedRecord.push(recordList[0]);
+    for (let i = 0; i < recordList.length; i++) {
+      if (i + 1 == recordList.length) {
+        break;
+      }
+
+      let left = recordList[i];
+      let right = recordList[i + 1];
+
+      let ldate = new Date(left.Date_Created);
+      let rdate = new Date(right.Date_Created);
+
+      let lyear = ldate.getFullYear();
+      let ryear = rdate.getFullYear();
+
+      let lmonth = ldate.getMonth() + 1;
+      let rmonth = rdate.getMonth() + 1;
+
+      let lday = ldate.getDate();
+      let rday = rdate.getDate();
+
+      if (lyear === ryear && lmonth === rmonth && lday === rday) {
+        //same
+        groupedRecord.push(right);
+      } else {
+        //not same
+        let obj = { Type: 'Date', Tag: `${rdate.getDate()} ${monthNames[rdate.getMonth()]}, ${rdate.getFullYear()}` }
+
+        groupedRecord.push(obj);
+        groupedRecord.push(right);
+      }
+    }
+  }
+
+  if (recordList.length>0){
+    sortByDate();
+    // console.log("OUT", groupedRecord);
+  }
 
   async function updateRecord() {
     // console.log("@updateRecord", editabelRecord);
@@ -322,6 +374,12 @@ const MedicalHistory = () => {
       }, 2000);
     }
   }
+
+  const deleteRModal = (e, val) => {
+    e.preventDefault();
+    setShowDeleteDialog(true);
+    setMyRecord(val);
+  };
 
   async function deleteRecord(e, record) {
     e.preventDefault();
@@ -737,7 +795,7 @@ const MedicalHistory = () => {
               }
             />
             <img
-              src={require('../../../../images/chevDown.svg')}
+              src={chevDown}
               alt=""
               className={styles.chev}
             />{' '}
@@ -767,7 +825,7 @@ const MedicalHistory = () => {
               }
             />
             <img
-              src={require('../../../../images/chevDown.svg')}
+              src={chevDown}
               alt=""
               className={styles.chev}
             />{' '}
@@ -811,7 +869,7 @@ const MedicalHistory = () => {
                 readOnly={true}
               />
               <img
-                src={require('../../../../images/chevDown.svg')}
+                  src={chevDown}
                 alt=""
                 className={styles.chev}
               />{' '}
@@ -839,7 +897,7 @@ const MedicalHistory = () => {
                 readOnly={true}
               />
               <img
-                src={require('../../../../images/chevDown.svg')}
+                    src={chevDown}
                 alt=""
                 className={styles.chev}
               />{' '}
@@ -879,7 +937,7 @@ const MedicalHistory = () => {
               readOnly={true}
             />
             <img
-              src={require('../../../../images/chevDown.svg')}
+              src={chevDown}
               alt=""
               className={styles.chev}
             />{' '}
@@ -930,7 +988,7 @@ const MedicalHistory = () => {
               }
             />
             <img
-              src={require('../../../../images/chevDown.svg')}
+              src={chevDown}
               alt=""
               className={styles.chev}
             />{' '}
@@ -960,7 +1018,7 @@ const MedicalHistory = () => {
               }
             />
             <img
-              src={require('../../../../images/chevDown.svg')}
+              src={chevDown}
               alt=""
               className={styles.chev}
             />{' '}
@@ -992,7 +1050,7 @@ const MedicalHistory = () => {
                   readOnly={true}
                 />
                 <img
-                  src={require('../../../../images/chevDown.svg')}
+                  src={chevDown}
                   alt=""
                   className={styles.chev}
                 />{' '}
@@ -1022,7 +1080,7 @@ const MedicalHistory = () => {
                   readOnly={true}
                 />
                 <img
-                  src={require('../../../../images/chevDown.svg')}
+                    src={chevDown}
                   alt=""
                   className={styles.chev}
                 />{' '}
@@ -1077,7 +1135,7 @@ const MedicalHistory = () => {
               }
             />
             <img
-              src={require('../../../../images/chevDown.svg')}
+              src={chevDown}
               alt=""
               className={styles.chev}
             />{' '}
@@ -1107,7 +1165,7 @@ const MedicalHistory = () => {
               }
             />
             <img
-              src={require('../../../../images/chevDown.svg')}
+              src={chevDown}
               alt=""
               className={styles.chev}
             />{' '}
@@ -1151,7 +1209,7 @@ const MedicalHistory = () => {
                 readOnly={true}
               />
               <img
-                src={require('../../../../images/chevDown.svg')}
+                  src={chevDown}
                 alt=""
                 className={styles.chev}
               />{' '}
@@ -1179,7 +1237,7 @@ const MedicalHistory = () => {
                 readOnly={true}
               />
               <img
-                src={require('../../../../images/chevDown.svg')}
+                src={chevDown}
                 alt=""
                 className={styles.chev}
               />{' '}
@@ -1285,6 +1343,7 @@ const MedicalHistory = () => {
             </button>
           </form>
           {/* End search section */}
+
           <select
             className={styles.select}
             name="record"
@@ -1299,9 +1358,9 @@ const MedicalHistory = () => {
             <option value="Complication">Complication</option>
           </select>
           {showing === 'Assessment' ? (
-            recordList ? (
-              recordList.map((record) => (
-                <Fragment key={`${record.Nature}_${record.Description}`}>
+            groupedRecord.length !== 0 ? (
+              groupedRecord.map((record) => (
+              record.Type === 'Date' ? <><p>{record.Tag}</p></>:<Fragment key={`${record.Nature}_${record.Description}`}>
                   <EachRecord
                     record={record}
                     type="Assessment"
@@ -1309,8 +1368,8 @@ const MedicalHistory = () => {
                       enableEditMode(e, record);
                       setAddRecModal(true);
                     }}
-                    deleteRecord={(e) => {
-                      deleteRecord(e, record);
+                    openDeleteModal={(e) => {
+                      deleteRModal(e, record);
                     }}
                   />
                 </Fragment>
@@ -1320,9 +1379,9 @@ const MedicalHistory = () => {
             )
           ) : null}
           {showing === 'Care' ? (
-            recordList ? (
-              recordList.map((record) => (
-                <Fragment key={`${record.Nature}_${record.Description}`}>
+            groupedRecord.length !==0 ? (
+              groupedRecord.map((record) => (
+                record.Type === 'Date' ? <><p>{record.Tag}</p></> : <Fragment key={`${record.Nature}_${record.Description}`}>
                   <EachRecord
                     record={record}
                     type="Care"
@@ -1340,9 +1399,9 @@ const MedicalHistory = () => {
             )
           ) : null}
           {showing === 'Complication' ? (
-            recordList ? (
-              recordList.map((record) => (
-                <Fragment key={`${record.Nature}_${record.Description}`}>
+            groupedRecord.length !==0 ? (
+              groupedRecord.map((record) => (
+                record.Type === 'Date' ? <><p>{record.Tag}</p></> : <Fragment key={`${record.Nature}_${record.Description}`}>
                   <EachRecord
                     record={record}
                     type="Complication"
@@ -1364,7 +1423,7 @@ const MedicalHistory = () => {
         <BottomBar />
       </Shell>
 
-      {/* start of modal for edit and delete */}
+      {/* start of modal for edit and add new */}
       <Overlay
         className={styles.modal}
         closeOnClick={true}
@@ -1377,7 +1436,7 @@ const MedicalHistory = () => {
           <div className={styles.modalTop2}>
             <p className={styles.appTitle}>Add new Record</p>
             <img
-              src={require('../../../../images/x.svg')}
+              src={x}
               alt=""
               onClick={() => {
                 setAddRecModal(false);
@@ -1426,7 +1485,7 @@ const MedicalHistory = () => {
           )}
         </div>
       </Overlay>
-      {/* start of modal for edit and delete */}
+      {/* start of modal for edit and add new */}
 
       {/* Days,Months, and Years Selection Overlay */}
       <Overlay
@@ -1441,7 +1500,7 @@ const MedicalHistory = () => {
           <div className={styles.modalTop2}>
             <p className={styles.appTitle}>{openState}</p>
             <img
-              src={require('../../../../images/x.svg')}
+              src={x}
               alt=""
               onClick={() => {
                 setOpenState('');
@@ -1503,6 +1562,45 @@ const MedicalHistory = () => {
         </div>
       </Overlay>
       {/* End Show Info Overlay */}
+
+
+      {/* Begin Delete Dialog*/}
+      <Overlay
+        className={styles.modal}
+        closeOnClick={true}
+        open={showDeleteDialog}
+        onClose={() => {
+          setShowDeleteDialog(false);
+        }}
+      >
+        <div className={styles.modal_paper}>
+          <div className={styles.modalTop2}>
+            <p className={styles.appTitle}>Are you Sure you want to Delete ?</p>
+          </div>
+
+          <div className={styles.deRow}>
+            <div
+              onClick={(e) => {
+                deleteRecord(e, myRecord);
+                setShowDeleteDialog(false);
+              }}
+              className={styles.pCreate}
+            >
+              Yes
+            </div>
+            <div
+              onClick={() => {
+                setShowDeleteDialog(false);
+              }}
+              className={styles.pNo}
+            >
+              No
+            </div>
+          </div>
+        </div>
+      </Overlay>
+      {/* End Delete Dialog*/}
+
 
       {/* Begin Spinner Overlay */}
       <Overlay

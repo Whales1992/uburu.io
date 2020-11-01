@@ -1,17 +1,20 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import { useLocation } from 'react-router-dom';
-import TopBar from '../../../UI/JS/topbar';
-import SecondaryBar from '../../../UI/JS/secondary_navbar';
-import BottomBar from '../../../UI/JS/bottom_toolbar';
-import Shell from '../detail_shell';
-import EachRecord from '../each_investigation';
-import DatePicker from "react-date-picker";
-import styles from '../../CSS/investigation_history.module.css';
-import styles2 from '../../CSS/medical_history_data.module.css';
+import TopBar from '../../../../UI/JS/topbar';
+import SecondaryBar from '../../../../UI/JS/secondary_navbar';
+import BottomBar from '../../../../UI/JS/bottom_toolbar';
+import Shell from '../../detail_shell';
+import EachRecord from './each_drug_history_record';
+import styles from '../../../CSS/drug_history.module.css';
+import styles2 from '../../../CSS/medical_history_data.module.css';
 import { Overlay } from 'react-portal-overlay';
 import { css } from '@emotion/core';
+import DatePicker from 'react-date-picker';
 import ClipLoader from 'react-spinners/ClipLoader';
 const url = process.env.REACT_APP_BASE_URL;
+
+const chevDown = require('../../../../../images/chevDown.svg');
+const x = require('../../../../../images/x.svg');
 
 const override = css`
   display: block;
@@ -19,25 +22,23 @@ const override = css`
   border-color: red;
 `;
 
-const InvestigationHistory = () => {
+const DrugHistory = () => {
   const patient = useLocation().state;
+  const [openState, setOpenState] = useState('');
   const [showDrop, setShowWrap] = useState(false);
+  const [showDropDes, setShowWrapDes] = useState(false);
+  const [dosage, setDosage] = useState(undefined);
+  const [sideEffect, setSideEffect] = useState('');
+  const [editabelRecord, setEditabelRecord] = useState({});
   const [showInfoDialog, setShowInfoDialog] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-  const [editabelMode, setEditabelMode] = useState(false);
-  const [entry, setEntry] = useState(undefined);
   const [myRecord, setMyRecord] = useState();
-
-  const [investigation, setInvestigation] = useState(undefined);
-  const [editabelRecord, setEditabelRecord] = useState({});
-  const [RecordDate, setRecordDate] = useState('');
+  const [editabelMode, setEditabelMode] = useState(false);
+  const [drug, setDrug] = useState(undefined);
   const [addRecModal, setAddRecModal] = useState(false);
+  const [RecordDate, setRecordDate] = useState('');
 
-  const investigationHistory =
-    patient.records &&
-    patient.records.filter((patient) => patient.Type === 'Investigation');
-
-  console.log('@investigationHistory', investigationHistory);
+  const [duration, setDuration] = useState('');
 
   const [effects, setEffects] = useState({
     loading: false,
@@ -47,37 +48,169 @@ const InvestigationHistory = () => {
     },
   });
 
-  function GetInvestigations() {
-    const investigations = [
-      'FBS',
-      'RBS',
-      'HbA1c',
-      'Total Cholesterol',
-      'Triglyceride Level',
-      'HDL-C',
-      'LDL-C',
-      'Serum Creatinine',
-      'eGFR',
-      'Total white blood cell count',
-      'Neutrophil count',
-      'Lymphocyte count',
-      'Monocyte count',
-      'Eosinophil count',
-      'Basophil count',
-      'Red blood cell count',
-      'Haemoglobin',
-      'Platelet count',
-      'Urine Protein',
-      'Vibration Perception Threshold (VPT)',
-    ];
+  const drugHistory =
+    patient.records &&
+    patient.records.filter((patient) => patient.Type === 'Drugs');
 
+  const [recordList, setRecordList] = useState(drugHistory);
+ 
+  const groupedRecord = [];
+  function sortByDate() {
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "June",
+      "July", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
+    let firstDate = new Date(recordList[0].Date_Created);
+    let obj = { Type: 'Date', Tag: `${firstDate.getDate()} ${monthNames[firstDate.getMonth()]}, ${firstDate.getFullYear()}` }
+
+    groupedRecord.push(obj);
+    groupedRecord.push(recordList[0]);
+    for (let i = 0; i < recordList.length; i++) {
+      if (i + 1 == recordList.length) {
+        break;
+      }
+
+      let left = recordList[i];
+      let right = recordList[i + 1];
+
+      let ldate = new Date(left.Date_Created);
+      let rdate = new Date(right.Date_Created);
+
+      let lyear = ldate.getFullYear();
+      let ryear = rdate.getFullYear();
+
+      let lmonth = ldate.getMonth() + 1;
+      let rmonth = rdate.getMonth() + 1;
+
+      let lday = ldate.getDate();
+      let rday = rdate.getDate();
+
+      if (lyear === ryear && lmonth === rmonth && lday === rday) {
+        //same
+        groupedRecord.push(right);
+      } else {
+        //not same
+        let obj = { Type: 'Date', Tag: `${rdate.getDate()} ${monthNames[rdate.getMonth()]}, ${rdate.getFullYear()}` }
+
+        groupedRecord.push(obj);
+        groupedRecord.push(right);
+      }
+    }
+  }
+  if (recordList.length > 0) {
+    sortByDate();
+    // console.log("OUT", groupedRecord);
+  }
+
+  const durations = ['Years', 'Months', 'Days'];
+  function handleSearchPhraseChange(phrase) {
+    if (phrase.length > 2) {
+      search(phrase);
+    } else {
+      setRecordList(recordList);
+    }
+  }
+
+  async function search(key) {
+    var result = [];
+    recordList.forEach((element) => {
+      let target = element.Description + '';
+      if (key.length <= target.length) {
+        target = target.slice(0, key.length - 1);
+        let _key = key.slice(0, key.length - 1);
+        if (target.toLocaleLowerCase() === _key.toLocaleLowerCase()) {
+          console.log('MATCH');
+          result.push(element);
+        }
+      }
+    });
+
+    if (result.length === 0) {
+      setRecordList(recordList);
+    } else {
+      setRecordList(result);
+    }
+  }
+
+  function enableEditMode(e, editables) {
+    e.preventDefault();
+    setEditabelRecord(editables);
+
+    setEditabelMode(true);
+
+    setDosage(editables.Dosage);
+    setDuration(editables.Duration);
+    setDrug(editables.Drug);
+    setSideEffect(editables.SideEffect);
+  }
+
+  function GetDrugs() {
+    const drugs = [
+      'Metformin',
+      'Glibenclamide',
+      'Glipizide',
+      'Gliclazide',
+      'Gliclazide SR',
+      'Glimepiride',
+      'Sitagliptin',
+      'Vildagliptin',
+      'Linagliptin',
+      'Empagliflozin',
+      'Dapagliflozin',
+      'Premix insulin',
+      'Glargine',
+      'Detemir',
+      'Degludec',
+      'Liraglutide',
+      'Liraglutide',
+      'Voglibose',
+      'Telmisartan',
+      'Losartan',
+      'Valsartan',
+      'Amlodipine',
+      'Nifedipine',
+      'Nevibilol',
+      'Bisoprolol',
+      'Metoprolol',
+      'HCTz',
+      'Rosuvastatin',
+      'Simvastatin',
+      'Atorvastatin',
+      'Fenofibrate',
+    ];
     return (
       <>
-        {investigations.map(function (e, i) {
+        {drugs.map(function (e, i) {
           return (
             <p
               onClick={() => {
-                setInvestigation(e);
+                setDrug(e);
+              }}
+              style={{
+                position: 'relative',
+                top: 0,
+                left: 0,
+                width: '100%',
+                cursor: 'pointer',
+              }}
+              key={i}
+            >
+              {' '}
+              {e}{' '}
+            </p>
+          );
+        })}
+      </>
+    );
+  }
+
+  function GetDurations() {
+    return (
+      <>
+        {durations.map(function (e, i) {
+          return (
+            <p
+              onClick={() => {
+                setOpenState(e);
               }}
               style={{
                 position: 'relative',
@@ -98,14 +231,16 @@ const InvestigationHistory = () => {
   }
 
   async function addNewRecord() {
-    var newInvestigation = {
-      Type: 'Investigation',
-      Investigation: investigation,
+    var newDrugRecod = {
+      Type: 'Drugs',
       FolderNo: patient.FolderNo,
-      Entry: entry,
-      RecordDate: RecordDate
+      Drug: drug,
+      Dosage: dosage,
+      SideEffect: sideEffect,
+      Duration: duration,
+      RecordDate: RecordDate,
     };
-    console.log('@addNewRecord', newInvestigation);
+    // console.log("@addNewRecord", newDrugRecod);
 
     try {
       if (window.navigator.onLine) {
@@ -121,7 +256,7 @@ const InvestigationHistory = () => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${localStorage.token}`,
           },
-          body: JSON.stringify(newInvestigation),
+          body: JSON.stringify(newDrugRecod),
         });
 
         if (!request.ok) {
@@ -171,11 +306,11 @@ const InvestigationHistory = () => {
 
   async function updateRecord() {
     var edited = editabelRecord;
-    edited.Investigation = investigation;
-    edited.Entry = entry;
-    edited.RecordDate= RecordDate;
-
-    console.log('@updateRecord', edited);
+    edited.Duration = duration;
+    edited.SideEffect = sideEffect;
+    edited.Drug = drug;
+    edited.Dosage = dosage;
+    edited.RecordDate = RecordDate;
 
     try {
       if (window.navigator.onLine) {
@@ -241,7 +376,8 @@ const InvestigationHistory = () => {
 
   async function deleteRecord(e, record) {
     e.preventDefault();
-    console.log('@deleteRecord', record);
+    // console.log("@deleteRecord", record);
+
     try {
       if (window.navigator.onLine) {
         setEffects({
@@ -304,6 +440,13 @@ const InvestigationHistory = () => {
     }
   }
 
+  const deleteRModal = (e, val) => {
+    e.preventDefault();
+
+    setShowDeleteDialog(true);
+    setMyRecord(val);
+  };
+
   const FabTwo = () => {
     return (
       <div>
@@ -351,28 +494,12 @@ const InvestigationHistory = () => {
     );
   };
 
-  const deleteRModal = (e, val) => {
-    setShowDeleteDialog(true);
-    setMyRecord(val);
-  };
-
-  async function handleSearchPhraseChange(key) {}
-
-  function enableEditMode(e, editables) {
-    e.preventDefault();
-
-    setEntry(editables.Entry);
-    setInvestigation(editables.Investigation);
-    setEditabelRecord(editables);
-    setEditabelMode(true);
-  }
-
   return (
     <>
       <TopBar />
-      <SecondaryBar page_title="Investigation History" shadow />
+      <SecondaryBar page_title="Drug History" shadow />
       <Shell name={`${patient.LastName} ${patient.FirstName}`}>
-        <div className={styles.container}>
+        <div className={styles2.container}>
           {/* Begin search section */}
           <form className={styles.form}>
             <input
@@ -393,54 +520,55 @@ const InvestigationHistory = () => {
           </form>
           {/* End search section */}
 
-          {investigationHistory ? (
-            investigationHistory.map((record) => (
-              <Fragment key={`${record.Investigation}_${record.Report}`}>
+          {groupedRecord.length !==0 ? (
+            groupedRecord.map((record, key) => (
+              record.Type === 'Date' ? <><p>{record.Tag}</p></> : <Fragment key={`${record.Drug}_${record.Dosage}`}>
                 <EachRecord
+                  key={key}
                   record={record}
                   editMode={(e) => {
                     enableEditMode(e, record);
+                    setAddRecModal(true);
+                    setEditabelMode(true);
                   }}
-                  openDeleteModal={deleteRModal}
-                  // deleteRecord={(e) => {
-                  //   // deleteRecord(e, record);
-                  // }}
+                  openDeleteModal={(e) => {
+                    deleteRModal(e, record);
+                  }}
                 />
               </Fragment>
             ))
           ) : (
-            <p className={styles.no_record}>No Investigation Record.</p>
+            <p className={styles.no_record}>No Assessment Record.</p>
           )}
         </div>
-        <FabTwo/>
-        <BottomBar />
+      </Shell>
+      <FabTwo />
+      <BottomBar />
 
-        {/* start of modal for edit and delete */}
-        <Overlay
-          className={styles.modal}
-          closeOnClick={true}
-          open={addRecModal}
-          onClose={() => {
-            setAddRecModal(false);
-            setEditabelMode(false);
-          }}
-        >
-          <div className={styles.modal_paper3}>
-            <div className={styles.modalTop2}>
-              <p className={styles.appTitle}>Add new Record</p>
-              <img
-                src={require('../../../../images/x.svg')}
-                alt=""
-                onClick={() => {
-                  setAddRecModal(false);
-                  setEditabelMode(false);
-                }}
-              />
-            </div>
-            <div className={styles.editWrap}>
-
-            {/* form feild one */}
-            <p className={styles.formLabel}>Investigation</p>
+      {/* start of modal for edit and add new */}
+      <Overlay
+        className={styles.modal}
+        closeOnClick={true}
+        open={addRecModal}
+        onClose={() => {
+          setAddRecModal(false);
+          setEditabelMode(false);
+        }}
+      >
+        <div className={styles.modal_paper3}>
+          <div className={styles.modalTop2}>
+            <p className={styles.appTitle}>Add new Record</p>
+            <img
+              src={x}
+              alt=""
+              onClick={() => {
+                setAddRecModal(false);
+                setEditabelMode(false);
+              }}
+            />
+          </div>
+          <div className={styles.editWrap}>
+            <p className={styles.formLabel}>Drugs</p>
             <div
               className={styles.inputGpWrap}
               onClick={() => {
@@ -449,41 +577,67 @@ const InvestigationHistory = () => {
             >
               <input
                 className={styles.inputName}
-                placeholder="Select Investigation"
+                placeholder="Select Drug"
                 disabled={true}
-                value={investigation === undefined ? '' : investigation}
+                value={drug === undefined ? '' : drug}
               />
               <img
-                src={require('../../../../images/chevDown.svg')}
+                src={chevDown}
                 alt=""
                 className={styles.chev}
               />{' '}
               {showDrop ? (
                 <div className={styles.dropWrap}>
-                  <GetInvestigations />
+                  <GetDrugs />
                 </div>
               ) : null}
             </div>
 
             {/* form feild two */}
-            <p className={styles.formLabel}>Entry</p>
+            <p className={styles.formLabel}>Dosage (unit: mg)</p>
             <div className={styles.inputGpWrap}>
               <input
                 autoFocus={false}
                 className={styles.inputName}
-                value={entry === undefined ? '' : entry}
+                placeholder="Enter Dosage"
+                value={dosage === undefined ? '' : dosage}
                 onChange={(e) => {
-                  setEntry(e.target.value);
+                  setDosage(e.target.value);
                 }}
                 readOnly={false}
                 type="number"
               />
             </div>
 
+            {/* form feild three */}
+            <p className={styles.formLabel}>Duration/Entry</p>
+            <div
+              onClick={() => {
+                setShowWrapDes(!showDropDes);
+              }}
+              className={styles.inputGpWrap}
+            >
+              <input
+                className={styles.inputName}
+                placeholder="Enter Duration"
+                disabled={true}
+                value={duration === undefined ? '' : duration}
+              />
+              <img
+                src={chevDown}
+                alt=""
+                className={styles.chev}
+              />{' '}
+              {showDropDes ? (
+                <div className={styles.dropWrap}>
+                  <GetDurations />
+                </div>
+              ) : null}
+            </div>
+
             {/* Begin Date */}
             <p className={styles.formLabel}>Date of Record</p>
-            <div
-              className={styles.inputGpWrap}>
+            <div className={styles.inputGpWrap}>
               <DatePicker
                 id="RecordDate"
                 name="RecordDate"
@@ -494,46 +648,67 @@ const InvestigationHistory = () => {
                 format="dd/MM/y"
               />
             </div>
-            
             {/* End Date */}
-              {editabelMode ? (
-                <div className={styles.roe}>
-                  <p
-                    onClick={(e) => {
-                      e.preventDefault();
-                      updateRecord();
-                    }}
-                    className={styles.addRec}
-                  >
-                    Update Record
-                </p>
-                  <p
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setEditabelMode(false);
-                    }}
-                    className={styles.addRec}
-                  >
-                    Cancel
-                </p>
-                </div>
-              ) : (
-                  <p
-                    onClick={(e) => {
-                      e.preventDefault();
-                      addNewRecord();
-                    }}
-                    className={styles.addRec}
-                  >
-                    Add New Record
-                  </p>
-                )}
-            </div>
-          </div>
-        </Overlay>
-        {/* end of modal for edit and delete */}
 
-      </Shell>
+            {/* form feild four */}
+            <p className={styles.formLabel}>Side Effects</p>
+            <div className={styles.inputGpWrapTextArea}>
+              <textarea
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  margin: 0,
+                  padding: 0,
+                  border: 'none',
+                }}
+                id="SideEffect"
+                type="text"
+                name="side effect"
+                placeholder="Type in side effects"
+                className={styles.textarea}
+                value={sideEffect}
+                onChange={(e) => {
+                  setSideEffect(e.target.value);
+                }}
+              />
+            </div>
+
+            {editabelMode ? (
+              <div className={styles.roe}>
+                <p
+                  onClick={(e) => {
+                    e.preventDefault();
+                    updateRecord();
+                  }}
+                  className={styles.addRec}
+                >
+                  Update Record
+                </p>
+                <p
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setEditabelMode(false);
+                  }}
+                  className={styles.addRec}
+                >
+                  Cancel
+                </p>
+              </div>
+            ) : (
+              <p
+                onClick={(e) => {
+                  e.preventDefault();
+                  addNewRecord();
+                }}
+                className={styles.addRec}
+              >
+                Add New Record
+              </p>
+            )}
+          </div>
+        </div>
+      </Overlay>
+      {/* end of modal for edit and add new */}
 
       {/* Begin Show Info Dialog */}
       <Overlay
@@ -553,6 +728,8 @@ const InvestigationHistory = () => {
           </div>
           <div
             onClick={() => {
+              var pre = editabelRecord;
+              pre.Duration = duration;
               setShowInfoDialog(false);
             }}
             className={styles.pCreate}
@@ -562,23 +739,6 @@ const InvestigationHistory = () => {
         </div>
       </Overlay>
       {/* End Show Info Dialog */}
-
-      {/* Begin Spinner Show */}
-      <Overlay
-        className={styles.modal}
-        closeOnClick={true}
-        open={effects.loading}
-        onClose={() => {
-          setShowInfoDialog(false);
-        }}
-      >
-        <ClipLoader
-          css={override}
-          size={150}
-          color={'#123abc'}
-          loading={true}
-        />
-      </Overlay>
 
       {/* Begin Delete Dialog*/}
       <Overlay
@@ -616,8 +776,25 @@ const InvestigationHistory = () => {
         </div>
       </Overlay>
       {/* End Delete Dialog*/}
+
+      {/* Begin Spinner Show */}
+      <Overlay
+        className={styles.modal}
+        closeOnClick={true}
+        open={effects.loading}
+        onClose={() => {
+          setShowInfoDialog(false);
+        }}
+      >
+        <ClipLoader
+          css={override}
+          size={150}
+          color={'#123abc'}
+          loading={true}
+        />
+      </Overlay>
     </>
   );
 };
 
-export default InvestigationHistory;
+export default DrugHistory;
