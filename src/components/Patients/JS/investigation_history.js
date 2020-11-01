@@ -5,7 +5,7 @@ import SecondaryBar from '../../UI/JS/secondary_navbar';
 import BottomBar from '../../UI/JS/bottom_toolbar';
 import Shell from './detail_shell';
 import EachRecord from './each_investigation';
-import DatePicker from "react-date-picker";
+import DatePicker from 'react-date-picker';
 import styles from '../CSS/investigation_history.module.css';
 import styles2 from '../CSS/medical_history_data.module.css';
 import { Overlay } from 'react-portal-overlay';
@@ -101,7 +101,7 @@ const InvestigationHistory = () => {
       Investigation: investigation,
       FolderNo: patient.FolderNo,
       Entry: entry,
-      RecordDate: RecordDate
+      RecordDate: RecordDate,
     };
     console.log('@addNewRecord', newInvestigation);
 
@@ -171,7 +171,7 @@ const InvestigationHistory = () => {
     var edited = editabelRecord;
     edited.Investigation = investigation;
     edited.Entry = entry;
-    edited.RecordDate= RecordDate;
+    edited.RecordDate = RecordDate;
 
     console.log('@updateRecord', edited);
 
@@ -391,13 +391,15 @@ const InvestigationHistory = () => {
           </form>
           {/* End search section */}
 
-          {investigationHistory.length !==0 ? (
+          {investigationHistory.length !== 0 ? (
             investigationHistory.map((record) => (
               <Fragment key={`${record.Investigation}_${record.Report}`}>
                 <EachRecord
                   record={record}
                   editMode={(e) => {
                     enableEditMode(e, record);
+                    setAddRecModal(true);
+                    console.log('pressed');
                   }}
                   openDeleteModal={deleteRModal}
                 />
@@ -407,7 +409,7 @@ const InvestigationHistory = () => {
             <p className={styles.no_record}>No Investigation Record.</p>
           )}
         </div>
-        <FabTwo/>
+        <FabTwo />
         <BottomBar />
 
         {/* start of modal for edit and delete */}
@@ -433,63 +435,61 @@ const InvestigationHistory = () => {
               />
             </div>
             <div className={styles.editWrap}>
-
-            {/* form feild one */}
-            <p className={styles.formLabel}>Investigation</p>
-            <div
-              className={styles.inputGpWrap}
-              onClick={() => {
-                setShowWrap(!showDrop);
-              }}
-            >
-              <input
-                className={styles.inputName}
-                placeholder="Select Investigation"
-                disabled={true}
-                value={investigation === undefined ? '' : investigation}
-              />
-              <img
-                src={require('../../../images/chevDown.svg')}
-                alt=""
-                className={styles.chev}
-              />{' '}
-              {showDrop ? (
-                <div className={styles.dropWrap}>
-                  <GetInvestigations />
-                </div>
-              ) : null}
-            </div>
-
-            {/* form feild two */}
-            <p className={styles.formLabel}>Entry</p>
-            <div className={styles.inputGpWrap}>
-              <input
-                autoFocus={false}
-                className={styles.inputName}
-                value={entry === undefined ? '' : entry}
-                onChange={(e) => {
-                  setEntry(e.target.value);
+              {/* form feild one */}
+              <p className={styles.formLabel}>Investigation</p>
+              <div
+                className={styles.inputGpWrap}
+                onClick={() => {
+                  setShowWrap(!showDrop);
                 }}
-                readOnly={false}
-                type="number"
-              />
-            </div>
+              >
+                <input
+                  className={styles.inputName}
+                  placeholder="Select Investigation"
+                  disabled={true}
+                  value={investigation === undefined ? '' : investigation}
+                />
+                <img
+                  src={require('../../../images/chevDown.svg')}
+                  alt=""
+                  className={styles.chev}
+                />{' '}
+                {showDrop ? (
+                  <div className={styles.dropWrap}>
+                    <GetInvestigations />
+                  </div>
+                ) : null}
+              </div>
 
-            {/* Begin Date */}
-            <p className={styles.formLabel}>Date of Record</p>
-            <div
-              className={styles.inputGpWrap}>
-              <DatePicker
-                id="RecordDate"
-                name="RecordDate"
-                value={RecordDate}
-                className={styles.input}
-                onChange={(e) => setRecordDate(e)}
-                required
-                format="dd/MM/y"
-              />
-            </div>
-            {/* End Date */}
+              {/* form feild two */}
+              <p className={styles.formLabel}>Entry</p>
+              <div className={styles.inputGpWrap}>
+                <input
+                  autoFocus={false}
+                  className={styles.inputName}
+                  value={entry === undefined ? '' : entry}
+                  onChange={(e) => {
+                    setEntry(e.target.value);
+                  }}
+                  readOnly={false}
+                  type="number"
+                />
+              </div>
+
+              {/* Begin Date */}
+              <p className={styles.formLabel}>Date of Record</p>
+              <div className={styles.inputGpWrap}>
+                <DatePicker
+                  id="RecordDate"
+                  name="RecordDate"
+                  value={RecordDate}
+                  className={styles.input}
+                  onChange={(e) => setRecordDate(e)}
+                  required
+                  format="dd/MM/y"
+                />
+              </div>
+              {/* End Date */}
 
               {editabelMode ? (
                 <div className={styles.roe}>
@@ -501,7 +501,7 @@ const InvestigationHistory = () => {
                     className={styles.addRec}
                   >
                     Update Record
-                </p>
+                  </p>
                   <p
                     onClick={(e) => {
                       e.preventDefault();
@@ -510,24 +510,23 @@ const InvestigationHistory = () => {
                     className={styles.addRec}
                   >
                     Cancel
-                </p>
+                  </p>
                 </div>
               ) : (
-                  <p
-                    onClick={(e) => {
-                      e.preventDefault();
-                      addNewRecord();
-                    }}
-                    className={styles.addRec}
-                  >
-                    Add New Record
-                  </p>
-                )}
+                <p
+                  onClick={(e) => {
+                    e.preventDefault();
+                    addNewRecord();
+                  }}
+                  className={styles.addRec}
+                >
+                  Add New Record
+                </p>
+              )}
             </div>
           </div>
         </Overlay>
         {/* end of modal for edit and delete */}
-
       </Shell>
 
       {/* Begin Show Info Dialog */}

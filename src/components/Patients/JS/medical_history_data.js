@@ -1298,6 +1298,7 @@ const MedicalHistory = () => {
             <option value="Care">Care</option>
             <option value="Complication">Complication</option>
           </select>
+
           {showing === 'Assessment' ? (
             recordList ? (
               recordList.map((record) => (

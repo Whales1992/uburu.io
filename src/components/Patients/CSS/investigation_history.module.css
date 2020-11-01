@@ -60,7 +60,7 @@
   border: 1px solid #dddddd;
   border-radius: 16px;
   width: auto;
-  height: 400px;
+  height: auto;
   overflow-y: scroll;
 }
 .modalTop {
@@ -172,7 +172,7 @@
   background-color: #242424;
 }
 .editWrap {
-  margin-left: 40px;
+  /* margin-left: 40px; */
 }
 .editWrap2 {
   margin-left: 30px;
@@ -190,7 +190,7 @@
   border: 1px solid #e9e9e9;
   border-radius: 3px;
   height: 45px;
-  max-width: 335px;
+  width: 335px;
   padding: 15px;
   display: flex;
   justify-content: space-between;
@@ -238,6 +238,22 @@
   color: black;
   font-size: 13px;
 }
+.pNo {
+  width: 90%;
+  margin: 55px auto;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  border: 1px solid black;
+  align-items: center;
+  color: black;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  cursor: pointer;
+  text-align: center;
+}
 
 .roe {
   display: flex;
@@ -250,7 +266,7 @@
   cursor: pointer;
   right: 0;
   margin-right: 20%;
-  margin-bottom: 15%;
+  margin-bottom: 20%;
   height: 60px;
   width: 60px;
   border-radius: 50%;
@@ -281,6 +297,12 @@
     right: 0;
     margin-right: 50px;
     margin-bottom: 110px;
+  }
+  .inputGpWrap {
+    width: 100%;
+  }
+  .modal_paper3 {
+    width: 90%;
   }
 }
 

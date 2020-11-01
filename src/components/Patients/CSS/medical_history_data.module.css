@@ -38,7 +38,7 @@
   width: 100%;
   padding: 0;
   margin: 0;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
   position: relative;
 }
 .modal {
@@ -79,6 +79,11 @@
   width: 100%;
   /* border-bottom: 1px solid #e7e7ed; */
   padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.deRow {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -162,7 +167,7 @@
   border: 1px solid #e9e9e9;
   border-radius: 3px;
   height: 45px;
-  max-width: 335px;
+  width: 335px;
   padding: 15px;
   display: flex;
   justify-content: space-between;
@@ -222,6 +227,22 @@
   color: black;
   font-size: 13px;
 }
+.pNo {
+  width: 90%;
+  margin: 55px auto;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  border: 1px solid black;
+  align-items: center;
+  color: black;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  cursor: pointer;
+  text-align: center;
+}
 
 .fab {
   position: fixed;
@@ -229,7 +250,7 @@
   cursor: pointer;
   right: 0;
   margin-right: 20%;
-  margin-bottom: 10%;
+  margin-bottom: 20%;
   height: 60px;
   width: 60px;
   border-radius: 50%;
@@ -246,6 +267,10 @@
 .fab > p {
   position: relative;
   top: -2px;
+}
+
+.Tag {
+  margin-left: 200px;
 }
 
 @media (min-width: 760px) {
@@ -269,5 +294,11 @@
     right: 0;
     margin-right: 50px;
     margin-bottom: 110px;
+  }
+  .inputGpWrap {
+    width: 100%;
+  }
+  .modal_paper2 {
+    width: 90%;
   }
 }

@@ -192,18 +192,34 @@ const MedicalHistory = () => {
   const complicationRecords =
     patient.records &&
     patient.records.filter((patient) => patient.Type === 'Complication');
-  
+
   const [showing, switchShowing] = useState('Assessment');
   const [recordList, setRecordList] = useState(assessmentRecords);
-  
+
   const groupedRecord = [];
-  
-  function sortByDate(){
-    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "June",
-      "July", "Aug", "Sep", "Oct", "Nov", "Dec"
+
+  function sortByDate() {
+    const monthNames = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'June',
+      'July',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ];
     let firstDate = new Date(recordList[0].Date_Created);
-    let obj = { Type: 'Date', Tag: `${firstDate.getDate()} ${monthNames[firstDate.getMonth()]}, ${firstDate.getFullYear()}` }
+    let obj = {
+      Type: 'Date',
+      Tag: `${firstDate.getDate()} ${
+        monthNames[firstDate.getMonth()]
+      }, ${firstDate.getFullYear()}`,
+    };
 
     groupedRecord.push(obj);
     groupedRecord.push(recordList[0]);
@@ -232,7 +248,12 @@ const MedicalHistory = () => {
         groupedRecord.push(right);
       } else {
         //not same
-        let obj = { Type: 'Date', Tag: `${rdate.getDate()} ${monthNames[rdate.getMonth()]}, ${rdate.getFullYear()}` }
+        let obj = {
+          Type: 'Date',
+          Tag: `${rdate.getDate()} ${
+            monthNames[rdate.getMonth()]
+          }, ${rdate.getFullYear()}`,
+        };
 
         groupedRecord.push(obj);
         groupedRecord.push(right);
@@ -240,7 +261,7 @@ const MedicalHistory = () => {
     }
   }
 
-  if (recordList.length>0){
+  if (recordList.length > 0) {
     sortByDate();
     // console.log("OUT", groupedRecord);
   }
@@ -794,11 +815,7 @@ const MedicalHistory = () => {
                 editabelRecord.Nature === undefined ? '' : editabelRecord.Nature
               }
             />
-            <img
-              src={chevDown}
-              alt=""
-              className={styles.chev}
-            />{' '}
+            <img src={chevDown} alt="" className={styles.chev} />{' '}
             {showDrop ? (
               <div className={styles.dropWrap}>
                 <GetNatures />
@@ -824,11 +841,7 @@ const MedicalHistory = () => {
                   : editabelRecord.Description
               }
             />
-            <img
-              src={chevDown}
-              alt=""
-              className={styles.chev}
-            />{' '}
+            <img src={chevDown} alt="" className={styles.chev} />{' '}
             {showDropDes ? (
               <div className={styles.dropWrap}>
                 <GetDescriptions />
@@ -868,11 +881,7 @@ const MedicalHistory = () => {
                 value={optionEntry}
                 readOnly={true}
               />
-              <img
-                  src={chevDown}
-                alt=""
-                className={styles.chev}
-              />{' '}
+              <img src={chevDown} alt="" className={styles.chev} />{' '}
               {showDropDur ? (
                 <div className={styles.dropWrap}>
                   <GetTrueOrFalse />
@@ -896,11 +905,7 @@ const MedicalHistory = () => {
                 }
                 readOnly={true}
               />
-              <img
-                    src={chevDown}
-                alt=""
-                className={styles.chev}
-              />{' '}
+              <img src={chevDown} alt="" className={styles.chev} />{' '}
               {showDropDur ? (
                 <div className={styles.dropWrap}>
                   <GetDurations />
@@ -936,11 +941,7 @@ const MedicalHistory = () => {
               }
               readOnly={true}
             />
-            <img
-              src={chevDown}
-              alt=""
-              className={styles.chev}
-            />{' '}
+            <img src={chevDown} alt="" className={styles.chev} />{' '}
             {showDropDur ? (
               <div className={styles.dropWrap}>
                 <GetDurations />
@@ -987,11 +988,7 @@ const MedicalHistory = () => {
                 editabelRecord.Nature === undefined ? '' : editabelRecord.Nature
               }
             />
-            <img
-              src={chevDown}
-              alt=""
-              className={styles.chev}
-            />{' '}
+            <img src={chevDown} alt="" className={styles.chev} />{' '}
             {showDrop ? (
               <div className={styles.dropWrap}>
                 <GetNatures0 />
@@ -1017,11 +1014,7 @@ const MedicalHistory = () => {
                   : editabelRecord.Description
               }
             />
-            <img
-              src={chevDown}
-              alt=""
-              className={styles.chev}
-            />{' '}
+            <img src={chevDown} alt="" className={styles.chev} />{' '}
             {showDropDes ? (
               <div className={styles.dropWrap}>
                 <GetDescriptions0 />
@@ -1049,11 +1042,7 @@ const MedicalHistory = () => {
                   }
                   readOnly={true}
                 />
-                <img
-                  src={chevDown}
-                  alt=""
-                  className={styles.chev}
-                />{' '}
+                <img src={chevDown} alt="" className={styles.chev} />{' '}
                 {showDropDur ? (
                   <div className={styles.dropWrap}>
                     <GetDurations00 />
@@ -1079,11 +1068,7 @@ const MedicalHistory = () => {
                   }
                   readOnly={true}
                 />
-                <img
-                    src={chevDown}
-                  alt=""
-                  className={styles.chev}
-                />{' '}
+                <img src={chevDown} alt="" className={styles.chev} />{' '}
                 {showDropDur ? (
                   <div className={styles.dropWrap}>
                     <GetDurations0 />
@@ -1134,11 +1119,7 @@ const MedicalHistory = () => {
                 editabelRecord.Nature === undefined ? '' : editabelRecord.Nature
               }
             />
-            <img
-              src={chevDown}
-              alt=""
-              className={styles.chev}
-            />{' '}
+            <img src={chevDown} alt="" className={styles.chev} />{' '}
             {showDrop ? (
               <div className={styles.dropWrap}>
                 <GetNatures1 />
@@ -1164,11 +1145,7 @@ const MedicalHistory = () => {
                   : editabelRecord.Description
               }
             />
-            <img
-              src={chevDown}
-              alt=""
-              className={styles.chev}
-            />{' '}
+            <img src={chevDown} alt="" className={styles.chev} />{' '}
             {showDropDes ? (
               <div className={styles.dropWrap}>
                 <GetDescriptions1 />
@@ -1208,11 +1185,7 @@ const MedicalHistory = () => {
                 value={optionEntry}
                 readOnly={true}
               />
-              <img
-                  src={chevDown}
-                alt=""
-                className={styles.chev}
-              />{' '}
+              <img src={chevDown} alt="" className={styles.chev} />{' '}
               {showDropDur ? (
                 <div className={styles.dropWrap}>
                   <GetTrueOrFalse />
@@ -1236,11 +1209,7 @@ const MedicalHistory = () => {
                 }
                 readOnly={true}
               />
-              <img
-                src={chevDown}
-                alt=""
-                className={styles.chev}
-              />{' '}
+              <img src={chevDown} alt="" className={styles.chev} />{' '}
               {showDropDur ? (
                 <div className={styles.dropWrap}>
                   <GetDurations />
@@ -1359,61 +1328,79 @@ const MedicalHistory = () => {
           </select>
           {showing === 'Assessment' ? (
             groupedRecord.length !== 0 ? (
-              groupedRecord.map((record) => (
-              record.Type === 'Date' ? <><p>{record.Tag}</p></>:<Fragment key={`${record.Nature}_${record.Description}`}>
-                  <EachRecord
-                    record={record}
-                    type="Assessment"
-                    editMode={(e) => {
-                      enableEditMode(e, record);
-                      setAddRecModal(true);
-                    }}
-                    openDeleteModal={(e) => {
-                      deleteRModal(e, record);
-                    }}
-                  />
-                </Fragment>
-              ))
+              groupedRecord.map((record) =>
+                record.Type === 'Date' ? (
+                  <>
+                    <p style={{ marginLeft: 20 }}>{record.Tag}</p>
+                  </>
+                ) : (
+                  <Fragment key={`${record.Nature}_${record.Description}`}>
+                    <EachRecord
+                      record={record}
+                      type="Assessment"
+                      editMode={(e) => {
+                        enableEditMode(e, record);
+                        setAddRecModal(true);
+                      }}
+                      openDeleteModal={(e) => {
+                        deleteRModal(e, record);
+                      }}
+                    />
+                  </Fragment>
+                )
+              )
             ) : (
               <p className={styles.no_record}>No Assessment Record.</p>
             )
           ) : null}
           {showing === 'Care' ? (
-            groupedRecord.length !==0 ? (
-              groupedRecord.map((record) => (
-                record.Type === 'Date' ? <><p>{record.Tag}</p></> : <Fragment key={`${record.Nature}_${record.Description}`}>
-                  <EachRecord
-                    record={record}
-                    type="Care"
-                    editMode={(e) => {
-                      enableEditMode(e, record);
-                    }}
-                    deleteRecord={(e) => {
-                      deleteRecord(e, record);
-                    }}
-                  />
-                </Fragment>
-              ))
+            groupedRecord.length !== 0 ? (
+              groupedRecord.map((record) =>
+                record.Type === 'Date' ? (
+                  <>
+                    <p>{record.Tag}</p>
+                  </>
+                ) : (
+                  <Fragment key={`${record.Nature}_${record.Description}`}>
+                    <EachRecord
+                      record={record}
+                      type="Care"
+                      editMode={(e) => {
+                        enableEditMode(e, record);
+                      }}
+                      deleteRecord={(e) => {
+                        deleteRecord(e, record);
+                      }}
+                    />
+                  </Fragment>
+                )
+              )
             ) : (
               <p className={styles.no_record}>No Care Record.</p>
             )
           ) : null}
           {showing === 'Complication' ? (
-            groupedRecord.length !==0 ? (
-              groupedRecord.map((record) => (
-                record.Type === 'Date' ? <><p>{record.Tag}</p></> : <Fragment key={`${record.Nature}_${record.Description}`}>
-                  <EachRecord
-                    record={record}
-                    type="Complication"
-                    editMode={(e) => {
-                      enableEditMode(e, record);
-                    }}
-                    deleteRecord={(e) => {
-                      deleteRecord(e, record);
-                    }}
-                  />
-                </Fragment>
-              ))
+            groupedRecord.length !== 0 ? (
+              groupedRecord.map((record) =>
+                record.Type === 'Date' ? (
+                  <>
+                    <p>{record.Tag}</p>
+                  </>
+                ) : (
+                  <Fragment key={`${record.Nature}_${record.Description}`}>
+                    <EachRecord
+                      record={record}
+                      type="Complication"
+                      editMode={(e) => {
+                        enableEditMode(e, record);
+                      }}
+                      deleteRecord={(e) => {
+                        deleteRecord(e, record);
+                      }}
+                    />
+                  </Fragment>
+                )
+              )
             ) : (
               <p className={styles.no_record}>No Complication Record.</p>
             )
@@ -1563,7 +1550,6 @@ const MedicalHistory = () => {
       </Overlay>
       {/* End Show Info Overlay */}
 
-
       {/* Begin Delete Dialog*/}
       <Overlay
         className={styles.modal}
@@ -1600,7 +1586,6 @@ const MedicalHistory = () => {
         </div>
       </Overlay>
       {/* End Delete Dialog*/}
-
 
       {/* Begin Spinner Overlay */}
       <Overlay
