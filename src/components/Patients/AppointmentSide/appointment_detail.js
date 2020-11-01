@@ -3,26 +3,29 @@ import { Overlay } from 'react-portal-overlay';
 import styles from '../CSS/appointments_side_page.module.css';
 
 const AppointmentDetail = (props) => {
-  const { history, location } = props;
-  const { objectItem } = location;
+  const { modal, toggleFunc, data } = props;
+  console.log({ data });
+  // const { history, location } = props;
+  // const { objectItem } = location;
 
-  if (objectItem === undefined) {
-    history.goBack();
-  }
+  // if (objectItem === undefined) {
+  //   history.goBack();
+  // }
 
   const reSchdule = async () => {};
 
   return (
     <>
-      {objectItem === undefined ? (
-        history.goBack()
+      {data === undefined ? (
+        <p></p>
       ) : (
         <Overlay
           className={styles.modal}
           closeOnClick
-          open={true}
+          open={modal}
           onClose={() => {
-            history.goBack();
+            // history.goBack();
+            toggleFunc(false);
           }}
         >
           <div className={styles.modal_paper}>
@@ -32,49 +35,56 @@ const AppointmentDetail = (props) => {
                 src={require('../../../images/x.svg')}
                 alt=""
                 onClick={() => {
-                  history.goBack();
+                  // history.goBack();
+                  toggleFunc(false);
                 }}
               />
             </div>
-            <p className={styles.moTitle}>{objectItem.title}</p>
+            <p className={styles.moTitle}>{!data.title ? null : data.title}</p>
 
             <div className={styles.pWrap}>
               <p className={styles.pLeft}>Patient's Name</p>
               <p className={styles.pRight}>
-                {objectItem.name === undefined || objectItem.name === null
+                {data.name === undefined || data.name === null
                   ? 'Unknow Patient'
-                  : objectItem.name}
+                  : data.name}
               </p>
             </div>
 
             <div className={styles.pWrap}>
               <p className={styles.pLeft}>Nature</p>
-              <p className={styles.pRight}>{objectItem.Nature}</p>
+              <p className={styles.pRight}>
+                {!data.Nature ? null : data.Nature}
+              </p>
             </div>
 
             <div className={styles.pWrap}>
               <p className={styles.pLeft}>Age</p>
               <p className={styles.pRight}>
-                {objectItem.age === undefined || objectItem.age === null
+                {data.age === undefined || data.age === null
                   ? 'UnKnown'
-                  : objectItem.age}
+                  : data.age}
               </p>
             </div>
 
             <div className={styles.pWrap}>
               <p className={styles.pLeft}>Severity</p>
-              <p className={styles.pRight}>{objectItem.Status}</p>
+              <p className={styles.pRight}>
+                {!data.Status ? null : data.Status}
+              </p>
             </div>
 
             <div className={styles.pWrap}>
               <p className={styles.pLeft}>Time</p>
-              <p className={styles.pRight}>{objectItem.ValueTime}</p>
+              <p className={styles.pRight}>
+                {!data.ValueTime ? null : data.ValueTime}
+              </p>
             </div>
 
             <div className={styles.appButtons}>
               <div
                 onClick={() => {
-                  history.goBack();
+                  toggleFunc(false);
                 }}
                 className={styles.whiteBg}
               >

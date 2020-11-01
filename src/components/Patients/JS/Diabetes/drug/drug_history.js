@@ -53,14 +53,30 @@ const DrugHistory = () => {
     patient.records.filter((patient) => patient.Type === 'Drugs');
 
   const [recordList, setRecordList] = useState(drugHistory);
- 
+
   const groupedRecord = [];
   function sortByDate() {
-    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "June",
-      "July", "Aug", "Sep", "Oct", "Nov", "Dec"
+    const monthNames = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'June',
+      'July',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ];
     let firstDate = new Date(recordList[0].Date_Created);
-    let obj = { Type: 'Date', Tag: `${firstDate.getDate()} ${monthNames[firstDate.getMonth()]}, ${firstDate.getFullYear()}` }
+    let obj = {
+      Type: 'Date',
+      Tag: `${firstDate.getDate()} ${
+        monthNames[firstDate.getMonth()]
+      }, ${firstDate.getFullYear()}`,
+    };
 
     groupedRecord.push(obj);
     groupedRecord.push(recordList[0]);
@@ -89,7 +105,12 @@ const DrugHistory = () => {
         groupedRecord.push(right);
       } else {
         //not same
-        let obj = { Type: 'Date', Tag: `${rdate.getDate()} ${monthNames[rdate.getMonth()]}, ${rdate.getFullYear()}` }
+        let obj = {
+          Type: 'Date',
+          Tag: `${rdate.getDate()} ${
+            monthNames[rdate.getMonth()]
+          }, ${rdate.getFullYear()}`,
+        };
 
         groupedRecord.push(obj);
         groupedRecord.push(right);
@@ -520,23 +541,29 @@ const DrugHistory = () => {
           </form>
           {/* End search section */}
 
-          {groupedRecord.length !==0 ? (
-            groupedRecord.map((record, key) => (
-              record.Type === 'Date' ? <><p>{record.Tag}</p></> : <Fragment key={`${record.Drug}_${record.Dosage}`}>
-                <EachRecord
-                  key={key}
-                  record={record}
-                  editMode={(e) => {
-                    enableEditMode(e, record);
-                    setAddRecModal(true);
-                    setEditabelMode(true);
-                  }}
-                  openDeleteModal={(e) => {
-                    deleteRModal(e, record);
-                  }}
-                />
-              </Fragment>
-            ))
+          {groupedRecord.length !== 0 ? (
+            groupedRecord.map((record, key) =>
+              record.Type === 'Date' ? (
+                <>
+                  <p style={{ marginLeft: 30 }}>{record.Tag}</p>
+                </>
+              ) : (
+                <Fragment key={`${record.Drug}_${record.Dosage}`}>
+                  <EachRecord
+                    key={key}
+                    record={record}
+                    editMode={(e) => {
+                      enableEditMode(e, record);
+                      setAddRecModal(true);
+                      setEditabelMode(true);
+                    }}
+                    openDeleteModal={(e) => {
+                      deleteRModal(e, record);
+                    }}
+                  />
+                </Fragment>
+              )
+            )
           ) : (
             <p className={styles.no_record}>No Assessment Record.</p>
           )}
@@ -581,11 +608,7 @@ const DrugHistory = () => {
                 disabled={true}
                 value={drug === undefined ? '' : drug}
               />
-              <img
-                src={chevDown}
-                alt=""
-                className={styles.chev}
-              />{' '}
+              <img src={chevDown} alt="" className={styles.chev} />{' '}
               {showDrop ? (
                 <div className={styles.dropWrap}>
                   <GetDrugs />
@@ -623,11 +646,7 @@ const DrugHistory = () => {
                 disabled={true}
                 value={duration === undefined ? '' : duration}
               />
-              <img
-                src={chevDown}
-                alt=""
-                className={styles.chev}
-              />{' '}
+              <img src={chevDown} alt="" className={styles.chev} />{' '}
               {showDropDes ? (
                 <div className={styles.dropWrap}>
                   <GetDurations />

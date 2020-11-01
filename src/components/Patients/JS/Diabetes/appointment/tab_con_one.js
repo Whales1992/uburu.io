@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import styles from '../../../CSS/appointments_side_page.module.css';
 import localForage from 'localforage';
-import Shell from '../../../JS/detail_shell';
+// import Shell from '../../../JS/detail_shell';
 import CreateAppointment from './create_appointment';
+import AppointmentDetail from '../../../AppointmentSide/appointment_detail';
 
-const cal = require('../../../../../images/cal.svg')
+const cal = require('../../../../../images/cal.svg');
 
 const TabConOne = (appointmentList) => {
   const [calender] = useState('Sort Date');
   const [showCreate, setShowCreate] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [modalData, setModalData] = useState();
+
   return (
     <div className={styles.contentWrap}>
       <>
@@ -38,10 +42,14 @@ const TabConOne = (appointmentList) => {
         ) : (
           appointmentList.appointmentList.map((item, i) => {
             return (
-              <Link
-                to={{
-                  pathname: '/patients/appointments_detail',
-                  objectItem: item,
+              <div
+                // to={{
+                //   pathname: '/patients/appointments_detail',
+                //   objectItem: item,
+                // }}
+                onClick={() => {
+                  setModalData(item);
+                  setShowModal(true);
                 }}
                 key={i}
                 style={{ cursor: 'pointer', textDecoration: 'none' }}
@@ -54,7 +62,7 @@ const TabConOne = (appointmentList) => {
 
                   <p className={styles.SecDate}>{item.ValueDate}</p>
                 </div>
-              </Link>
+              </div>
             );
           })
         )}
@@ -93,6 +101,11 @@ const TabConOne = (appointmentList) => {
       </button>
 
       <CreateAppointment modal={showCreate} toggleFunc={setShowCreate} />
+      <AppointmentDetail
+        modal={showModal}
+        toggleFunc={setShowModal}
+        data={modalData}
+      />
     </div>
   );
 };

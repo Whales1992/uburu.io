@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import Layout from '../../UI/JS/layout';
 import { Link } from 'react-router-dom';
 import { Overlay } from 'react-portal-overlay';
@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import styles from '../CSS/appointments.module.css';
 import { css } from '@emotion/core';
 import ClipLoader from 'react-spinners/ClipLoader';
+import AppointmentDetail from '../../../components/Patients/AppointmentSide/appointment_detail';
 
 const url = process.env.REACT_APP_BASE_URL;
 const override = css`
@@ -86,6 +87,8 @@ class AppointmentsPage extends Component {
   };
 
   GetItems() {
+    const [showModal, setShowModal] = useState(false);
+    const [modalData, setModalData] = useState();
     return (
       <>
         {dis.state.appointments.length === 0 ? (
@@ -95,11 +98,16 @@ class AppointmentsPage extends Component {
         ) : (
           dis.state.appointments.map(function (item, i) {
             return (
-              <div key={i} className={styles.mySrap}>
-                <Link
-                  to={{
-                    pathname: '/patients/appointments_detail',
-                    objectItem: item,
+              // <div key={i} className={styles.mySrap}>
+              <div key={i} className={styles.records_divWe}>
+                <div
+                  // to={{
+                  //   pathname: '/patients/appointments_detail',
+                  //   objectItem: item,
+                  // }}
+                  onClick={() => {
+                    setModalData(item);
+                    setShowModal(true);
                   }}
                   key={i}
                   style={{ cursor: 'pointer', textDecoration: 'none' }}
@@ -112,11 +120,16 @@ class AppointmentsPage extends Component {
 
                     <p className={styles.SecDate}>{item.ValueDate}</p>
                   </div>
-                </Link>
+                </div>
               </div>
             );
           })
         )}
+        <AppointmentDetail
+          modal={showModal}
+          toggleFunc={setShowModal}
+          data={modalData}
+        />
       </>
     );
   }
@@ -125,7 +138,11 @@ class AppointmentsPage extends Component {
     return (
       <div style={{ marginTop: 100, marginBottom: 100 }}>
         <Layout pageTitle="Your Appointments">
-          <this.GetItems />
+          <div className={styles.containerWe}>
+            <div className={styles.container_titleWe}>Your Appointments</div>
+
+            <this.GetItems />
+          </div>
         </Layout>
 
         {/* Begin Show Info Dialog */}

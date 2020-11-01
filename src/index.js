@@ -85,7 +85,6 @@ const store = composeEnhancers()(createStore);
 
 //============*****===================
 const GoToMedicalHistory = (props) => {
-
   const registry = localStorage.account
     ? JSON.parse(localStorage.account).Name
     : null;
@@ -96,7 +95,6 @@ const GoToMedicalHistory = (props) => {
 };
 
 const GoToDrugHistory = (props) => {
-
   const registry = localStorage.account
     ? JSON.parse(localStorage.account).Name
     : null;
@@ -107,25 +105,28 @@ const GoToDrugHistory = (props) => {
 };
 
 const GoToInvestigationHistory = (props) => {
-
   const registry = localStorage.account
     ? JSON.parse(localStorage.account).Name
     : null;
 
-  if (registry === 'Oncology') return <OncologyInvestigationHistory {...props} />;
-  if (registry === 'Diabetes') return <DiabetesInvestigationHistory {...props} />;
+  if (registry === 'Oncology')
+    return <OncologyInvestigationHistory {...props} />;
+  if (registry === 'Diabetes')
+    return <DiabetesInvestigationHistory {...props} />;
   if (registry === 'Asthma') return <AsthmaInvestigationHistory {...props} />;
 };
 
 const GoToTreatmentOutComeHistory = (props) => {
-
   const registry = localStorage.account
     ? JSON.parse(localStorage.account).Name
     : null;
 
-  if (registry === 'Oncology') return <OncologyTreatmentOutComeHistory {...props} />;
-  if (registry === 'Diabetes') return <DiabetesTreatmentOutComeHistory {...props} />;
-  if (registry === 'Asthma') return <AsthmaTreatmentOutComeHistory {...props} />;
+  if (registry === 'Oncology')
+    return <OncologyTreatmentOutComeHistory {...props} />;
+  if (registry === 'Diabetes')
+    return <DiabetesTreatmentOutComeHistory {...props} />;
+  if (registry === 'Asthma')
+    return <AsthmaTreatmentOutComeHistory {...props} />;
 };
 
 const GoToAppointmentPage = (props) => {
@@ -138,7 +139,6 @@ const GoToAppointmentPage = (props) => {
   if (registry === 'Asthma') return <AsthmaAppointmentsPage {...props} />;
 };
 //============*****===================
-
 
 //conditionally import forms
 const PatientBiodataForm = (props) => {
@@ -290,7 +290,6 @@ const App = () => {
               path="/patients/:id/medical_history"
               component={GoToMedicalHistory}
             />
-
 
             <AuthRoute
               exact

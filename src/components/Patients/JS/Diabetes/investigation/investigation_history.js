@@ -473,7 +473,7 @@ const InvestigationHistory = () => {
             groupedRecord.map((record) =>
               record.Type === 'Date' ? (
                 <>
-                  <p>{record.Tag}</p>
+                  <p style={{ marginLeft: 30 }}>{record.Tag}</p>
                 </>
               ) : (
                 <Fragment key={`${record.Investigation}_${record.Report}`}>

@@ -438,7 +438,7 @@ const PatientTreatmentOutcome2 = () => {
             groupedRecord.map((record, key) =>
               record.Type === 'Date' ? (
                 <>
-                  <p style={{ marginLeft: 20 }}>{record.Tag}</p>
+                  <p style={{ marginLeft: 30 }}>{record.Tag}</p>
                 </>
               ) : (
                 <Fragment key={key}>
