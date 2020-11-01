@@ -1358,7 +1358,7 @@ const MedicalHistory = () => {
               groupedRecord.map((record) =>
                 record.Type === 'Date' ? (
                   <>
-                    <p>{record.Tag}</p>
+                    <p style={{ marginLeft: 30 }}>{record.Tag}</p>
                   </>
                 ) : (
                   <Fragment key={`${record.Nature}_${record.Description}`}>
