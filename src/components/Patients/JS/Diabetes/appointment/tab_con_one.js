@@ -7,34 +7,6 @@ import CreateAppointment from './create_appointment';
 
 const cal = require('../../../../../images/cal.svg')
 
-const patientName = (item) => {
-  let name = 'Unknown';
-  if (item !== null && item !== undefined) {
-    localForage
-      .getItem('patients')
-      .then((res) => {
-        res.forEach((element) => {
-          if (element.PatientID === item.PatientID) {
-            console.log('PATIENT FOUND', element);
-            name = `${element.LastName} ${element.FirstName}`;
-          }
-        });
-      })
-      .catch((ex) => {
-        console.log('@patientName', ex);
-        // this.setState({
-        //   error: {
-        //     error: true,
-        //     message: ex,
-        //   },
-        // });
-      });
-  }
-  return name;
-};
-
-patientName();
-
 const TabConOne = (appointmentList) => {
   const [calender] = useState('Sort Date');
   const [showCreate, setShowCreate] = useState(false);
@@ -77,7 +49,7 @@ const TabConOne = (appointmentList) => {
                 <div className={styles.secDiv}>
                   <div className={styles.secTextWrap}>
                     <p className={styles.divAppTitle}>{item.Nature}</p>
-                    <p className={styles.divAppMini}>{patientName(item)}</p>
+                    <p className={styles.divAppMini}>{`${item.LastName} ${item.FirstName}`}</p>
                   </div>
 
                   <p className={styles.SecDate}>{item.ValueDate}</p>

@@ -57,6 +57,8 @@ const AppointmentsSidePage = () => {
         }
         const data = await request.json();
 
+        console.log("APPOINT", data.data);
+
         setEffects({
           ...effects,
           loading: false

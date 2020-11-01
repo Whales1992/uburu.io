@@ -1447,7 +1447,7 @@ const MedicalHistory = () => {
                 }}
                 className={styles.addRec}
               >
-                Update Record
+                Edit Record
               </p>
               <p
                 onClick={(e) => {

@@ -250,7 +250,7 @@
   cursor: pointer;
   right: 0;
   margin-right: 20%;
-  margin-bottom: 20%;
+  margin-bottom: 10%;
   height: 60px;
   width: 60px;
   border-radius: 50%;
@@ -293,7 +293,7 @@
     bottom: 0;
     right: 0;
     margin-right: 50px;
-    margin-bottom: 110px;
+    margin-bottom: 100px;
   }
   .inputGpWrap {
     width: 100%;
