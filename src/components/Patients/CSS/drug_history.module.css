@@ -238,7 +238,7 @@
   cursor: pointer;
   right: 0;
   margin-right: 20%;
-  margin-bottom: 10%;
+  margin-bottom: 15%;
   height: 60px;
   width: 60px;
   border-radius: 50%;
@@ -265,11 +265,6 @@
   }
   .fab {
     display: none;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    margin-right: 50px;
-    margin-bottom: 100px;
   }
   .inputGpWrap {
     width: auto;
@@ -277,6 +272,25 @@
   .roe {
     display: flex;
     align-items: center;
+  }
+}
+@media (min-width: 760px) and (max-width: 1024px) {
+  .fab {
+    position: fixed;
+    bottom: 0;
+    cursor: pointer;
+    right: 0;
+    margin-right: 10%;
+    margin-bottom: 20%;
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    background: black;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 35px;
   }
 }
 

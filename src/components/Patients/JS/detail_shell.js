@@ -94,7 +94,8 @@ const Shell = ({ render, children, name }) => {
             </li>
             <li
               className={
-                window.location.pathname.split('/')[3] === 'treatment_outcome'
+                window.location.pathname.split('/')[3] ===
+                'patient_treatment_outcome'
                   ? styles2.active
                   : null
               }

@@ -95,6 +95,14 @@ const TabConOne = (appointmentList) => {
           })
         )}
       </>
+      <div
+        onClick={() => {
+          setShowCreate(true);
+        }}
+        className={styles.fab}
+      >
+        <p>+</p>
+      </div>
       <button
         onClick={() => {
           setShowCreate(true);

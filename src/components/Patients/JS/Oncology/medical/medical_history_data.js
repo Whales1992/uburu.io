@@ -44,118 +44,257 @@ const MedicalHistory = () => {
 
   const objStructs = [
     {
-      "title": "Assessment", "data": [{
-        "title": "Core Symptoms",
-        "data": [
-          { "title": "Chronic weight loss", "data": { "type": "List", "Duration": { "type": "Date", "data": ["Days", "Weeks", "Years"] } } },
-          { "title": "Fever of Unknown Origin", "data": { "type": "List", "Duration": { "type": "Date", "data": ["Days", "Weeks", "Years"] } } },
-          { "title": "Chronic Pain", "data": { "type": "List", "Duration": { "type": "Date", "data": ["Days", "Weeks", "Years"] } } },
-          { "title": "Breast Mass", "data": { "type": "List", "Duration": { "type": "Date", "data": ["Days", "Weeks", "Years"] } } },
-          { "title": "LUTS", "data": { "type": "List", "Duration": { "type": "Date", "data": ["Days", "Weeks", "Years"] } } },
-        ]
-      },
-      {
-        "title": "Co-morbidity",
-        "data":
-          [
-            { "title": "Asthma Co-morbidity", "data": { "type": "List", "Duration": { "type": "Date", "data": ["Days", "Weeks", "Years"] } } },
-            { "title": "SCA Co-morbidity", "data": { "type": "List", "Duration": { "type": "Date", "data": ["Days", "Weeks", "Years"] } } },
-            { "title": "Diabetes Co-morbidity", "data": { "type": "List", "Duration": { "type": "Date", "data": ["Days", "Weeks", "Years"] } } },
-            { "title": "Stroke Co-morbidity", "data": { "type": "List", "Duration": { "type": "Date", "data": ["Days", "Weeks", "Years"] } } }
-          ]
-      },
-      {
-        "title": "Examination",
-        "data":
-          [
-            { "title": "Systolic BP (unit: mmHg)", "data": { "type": "Entry" } },
-            { "title": "Diastolic BP (unit: mmHg)", "data": { "type": "Entry" } },
-            { "title": "Weight (unit: Kg)", "data": { "type": "Entry" } },
-            { "title": "Height (unit: m)", "data": { "type": "Entry" } },
-            { "title": "Pulse Rate (unit: /min)", "data": { "type": "Entry" } },
-            { "title": "Respiratory Rate (unit: bpm)", "data": { "type": "Entry" } },
-            { "title": "Thrush (no unit)", "data": { "type": "List", "Duration": { "type": "bool", "data": ["Yes", "No"] } } },
-            { "title": "Hip Circumference (unit: m)", "data": { "type": "Entry" } },
-            { "title": "Waist Circumference (unit: m)", "data": { "type": "Entry" } },
-          ]
-      }]
+      title: 'Assessment',
+      data: [
+        {
+          title: 'Core Symptoms',
+          data: [
+            {
+              title: 'Chronic weight loss',
+              data: {
+                type: 'List',
+                Duration: { type: 'Date', data: ['Days', 'Weeks', 'Years'] },
+              },
+            },
+            {
+              title: 'Fever of Unknown Origin',
+              data: {
+                type: 'List',
+                Duration: { type: 'Date', data: ['Days', 'Weeks', 'Years'] },
+              },
+            },
+            {
+              title: 'Chronic Pain',
+              data: {
+                type: 'List',
+                Duration: { type: 'Date', data: ['Days', 'Weeks', 'Years'] },
+              },
+            },
+            {
+              title: 'Breast Mass',
+              data: {
+                type: 'List',
+                Duration: { type: 'Date', data: ['Days', 'Weeks', 'Years'] },
+              },
+            },
+            {
+              title: 'LUTS',
+              data: {
+                type: 'List',
+                Duration: { type: 'Date', data: ['Days', 'Weeks', 'Years'] },
+              },
+            },
+          ],
+        },
+        {
+          title: 'Co-morbidity',
+          data: [
+            {
+              title: 'Asthma Co-morbidity',
+              data: {
+                type: 'List',
+                Duration: { type: 'Date', data: ['Days', 'Weeks', 'Years'] },
+              },
+            },
+            {
+              title: 'SCA Co-morbidity',
+              data: {
+                type: 'List',
+                Duration: { type: 'Date', data: ['Days', 'Weeks', 'Years'] },
+              },
+            },
+            {
+              title: 'Diabetes Co-morbidity',
+              data: {
+                type: 'List',
+                Duration: { type: 'Date', data: ['Days', 'Weeks', 'Years'] },
+              },
+            },
+            {
+              title: 'Stroke Co-morbidity',
+              data: {
+                type: 'List',
+                Duration: { type: 'Date', data: ['Days', 'Weeks', 'Years'] },
+              },
+            },
+          ],
+        },
+        {
+          title: 'Examination',
+          data: [
+            { title: 'Systolic BP (unit: mmHg)', data: { type: 'Entry' } },
+            { title: 'Diastolic BP (unit: mmHg)', data: { type: 'Entry' } },
+            { title: 'Weight (unit: Kg)', data: { type: 'Entry' } },
+            { title: 'Height (unit: m)', data: { type: 'Entry' } },
+            { title: 'Pulse Rate (unit: /min)', data: { type: 'Entry' } },
+            { title: 'Respiratory Rate (unit: bpm)', data: { type: 'Entry' } },
+            {
+              title: 'Thrush (no unit)',
+              data: {
+                type: 'List',
+                Duration: { type: 'bool', data: ['Yes', 'No'] },
+              },
+            },
+            { title: 'Hip Circumference (unit: m)', data: { type: 'Entry' } },
+            { title: 'Waist Circumference (unit: m)', data: { type: 'Entry' } },
+          ],
+        },
+      ],
     },
     {
-      "title": "Care", "data": [{
-        "title": "Hospitalization",
-        "data": [
-          { "title": "Non-emergency", "data": { "type": "List", "Duration": { "type": "Date", "data": ["Days", "Weeks", "Years"] } } },
-          { "title": "Emergency", "data": { "type": "List", "Duration": { "type": "Date", "data": ["Days", "Weeks", "Years"] } } },
-          { "title": "Intensive Care", "data": { "type": "List", "Duration": { "type": "Date", "data": ["Days", "Weeks", "Years"] } } }
-        ]
-      },
-      {
-        "title": "Surgery",
-        "data":
-          [
-            { "title": "Mastectomy", "data": { "type": "None" } },
-            { "title": "Mastectomy", "data": { "type": "None" } },
-            { "title": "Mastectomy", "data": { "type": "None" } },
-            { "title": "Others", "data": { "type": "Text" } },
-          ]
-      },
-      {
-        "title": "Chemotherapy",
-        "data":
-          [
-            { "title": "Chemo Regimen", "data": { "type": "List", "Duration": { "type": "List", "data": ["1st Line", "2nd Line", "3rd Line"] } } },
-          ]
-      },
-      {
-        "title": "Radiotherapy",
-        "data":
-          [
-            { "title": "Radiation Dose (unit: Gy)", "data": { "type": "Entry" } },
-          ]
-      },
-      {
-        "title": "Blood Transfusion",
-        "data":
-          [
-            { "title": "Whole Blood (unit:mls)", "data": { "type": "Entry" } },
-            { "title": "Packed Red Blood Cells (unit:mls)", "data": { "type": "Entry" } },
-            { "title": "Fresh Frozen Plasma (unit:mls)", "data": { "type": "Entry" } },
-            { "title": "Platelets (unit:mls)", "data": { "type": "Entry" } },
-            { "title": "Cryoprecipitate (unit:mls)", "data": { "type": "Entry" } },
-            { "title": "Granulocytes (unit:mls)", "data": { "type": "Entry" } }
-          ]
-      }]
+      title: 'Care',
+      data: [
+        {
+          title: 'Hospitalization',
+          data: [
+            {
+              title: 'Non-emergency',
+              data: {
+                type: 'List',
+                Duration: { type: 'Date', data: ['Days', 'Weeks', 'Years'] },
+              },
+            },
+            {
+              title: 'Emergency',
+              data: {
+                type: 'List',
+                Duration: { type: 'Date', data: ['Days', 'Weeks', 'Years'] },
+              },
+            },
+            {
+              title: 'Intensive Care',
+              data: {
+                type: 'List',
+                Duration: { type: 'Date', data: ['Days', 'Weeks', 'Years'] },
+              },
+            },
+          ],
+        },
+        {
+          title: 'Surgery',
+          data: [
+            { title: 'Mastectomy', data: { type: 'None' } },
+            { title: 'Mastectomy', data: { type: 'None' } },
+            { title: 'Mastectomy', data: { type: 'None' } },
+            { title: 'Others', data: { type: 'Text' } },
+          ],
+        },
+        {
+          title: 'Chemotherapy',
+          data: [
+            {
+              title: 'Chemo Regimen',
+              data: {
+                type: 'List',
+                Duration: {
+                  type: 'List',
+                  data: ['1st Line', '2nd Line', '3rd Line'],
+                },
+              },
+            },
+          ],
+        },
+        {
+          title: 'Radiotherapy',
+          data: [
+            { title: 'Radiation Dose (unit: Gy)', data: { type: 'Entry' } },
+          ],
+        },
+        {
+          title: 'Blood Transfusion',
+          data: [
+            { title: 'Whole Blood (unit:mls)', data: { type: 'Entry' } },
+            {
+              title: 'Packed Red Blood Cells (unit:mls)',
+              data: { type: 'Entry' },
+            },
+            {
+              title: 'Fresh Frozen Plasma (unit:mls)',
+              data: { type: 'Entry' },
+            },
+            { title: 'Platelets (unit:mls)', data: { type: 'Entry' } },
+            { title: 'Cryoprecipitate (unit:mls)', data: { type: 'Entry' } },
+            { title: 'Granulocytes (unit:mls)', data: { type: 'Entry' } },
+          ],
+        },
+      ],
     },
     {
-      "title": "Complication", "data": [{
-        "title": "Chemotherapy Complication",
-        "data": [
-          { "title": "Alopecia", "data": { "type": "Text", "hint": "…enter drug/combination" } },
-          { "title": "Fatigue", "data": { "type": "Text", "hint": "…enter drug/combination" } },
-          { "title": "Skin/Nail Changes", "data": { "type": "Text", "hint": "…enter drug/combination" } },
-          { "title": "Infection", "data": { "type": "Text", "hint": "…enter drug/combination" } },
-          { "title": "Anemia", "data": { "type": "Text", "hint": "…enter drug/combination" } },
-          { "title": "Diarrhoea/Constipation", "data": { "type": "Text", "hint": "…enter drug/combination" } },
-          { "title": "Fertility Problems", "data": { "type": "Text", "hint": "…enter drug/combination" } },
-        ]
-      },
-      {
-        "title": "Radiotherapy Complication",
-        "data":
-          [
-            { "title": "Mucositis", "data": { "type": "Text", "hint": "…enter Radiation dose" } },
-            { "title": "Lymphoedema", "data": { "type": "Text", "hint": "…enter Radiation dose" } },
-            { "title": "Fertility Problems", "data": { "type": "Text", "hint": "…enter Radiation dose" } },
-            { "title": "Skin Changes", "data": { "type": "Text", "hint": "…enter Radiation dose" } },
-            { "title": "Xerostomia", "data": { "type": "Text", "hint": "…enter Radiation dose" } },
-            { "title": "Enteropathy", "data": { "type": "Text", "hint": "…enter Radiation dose" } },
-            { "title": "Cardiovascular Disease", "data": { "type": "Text", "hint": "…enter Radiation dose" } },
-            { "title": "Cancer", "data": { "type": "Text", "hint": "…enter Radiation dose" } },
-          ]
-      },
-      ]
+      title: 'Complication',
+      data: [
+        {
+          title: 'Chemotherapy Complication',
+          data: [
+            {
+              title: 'Alopecia',
+              data: { type: 'Text', hint: '…enter drug/combination' },
+            },
+            {
+              title: 'Fatigue',
+              data: { type: 'Text', hint: '…enter drug/combination' },
+            },
+            {
+              title: 'Skin/Nail Changes',
+              data: { type: 'Text', hint: '…enter drug/combination' },
+            },
+            {
+              title: 'Infection',
+              data: { type: 'Text', hint: '…enter drug/combination' },
+            },
+            {
+              title: 'Anemia',
+              data: { type: 'Text', hint: '…enter drug/combination' },
+            },
+            {
+              title: 'Diarrhoea/Constipation',
+              data: { type: 'Text', hint: '…enter drug/combination' },
+            },
+            {
+              title: 'Fertility Problems',
+              data: { type: 'Text', hint: '…enter drug/combination' },
+            },
+          ],
+        },
+        {
+          title: 'Radiotherapy Complication',
+          data: [
+            {
+              title: 'Mucositis',
+              data: { type: 'Text', hint: '…enter Radiation dose' },
+            },
+            {
+              title: 'Lymphoedema',
+              data: { type: 'Text', hint: '…enter Radiation dose' },
+            },
+            {
+              title: 'Fertility Problems',
+              data: { type: 'Text', hint: '…enter Radiation dose' },
+            },
+            {
+              title: 'Skin Changes',
+              data: { type: 'Text', hint: '…enter Radiation dose' },
+            },
+            {
+              title: 'Xerostomia',
+              data: { type: 'Text', hint: '…enter Radiation dose' },
+            },
+            {
+              title: 'Enteropathy',
+              data: { type: 'Text', hint: '…enter Radiation dose' },
+            },
+            {
+              title: 'Cardiovascular Disease',
+              data: { type: 'Text', hint: '…enter Radiation dose' },
+            },
+            {
+              title: 'Cancer',
+              data: { type: 'Text', hint: '…enter Radiation dose' },
+            },
+          ],
+        },
+      ],
     },
-  ]
+  ];
 
   function resetDuration() {
     var edit = editabelRecord;
@@ -168,7 +307,9 @@ const MedicalHistory = () => {
   const [selectedDescription, setSelectedDescription] = useState(undefined);
   const [durations, setDurations] = useState(undefined);
   const [selectedDuration, setSelectedDuration] = useState(undefined);
-  const [durationsDateOverlayState, setDurationsDateOverlayState] = useState(undefined);
+  const [durationsDateOverlayState, setDurationsDateOverlayState] = useState(
+    undefined
+  );
   const [selectedEntry, setSelectedEntry] = useState(undefined);
 
   const assessmentRecords =
@@ -211,8 +352,9 @@ const MedicalHistory = () => {
         let firstDate = new Date(recordList[0].RecordDate);
         let obj = {
           Type: 'Date',
-          Tag: `${firstDate.getDate()} ${monthNames[firstDate.getMonth()]
-            }, ${firstDate.getFullYear()}`,
+          Tag: `${firstDate.getDate()} ${
+            monthNames[firstDate.getMonth()]
+          }, ${firstDate.getFullYear()}`,
         };
 
         groupedRecord.push(obj);
@@ -244,8 +386,9 @@ const MedicalHistory = () => {
             //not same
             let obj = {
               Type: 'Date',
-              Tag: `${rdate.getDate()} ${monthNames[rdate.getMonth()]
-                }, ${rdate.getFullYear()}`,
+              Tag: `${rdate.getDate()} ${
+                monthNames[rdate.getMonth()]
+              }, ${rdate.getFullYear()}`,
             };
 
             groupedRecord.push(obj);
@@ -264,7 +407,9 @@ const MedicalHistory = () => {
     let _RecordDate = RecordDate;
     if (RecordDate !== undefined && RecordDate !== '') {
       const date = new Date(RecordDate);
-      _RecordDate = `${date.getDate()} ${monthNames[date.getMonth()]}, ${date.getFullYear()}`
+      _RecordDate = `${date.getDate()} ${
+        monthNames[date.getMonth()]
+      }, ${date.getFullYear()}`;
     }
 
     let editedRecord = editabelRecord;
@@ -274,7 +419,7 @@ const MedicalHistory = () => {
     editedRecord.Nature = selectedNatures;
     editedRecord.Entry = selectedEntry;
     editedRecord.Duration = selectedDuration;
-    editedRecord.RecordDate = _RecordDate
+    editedRecord.RecordDate = _RecordDate;
 
     // console.log("@updateRecord", editedRecord);
     try {
@@ -307,7 +452,7 @@ const MedicalHistory = () => {
           }
         }
 
-        setAddRecModal(false)
+        setAddRecModal(false);
 
         setEffects({
           ...effects,
@@ -318,7 +463,6 @@ const MedicalHistory = () => {
             message: `${data.message}`,
           },
         });
-
       } else {
         setEffects({
           ...effects,
@@ -352,10 +496,20 @@ const MedicalHistory = () => {
     let _RecordDate = RecordDate;
     if (RecordDate !== undefined && RecordDate !== '') {
       const date = new Date(RecordDate);
-      _RecordDate = `${date.getDate()} ${monthNames[date.getMonth()]}, ${date.getFullYear()}`
+      _RecordDate = `${date.getDate()} ${
+        monthNames[date.getMonth()]
+      }, ${date.getFullYear()}`;
     }
 
-    const newRecord = { Type: `${showing}`, Description: selectedDescription, Nature: selectedNatures, FolderNo: patient.FolderNo, Entry: selectedEntry, Duration: selectedDuration, RecordDate: _RecordDate }
+    const newRecord = {
+      Type: `${showing}`,
+      Description: selectedDescription,
+      Nature: selectedNatures,
+      FolderNo: patient.FolderNo,
+      Entry: selectedEntry,
+      Duration: selectedDuration,
+      RecordDate: _RecordDate,
+    };
     // console.log("@addNewRecord", newRecord);
     try {
       if (window.navigator.onLine) {
@@ -382,7 +536,7 @@ const MedicalHistory = () => {
         preViousList.unshift(newRecord);
         setRecordList(preViousList);
 
-        setAddRecModal(false)
+        setAddRecModal(false);
 
         const data = await request.json();
 
@@ -461,7 +615,7 @@ const MedicalHistory = () => {
           const item = recordList[i];
           if (item.RecordID == record.RecordID) {
             const index = recordList.indexOf(item);
-            recordList.splice(index,1)
+            recordList.splice(index, 1);
           }
         }
 
@@ -559,70 +713,14 @@ const MedicalHistory = () => {
     }
   }
 
-  const FabTwo = () => {
-    return (
-      <div>
-        <div
-          onClick={() => {
-            setSelectedNatures(undefined)
-            setSelectedDescription(undefined)
-            setDescriptions(undefined)
-            setDurations(undefined)
-            setRecordDate('')
-            setAddRecModal(true);
-          }}
-          className={styles.fab}
-        >
-          <p>+</p>
-        </div>
-
-        <button
-          onClick={() => {
-            setSelectedNatures(undefined)
-            setDescriptions(undefined)
-            setSelectedDescription(undefined)
-            setDurations(undefined)
-            setRecordDate('')
-            setAddRecModal(true)
-          }}
-          className={styles.add_new_record}
-          aria-label="Add new record"
-        >
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M17.5005 10.9995C13.917 10.9995 11.001 13.9155 11.001 17.499C11.001 21.0825 13.9155 24 17.5005 24C21.0855 24 24 21.084 24 17.5005C24 13.917 21.084 10.9995 17.5005 10.9995ZM19.9995 18.4995H18.4995V19.9995C18.4995 20.5515 18.051 21 17.499 21C16.947 21 16.5 20.553 16.5 19.9995V18.4995H15C14.448 18.4995 13.9995 18.051 13.9995 17.499C13.9995 16.947 14.448 16.5 15 16.5H16.5V15C16.5 14.448 16.9485 13.9995 17.5005 13.9995C18.0525 13.9995 18.501 14.448 18.501 15V16.5H20.001C20.553 16.5 21 16.9485 21 17.5005C21 18.0525 20.553 18.4995 19.9995 18.4995Z"
-              fill="white"
-            />
-            <path
-              d="M19.0005 0H3C1.3425 0 0 1.3425 0 3C0 4.6575 1.3425 6 3 6H19.0005C20.658 6 22.0005 4.6575 22.0005 3C22.0005 1.3425 20.6565 0 19.0005 0ZM3 4.0005C2.448 4.0005 1.9995 3.552 1.9995 3C1.9995 2.448 2.448 1.9995 3 1.9995C3.552 1.9995 4.0005 2.4465 4.0005 3C4.0005 3.552 3.552 4.0005 3 4.0005ZM7.00049 4.0005C6.44699 4.0005 6 3.552 6 3C6 2.448 6.44699 1.9995 7.00049 1.9995C7.55249 1.9995 8.00099 2.4465 8.00099 3C7.99949 3.552 7.55249 4.0005 7.00049 4.0005Z"
-              fill="white"
-            />
-            <path
-              d="M19.0005 7.99951H3C1.3395 7.99951 0 9.33901 0 10.9995C0 12.66 1.3395 13.9995 3 13.9995H9.76049C11.0895 11.0505 14.0595 9.00001 17.5005 9.00001C19.101 9.00001 20.61 9.45001 21.891 10.23C21.5595 8.94001 20.3895 7.99951 19.0005 7.99951ZM3 12C2.4495 12 1.9995 11.55 1.9995 10.9995C1.9995 10.449 2.4495 9.99901 3 9.99901C3.5505 9.99901 4.0005 10.449 4.0005 10.9995C4.0005 11.55 3.5505 12 3 12ZM7.00049 12C6.44999 12 6 11.55 6 10.9995C6 10.449 6.44999 9.99901 7.00049 9.99901C7.55099 9.99901 8.00099 10.449 8.00099 10.9995C8.00099 11.55 7.54949 12 7.00049 12Z"
-              fill="white"
-            />
-            <path
-              d="M8.99999 17.5005C8.99999 16.9905 9.04949 16.491 9.13949 16.0005H3C1.3395 16.0005 0 17.34 0 19.0005C0 20.661 1.3395 22.0005 3 22.0005H10.29C9.46949 20.7 8.99999 19.1505 8.99999 17.5005ZM3 19.9995C2.4495 19.9995 1.9995 19.5495 1.9995 18.999C1.9995 18.45 2.4495 18 3 18C3.5505 18 4.0005 18.45 4.0005 19.0005C4.0005 19.5495 3.5505 19.9995 3 19.9995ZM7.00049 19.9995C6.44999 19.9995 5.99999 19.5495 5.99999 18.999C5.99999 18.45 6.44999 18 7.00049 18C7.55099 18 8.00099 18.45 8.00099 19.0005C7.99949 19.5495 7.54949 19.9995 7.00049 19.9995Z"
-              fill="white"
-            />
-          </svg>
-        </button>
-      </div>
-    );
-  };
-
   function OptionsView() {
-    return (
-      objStructs.map((item, key) => {
-        return <option key={key} value={item.title}>{item.title}</option>
-      })
-    )
+    return objStructs.map((item, key) => {
+      return (
+        <option key={key} value={item.title}>
+          {item.title}
+        </option>
+      );
+    });
   }
 
   function SelectionView() {
@@ -635,7 +733,7 @@ const MedicalHistory = () => {
       >
         <OptionsView />
       </select>
-    )
+    );
   }
 
   function RecordListView(props) {
@@ -643,65 +741,69 @@ const MedicalHistory = () => {
     const title = props.title;
 
     if (list.length === 0) {
-      return <p className={styles.no_record}>{`No ${title} Record.`}</p>
+      return <p className={styles.no_record}>{`No ${title} Record.`}</p>;
     } else {
-      return (list.map(function (item, key) {
+      return list.map(function (item, key) {
         if (item.Type === 'Date') {
-          return <p key={key} style={{ marginLeft: 20 }}>{item.Tag}</p>
+          return (
+            <p key={key} style={{ marginLeft: 20 }}>
+              {item.Tag}
+            </p>
+          );
         } else {
-          return <Fragment key={key}>
-            <EachRecord
-              record={item}
-              type={title}
-              editMode={(e) => {
-                enableEditMode(e, item);
-                setAddRecModal(true);
-              }}
-              openDeleteModal={(e) => {
-                deleteRModal(e, item);
-              }}
-            />
-          </Fragment>
+          return (
+            <Fragment key={key}>
+              <EachRecord
+                record={item}
+                type={title}
+                editMode={(e) => {
+                  enableEditMode(e, item);
+                  setAddRecModal(true);
+                }}
+                openDeleteModal={(e) => {
+                  deleteRModal(e, item);
+                }}
+              />
+            </Fragment>
+          );
         }
-      }
-      )
-      )
+      });
     }
   }
 
   function RecordsView() {
     if (showing === 'Assessment') {
-      return <RecordListView list={groupedRecord} title={'Assessment'} />
+      return <RecordListView list={groupedRecord} title={'Assessment'} />;
     } else if (showing === 'Care') {
-      return <RecordListView list={groupedRecord} title={'Care'} />
+      return <RecordListView list={groupedRecord} title={'Care'} />;
     } else {
-      return <RecordListView list={groupedRecord} title={'Complication'} />
+      return <RecordListView list={groupedRecord} title={'Complication'} />;
     }
   }
 
   function NatureView() {
     let natures = objStructs[0].data;
     if (showing === objStructs[0].title) {
-      natures = objStructs[0].data
+      natures = objStructs[0].data;
     } else if (showing === objStructs[1].title) {
-      natures = objStructs[1].data
+      natures = objStructs[1].data;
     } else {
-      natures = objStructs[2].data
+      natures = objStructs[2].data;
     }
 
-    return (natures.map(function (nature, i) {
+    return natures.map(function (nature, i) {
       return (
         <p
           onClick={() => {
-            setDescriptions(undefined)
-            setDurations(undefined)
+            setDescriptions(undefined);
+            setDurations(undefined);
 
             setDescriptions(nature.data);
             setSelectedNatures(nature.title);
 
-            setSelectedDescription(undefined)
-            setSelectedDuration(undefined)
-            setRecordDate('')
+            setSelectedDescription(undefined);
+            setSelectedDuration(undefined);
+            setRecordDate('');
           }}
           style={{
             position: 'relative',
@@ -716,12 +818,13 @@ const MedicalHistory = () => {
           {nature.title}{' '}
         </p>
       );
-    })
-    );
+    });
   }
 
   function DescriptionView() {
-    return (descriptions === undefined ? <></> :
+    return descriptions === undefined ? (
+      <></>
+    ) : (
       descriptions.map(function (description, key) {
         return (
           <p
@@ -765,8 +868,8 @@ const MedicalHistory = () => {
             value={selectedEntry === undefined ? '' : selectedEntry}
             onChange={(e) => {
               setSelectedEntry(e.target.value);
-              setSelectedDuration(undefined)
-              setRecordDate('')
+              setSelectedDuration(undefined);
+              setRecordDate('');
             }}
             disabled={durations === undefined}
             readOnly={false}
@@ -774,7 +877,7 @@ const MedicalHistory = () => {
           />
         </div>
       </>
-    )
+    );
   }
 
   function TrueOrFalseView() {
@@ -787,33 +890,36 @@ const MedicalHistory = () => {
           readOnly={true}
         />
         <img src={chevDown} alt="" className={styles.chev} />{' '}
-        {showDropDur ? <div className={styles.dropWrap}>
-          {durations.Duration.data.map(function (item, key) {
-            return (
-              <p
-                onClick={() => {
-                  setSelectedEntry(undefined);
-                  setShowWrapDur(!showDropDur);
-                  setSelectedEntry(item);
-                  setSelectedDuration(undefined)
-                  setRecordDate('')
-                }}
-                style={{
-                  position: 'relative',
-                  top: 0,
-                  left: 0,
-                  width: '100%',
-                  cursor: 'pointer',
-                }}
-                key={key}
-              >
-                {' '}
-                {item}{' '}
-              </p>
-            );
-          })}
-        </div>
-          : <></>}
+        {showDropDur ? (
+          <div className={styles.dropWrap}>
+            {durations.Duration.data.map(function (item, key) {
+              return (
+                <p
+                  onClick={() => {
+                    setSelectedEntry(undefined);
+                    setShowWrapDur(!showDropDur);
+                    setSelectedEntry(item);
+                    setSelectedDuration(undefined);
+                    setRecordDate('');
+                  }}
+                  style={{
+                    position: 'relative',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    cursor: 'pointer',
+                  }}
+                  key={key}
+                >
+                  {' '}
+                  {item}{' '}
+                </p>
+              );
+            })}
+          </div>
+        ) : (
+          <></>
+        )}
       </>
     );
   }
@@ -828,13 +934,13 @@ const MedicalHistory = () => {
           readOnly={true}
         />
         <img src={chevDown} alt="" className={styles.chev} />{' '}
-        {
-          showDropDur ? <div className={styles.dropWrap}>
+        {showDropDur ? (
+          <div className={styles.dropWrap}>
             {durations.Duration.data.map(function (item, key) {
               return (
                 <p
                   onClick={() => {
-                    setDurationsDateOverlayState(item)
+                    setDurationsDateOverlayState(item);
                   }}
                   style={{
                     position: 'relative',
@@ -848,11 +954,12 @@ const MedicalHistory = () => {
                   {' '}
                   {item}{' '}
                 </p>
-              )
+              );
             })}
           </div>
-            : <></>
-        }
+        ) : (
+          <></>
+        )}
       </>
     );
   }
@@ -867,58 +974,68 @@ const MedicalHistory = () => {
           readOnly={true}
         />
         <img src={chevDown} alt="" className={styles.chev} />{' '}
-        {showDropDur ? <div className={styles.dropWrap}>
-          {durations.Duration.data.map(function (item, i) {
-            return (
-              <p
-                onClick={() => {
-                  setSelectedEntry(undefined);
-                  setSelectedEntry(item);
-                  setSelectedDuration(undefined)
-                  setRecordDate('')
-                }}
-                style={{
-                  position: 'relative',
-                  top: 0,
-                  left: 0,
-                  width: '100%',
-                  cursor: 'pointer',
-                }}
-                key={i}
-              >
-                {' '}
-                {item}{' '}
-              </p>
-            )
-          })}
-        </div>
-          : <></>}
+        {showDropDur ? (
+          <div className={styles.dropWrap}>
+            {durations.Duration.data.map(function (item, i) {
+              return (
+                <p
+                  onClick={() => {
+                    setSelectedEntry(undefined);
+                    setSelectedEntry(item);
+                    setSelectedDuration(undefined);
+                    setRecordDate('');
+                  }}
+                  style={{
+                    position: 'relative',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    cursor: 'pointer',
+                  }}
+                  key={i}
+                >
+                  {' '}
+                  {item}{' '}
+                </p>
+              );
+            })}
+          </div>
+        ) : (
+          <></>
+        )}
       </>
     );
   }
 
   function ListOptionsView() {
-    return (<>
-      <p className={styles.formLabel}>Duration/Entry</p>
-      <div
-        className={styles.inputGpWrap}
-        onClick={() => {
-          setShowWrapDur(!showDropDur);
-        }}
-      >
-        {durations.Duration.type === 'bool' ? <TrueOrFalseView /> : durations.Duration.type === 'List' ? <DurationListView /> : <DateDurationListView />}
-      </div>
-    </>
-    )
+    return (
+      <>
+        <p className={styles.formLabel}>Duration/Entry</p>
+        <div
+          className={styles.inputGpWrap}
+          onClick={() => {
+            setShowWrapDur(!showDropDur);
+          }}
+        >
+          {durations.Duration.type === 'bool' ? (
+            <TrueOrFalseView />
+          ) : durations.Duration.type === 'List' ? (
+            <DurationListView />
+          ) : (
+            <DateDurationListView />
+          )}
+        </div>
+      </>
+    );
   }
 
   function DurationView() {
     if (durations === undefined) {
-      return <></>
+      return <></>;
     } else if (durations.type === 'Entry') {
-      return <EntryView />
+      return <EntryView />;
     } else {
-      return <ListOptionsView />
+      return <ListOptionsView />;
     }
   }
 
@@ -949,7 +1066,10 @@ const MedicalHistory = () => {
         <p className={styles.formLabel}>Description</p>
         <div
           className={styles.inputGpWrap}
-          onClick={() => { setShowWrapDes(!showDropDes) }}>
+          onClick={() => {
+            setShowWrapDes(!showDropDes);
+          }}
+        >
           <input
             className={styles.inputName}
             placeholder="Select Description"
@@ -967,7 +1087,7 @@ const MedicalHistory = () => {
 
         <DurationView />
       </div>
-    )
+    );
   }
 
   function DisplayNewView() {
@@ -997,7 +1117,10 @@ const MedicalHistory = () => {
         <p className={styles.formLabel}>Description</p>
         <div
           className={styles.inputGpWrap}
-          onClick={() => { setShowWrapDes(!showDropDes) }}>
+          onClick={() => {
+            setShowWrapDes(!showDropDes);
+          }}
+        >
           <input
             className={styles.inputName}
             placeholder="Select Description"
@@ -1015,7 +1138,7 @@ const MedicalHistory = () => {
 
         <DurationView />
       </div>
-    )
+    );
   }
 
   function EditOrAddNewView() {
@@ -1036,7 +1159,9 @@ const MedicalHistory = () => {
       >
         <div className={styles.modal_paper2}>
           <div className={styles.modalTop2}>
-            <p className={styles.appTitle}>{editabelMode ? "Edit Record" : "Add New Record"}</p>
+            <p className={styles.appTitle}>
+              {editabelMode ? 'Edit Record' : 'Add New Record'}
+            </p>
             <img
               src={x}
               alt=""
@@ -1085,20 +1210,40 @@ const MedicalHistory = () => {
               </p>
             </div>
           ) : (
-              <p
-                onClick={(e) => {
-                  e.preventDefault();
-                  addNewRecord();
-                }}
-                className={styles.addRec}
-              >
-                Add New Record
-              </p>
-            )}
+            <p
+              onClick={(e) => {
+                e.preventDefault();
+                addNewRecord();
+              }}
+              className={styles.addRec}
+            >
+              Add New Record
+            </p>
+          )}
         </div>
       </Overlay>
-    )
+    );
   }
+
+  const FabTwo = () => {
+    return (
+      <div>
+        <div
+          onClick={() => {
+            setSelectedNatures(undefined);
+            setSelectedDescription(undefined);
+            setDescriptions(undefined);
+            setDurations(undefined);
+            setRecordDate('');
+            setAddRecModal(true);
+          }}
+          className={styles.fab}
+        >
+          <p>+</p>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <>
@@ -1106,7 +1251,6 @@ const MedicalHistory = () => {
       <SecondaryBar page_title="Medical History" shadow />
       <Shell name={`${patient.LastName} ${patient.FirstName}`}>
         <div className={styles.container}>
-
           {/* Begin search section */}
           <form className={styles.form}>
             <input
@@ -1134,9 +1278,46 @@ const MedicalHistory = () => {
           {/* Begin Record List View */}
           <RecordsView />
           {/* End Record List View */}
-
+          <FabTwo />
         </div>
-        <FabTwo />
+        <button
+          onClick={() => {
+            setSelectedNatures(undefined);
+            setDescriptions(undefined);
+            setSelectedDescription(undefined);
+            setDurations(undefined);
+            setRecordDate('');
+            setAddRecModal(true);
+          }}
+          className={styles.add_new_record}
+          aria-label="Add new record"
+        >
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M17.5005 10.9995C13.917 10.9995 11.001 13.9155 11.001 17.499C11.001 21.0825 13.9155 24 17.5005 24C21.0855 24 24 21.084 24 17.5005C24 13.917 21.084 10.9995 17.5005 10.9995ZM19.9995 18.4995H18.4995V19.9995C18.4995 20.5515 18.051 21 17.499 21C16.947 21 16.5 20.553 16.5 19.9995V18.4995H15C14.448 18.4995 13.9995 18.051 13.9995 17.499C13.9995 16.947 14.448 16.5 15 16.5H16.5V15C16.5 14.448 16.9485 13.9995 17.5005 13.9995C18.0525 13.9995 18.501 14.448 18.501 15V16.5H20.001C20.553 16.5 21 16.9485 21 17.5005C21 18.0525 20.553 18.4995 19.9995 18.4995Z"
+              fill="white"
+            />
+            <path
+              d="M19.0005 0H3C1.3425 0 0 1.3425 0 3C0 4.6575 1.3425 6 3 6H19.0005C20.658 6 22.0005 4.6575 22.0005 3C22.0005 1.3425 20.6565 0 19.0005 0ZM3 4.0005C2.448 4.0005 1.9995 3.552 1.9995 3C1.9995 2.448 2.448 1.9995 3 1.9995C3.552 1.9995 4.0005 2.4465 4.0005 3C4.0005 3.552 3.552 4.0005 3 4.0005ZM7.00049 4.0005C6.44699 4.0005 6 3.552 6 3C6 2.448 6.44699 1.9995 7.00049 1.9995C7.55249 1.9995 8.00099 2.4465 8.00099 3C7.99949 3.552 7.55249 4.0005 7.00049 4.0005Z"
+              fill="white"
+            />
+            <path
+              d="M19.0005 7.99951H3C1.3395 7.99951 0 9.33901 0 10.9995C0 12.66 1.3395 13.9995 3 13.9995H9.76049C11.0895 11.0505 14.0595 9.00001 17.5005 9.00001C19.101 9.00001 20.61 9.45001 21.891 10.23C21.5595 8.94001 20.3895 7.99951 19.0005 7.99951ZM3 12C2.4495 12 1.9995 11.55 1.9995 10.9995C1.9995 10.449 2.4495 9.99901 3 9.99901C3.5505 9.99901 4.0005 10.449 4.0005 10.9995C4.0005 11.55 3.5505 12 3 12ZM7.00049 12C6.44999 12 6 11.55 6 10.9995C6 10.449 6.44999 9.99901 7.00049 9.99901C7.55099 9.99901 8.00099 10.449 8.00099 10.9995C8.00099 11.55 7.54949 12 7.00049 12Z"
+              fill="white"
+            />
+            <path
+              d="M8.99999 17.5005C8.99999 16.9905 9.04949 16.491 9.13949 16.0005H3C1.3395 16.0005 0 17.34 0 19.0005C0 20.661 1.3395 22.0005 3 22.0005H10.29C9.46949 20.7 8.99999 19.1505 8.99999 17.5005ZM3 19.9995C2.4495 19.9995 1.9995 19.5495 1.9995 18.999C1.9995 18.45 2.4495 18 3 18C3.5505 18 4.0005 18.45 4.0005 19.0005C4.0005 19.5495 3.5505 19.9995 3 19.9995ZM7.00049 19.9995C6.44999 19.9995 5.99999 19.5495 5.99999 18.999C5.99999 18.45 6.44999 18 7.00049 18C7.55099 18 8.00099 18.45 8.00099 19.0005C7.99949 19.5495 7.54949 19.9995 7.00049 19.9995Z"
+              fill="white"
+            />
+          </svg>
+        </button>
+
         <BottomBar />
       </Shell>
 
@@ -1169,7 +1350,9 @@ const MedicalHistory = () => {
             <input
               className={styles.inputName}
               onChange={(value) => {
-                setSelectedDuration(`${value.target.value} ${durationsDateOverlayState}`);
+                setSelectedDuration(
+                  `${value.target.value} ${durationsDateOverlayState}`
+                );
                 setSelectedEntry(undefined);
               }}
               placeholder={`How Many ${durationsDateOverlayState} ?`}
@@ -1201,8 +1384,8 @@ const MedicalHistory = () => {
           <div className={styles.modalTop2}>
             <p className={styles.appTitle}>{effects.error.title}</p>
           </div>
-          <div className={styles.inputGpWrap}>
-            <p>{effects.error.message}</p>
+          <div className={(styles.inputGpWrap, { width: 'auto' })}>
+            <p style={{ textAlign: 'center' }}>{effects.error.message}</p>
           </div>
           <div
             onClick={() => {

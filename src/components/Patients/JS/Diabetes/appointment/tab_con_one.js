@@ -57,7 +57,9 @@ const TabConOne = (appointmentList) => {
                 <div className={styles.secDiv}>
                   <div className={styles.secTextWrap}>
                     <p className={styles.divAppTitle}>{item.Nature}</p>
-                    <p className={styles.divAppMini}>{`${item.LastName} ${item.FirstName}`}</p>
+                    <p
+                      className={styles.divAppMini}
+                    >{`${item.LastName} ${item.FirstName}`}</p>
                   </div>
 
                   <p className={styles.SecDate}>{item.ValueDate}</p>
@@ -67,6 +69,14 @@ const TabConOne = (appointmentList) => {
           })
         )}
       </>
+      <div
+        onClick={() => {
+          setShowCreate(true);
+        }}
+        className={styles.fab}
+      >
+        <p>+</p>
+      </div>
       <button
         onClick={() => {
           setShowCreate(true);

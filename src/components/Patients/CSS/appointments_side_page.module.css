@@ -2,8 +2,10 @@
   width: 100%;
   padding: 0;
   margin: 0;
-  height: 60vh;
-  /* overflow-y: scroll; */
+  height: 571px;
+  /* height: 471px;
+  overflow-y: scroll; */
+  position: relative;
 }
 
 .tabWrap {
@@ -336,9 +338,9 @@
   margin-top: 20%;
 }
 .add_new_record {
-  position: absolute;
-  bottom: 25%;
-  right: 20%;
+  position: fixed;
+  bottom: 93px;
+  right: 22px;
   height: 60px;
   width: 60px;
   border-radius: 50%;
@@ -346,6 +348,36 @@
   background-color: #242424;
 }
 
+.fab {
+  position: fixed;
+  bottom: 0;
+  cursor: pointer;
+  right: 0;
+  margin-right: 20%;
+  margin-bottom: 15%;
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  background: black;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 35px;
+}
+.fab:hover {
+  background: rgba(36, 36, 36, 0.509);
+}
+.fab > p {
+  position: relative;
+  top: -2px;
+}
+
+@media screen and (min-width: 760px) {
+  .add_new_record {
+    display: none;
+  }
+}
 @media screen and (max-width: 760px) {
   .container {
     margin-top: 65px;
@@ -361,6 +393,9 @@
   .blackBg {
     width: 130px;
     padding: 10px;
+  }
+  .fab {
+    display: none;
   }
   .whiteBg {
     width: 130px;
@@ -380,14 +415,23 @@
     padding: 0;
     margin: 0;
   }
-  .add_new_record {
-    position: absolute;
-    bottom: 93px;
-    right: 22px;
+}
+@media (min-width: 760px) and (max-width: 1024px) {
+  .fab {
+    position: fixed;
+    bottom: 0;
+    cursor: pointer;
+    right: 0;
+    margin-right: 10%;
+    margin-bottom: 20%;
     height: 60px;
     width: 60px;
     border-radius: 50%;
-    border: none;
-    background-color: #242424;
+    background: black;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 35px;
   }
 }
