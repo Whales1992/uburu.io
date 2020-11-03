@@ -23,18 +23,14 @@ const x = require('../../../../../images/x.svg');
 
 const MedicalHistory = () => {
   const patient = useLocation().state;
-  const [openState, setOpenState] = useState('');
   const [showDrop, setShowWrap] = useState(false);
   const [showDropDes, setShowWrapDes] = useState(false);
   const [showDropDur, setShowWrapDur] = useState(false);
   const [editabelRecord, setEditabelRecord] = useState({});
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [editabelMode, setEditabelMode] = useState(false);
-  const [duration, setDuration] = useState('');
   const [RecordDate, setRecordDate] = useState('');
-  const [enableTrueFalse, setEnableTrueFalse] = useState(false);
   const [addRecModal, setAddRecModal] = useState(false);
-  const [optionEntry, setOptionEntry] = useState('');
   const [myRecord, setMyRecord] = useState();
   const [showInfoDialog, setShowInfoDialog] = useState(false);
   const [effects, setEffects] = useState({
@@ -46,117 +42,129 @@ const MedicalHistory = () => {
     },
   });
 
-  const natures = [
+  const objStructs = [
     {
-      title: 'Core Symptoms',
-      descriptions: [
-        'Polyuria',
-        'Polydipsia',
-        'Weight Loss',
-        'Polyphagia',
-        'Dry Mouth',
-        'Visual Disturbances',
-      ],
-    },
-    {
-      title: 'Co-morbidity',
-      descriptions: [
-        'Osteoarthritis',
-        'Hypertension',
-        'Thyroid Disease',
-        'Asthma',
-        'Dementia',
-        'GERD',
-      ],
-    },
-    {
-      title: 'Examination ',
-      descriptions: [
-        'Systolic BP (unit: mmHg)',
-        'Diastolic BP (unit: mmHg)',
-        'Weight (unit: Kg)',
-        'Height (unit: m)',
-        'BMI (unit: Kg/m2)',
-        'Pulse Rate (unit: /min)',
-        'Respiratory Rate (unit: bpm)',
-        'Foot Examination',
-        'Eye Examination',
-        'Hip Circumference (unit: m)',
-        'Waist Circumference (unit: m)',
-        'Waist-Hip Ratio (no unit)',
-        'Ankle-Brachial Index (no unit)',
-      ],
-    },
-  ];
+      "title": "Assessment", "data": [{
+        "title": "Day Time Symptoms",
+        "data": [
+          { "title": "Shortness of Breath", "data": { "type": "List", "Duration": { "type": "Date", "data": ["Days", "Weeks", "Years"] } } },
+          { "title": "Chest Pain", "data": { "type": "List", "Duration": { "type": "Date", "data": ["Days", "Weeks", "Years"] } } },
+          { "title": "Cough", "data": { "type": "List", "Duration": { "type": "Date", "data": ["Days", "Weeks", "Years"] } } },
+          { "title": "Haemoptysis", "data": { "type": "List", "Duration": { "type": "Date", "data": ["Days", "Weeks", "Years"] } } },
+          { "title": "Chest tightness", "data": { "type": "List", "Duration": { "type": "Date", "data": ["Days", "Weeks", "Years"] } } },
+          { "title": "Sputum Production", "data": { "type": "List", "Duration": { "type": "Date", "data": ["Days", "Weeks", "Years"] } } },
+          { "title": "Wheeze", "data": { "type": "List", "Duration": { "type": "Date", "data": ["Days", "Weeks", "Years"] } } },
+        ]
+      },
+      {
+        "title": "Night Time Symptoms",
+        "data":
+          [
+            { "title": "Shortness of Breath", "data": { "type": "List", "Duration": { "type": "Date", "data": ["Days", "Weeks", "Years"] } } },
+            { "title": "Chest Pain", "data": { "type": "List", "Duration": { "type": "Date", "data": ["Days", "Weeks", "Years"] } } },
+            { "title": "Cough", "data": { "type": "List", "Duration": { "type": "Date", "data": ["Days", "Weeks", "Years"] } } },
+            { "title": "Haemoptysis", "data": { "type": "List", "Duration": { "type": "Date", "data": ["Days", "Weeks", "Years"] } } },
+            { "title": "Chest tightness", "data": { "type": "List", "Duration": { "type": "Date", "data": ["Days", "Weeks", "Years"] } } }
+          ]
+      },
+      {
+        "title": "Atopic Symptoms",
+        "data":
+          [
+            { "title": "Rhinitis", "data": { "type": "List", "Duration": { "type": "Date", "data": ["Days", "Weeks", "Years"] } } },
+            { "title": "Hay Fever", "data": { "type": "List", "Duration": { "type": "Date", "data": ["Days", "Weeks", "Years"] } } },
+            { "title": "Eczema", "data": { "type": "List", "Duration": { "type": "Date", "data": ["Days", "Weeks", "Years"] } } },
 
-  const natures0 = [
-    {
-      title: 'Hospitalization',
-      descriptions: [
-        'Polyuria',
-        'Polydipsia',
-        'Weight Loss',
-        'Polyphagia',
-        'Dry Mouth',
-        'Visual Disturbances',
-      ],
-    },
-    { title: 'Surgery', descriptions: ['Amputation'] },
-    {
-      title: 'Blood Transfusion ',
-      descriptions: [
-        'Whole Blood',
-        'Packed Red Blood Cells',
-        'Fresh Frozen Plasma',
-        'Platelets',
-        'Cryoprecipitate',
-        'Granulocytes',
-      ],
-    },
-  ];
+          ]
+      },
+      {
+        "title": "Co-morbidity",
+        "data":
+          [
+            { "title": "Obstructive sleep Apnea", "data": { "type": "List", "Duration": { "type": "Date", "data": ["Days", "Weeks", "Years"] } } },
+            { "title": "Allergic Rhinitis", "data": { "type": "List", "Duration": { "type": "Date", "data": ["Days", "Weeks", "Years"] } } },
+            { "title": "GERD", "data": { "type": "List", "Duration": { "type": "Date", "data": ["Days", "Weeks", "Years"] } } },
+            { "title": "Obesity", "data": { "type": "List", "Duration": { "type": "Date", "data": ["Days", "Weeks", "Years"] } } },
+            { "title": "Hypertension", "data": { "type": "List", "Duration": { "type": "Date", "data": ["Days", "Weeks", "Years"] } } },
+            { "title": "Hypertensive heart", "data": { "type": "List", "Duration": { "type": "Date", "data": ["Days", "Weeks", "Years"] } } },
+            { "title": "disease", "data": { "type": "List", "Duration": { "type": "Date", "data": ["Days", "Weeks", "Years"] } } },
+            { "title": "Diabetes", "data": { "type": "List", "Duration": { "type": "Date", "data": ["Days", "Weeks", "Years"] } } },
+            { "title": "Stroke", "data": { "type": "List", "Duration": { "type": "Date", "data": ["Days", "Weeks", "Years"] } } },
+            { "title": "Chronic kidney disease", "data": { "type": "List", "Duration": { "type": "Date", "data": ["Days", "Weeks", "Years"] } } },
 
-  const natures1 = [
-    {
-      title: 'Core Symptoms',
-      descriptions: [
-        'Polyuria',
-        'Polydipsia',
-        'Weight Loss',
-        'Polyphagia',
-        'Dry Mouth',
-        'Visual Disturbances',
-      ],
+          ]
+      },
+      {
+        "title": "Examination",
+        "data":
+          [
+            { "title": "Systolic BP (unit: mmHg)", "data": { "type": "Entry" } },
+            { "title": "Diastolic BP (unit: mmHg)", "data": { "type": "Entry" } },
+            { "title": "Weight (unit: Kg)", "data": { "type": "Entry" } },
+            { "title": "Height (unit: m)", "data": { "type": "Entry" } },
+            { "title": "Pulse Rate (unit: /min)", "data": { "type": "Entry" } },
+            { "title": "Thrush", "data": { "type": "Entry" } },
+            { "title": "Reduced Breath Sounds", "data": { "type": "Entry" } },
+          ]
+      },
+      {
+        "title": "Asthma Control Test",
+        "data":
+          [
+            { "title": "Asthma Control Scale", "data": { "type": "List", "Duration": { "type": "List", "data": ["Total Control", "Partial Control", "Uncontrolled"] } } }
+          ]
+      },
+      {
+        "title": "Dyspnea Scale",
+        "data":
+          [
+            { "title": "mMRC Dyspnea Grade", "data": { "type": "List", "Duration": { "type": "List", "data": ["Grade 0", "Grade 1", "Grade 2", "Grade 3", "Grade 4"] } } }
+          ]
+      }]
     },
     {
-      title: 'Blood Transfusion',
-      descriptions: [
-        'Osteoarthritis',
-        'Hypertension',
-        'Thyroid Disease',
-        'Asthma',
-        'Dementia',
-        'GERD',
-      ],
+      "title": "Care", "data": [{
+        "title": "Hospitalization",
+        "data": [
+          { "title": "Non-emergency", "data": { "type": "List", "Duration": { "type": "Date", "data": ["Days", "Weeks", "Years"] } } },
+          { "title": "Emergency", "data": { "type": "List", "Duration": { "type": "Date", "data": ["Days", "Weeks", "Years"] } } },
+          { "title": "Intensive Care", "data": { "type": "List", "Duration": { "type": "Date", "data": ["Days", "Weeks", "Years"] } } }
+        ]
+      },
+      {
+        "title": "Blood Transfusion",
+        "data":
+          [
+            { "title": "Whole Blood (unit:mls)", "data": { "type": "Entry" } },
+            { "title": "Packed Red Blood Cells (unit:mls)", "data": { "type": "Entry" } },
+            { "title": "Fresh Frozen Plasma (unit:mls)", "data": { "type": "Entry" } },
+            { "title": "Platelets (unit:mls)", "data": { "type": "Entry" } },
+            { "title": "Cryoprecipitate (unit:mls)", "data": { "type": "Entry" } },
+            { "title": "Granulocytes (unit:mls)", "data": { "type": "Entry" } }
+          ]
+      }]
     },
     {
-      title: 'Examination ',
-      descriptions: [
-        'Systolic BP (unit: mmHg)',
-        'Diastolic BP (unit: mmHg)',
-        'Weight (unit: Kg)',
-        'Height (unit: m)',
-        'BMI (unit: Kg/m2)',
-        'Pulse Rate (unit: /min)',
-        'Respiratory Rate (unit: bpm)',
-        'Foot Examination',
-        'Eye Examination',
-        'Hip Circumference (unit: m)',
-        'Waist Circumference (unit: m)',
-        'Waist-Hip Ratio (no unit)',
-        'Ankle-Brachial Index (no unit)',
-      ],
+      "title": "Complication", "data": [{
+        "title": "Acute Complication",
+        "data": [
+          { "title": "Status Asthmaticus", "data": { "type": "None" } },
+          { "title": "Pneumonia", "data": { "type": "None" } }
+        ]
+      },
+      {
+        "title": "Chronic Complication",
+        "data":
+          [
+            { "title": "Pneumonia", "data": { "type": "None" } },
+            { "title": "COPD", "data": { "type": "None" } },
+            { "title": "Atelectasis", "data": { "type": "None" } },
+            { "title": "Respiratory Failure", "data": { "type": "None" } }
+          ]
+      },
+      ]
     },
-  ];
+  ]
 
   function resetDuration() {
     var edit = editabelRecord;
@@ -164,22 +172,13 @@ const MedicalHistory = () => {
     setEditabelRecord(edit);
   }
 
-  const [selectedNatures, setSelectedNatures] = useState(natures[0].title);
-  const [descriptions, setDescriptions] = useState([]);
-
-  const durations = ['Years', 'Months', 'Days'];
-  const durations0 = [
-    'Ray Amputation left foot',
-    'Ray Amputation Right',
-    'foot',
-    'Right Foot',
-    'Left Foot',
-    'Right Below Knee',
-    'Left Below Knee',
-    'Right Above Knee',
-    'Left Above Knee',
-  ];
-  const [entry, setEntry] = useState('');
+  const [selectedNatures, setSelectedNatures] = useState(undefined);
+  const [descriptions, setDescriptions] = useState(undefined);
+  const [selectedDescription, setSelectedDescription] = useState(undefined);
+  const [durations, setDurations] = useState(undefined);
+  const [selectedDuration, setSelectedDuration] = useState(undefined);
+  const [durationsDateOverlayState, setDurationsDateOverlayState] = useState(undefined);
+  const [selectedEntry, setSelectedEntry] = useState(undefined);
 
   const assessmentRecords =
     patient.records &&
@@ -196,78 +195,97 @@ const MedicalHistory = () => {
   const [showing, switchShowing] = useState('Assessment');
   const [recordList, setRecordList] = useState(assessmentRecords);
 
-  const groupedRecord = [];
+  let groupedRecord = [];
+
+  const monthNames = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'June',
+    'July',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ];
 
   function sortByDate() {
-    const monthNames = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'June',
-      'July',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
-    let firstDate = new Date(recordList[0].Date_Created);
-    let obj = {
-      Type: 'Date',
-      Tag: `${firstDate.getDate()} ${
-        monthNames[firstDate.getMonth()]
-      }, ${firstDate.getFullYear()}`,
-    };
-
-    groupedRecord.push(obj);
-    groupedRecord.push(recordList[0]);
-    for (let i = 0; i < recordList.length; i++) {
-      if (i + 1 == recordList.length) {
-        break;
-      }
-
-      let left = recordList[i];
-      let right = recordList[i + 1];
-
-      let ldate = new Date(left.Date_Created);
-      let rdate = new Date(right.Date_Created);
-
-      let lyear = ldate.getFullYear();
-      let ryear = rdate.getFullYear();
-
-      let lmonth = ldate.getMonth() + 1;
-      let rmonth = rdate.getMonth() + 1;
-
-      let lday = ldate.getDate();
-      let rday = rdate.getDate();
-
-      if (lyear === ryear && lmonth === rmonth && lday === rday) {
-        //same
-        groupedRecord.push(right);
+    recordList.forEach(function (item) {
+      if (item.RecordDate === undefined || item.RecordDate === null) {
+        groupedRecord = recordList;
       } else {
-        //not same
+        let firstDate = new Date(recordList[0].RecordDate);
         let obj = {
           Type: 'Date',
-          Tag: `${rdate.getDate()} ${
-            monthNames[rdate.getMonth()]
-          }, ${rdate.getFullYear()}`,
+          Tag: `${firstDate.getDate()} ${monthNames[firstDate.getMonth()]
+            }, ${firstDate.getFullYear()}`,
         };
 
         groupedRecord.push(obj);
-        groupedRecord.push(right);
+        groupedRecord.push(recordList[0]);
+        for (let i = 0; i < recordList.length; i++) {
+          if (i + 1 === recordList.length) {
+            break;
+          }
+
+          let left = recordList[i];
+          let right = recordList[i + 1];
+
+          let ldate = new Date(left.RecordDate);
+          let rdate = new Date(right.RecordDate);
+
+          let lyear = ldate.getFullYear();
+          let ryear = rdate.getFullYear();
+
+          let lmonth = ldate.getMonth() + 1;
+          let rmonth = rdate.getMonth() + 1;
+
+          let lday = ldate.getDate();
+          let rday = rdate.getDate();
+
+          if (lyear === ryear && lmonth === rmonth && lday === rday) {
+            //same
+            groupedRecord.push(right);
+          } else {
+            //not same
+            let obj = {
+              Type: 'Date',
+              Tag: `${rdate.getDate()} ${monthNames[rdate.getMonth()]
+                }, ${rdate.getFullYear()}`,
+            };
+
+            groupedRecord.push(obj);
+            groupedRecord.push(right);
+          }
+        }
       }
-    }
+    });
   }
 
   if (recordList.length > 0) {
     sortByDate();
-    // console.log("OUT", groupedRecord);
   }
 
   async function updateRecord() {
-    // console.log("@updateRecord", editabelRecord);
+    let _RecordDate = RecordDate;
+    if (RecordDate !== undefined && RecordDate !== '') {
+      const date = new Date(RecordDate);
+      _RecordDate = `${date.getDate()} ${monthNames[date.getMonth()]}, ${date.getFullYear()}`
+    }
+
+    let editedRecord = editabelRecord;
+
+    editedRecord.Type = `${showing}`;
+    editedRecord.Description = selectedDescription;
+    editedRecord.Nature = selectedNatures;
+    editedRecord.Entry = selectedEntry;
+    editedRecord.Duration = selectedDuration;
+    editedRecord.RecordDate = _RecordDate
+
+    // console.log("@updateRecord", editedRecord);
     try {
       if (window.navigator.onLine) {
         setEffects({
@@ -281,7 +299,7 @@ const MedicalHistory = () => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${localStorage.token}`,
           },
-          body: JSON.stringify(editabelRecord),
+          body: JSON.stringify(editedRecord),
         });
 
         if (!request.ok) {
@@ -289,6 +307,16 @@ const MedicalHistory = () => {
           throw Error(error.error);
         }
         const data = await request.json();
+
+        for (let i = 0; i < recordList.length; i++) {
+          const item = recordList[i];
+          if (item.RecordID == editedRecord.RecordID) {
+            const index = recordList.indexOf(item);
+            recordList[index] = editedRecord;
+          }
+        }
+
+        setAddRecModal(false)
 
         setEffects({
           ...effects,
@@ -299,7 +327,7 @@ const MedicalHistory = () => {
             message: `${data.message}`,
           },
         });
-        setShowInfoDialog(true);
+
       } else {
         setEffects({
           ...effects,
@@ -330,11 +358,14 @@ const MedicalHistory = () => {
   }
 
   async function addNewRecord() {
-    editabelRecord.Type = `${showing}`;
-    editabelRecord.FolderNo = patient.FolderNo;
-    editabelRecord.RecordDate = RecordDate;
+    let _RecordDate = RecordDate;
+    if (RecordDate !== undefined && RecordDate !== '') {
+      const date = new Date(RecordDate);
+      _RecordDate = `${date.getDate()} ${monthNames[date.getMonth()]}, ${date.getFullYear()}`
+    }
 
-    // console.log("@addNewRecord", editabelRecord);
+    const newRecord = { Type: `${showing}`, Description: selectedDescription, Nature: selectedNatures, FolderNo: patient.FolderNo, Entry: selectedEntry, Duration: selectedDuration, RecordDate: _RecordDate }
+    // console.log("@addNewRecord", newRecord);
     try {
       if (window.navigator.onLine) {
         setEffects({
@@ -348,7 +379,7 @@ const MedicalHistory = () => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${localStorage.token}`,
           },
-          body: JSON.stringify(editabelRecord),
+          body: JSON.stringify(newRecord),
         });
 
         if (!request.ok) {
@@ -356,7 +387,14 @@ const MedicalHistory = () => {
           throw Error(error.error);
         }
 
+        let preViousList = recordList;
+        preViousList.unshift(newRecord);
+        setRecordList(preViousList);
+
+        setAddRecModal(false)
+
         const data = await request.json();
+
         setEffects({
           ...effects,
           loading: false,
@@ -366,7 +404,8 @@ const MedicalHistory = () => {
             message: `${data.message}`,
           },
         });
-        setShowInfoDialog(true);
+
+        // setShowInfoDialog(true);
       } else {
         setEffects({
           ...effects,
@@ -469,9 +508,15 @@ const MedicalHistory = () => {
 
   function enableEditMode(e, editables) {
     e.preventDefault();
+
     setEditabelRecord(editables);
+    setSelectedNatures(editables.Nature);
+    setSelectedDescription(editables.Description);
+    setSelectedDuration(editables.Duration);
+    setSelectedEntry(editables.Entry);
+    setRecordDate(editables.RecordDate);
+
     setEditabelMode(true);
-    console.log(editables);
   }
 
   function handleSearchPhraseChange(phrase) {
@@ -504,724 +549,6 @@ const MedicalHistory = () => {
     }
   }
 
-  function GetNatures() {
-    return (
-      <>
-        {natures.map(function (e, i) {
-          return (
-            <p
-              onClick={() => {
-                var pre = editabelRecord;
-                pre.Nature = e.title;
-                setEditabelRecord(pre);
-                setDescriptions(e.descriptions);
-                setSelectedNatures(e.title);
-              }}
-              style={{
-                position: 'relative',
-                top: 0,
-                left: 0,
-                width: '100%',
-                cursor: 'pointer',
-              }}
-              key={i}
-            >
-              {' '}
-              {e.title}{' '}
-            </p>
-          );
-        })}
-      </>
-    );
-  }
-
-  function GetNatures0() {
-    return (
-      <>
-        {natures0.map(function (e, i) {
-          return (
-            <p
-              onClick={() => {
-                var pre = editabelRecord;
-                pre.Nature = e.title;
-                setEditabelRecord(pre);
-                setDescriptions(e.descriptions);
-                setSelectedNatures(e.title);
-              }}
-              style={{
-                position: 'relative',
-                top: 0,
-                left: 0,
-                width: '100%',
-                cursor: 'pointer',
-              }}
-              key={i}
-            >
-              {' '}
-              {e.title}{' '}
-            </p>
-          );
-        })}
-      </>
-    );
-  }
-
-  function GetNatures1() {
-    return (
-      <>
-        {natures1.map(function (e, i) {
-          return (
-            <p
-              onClick={() => {
-                var pre = editabelRecord;
-                pre.Nature = e.title;
-                setEditabelRecord(pre);
-                setDescriptions(e.descriptions);
-                setSelectedNatures(e.title);
-              }}
-              style={{
-                position: 'relative',
-                top: 0,
-                left: 0,
-                width: '100%',
-                cursor: 'pointer',
-              }}
-              key={i}
-            >
-              {' '}
-              {e.title}{' '}
-            </p>
-          );
-        })}
-      </>
-    );
-  }
-
-  function GetDescriptions() {
-    return (
-      <>
-        {descriptions.map(function (e, i) {
-          return (
-            <p
-              onClick={() => {
-                var pre = editabelRecord;
-                pre.Description = e;
-
-                if (e === 'Foot Examination' || e === 'Eye Examination')
-                  setEnableTrueFalse(true);
-                else {
-                  setEnableTrueFalse(false);
-                }
-
-                setEditabelRecord(pre);
-              }}
-              style={{ position: 'relative', top: 0, left: 0, width: 100 }}
-              key={i}
-            >
-              {' '}
-              {e}{' '}
-            </p>
-          );
-        })}
-      </>
-    );
-  }
-
-  function GetDescriptions0() {
-    return (
-      <>
-        {descriptions.map(function (e, i) {
-          return (
-            <p
-              onClick={() => {
-                var pre = editabelRecord;
-                pre.Description = e;
-                setEditabelRecord(pre);
-              }}
-              style={{ position: 'relative', top: 0, left: 0, width: 100 }}
-              key={i}
-            >
-              {' '}
-              {e}{' '}
-            </p>
-          );
-        })}
-      </>
-    );
-  }
-
-  function GetDescriptions1() {
-    return (
-      <>
-        {descriptions.map(function (e, i) {
-          return (
-            <p
-              onClick={() => {
-                var pre = editabelRecord;
-                pre.Description = e;
-
-                if (e === 'Foot Examination' || e === 'Eye Examination')
-                  setEnableTrueFalse(true);
-                else {
-                  setEnableTrueFalse(false);
-                }
-
-                setEditabelRecord(pre);
-              }}
-              style={{ position: 'relative', top: 0, left: 0, width: 100 }}
-              key={i}
-            >
-              {' '}
-              {e}{' '}
-            </p>
-          );
-        })}
-      </>
-    );
-  }
-
-  function GetDurations() {
-    return (
-      <>
-        {durations.map(function (e, i) {
-          return (
-            <p
-              onClick={() => {
-                setOpenState(e);
-              }}
-              style={{
-                position: 'relative',
-                top: 0,
-                left: 0,
-                width: '100%',
-                cursor: 'pointer',
-              }}
-              key={i}
-            >
-              {' '}
-              {e}{' '}
-            </p>
-          );
-        })}
-      </>
-    );
-  }
-
-  function GetDurations0() {
-    return (
-      <>
-        {durations0.map(function (e, i) {
-          return (
-            <p
-              onClick={() => {
-                var pre = editabelRecord;
-                pre.Duration = e;
-                setEditabelRecord(pre);
-                setOpenState('');
-              }}
-              style={{
-                position: 'relative',
-                top: 0,
-                left: 0,
-                width: '100%',
-                cursor: 'pointer',
-              }}
-              key={i}
-            >
-              {' '}
-              {e}{' '}
-            </p>
-          );
-        })}
-      </>
-    );
-  }
-
-  function GetDurations00() {
-    return (
-      <>
-        {durations.map(function (e, i) {
-          return (
-            <p
-              onClick={() => {
-                setOpenState(e);
-              }}
-              style={{
-                position: 'relative',
-                top: 0,
-                left: 0,
-                width: '100%',
-                cursor: 'pointer',
-              }}
-              key={i}
-            >
-              {' '}
-              {e}{' '}
-            </p>
-          );
-        })}
-      </>
-    );
-  }
-
-  function GetTrueOrFalse() {
-    const values = ['True', 'False'];
-    return (
-      <>
-        {values.map(function (e, i) {
-          return (
-            <p
-              onClick={() => {
-                var edit = editabelRecord;
-                edit.Duration = e;
-                setEditabelRecord(edit);
-                setOptionEntry(e);
-                setShowWrapDur(!showDropDur);
-              }}
-              style={{
-                position: 'relative',
-                top: 0,
-                left: 0,
-                width: '100%',
-                cursor: 'pointer',
-              }}
-              key={i}
-            >
-              {' '}
-              {e}{' '}
-            </p>
-          );
-        })}
-      </>
-    );
-  }
-
-  function Assessment() {
-    return (
-      <>
-        <div className={styles.editWrap}>
-          <p className={styles.formLabel}>Nature</p>
-          <div
-            className={styles.inputGpWrap}
-            onClick={() => {
-              setShowWrap(!showDrop);
-            }}
-          >
-            <input
-              className={styles.inputName}
-              placeholder="Select Nature"
-              disabled={true}
-              value={
-                editabelRecord.Nature === undefined ? '' : editabelRecord.Nature
-              }
-            />
-            <img src={chevDown} alt="" className={styles.chev} />{' '}
-            {showDrop ? (
-              <div className={styles.dropWrap}>
-                <GetNatures />
-              </div>
-            ) : null}
-          </div>
-
-          {/* form feild two */}
-          <p className={styles.formLabel}>Description</p>
-          <div
-            className={styles.inputGpWrap}
-            onClick={() => {
-              setShowWrapDes(!showDropDes);
-            }}
-          >
-            <input
-              className={styles.inputName}
-              placeholder="Select Description"
-              disabled={true}
-              value={
-                editabelRecord.Description === undefined
-                  ? ''
-                  : editabelRecord.Description
-              }
-            />
-            <img src={chevDown} alt="" className={styles.chev} />{' '}
-            {showDropDes ? (
-              <div className={styles.dropWrap}>
-                <GetDescriptions />
-              </div>
-            ) : null}
-          </div>
-
-          {/* begin duration form*/}
-          <p className={styles.formLabel}>Duration/Entry</p>
-          {selectedNatures === `${natures[2].title}` && !enableTrueFalse ? (
-            <div className={styles.inputGpWrap}>
-              <input
-                autoFocus={true}
-                className={styles.inputName}
-                placeholder="Entry"
-                value={entry}
-                onChange={(e) => {
-                  var edit = editabelRecord;
-                  edit.Duration = e.target.value;
-                  setEditabelRecord(edit);
-                  setEntry(e.target.value);
-                }}
-                readOnly={false}
-                type="number"
-              />
-            </div>
-          ) : selectedNatures === `${natures[2].title}` ? (
-            <div
-              className={styles.inputGpWrap}
-              onClick={() => {
-                setShowWrapDur(!showDropDur);
-              }}
-            >
-              <input
-                className={styles.inputName}
-                placeholder="Select Option"
-                value={optionEntry}
-                readOnly={true}
-              />
-              <img src={chevDown} alt="" className={styles.chev} />{' '}
-              {showDropDur ? (
-                <div className={styles.dropWrap}>
-                  <GetTrueOrFalse />
-                </div>
-              ) : null}
-            </div>
-          ) : (
-            <div
-              className={styles.inputGpWrap}
-              onClick={() => {
-                setShowWrapDur(!showDropDur);
-              }}
-            >
-              <input
-                className={styles.inputName}
-                placeholder="Select Duration"
-                value={
-                  editabelRecord.Duration === undefined
-                    ? ''
-                    : editabelRecord.Duration
-                }
-                readOnly={true}
-              />
-              <img src={chevDown} alt="" className={styles.chev} />{' '}
-              {showDropDur ? (
-                <div className={styles.dropWrap}>
-                  <GetDurations />
-                </div>
-              ) : null}
-            </div>
-          )}
-          {/* end duration form */}
-        </div>
-      </>
-    );
-  }
-
-  function Care() {
-    return (
-      <>
-        <div className={styles.editWrap}>
-          <p className={styles.formLabel}>Nature</p>
-          <div
-            className={styles.inputGpWrap}
-            onClick={() => {
-              setShowWrap(!showDrop);
-            }}
-          >
-            {/* Begin Duration Selection */}
-            <input
-              className={styles.inputName}
-              placeholder="Select Duration"
-              value={
-                editabelRecord.Duration === undefined
-                  ? ''
-                  : editabelRecord.Duration
-              }
-              readOnly={true}
-            />
-            <img src={chevDown} alt="" className={styles.chev} />{' '}
-            {showDropDur ? (
-              <div className={styles.dropWrap}>
-                <GetDurations />
-              </div>
-            ) : null}
-          </div>
-          {/* End duration form */}
-
-          {/* Begin Date */}
-          <p className={styles.formLabel}>Date of Record</p>
-          <div className={styles.inputGpWrap}>
-            <DatePicker
-              id="RecordDate"
-              name="RecordDate"
-              value={RecordDate}
-              className={styles.input}
-              onChange={(e) => setRecordDate(e)}
-              required
-              format="dd/MM/y"
-            />
-          </div>
-          {/* End Date */}
-        </div>
-      </>
-    );
-  }
-
-  function Care() {
-    return (
-      <>
-        <div className={styles.editWrap}>
-          <p className={styles.formLabel}>Nature</p>
-          <div
-            className={styles.inputGpWrap}
-            onClick={() => {
-              setShowWrap(!showDrop);
-            }}
-          >
-            <input
-              className={styles.inputName}
-              placeholder="Select Nature"
-              disabled={true}
-              value={
-                editabelRecord.Nature === undefined ? '' : editabelRecord.Nature
-              }
-            />
-            <img src={chevDown} alt="" className={styles.chev} />{' '}
-            {showDrop ? (
-              <div className={styles.dropWrap}>
-                <GetNatures0 />
-              </div>
-            ) : null}
-          </div>
-
-          {/* form feild two */}
-          <p className={styles.formLabel}>Description</p>
-          <div
-            className={styles.inputGpWrap}
-            onClick={() => {
-              setShowWrapDes(!showDropDes);
-            }}
-          >
-            <input
-              className={styles.inputName}
-              placeholder="Select Description"
-              disabled={true}
-              value={
-                editabelRecord.Description === undefined
-                  ? ''
-                  : editabelRecord.Description
-              }
-            />
-            <img src={chevDown} alt="" className={styles.chev} />{' '}
-            {showDropDes ? (
-              <div className={styles.dropWrap}>
-                <GetDescriptions0 />
-              </div>
-            ) : null}
-          </div>
-
-          {/* begin duration form*/}
-          <p className={styles.formLabel}>Duration/Entry</p>
-          {selectedNatures === `${natures0[0].title}` ? (
-            <div>
-              <div
-                className={styles.inputGpWrap}
-                onClick={() => {
-                  setShowWrapDur(!showDropDur);
-                }}
-              >
-                <input
-                  className={styles.inputName}
-                  placeholder="Select Duration"
-                  value={
-                    editabelRecord.Duration === undefined
-                      ? ''
-                      : editabelRecord.Duration
-                  }
-                  readOnly={true}
-                />
-                <img src={chevDown} alt="" className={styles.chev} />{' '}
-                {showDropDur ? (
-                  <div className={styles.dropWrap}>
-                    <GetDurations00 />
-                  </div>
-                ) : null}
-              </div>
-            </div>
-          ) : selectedNatures === `${natures0[1].title}` ? (
-            <>
-              <div
-                className={styles.inputGpWrap}
-                onClick={() => {
-                  setShowWrapDur(!showDropDur);
-                }}
-              >
-                <input
-                  className={styles.inputName}
-                  placeholder="Select Duration"
-                  value={
-                    editabelRecord.Duration === undefined
-                      ? ''
-                      : editabelRecord.Duration
-                  }
-                  readOnly={true}
-                />
-                <img src={chevDown} alt="" className={styles.chev} />{' '}
-                {showDropDur ? (
-                  <div className={styles.dropWrap}>
-                    <GetDurations0 />
-                  </div>
-                ) : null}
-              </div>
-            </>
-          ) : (
-            <>
-              <div className={styles.inputGpWrap}>
-                <input
-                  autoFocus={true}
-                  className={styles.inputName}
-                  placeholder="Entry"
-                  value={entry}
-                  onChange={(e) => {
-                    var edit = editabelRecord;
-                    edit.Duration = e.target.value;
-                    setEditabelRecord(edit);
-                    setEntry(e.target.value);
-                  }}
-                  type="number"
-                />
-              </div>
-            </>
-          )}
-        </div>
-      </>
-    );
-  }
-
-  function Complication() {
-    return (
-      <>
-        <div className={styles.editWrap}>
-          <p className={styles.formLabel}>Nature</p>
-          <div
-            className={styles.inputGpWrap}
-            onClick={() => {
-              setShowWrap(!showDrop);
-            }}
-          >
-            <input
-              className={styles.inputName}
-              placeholder="Select Nature"
-              disabled={true}
-              value={
-                editabelRecord.Nature === undefined ? '' : editabelRecord.Nature
-              }
-            />
-            <img src={chevDown} alt="" className={styles.chev} />{' '}
-            {showDrop ? (
-              <div className={styles.dropWrap}>
-                <GetNatures1 />
-              </div>
-            ) : null}
-          </div>
-
-          {/* form feild two */}
-          <p className={styles.formLabel}>Description</p>
-          <div
-            className={styles.inputGpWrap}
-            onClick={() => {
-              setShowWrapDes(!showDropDes);
-            }}
-          >
-            <input
-              className={styles.inputName}
-              placeholder="Select Description"
-              disabled={true}
-              value={
-                editabelRecord.Description === undefined
-                  ? ''
-                  : editabelRecord.Description
-              }
-            />
-            <img src={chevDown} alt="" className={styles.chev} />{' '}
-            {showDropDes ? (
-              <div className={styles.dropWrap}>
-                <GetDescriptions1 />
-              </div>
-            ) : null}
-          </div>
-
-          {/* begin duration form*/}
-          <p className={styles.formLabel}>Duration/Entry</p>
-          {selectedNatures === `${natures1[2].title}` && !enableTrueFalse ? (
-            <div className={styles.inputGpWrap}>
-              <input
-                autoFocus={true}
-                className={styles.inputName}
-                placeholder="Entry"
-                value={entry}
-                onChange={(e) => {
-                  var edit = editabelRecord;
-                  edit.Duration = e.target.value;
-                  setEditabelRecord(edit);
-                  setEntry(e.target.value);
-                }}
-                readOnly={false}
-                type="number"
-              />
-            </div>
-          ) : selectedNatures === `${natures1[2].title}` ? (
-            <div
-              className={styles.inputGpWrap}
-              onClick={() => {
-                setShowWrapDur(!showDropDur);
-              }}
-            >
-              <input
-                className={styles.inputName}
-                placeholder="Select Option"
-                value={optionEntry}
-                readOnly={true}
-              />
-              <img src={chevDown} alt="" className={styles.chev} />{' '}
-              {showDropDur ? (
-                <div className={styles.dropWrap}>
-                  <GetTrueOrFalse />
-                </div>
-              ) : null}
-            </div>
-          ) : (
-            <div
-              className={styles.inputGpWrap}
-              onClick={() => {
-                setShowWrapDur(!showDropDur);
-              }}
-            >
-              <input
-                className={styles.inputName}
-                placeholder="Select Duration"
-                value={
-                  editabelRecord.Duration === undefined
-                    ? ''
-                    : editabelRecord.Duration
-                }
-                readOnly={true}
-              />
-              <img src={chevDown} alt="" className={styles.chev} />{' '}
-              {showDropDur ? (
-                <div className={styles.dropWrap}>
-                  <GetDurations />
-                </div>
-              ) : null}
-            </div>
-          )}
-        </div>
-      </>
-    );
-  }
-
   function setShowingRecord(value) {
     resetDuration();
     switchShowing(value);
@@ -1239,21 +566,26 @@ const MedicalHistory = () => {
       <div>
         <div
           onClick={() => {
+            setSelectedNatures(undefined)
+            setSelectedDescription(undefined)
+            setDescriptions(undefined)
+            setDurations(undefined)
+            setRecordDate('')
             setAddRecModal(true);
-            showing === 'Complication' || 'Care'
-              ? setEditabelMode(false)
-              : setEditabelMode(true);
           }}
           className={styles.fab}
         >
           <p>+</p>
         </div>
+
         <button
           onClick={() => {
-            setAddRecModal(true);
-            showing === 'Complication' || 'Care'
-              ? setEditabelMode(false)
-              : setEditabelMode(true);
+            setSelectedNatures(undefined)
+            setDescriptions(undefined)
+            setSelectedDescription(undefined)
+            setDurations(undefined)
+            setRecordDate('')
+            setAddRecModal(true)
           }}
           className={styles.add_new_record}
           aria-label="Add new record"
@@ -1287,12 +619,496 @@ const MedicalHistory = () => {
     );
   };
 
+  function OptionsView() {
+    return (
+      objStructs.map((item, key) => {
+        return <option key={key} value={item.title}>{item.title}</option>
+      })
+    )
+  }
+
+  function SelectionView() {
+    return (
+      <select
+        className={styles.select}
+        name="record"
+        value={showing}
+        onChange={(e) => setShowingRecord(e.target.value)}
+      >
+        <OptionsView />
+      </select>
+    )
+  }
+
+  function RecordListView(props) {
+    const list = props.list;
+    const title = props.title;
+
+    if (list.length === 0) {
+      return <p className={styles.no_record}>{`No ${title} Record.`}</p>
+    } else {
+      return (list.map(function (item, key) {
+        if (item.Type === 'Date') {
+          return <p key={key} style={{ marginLeft: 20 }}>{item.Tag}</p>
+        } else {
+          return <Fragment key={key}>
+            <EachRecord
+              record={item}
+              type={title}
+              editMode={(e) => {
+                enableEditMode(e, item);
+                setAddRecModal(true);
+              }}
+              openDeleteModal={(e) => {
+                deleteRModal(e, item);
+              }}
+            />
+          </Fragment>
+        }
+      }
+      )
+      )
+    }
+  }
+
+  function RecordsView() {
+    if (showing === 'Assessment') {
+      return <RecordListView list={groupedRecord} title={'Assessment'} />
+    } else if (showing === 'Care') {
+      return <RecordListView list={groupedRecord} title={'Care'} />
+    } else {
+      return <RecordListView list={groupedRecord} title={'Complication'} />
+    }
+  }
+
+  function NatureView() {
+    let natures = objStructs[0].data;
+    if (showing === objStructs[0].title) {
+      natures = objStructs[0].data
+    } else if (showing === objStructs[1].title) {
+      natures = objStructs[1].data
+    } else {
+      natures = objStructs[2].data
+    }
+
+    return (natures.map(function (nature, i) {
+      return (
+        <p
+          onClick={() => {
+            setDescriptions(undefined)
+            setDurations(undefined)
+
+            setDescriptions(nature.data);
+            setSelectedNatures(nature.title);
+
+            setSelectedDescription(undefined)
+            setSelectedDuration(undefined)
+            setRecordDate('')
+          }}
+          style={{
+            position: 'relative',
+            top: 0,
+            left: 0,
+            width: '100%',
+            cursor: 'pointer',
+          }}
+          key={i}
+        >
+          {' '}
+          {nature.title}{' '}
+        </p>
+      );
+    })
+    );
+  }
+
+  function DescriptionView() {
+    return (descriptions === undefined ? <></> :
+      descriptions.map(function (description, key) {
+        return (
+          <p
+            onClick={() => {
+              const type = description.data.type;
+              if (type === 'None') {
+                setDurations(undefined);
+              } else {
+                setDurations(description.data);
+              }
+
+              setSelectedEntry(undefined);
+              setSelectedDescription(description.title);
+            }}
+            style={{
+              position: 'relative',
+              top: 0,
+              left: 0,
+              width: '100%',
+              cursor: 'pointer',
+            }}
+            key={key}
+          >
+            {' '}
+            {description.title}{' '}
+          </p>
+        );
+      })
+    );
+  }
+
+  function EntryView() {
+    return (
+      <>
+        <p className={styles.formLabel}>Duration/Entry</p>
+        <div className={styles.inputGpWrap}>
+          <input
+            autoFocus={true}
+            className={styles.inputName}
+            placeholder="Entry"
+            value={selectedEntry === undefined ? '' : selectedEntry}
+            onChange={(e) => {
+              setSelectedEntry(e.target.value);
+              setSelectedDuration(undefined)
+              setRecordDate('')
+            }}
+            disabled={durations === undefined}
+            readOnly={false}
+            type="number"
+          />
+        </div>
+      </>
+    )
+  }
+
+  function TrueOrFalseView() {
+    return (
+      <>
+        <input
+          className={styles.inputName}
+          placeholder="Select Entry"
+          value={selectedEntry === undefined ? '' : selectedEntry}
+          readOnly={true}
+        />
+        <img src={chevDown} alt="" className={styles.chev} />{' '}
+        {showDropDur ? <div className={styles.dropWrap}>
+          {durations.Duration.data.map(function (item, key) {
+            return (
+              <p
+                onClick={() => {
+                  setSelectedEntry(undefined);
+                  setShowWrapDur(!showDropDur);
+                  setSelectedEntry(item);
+                  setSelectedDuration(undefined)
+                  setRecordDate('')
+                }}
+                style={{
+                  position: 'relative',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  cursor: 'pointer',
+                }}
+                key={key}
+              >
+                {' '}
+                {item}{' '}
+              </p>
+            );
+          })}
+        </div>
+          : <></>}
+      </>
+    );
+  }
+
+  function DateDurationListView() {
+    return (
+      <>
+        <input
+          className={styles.inputName}
+          placeholder="Select Duration"
+          value={selectedDuration === undefined ? '' : selectedDuration}
+          readOnly={true}
+        />
+        <img src={chevDown} alt="" className={styles.chev} />{' '}
+        {
+          showDropDur ? <div className={styles.dropWrap}>
+            {durations.Duration.data.map(function (item, key) {
+              return (
+                <p
+                  onClick={() => {
+                    setDurationsDateOverlayState(item)
+                  }}
+                  style={{
+                    position: 'relative',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    cursor: 'pointer',
+                  }}
+                  key={key}
+                >
+                  {' '}
+                  {item}{' '}
+                </p>
+              )
+            })}
+          </div>
+            : <></>
+        }
+      </>
+    );
+  }
+
+  function DurationListView() {
+    return (
+      <>
+        <input
+          className={styles.inputName}
+          placeholder="Select Entry"
+          value={selectedEntry === undefined ? '' : selectedEntry}
+          readOnly={true}
+        />
+        <img src={chevDown} alt="" className={styles.chev} />{' '}
+        {showDropDur ? <div className={styles.dropWrap}>
+          {durations.Duration.data.map(function (item, i) {
+            return (
+              <p
+                onClick={() => {
+                  setSelectedEntry(undefined);
+                  setSelectedEntry(item);
+                  setSelectedDuration(undefined)
+                  setRecordDate('')
+                }}
+                style={{
+                  position: 'relative',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  cursor: 'pointer',
+                }}
+                key={i}
+              >
+                {' '}
+                {item}{' '}
+              </p>
+            )
+          })}
+        </div>
+          : <></>}
+      </>
+    );
+  }
+
+  function ListOptionsView() {
+    return (<>
+      <p className={styles.formLabel}>Duration/Entry</p>
+      <div
+        className={styles.inputGpWrap}
+        onClick={() => {
+          setShowWrapDur(!showDropDur);
+        }}
+      >
+        {durations.Duration.type === 'bool' ? <TrueOrFalseView /> : durations.Duration.type === 'List' ? <DurationListView /> : <DateDurationListView />}
+      </div>
+    </>
+    )
+  }
+
+  function DurationView() {
+    if (durations === undefined) {
+      return <></>
+    } else if (durations.type === 'Entry') {
+      return <EntryView />
+    } else {
+      return <ListOptionsView />
+    }
+  }
+
+  function DisplayEditView() {
+    return (
+      <div className={styles.editWrap}>
+        <p className={styles.formLabel}>Nature</p>
+        <div
+          className={styles.inputGpWrap}
+          onClick={() => {
+            setShowWrap(!showDrop);
+          }}
+        >
+          <input
+            className={styles.inputName}
+            placeholder="Select Nature"
+            value={selectedNatures === undefined ? '' : selectedNatures}
+            readOnly={true}
+          />
+          <img src={chevDown} alt="" className={styles.chev} />{' '}
+          {showDrop ? (
+            <div className={styles.dropWrap}>
+              <NatureView />
+            </div>
+          ) : null}
+        </div>
+
+        <p className={styles.formLabel}>Description</p>
+        <div
+          className={styles.inputGpWrap}
+          onClick={() => { setShowWrapDes(!showDropDes) }}>
+          <input
+            className={styles.inputName}
+            placeholder="Select Description"
+            disabled={descriptions === undefined}
+            value={selectedDescription === undefined ? '' : selectedDescription}
+            readOnly={true}
+          />
+          <img src={chevDown} alt="" className={styles.chev} />{' '}
+          {showDropDes ? (
+            <div className={styles.dropWrap}>
+              <DescriptionView />
+            </div>
+          ) : null}
+        </div>
+
+        <DurationView />
+      </div>
+    )
+  }
+
+  function DisplayNewView() {
+    return (
+      <div className={styles.editWrap}>
+        <p className={styles.formLabel}>Nature</p>
+        <div
+          className={styles.inputGpWrap}
+          onClick={() => {
+            setShowWrap(!showDrop);
+          }}
+        >
+          <input
+            className={styles.inputName}
+            placeholder="Select Nature"
+            value={selectedNatures === undefined ? '' : selectedNatures}
+            readOnly={true}
+          />
+          <img src={chevDown} alt="" className={styles.chev} />{' '}
+          {showDrop ? (
+            <div className={styles.dropWrap}>
+              <NatureView />
+            </div>
+          ) : null}
+        </div>
+
+        <p className={styles.formLabel}>Description</p>
+        <div
+          className={styles.inputGpWrap}
+          onClick={() => { setShowWrapDes(!showDropDes) }}>
+          <input
+            className={styles.inputName}
+            placeholder="Select Description"
+            disabled={descriptions === undefined}
+            value={selectedDescription === undefined ? '' : selectedDescription}
+            readOnly={true}
+          />
+          <img src={chevDown} alt="" className={styles.chev} />{' '}
+          {showDropDes ? (
+            <div className={styles.dropWrap}>
+              <DescriptionView />
+            </div>
+          ) : null}
+        </div>
+
+        <DurationView />
+      </div>
+    )
+  }
+
+  function EditOrAddNewView() {
+    return (
+      <Overlay
+        className={styles.modal}
+        closeOnClick={true}
+        open={addRecModal}
+        onClose={() => {
+          setAddRecModal(false);
+          setEditabelMode(false);
+          setSelectedNatures(undefined);
+          setSelectedDescription(undefined);
+          setSelectedDuration(undefined);
+          setSelectedEntry(undefined);
+          setRecordDate('');
+        }}
+      >
+        <div className={styles.modal_paper2}>
+          <div className={styles.modalTop2}>
+            <p className={styles.appTitle}>{editabelMode ? "Edit Record" : "Add New Record"}</p>
+            <img
+              src={x}
+              alt=""
+              onClick={() => {
+                setAddRecModal(false);
+              }}
+            />
+          </div>
+          {editabelMode ? <DisplayEditView /> : <DisplayNewView />}
+
+          {/* Begin Date */}
+          <p className={styles.formLabel}>Date of Record</p>
+          <div className={styles.inputGpWrap}>
+            <DatePicker
+              id="RecordDate"
+              name="RecordDate"
+              value={RecordDate}
+              className={styles.input}
+              onChange={(e) => setRecordDate(e)}
+              required
+              format="dd/MM/y"
+            />
+          </div>
+          {/* End Date */}
+
+          {editabelMode ? (
+            <div className={styles.roe}>
+              <p
+                onClick={(e) => {
+                  e.preventDefault();
+                  updateRecord();
+                }}
+                className={styles.addRec}
+              >
+                Edit Record
+              </p>
+              <p
+                onClick={(e) => {
+                  e.preventDefault();
+                  setEditabelMode(false);
+                  setAddRecModal(false);
+                }}
+                className={styles.addRec}
+              >
+                Cancel
+              </p>
+            </div>
+          ) : (
+              <p
+                onClick={(e) => {
+                  e.preventDefault();
+                  addNewRecord();
+                }}
+                className={styles.addRec}
+              >
+                Add New Record
+              </p>
+            )}
+        </div>
+      </Overlay>
+    )
+  }
+
   return (
     <>
       <TopBar />
       <SecondaryBar page_title="Medical History" shadow />
       <Shell name={`${patient.LastName} ${patient.FirstName}`}>
         <div className={styles.container}>
+
           {/* Begin search section */}
           <form className={styles.form}>
             <input
@@ -1313,184 +1129,40 @@ const MedicalHistory = () => {
           </form>
           {/* End search section */}
 
-          <select
-            className={styles.select}
-            name="record"
-            value={showing}
-            onChange={(e) => setShowingRecord(e.target.value)}
-          >
-            <option selected value="">
-              Select ...
-            </option>
-            <option value="Assessment">Assessment</option>
-            <option value="Care">Care</option>
-            <option value="Complication">Complication</option>
-          </select>
-          {showing === 'Assessment' ? (
-            groupedRecord.length !== 0 ? (
-              groupedRecord.map((record) =>
-                record.Type === 'Date' ? (
-                  <>
-                    <p>{record.Tag}</p>
-                  </>
-                ) : (
-                  <Fragment key={`${record.Nature}_${record.Description}`}>
-                    <EachRecord
-                      record={record}
-                      type="Assessment"
-                      editMode={(e) => {
-                        enableEditMode(e, record);
-                        setAddRecModal(true);
-                      }}
-                      openDeleteModal={(e) => {
-                        deleteRModal(e, record);
-                      }}
-                    />
-                  </Fragment>
-                )
-              )
-            ) : (
-              <p className={styles.no_record}>No Assessment Record.</p>
-            )
-          ) : null}
-          {showing === 'Care' ? (
-            groupedRecord.length !== 0 ? (
-              groupedRecord.map((record) =>
-                record.Type === 'Date' ? (
-                  <>
-                    <p>{record.Tag}</p>
-                  </>
-                ) : (
-                  <Fragment key={`${record.Nature}_${record.Description}`}>
-                    <EachRecord
-                      record={record}
-                      type="Care"
-                      editMode={(e) => {
-                        enableEditMode(e, record);
-                      }}
-                      deleteRecord={(e) => {
-                        deleteRecord(e, record);
-                      }}
-                    />
-                  </Fragment>
-                )
-              )
-            ) : (
-              <p className={styles.no_record}>No Care Record.</p>
-            )
-          ) : null}
-          {showing === 'Complication' ? (
-            groupedRecord.length !== 0 ? (
-              groupedRecord.map((record) =>
-                record.Type === 'Date' ? (
-                  <>
-                    <p style={{ marginLeft: 20 }}>{record.Tag}</p>
-                  </>
-                ) : (
-                  <Fragment key={`${record.Nature}_${record.Description}`}>
-                    <EachRecord
-                      record={record}
-                      type="Complication"
-                      editMode={(e) => {
-                        enableEditMode(e, record);
-                      }}
-                      deleteRecord={(e) => {
-                        deleteRecord(e, record);
-                      }}
-                    />
-                  </Fragment>
-                )
-              )
-            ) : (
-              <p className={styles.no_record}>No Complication Record.</p>
-            )
-          ) : null}
+          {/* Begin category selection View */}
+          <SelectionView />
+          {/* End category selection View */}
+
+          {/* Begin Record List View */}
+          <RecordsView />
+          {/* End Record List View */}
+
         </div>
         <FabTwo />
         <BottomBar />
       </Shell>
 
       {/* start of modal for edit and add new */}
-      <Overlay
-        className={styles.modal}
-        closeOnClick={true}
-        open={addRecModal}
-        onClose={() => {
-          setAddRecModal(false);
-        }}
-      >
-        <div className={styles.modal_paper2}>
-          <div className={styles.modalTop2}>
-            <p className={styles.appTitle}>Add new Record</p>
-            <img
-              src={x}
-              alt=""
-              onClick={() => {
-                setAddRecModal(false);
-              }}
-            />
-          </div>
-          {showing === 'Complication' ? (
-            <Complication />
-          ) : showing === 'Care' ? (
-            <Care />
-          ) : (
-            <Assessment />
-          )}
-
-          {editabelMode ? (
-            <div className={styles.roe}>
-              <p
-                onClick={(e) => {
-                  e.preventDefault();
-                  updateRecord();
-                }}
-                className={styles.addRec}
-              >
-                Update Record
-              </p>
-              <p
-                onClick={(e) => {
-                  e.preventDefault();
-                  setEditabelMode(false);
-                }}
-                className={styles.addRec}
-              >
-                Cancel
-              </p>
-            </div>
-          ) : (
-            <p
-              onClick={(e) => {
-                e.preventDefault();
-                addNewRecord();
-              }}
-              className={styles.addRec}
-            >
-              Add New Record
-            </p>
-          )}
-        </div>
-      </Overlay>
+      <EditOrAddNewView />
       {/* start of modal for edit and add new */}
 
       {/* Days,Months, and Years Selection Overlay */}
       <Overlay
         className={styles.modal}
         closeOnClick={true}
-        open={openState !== ''}
+        open={durationsDateOverlayState !== undefined}
         onClose={() => {
-          setOpenState('');
+          setDurationsDateOverlayState(undefined);
         }}
       >
         <div className={styles.modal_paper}>
           <div className={styles.modalTop2}>
-            <p className={styles.appTitle}>{openState}</p>
+            <p className={styles.appTitle}>{durationsDateOverlayState}</p>
             <img
               src={x}
               alt=""
               onClick={() => {
-                setOpenState('');
+                setDurationsDateOverlayState(undefined);
               }}
             />
           </div>
@@ -1499,18 +1171,16 @@ const MedicalHistory = () => {
             <input
               className={styles.inputName}
               onChange={(value) => {
-                setDuration(`${value.target.value} ${openState}`);
+                setSelectedDuration(`${value.target.value} ${durationsDateOverlayState}`);
+                setSelectedEntry(undefined);
               }}
-              placeholder={`How Many ${openState} ?`}
+              placeholder={`How Many ${durationsDateOverlayState} ?`}
             />
           </div>
           {/* </div> */}
           <div
             onClick={() => {
-              var pre = editabelRecord;
-              pre.Duration = duration;
-              setEditabelRecord(pre);
-              setOpenState('');
+              setDurationsDateOverlayState(undefined);
             }}
             className={styles.pCreate}
           >
@@ -1538,8 +1208,8 @@ const MedicalHistory = () => {
           </div>
           <div
             onClick={() => {
-              var pre = editabelRecord;
-              pre.Duration = duration;
+              // var pre = editabelRecord;
+              // pre.Duration = duration;
               setShowInfoDialog(false);
             }}
             className={styles.pCreate}

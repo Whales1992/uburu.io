@@ -107,6 +107,13 @@
   font-size: 13px;
   background: rgba(255, 255, 255, 0);
 }
+input::-webkit-outer-spin-button{
+  -webkit-appearance: none;
+}
+
+input[type=number] {
+ -moz-appearance: textfield;
+}
 
 .pCreate {
   width: 90%;
