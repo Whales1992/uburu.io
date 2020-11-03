@@ -387,13 +387,13 @@ const MedicalHistory = () => {
           throw Error(error.error);
         }
 
+        const data = await request.json();
+
         let preViousList = recordList;
         preViousList.unshift(newRecord);
         setRecordList(preViousList);
 
         setAddRecModal(false)
-
-        const data = await request.json();
 
         setEffects({
           ...effects,
@@ -1173,6 +1173,7 @@ const MedicalHistory = () => {
               }}
             />
           </div>
+          
           {/* <div className={styles.cWrap}> */}
           <div className={styles.inputGpWrap}>
             <input
