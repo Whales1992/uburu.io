@@ -4,12 +4,11 @@ import styles from '../CSS/recent_records.module.css';
 import localForage from 'localforage';
 // const url = process.env.REACT_APP_BASE_URL;
 
-localForage.getItem("patients").then((res) => {
+localForage.getItem('patients').then((res) => {
   // console.log("@HERE", res);
 });
 
 const EachRecentRecord = ({ patient }) => {
-  
   const {
     LastName,
     FirstName,
@@ -51,7 +50,7 @@ const EachRecentRecord = ({ patient }) => {
   //         global.reFresh();
   //         setEffects({
   //           ...effects, loading: false});
-          
+
   //         // alert('Error:' + error.error);
   //         throw Error(error.error);
   //       }
@@ -62,8 +61,6 @@ const EachRecentRecord = ({ patient }) => {
   //       localForage.removeItem(patient.FolderNo, {}).then(() => {
   //         console.log('@deleteRecord');
   //       });
-
-
 
   //     } else {
   //       setEffects({
