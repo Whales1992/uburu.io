@@ -16,6 +16,7 @@
   justify-content: center;
   height: 48px;
   width: 100%;
+  border-bottom: 1px solid #e7e7ed;
   background: #fafbfb;
   border-radius: 16px 16px 0px 0px;
 }
@@ -23,7 +24,8 @@
 .active {
   text-align: center;
   width: 188px;
-  padding-bottom: 8px;
+  padding-bottom: 10px;
+  margin-top: 30px;
   border-bottom: 2px solid #fe1f00;
   font-style: normal;
   font-weight: 600;
@@ -34,14 +36,16 @@
   text-align: center;
   width: 188px;
   font-style: normal;
-  padding-bottom: 8px;
+  padding-bottom: 10px;
+  margin-top: 30px;
   font-weight: 600;
   font-size: 14px;
   color: #d1dadd;
 }
+
 .innerCon {
   padding: 22px 40px;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
 }
 
 .total_patients {
@@ -72,5 +76,60 @@
   justify-content: space-between;
   align-items: center;
 }
-.pieChart {
+
+.ageRange {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #cdced9;
+}
+
+.menRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 50%;
+  position: relative;
+  top: -50px;
+  margin: 0 auto;
+  /* left: 33%; */
+}
+
+.woCent {
+  padding: 0;
+  margin: 0;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  text-align: center;
+  color: #2b2d39;
+}
+.woText {
+  padding: 0;
+  margin: 0;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  text-align: center;
+  text-transform: uppercase;
+  color: #a7a9bc;
+}
+.Gen {
+  width: 100%;
+  position: relative;
+  top: -20px;
+}
+
+@media (max-width: 726px) {
+  .statRow {
+    flex-direction: column;
+  }
+  .menRow {
+    left: 0;
+    margin: 0 auto;
+  }
+  .container {
+    margin-top: 100px;
+  }
 }
