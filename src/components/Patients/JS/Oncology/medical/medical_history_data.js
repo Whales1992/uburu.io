@@ -457,6 +457,13 @@ const MedicalHistory = () => {
           throw Error(error.error);
         }
         const data = await request.json();
+        for (let i = 0; i < recordList.length; i++) {
+          const item = recordList[i];
+          if (item.RecordID == record.RecordID) {
+            const index = recordList.indexOf(item);
+            recordList.splice(index,1)
+          }
+        }
 
         setEffects({
           ...effects,
