@@ -1,0 +1,76 @@
+.container {
+  width: 90vw;
+  max-width: 774px;
+  margin: auto;
+  margin-top: 20px;
+  background-color: #fbfbfb;
+  border: 0.5px solid #e5e5e5;
+  border-radius: 8px;
+  margin-bottom: 88px;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.headRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  width: 100%;
+  background: #fafbfb;
+  border-radius: 16px 16px 0px 0px;
+}
+
+.active {
+  text-align: center;
+  width: 188px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #fe1f00;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.inActive {
+  text-align: center;
+  width: 188px;
+  font-style: normal;
+  padding-bottom: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #d1dadd;
+}
+.innerCon {
+  padding: 22px 40px;
+  overflow-y: scroll;
+}
+
+.total_patients {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 29px;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  color: #000000;
+}
+
+.incoming_num {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 25px;
+  /* identical to box height */
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  color: #000000;
+}
+
+.statRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.pieChart {
+}
