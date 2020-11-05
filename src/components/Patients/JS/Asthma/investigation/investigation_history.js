@@ -112,7 +112,6 @@ const InvestigationHistory = () => {
 
   if (investigationHistory.length > 0) {
     sortByDate();
-    console.log('MAKE OUT', groupedRecord);
   }
 
   const [effects, setEffects] = useState({
@@ -124,28 +123,25 @@ const InvestigationHistory = () => {
   });
 
   function GetInvestigations() {
-    const investigations = [
-      'FBS',
-      'RBS',
-      'HbA1c',
-      'Total Cholesterol',
-      'Triglyceride Level',
-      'HDL-C',
-      'LDL-C',
-      'Serum Creatinine',
-      'eGFR',
-      'Total white blood cell count',
-      'Neutrophil count',
-      'Lymphocyte count',
-      'Monocyte count',
-      'Eosinophil count',
-      'Basophil count',
-      'Red blood cell count',
-      'Haemoglobin',
-      'Platelet count',
-      'Urine Protein',
-      'Vibration Perception Threshold (VPT)',
-    ];
+    const investigations = [{ "title": "Chest X-ray", "type": "List", "data": ["Hyperinflated", "Bronchiectasis", "Collapse", "Bronchial wall Thickening", "Opacification", "Others"] },
+    { "title": "CT-Scan", "type": "Report" },
+    { "title": "Total white blood cell count (unit: 109/L)", "type": "Entry" },
+    { "title": "Neutrophil count (unit: %)", "type": "Entry" },
+    { "title": "Lymphocyte count (unit: %)", "type": "Entry" },
+    { "title": "Monocyte count (unit: %)", "type": "Entry" },
+    { "title": "Eosinophil count (unit: %)", "type": "Entry" },
+    { "title": "Basophil count (unit: %)", "type": "Entry" },
+    { "title": "Red blood cell count (unit: M/µL)", "type": "Entry" },
+    { "title": "Haemoglobin (unit: g/dl)", "type": "Entry" },
+    { "title": "Platelet count  (unit: 109/L)", "type": "Entry" },
+    { "title": "Peak Expiratory Flow Rate (unit: %)", "type": "Entry" },
+    { "title": "Pre-bronchodilator FEV (unit: L)", "type": "Entry" },
+    { "title": "Pre-bronchodilator FEV1/FVC (no unit)", "type": "None" },
+    { "title": "Post-bronchodilator FEV (unit L)", "type": "Entry" },
+    { "title": "Post-bronchodilator FEV1/FVC (no unit)", "type": "None" },
+
+
+    ]
 
     return (
       <>

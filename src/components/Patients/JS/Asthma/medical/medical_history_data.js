@@ -586,6 +586,7 @@ const MedicalHistory = () => {
         </div>
 
         <button
+          disabled={selectedDuration===undefined}
           onClick={() => {
             setSelectedNatures(undefined)
             setDescriptions(undefined)

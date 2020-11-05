@@ -6,7 +6,7 @@ import Shell from '../JS/detail_shell';
 import CreateAppointment from './create_appointment';
 
 const patientName = (item) => {
-  let name = 'Unknown';
+  let name = '';
   if (item !== null && item !== undefined) {
     localForage
       .getItem('patients')

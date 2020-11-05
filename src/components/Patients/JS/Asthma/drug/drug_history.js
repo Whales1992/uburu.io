@@ -184,7 +184,7 @@ const DrugHistory = () => {
       Dosage: selectedDosage,
       SideEffect: selectedSideEffect,
       Duration: selectedDuration,
-      RecordDate: selectedRecordDate,
+      RecordDate: _RecordDate,
     };
     console.log("@addNewRecord", newDrugRecod);
 
@@ -429,7 +429,15 @@ const DrugHistory = () => {
       <div>
         <div
           onClick={() => {
+            setSelectedDrug(undefined)
+            setSelectedDosage(undefined)
+            setSelectedDuration(undefined)
+            setSelectedEntry(undefined)
+            setSelectedRecordDate('')
+            setSelectedSideEffect(undefined)
+
             setAddRecModal(true);
+            setEditabelMode(false)
           }}
           className={styles.fab}
         >

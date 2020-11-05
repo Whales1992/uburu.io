@@ -5,18 +5,19 @@ import Shell from '../../JS/detail_shell';
 import TopBar from '../../../UI/JS/topbar';
 import SecondaryBar from '../../../UI/JS/secondary_navbar';
 import styles from '../../../../container/AddPatientData/CSS/add_patient_data.module.css';
+const url = process.env.REACT_APP_BASE_URL;
 
 const BioData = (props) => {
   const bioData = useLocation().state;
-
+  console.log(bioData, ".....");
   const [value, changeValue] = useState({
     LastName: bioData ? bioData.LastName : '',
     FirstName: bioData ? bioData.FirstName : '',
     PhoneNumber: bioData ? bioData.PhoneNumber : '',
     KinsNumber: bioData ? bioData.KinsNumber : '',
-    RelationshipToNextOfKin: bioData ? bioData.RelationshipToNextOfKin : '',
     FolderNo: bioData ? bioData.FolderNo : '',
     Gender: bioData ? bioData.Gender : '',
+    NextOfKin: bioData ? bioData.NextOfKin : "",
     Age: bioData ? bioData.Age : '',
     MaritalStatus: bioData ? bioData.MaritalStatus : '',
     Occupation: bioData ? bioData.Occupation : '',
@@ -28,6 +29,8 @@ const BioData = (props) => {
     Residence: bioData ? bioData.Residence : '',
     HighestEducation: bioData ? bioData.HighestEducation : '',
     AlcoholUse: bioData ? bioData.AlcoholUse : '',
+    TobaccoUse: bioData ? bioData.TobaccoUse : '',
+    FamilyHistory: bioData ? bioData.FamilyHistory : '',
     AlcoholFrequency:
       bioData && bioData.AlcoholFrequency ? bioData.AlcoholFrequency : '',
     AsthmaHistory: bioData ? bioData.AsthmaHistory : '',
@@ -49,8 +52,51 @@ const BioData = (props) => {
         ...bioData,
         bioData: { ...value },
       })
-      .then(() => props.history.goBack());
+      .then(() => updatePatientDataOnline());
   }
+
+  async function updatePatientDataOnline(e) {
+    // e.preventDefault();
+    console.log("@BioData", value);
+
+    try {
+      if (window.navigator.onLine) {
+        const request = await fetch(`${url}/PatientUpdate`, {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.token}`
+          },
+          body: JSON.stringify(value)
+        });
+
+        if (!request.ok) {
+          const error = await request.json();
+          throw Error(error.error);
+        }
+
+        props.history.goBack()
+        // const data = await request.json();
+      } else {
+        // localForage
+        //   .setItem(bioData.FolderNo, {
+        //     ...bioData,
+        //     bioData: { ...value }
+        //   })
+        //   .then(() => {/**Do nothing for now ... */ });
+      }
+    } catch (error) {
+      // setEffects({
+      //   ...effects,
+      //   error: {
+      //     error: true,
+      //     message: error.message
+      //   }
+      // });
+    }
+  }
+
 
   return (
     <>
@@ -116,16 +162,16 @@ const BioData = (props) => {
               />
             </div>
             <div>
-              <label htmlFor="RelationshipToNextOfKin">
+              <label htmlFor="NextOfKin">
                 Relationship To Next of Kin
               </label>
               <input
-                id="RelationshipToNextOfKin"
+                id="NextOfKin"
                 type="text"
-                name="RelationshipToNextOfKin"
+                name="NextOfKin"
                 className={styles.input}
-                onChange={(e) => handleChange('RelationshipToNextOfKin', e)}
-                value={value.RelationshipToNextOfKin}
+                onChange={(e) => handleChange('NextOfKin', e)}
+                value={value.NextOfKin}
                 placeholder="Enter relationship to next of kin"
                 required
               />
@@ -283,7 +329,7 @@ const BioData = (props) => {
                   id="other_Religion"
                   name="other_Religion"
                   type="text"
-                  onChange={(e) => this.handleChange('other_Religion', e)}
+                  onChange={(e) => handleChange('other_Religion', e)}
                   value={value.other_Religion}
                   className={styles.input}
                   placeholder="Type in other Religion"
@@ -352,12 +398,27 @@ const BioData = (props) => {
               </div>
             ) : null}
             <div>
-              <label htmlFor="AsthmaHistory">Family History of Asthma</label>
+              <div>
+                <label htmlFor="TabaccoUse">Tabacco Use</label>
+                <select
+                  id="TabaccoUse"
+                  name="TabaccoUse"
+                  value={value.TabaccoUse}
+                  onChange={(e) => handleChange('TobaccoUse', e)}
+                  className={styles.input}
+                  required
+                >
+                  <option></option>
+                  <option>Yes</option>
+                  <option>No</option>
+                </select>
+              </div>
+              <label htmlFor="FamilyHistory">Family History of Asthma</label>
               <select
-                id="AsthmaHistory"
-                name="AsthmaHistory"
-                value={value.AsthmaHistory}
-                onChange={(e) => handleChange('AsthmaHistory', e)}
+                id="FamilyHistory"
+                name="FamilyHistory"
+                value={value.FamilyHistory}
+                onChange={(e) => handleChange('FamilyHistory', e)}
                 className={styles.input}
               >
                 <option></option>
@@ -372,7 +433,7 @@ const BioData = (props) => {
                 type="number"
                 name="AgeOfOnset"
                 className={styles.input}
-                onChange={(e) => this.handleChange(e)}
+                onChange={(e) => handleChange('AgeOfOnset', e)}
                 value={value.AgeOfOnset}
                 placeholder="Type in year"
               />
@@ -383,7 +444,7 @@ const BioData = (props) => {
                 id="Triggers"
                 name="Triggers"
                 value={value.Triggers}
-                onChange={(e) => this.handleChange(e)}
+                onChange={(e) => handleChange('Triggers', e)}
                 className={styles.input}
                 required
               >
@@ -407,7 +468,8 @@ const BioData = (props) => {
                   type="text"
                   name="other_triggers"
                   className={styles.input}
-                  onChange={(e) => this.handleChange(e)}
+                  disabled={!value.AgeOfOnset}
+                  onChange={(e) => handleChange('other_triggers', e)}
                   value={value.other_triggers}
                   placeholder="Type in other Triggers"
                   required
@@ -419,37 +481,49 @@ const BioData = (props) => {
             <button
               className="primary_btn"
               type="submit"
+              disabled={value.TabaccoUse===''}
+            >
+              Update Basic Information
+            </button>
+          
+          
+
+            {/* <button
+              className="primary_btn"
+              type="submit"
               disabled={
                 !value.LastName ||
-                !value.FirstName ||
-                !value.PhoneNumber ||
-                !value.Gender ||
-                !value.Age ||
-                !value.KinsNumber ||
-                !value.RelationshipToNextOfKin ||
-                !value.FolderNo ||
-                !value.MaritalStatus ||
-                !value.DiabetesDiagnosis ||
-                !value.Occupation ||
-                (value.Occupation === 'Others' && !value.other_Occupation) ||
-                !value.EthnicGroup ||
-                (value.EthnicGroup === 'Others' && !value.other_EthnicGroup) ||
-                !value.Religion ||
-                (value.Religion === 'Others' && !value.other_Religion) ||
-                !value.Residence ||
-                !value.HighestEducation ||
-                !value.AlcoholUse ||
-                !value.AsthmaHistory ||
-                !value.AgeOfOnset ||
-                !value.Triggers ||
-                (value.Triggers === 'Others' && !value.other_triggers) ||
-                (value.AlcoholUse === 'Yes' && !value.AlcoholFrequency)
+                  !value.FirstName ||
+                  !value.PhoneNumber ||
+                  !value.Gender ||
+                  !value.Age ||
+                  !value.KinsNumber ||
+                  !value.RelationshipToNextOfKin ||
+                  !value.FolderNo ||
+                  !value.MaritalStatus ||
+                  !value.DiabetesDiagnosis ||
+                  !value.Occupation ||
+                  (value.Occupation === 'Others' && !value.other_Occupation) ||
+                  !value.EthnicGroup ||
+                  (value.EthnicGroup === 'Others' && !value.other_EthnicGroup) ||
+                  !value.Religion ||
+                  (value.Religion === 'Others' && !value.other_Religion) ||
+                  !value.Residence ||
+                  !value.HighestEducation ||
+                  !value.TobaccoUse ||
+                  !value.AlcoholUse ||
+                  !value.AsthmaHistory ||
+                  !value.AgeOfOnset ||
+                  !value.Triggers ||
+                  (value.Triggers === 'Others' && !value.other_triggers) ||
+                  (value.AlcoholUse === 'Yes' && !value.AlcoholFrequency)
                   ? true
                   : false
               }
             >
               Update Basic Information
-            </button>
+            </button> */}
+
           </div>
         </form>
       </Shell>

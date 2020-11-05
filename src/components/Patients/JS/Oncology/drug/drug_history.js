@@ -130,7 +130,7 @@ const DrugHistory = () => {
 
   const durations = ["Years", "Months", "Days"];
   const drugs = ["Cisplatin", "Cyclophosphamide", "Adriamycin", "Doxorubicin", "Paclitaxel", "Epiribicine", "Docetaxel", "Etoposide", "5 Fluro-Uracil", "Others"]
-  
+
   function handleSearchPhraseChange(phrase) {
     if (phrase.length > 2) {
       search(phrase);
@@ -185,7 +185,7 @@ const DrugHistory = () => {
       Dosage: selectedDosage,
       SideEffect: selectedSideEffect,
       Duration: selectedDuration,
-      RecordDate: selectedRecordDate,
+      RecordDate: _RecordDate,
     };
     console.log("@addNewRecord", newDrugRecod);
 
@@ -430,7 +430,15 @@ const DrugHistory = () => {
       <div>
         <div
           onClick={() => {
+            setSelectedDrug(undefined)
+            setSelectedDosage(undefined)
+            setSelectedDuration(undefined)
+            setSelectedEntry(undefined)
+            setSelectedRecordDate('')
+            setSelectedSideEffect(undefined)
+
             setAddRecModal(true);
+            setEditabelMode(false)
           }}
           className={styles.fab}
         >
