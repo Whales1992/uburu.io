@@ -13,43 +13,43 @@ import {
 
 const data = [
   {
-    name: '13 - 17',
+    name: 'MON',
     uv: 4000,
     pv: 2400,
     amt: 2400,
   },
   {
-    name: '18 - 24',
+    name: 'TUES',
     uv: 3000,
     pv: 1398,
     amt: 2210,
   },
   {
-    name: '25 - 34',
+    name: 'WED',
     uv: 2000,
     pv: 9800,
     amt: 2290,
   },
   {
-    name: '35 - 44',
+    name: 'THUR',
     uv: 2780,
     pv: 3908,
     amt: 2000,
   },
   {
-    name: '45 - 54',
+    name: 'FRI',
     uv: 1890,
     pv: 4800,
     amt: 2181,
   },
   {
-    name: '55 - 64',
+    name: 'SAT',
     uv: 2390,
     pv: 3800,
     amt: 2500,
   },
   {
-    name: '65 +',
+    name: 'SUN',
     uv: 3490,
     pv: 4300,
     amt: 2100,
@@ -66,26 +66,29 @@ const COLORS = [
   '#D1DADD',
 ];
 
-const AgeCarChart = () => {
+const VisitingDays = () => {
+  console.log(
+    window.innerWidth,
+    document.documentElement.clientWidth,
+    '<<<<<===='
+  );
+  const myWidth = window.innerWidth < 726 ? 100 : 50;
   return (
-    <ResponsiveContainer width="100%" height={327}>
-      <BarChart layout="vertical" data={data}>
-        <XAxis type="number" hide={true} tickCount={7} strokeOpacity={0} />
-
-        <YAxis
+    <ResponsiveContainer width={`${myWidth}%`} height={127}>
+      <BarChart data={data}>
+        <XAxis
           type="category"
           dataKey="name"
           strokeOpacity={0}
           style={{
             fontFamily: 'Sarala',
             fontStyle: 'normal',
-            fontSize: '12px',
+            fontSize: '10px',
             lineHeight: '21px',
             textAlign: 'center',
             color: '#343A40',
           }}
         />
-
         <Bar dataKey="uv">
           {data.map((entry, index) => (
             <Cell
@@ -96,9 +99,10 @@ const AgeCarChart = () => {
             />
           ))}
         </Bar>
+        ;
       </BarChart>
     </ResponsiveContainer>
   );
 };
 
-export default AgeCarChart;
+export default VisitingDays;
