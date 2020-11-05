@@ -36,10 +36,10 @@ class PatientBiodata extends Component {
 					(localStorage.bio_data &&
 						JSON.parse(localStorage.bio_data).KinsNumber) ||
 					"",
-				RelationshipToNextOfKin:
+				NextOfKin:
 					(localStorage.bio_data &&
 						JSON.parse(localStorage.bio_data)
-							.RelationshipToNextOfKin) ||
+						.NextOfKin) ||
 					"",
 				FolderNo:
 					(localStorage.bio_data &&
@@ -105,6 +105,10 @@ class PatientBiodata extends Component {
 					(localStorage.bio_data &&
 						JSON.parse(localStorage.bio_data).AgeOfOnset) ||
 					"",
+				TobaccoUse:
+					(localStorage.bio_data &&
+						JSON.parse(localStorage.bio_data).Triggers) ||
+					"",
 				Triggers:
 					(localStorage.bio_data &&
 						JSON.parse(localStorage.bio_data).Triggers) ||
@@ -145,7 +149,7 @@ class PatientBiodata extends Component {
 				FirstName: "",
 				PhoneNumber: "",
 				KinsNumber: "",
-				RelationshipToNextOfKin: "",
+				NextOfKin: "",
 				FolderNo: "",
 				Gender: "",
 				Age: "",
@@ -163,6 +167,7 @@ class PatientBiodata extends Component {
 				FamilyHistory: "",
 				AgeOfOnset: "",
 				Triggers: "",
+				TobaccoUse:'',
 				other_triggers: ""
 			}
 		});
@@ -259,7 +264,7 @@ class PatientBiodata extends Component {
 			FirstName,
 			PhoneNumber,
 			KinsNumber,
-			RelationshipToNextOfKin,
+			NextOfKin,
 			FolderNo,
 			Gender,
 			Age,
@@ -277,7 +282,8 @@ class PatientBiodata extends Component {
 			AlcoholUse,
 			alcohol_frequency,
 			FamilyHistory,
-			AgeOfOnset
+			AgeOfOnset,
+			TobaccoUse
 		} = this.state.biodata;
 
 		return (
@@ -394,7 +400,7 @@ class PatientBiodata extends Component {
 							</div>
 							<div>
 								<label
-									htmlFor="RelationshipToNextOfKin"
+									htmlFor="NextOfKin"
 									className={
 										!consent_check ? "disabled_label" : ""
 									}
@@ -402,12 +408,12 @@ class PatientBiodata extends Component {
 									Relationship to Next of Kin
 								</label>
 								<input
-									id="RelationshipToNextOfKin"
+									id="NextOfKin"
 									type="text"
-									name="RelationshipToNextOfKin"
+									name="NextOfKin"
 									className={styles.input}
 									onChange={(e) => this.handleChange(e)}
-									value={RelationshipToNextOfKin}
+									value={NextOfKin}
 									placeholder="Enter relationship to next of kin"
 									required
 									disabled={!consent_check}
@@ -721,6 +727,30 @@ class PatientBiodata extends Component {
 									/>
 								</div>
 							) : null}
+
+							<div>
+								<label
+									htmlFor="TobaccoUse"
+									className={
+										!consent_check ? "disabled_label" : ""
+									}>
+									Tobacco Use
+								</label>
+								<select
+									id="TobaccoUse"
+									name="TobaccoUse"
+									value={TobaccoUse}
+									onChange={(e) => this.handleChange(e)}
+									className={styles.input}
+									required
+									disabled={!consent_check}
+								>
+									<option></option>
+									<option>Yes</option>
+									<option>No</option>
+								</select>
+							</div>
+
 							<div>
 								<label
 									htmlFor="FamilyHistory"
@@ -821,7 +851,7 @@ class PatientBiodata extends Component {
 									!FirstName ||
 									!Gender ||
 									!Age ||
-									!RelationshipToNextOfKin ||
+									!NextOfKin ||
 									!FolderNo ||
 									!MaritalStatus ||
 									!Occupation ||
